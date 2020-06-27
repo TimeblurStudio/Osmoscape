@@ -17,7 +17,14 @@ $ git clone https://github.com/TimeblurStudio/Osmoscape.git
 $ npm install
 
 # Run it
-$ yo H2Odev
+$ cd app
+$ gulp
+
+# New example
+$ cd osmo_examples
+$ cd myPrettyapp
+$ yo webapp
+
 ```
 
 ## Contribute
