@@ -3,9 +3,13 @@
 'use strict';
 export default class {}
 
+//
+//
 import $ from 'jquery';
 import paper from 'paper';
 import tone from 'tone';
+//
+import {} from './visuals/movingStars';
 
 window.osmo = window.osmo || {};
 /**
@@ -30,6 +34,10 @@ osmo.Scroll = class {
 		// ----------------
 		// Screens
 		this.MAINSCREEN;
+
+		// Methods
+		this.init;
+		this.addBackground;
 	}
 
 
@@ -49,27 +57,47 @@ osmo.Scroll = class {
 		// Setup TONE
 		osmo.scroll.TONE = tone;
 
-		// Draw PAPER
-		this.PAPER.view.draw();
+		// Scroll instance
+		osmo.mstars = new osmo.movingStars();
+		osmo.mstars.init();
 
-		/**
-		 * ------------------------------------------------
-		 * Update loop
-		 * ------------------------------------------------
-		 */
+		//this.addBackground();
+
+		// Draw PAPER
+		paper.view.draw();
+
+		//
+		// Update on paper events
+		//
 		paper.view.onFrame = function(event) {
-			// Frame updates will be added here
+			osmo.mstars.update(event);
+		};
+
+		paper.view.onMouseMove = function(event) {
+			osmo.mstars.mouseMoved(event);
+		};
+
+		paper.view.onKeyDown = function(event) {
+			osmo.mstars.keyDown(event);
 		};
 
 	}
 
-	/*
+	/**
 	 * ------------------------------------------------
-	 * Some function
+	 * addBackground
 	 * ------------------------------------------------
 	 */
-	 someFunction(){
+	addBackground(){
+		//
+		var rect = new paper.Path.Rectangle({
+		    point: [0, 0],
+		    size: [paper.view.size.width, paper.view.size.height],
+		    strokeColor: 'black',
+		    fillColor: 'black'
+		});
+		rect.sendToBack();
+	}
 
-	 }
 
 };
