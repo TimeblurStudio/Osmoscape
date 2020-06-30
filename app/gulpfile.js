@@ -13,6 +13,7 @@ const del = require('del');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const { argv } = require('yargs');
+const deploy      = require('gulp-gh-pages');
 
 const $ = gulpLoadPlugins();
 const server = browserSync.create();
@@ -22,6 +23,14 @@ const port = argv.port || 9000;
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
 const isDev = !isProd && !isTest;
+
+/**
+ * Push build to gh-pages
+ */
+function newDeploy() {
+  return src("./dist/**/*")
+    .pipe(deploy())
+};
 
 function styles() {
   return src('src/styles/*.scss', {
@@ -36,9 +45,9 @@ function styles() {
     .pipe($.postcss([
       autoprefixer()
     ]))
-    .pipe(dest('.tmp/styles', {
-      sourcemaps: !isProd,
-    }))
+    .pipe($.if(!isProd,
+      dest('.tmp/styles', {sourcemaps: !isProd}),
+      dest('dist/styles', {sourcemaps: !isProd})))
     .pipe(server.reload({stream: true}));
 };
 
@@ -46,7 +55,7 @@ function scripts() {
 
   var browserifyjs = {
     in: './src/scripts/main.js',
-    outdir: '.tmp/scripts',
+    outdir: $.if(!isProd, '.tmp/scripts', 'dist/scripts'),
     out: 'bundle.js',
     jsOpts: {
       debug: false
@@ -79,7 +88,7 @@ async function modernizr() {
   });
   const generateScript = config => new Promise((resolve, reject) => {
     Modernizr.build(config, content => {
-      fs.writeFile(`${__dirname}/.tmp/scripts/modernizr.js`, content, err => {
+      fs.writeFile($.if(!isProd, `${__dirname}/.tmp/scripts/modernizr.js`, `${__dirname}/dist/scripts/modernizr.js`), content, err => {
         if (err) reject(err);
         resolve(content);
       });
@@ -110,7 +119,10 @@ function lintTest() {
 
 function html() {
   return src('src/*.html')
-    .pipe($.useref({searchPath: ['.tmp', 'src', '.']}))
+    .pipe(dest('dist'));
+
+  /*
+    .pipe($.useref({searchPath: ['.tmp', '.']}))
     .pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
     .pipe($.if(/\.css$/, $.postcss([cssnano({safe: true, autoprefixer: false})])))
     .pipe($.if(/\.html$/, $.htmlmin({
@@ -123,13 +135,20 @@ function html() {
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true
     })))
-    .pipe(dest('dist'));
+
+  */
 }
 
 function images() {
   return src('src/images/**/*', { since: lastRun(images) })
     .pipe($.imagemin())
     .pipe(dest('dist/images'));
+};
+
+
+function data() {
+  return src('src/data/**/*', { since: lastRun(data) })
+    .pipe(dest('dist/data'));
 };
 
 function fonts() {
@@ -161,6 +180,7 @@ const build = series(
     lint,
     series(parallel(styles, scripts, modernizr), html),
     images,
+    data,
     fonts,
     extras
   ),
@@ -182,6 +202,7 @@ function startAppServer() {
   watch([
     'src/*.html',
     'src/images/**/*',
+    'src/data/**/*',
     '.tmp/fonts/**/*'
   ]).on('change', server.reload);
 
@@ -235,3 +256,4 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
+exports.dep = series(build, newDeploy);
