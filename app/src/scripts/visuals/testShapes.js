@@ -67,8 +67,8 @@ osmo.testShapes = class {
 		var rect = new this.PAPER.Path.Rectangle({
 		    point: [0, 0],
 		    size: [this.PAPER.view.size.width, this.PAPER.view.size.height],
-		    strokeColor: 'black',
-		    fillColor: 'black'
+		    strokeColor: '#222',
+		    fillColor: '#222'
 		});
 		rect.sendToBack();
 	}

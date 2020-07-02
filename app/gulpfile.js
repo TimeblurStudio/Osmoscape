@@ -40,7 +40,7 @@ function styles() {
     .pipe($.sass.sync({
       outputStyle: 'expanded',
       precision: 10,
-      includePaths: ['.']
+      includePaths: ['.', 'node_modules/']
     }).on('error', $.sass.logError))
     .pipe($.postcss([
       autoprefixer()
@@ -81,7 +81,7 @@ async function modernizr() {
     })
   })
   const createDir = () => new Promise((resolve, reject) => {
-    mkdirp(`${__dirname}/.tmp/scripts`, err => {
+    mkdirp($.if(!isProd, `${__dirname}/.tmp/scripts`, `${__dirname}/dist/scripts`), err => {
       if (err) reject(err);
       resolve();
     })
@@ -156,6 +156,17 @@ function fonts() {
     .pipe($.if(!isProd, dest('.tmp/fonts'), dest('dist/fonts')));
 };
 
+function libs(){
+  src(['./node_modules/please-wait/build/**/*'])
+    .pipe($.if(!isProd, dest('.tmp/third_party/'), dest('dist/third_party/')));
+
+  src(['./node_modules/spinkit/css/**/*'])
+    .pipe($.if(!isProd, dest('.tmp/third_party/'), dest('dist/third_party/')));
+
+  return src(['./src/third_party/**/*'])
+    .pipe($.if(!isProd, dest('.tmp/third_party/'), dest('dist/third_party/')));
+};
+
 function extras() {
   return src([
     'src/*',
@@ -182,6 +193,7 @@ const build = series(
     images,
     data,
     fonts,
+    libs,
     extras
   ),
   measureSize
@@ -246,7 +258,7 @@ function startDistServer() {
 
 let serve;
 if (isDev) {
-  serve = series(clean, parallel(styles, scripts, modernizr, fonts), startAppServer);
+  serve = series(clean, parallel(styles, scripts, modernizr, fonts, libs), startAppServer);
 } else if (isTest) {
   serve = series(clean, scripts, startTestServer);
 } else if (isProd) {
