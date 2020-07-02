@@ -64,7 +64,7 @@ osmo.svgScroll = class {
 		text.fillColor = '#b97941';
 		text.fontFamily = 'Roboto';
 		text.fontSize = window.isMobile?'12px':'18px';
-		text.content = 'Scroll to explore';
+		text.content = window.isMobile?'Hold & Scroll to explore':'Scroll to explore';
 		let textWidth = text.bounds.width;
 		//
 		// SCROLL ARROW
@@ -117,6 +117,7 @@ osmo.svgScroll = class {
 			raster.position.x = (osmo.scroll.paperWidth*s*3/4) + (raster.width*s/2);
 			//
 			this.scrollWidth = raster.width*s;
+			this.scrollHeight = osmo.scroll.paperHeight;
 		}else if(this.quality == 'Mobile'){
 			//
 			//MQscroll
@@ -131,6 +132,7 @@ osmo.svgScroll = class {
 			//
 			//
 			this.scrollWidth = raster.width*s;
+			this.scrollHeight = osmo.scroll.paperHeight;
 		}else if(this.quality == 'Retina'){
 			//
 			//RQscroll
@@ -145,6 +147,7 @@ osmo.svgScroll = class {
 			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*s/2);
 			//
 			this.scrollWidth = raster.width*s;
+			this.scrollHeight = osmo.scroll.paperHeight;
 		}
 	}
 
