@@ -1,5 +1,10 @@
 body {
-  background-color: #b6d0d7;
+  background-color: #343a41;
+}
+
+.added {
+  background-color: #000;
+  color: #fff;
 }
 
 a {
