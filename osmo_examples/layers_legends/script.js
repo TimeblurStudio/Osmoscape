@@ -4,7 +4,8 @@ let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
 let scrollScale = 1;
-let mask1, legend1;
+//
+let mainScroll;
 var maskHitOptions = {
 	segments: false,
 	stroke: false,
@@ -25,12 +26,147 @@ init();
 //
 //
 //
+let uploadedLegendFile = [], uploadedMaskFile = [];
+let maskFiles = [], legendFiles = [];
+
+//
+//
+//
+function readSvg(file, type, number) {
+	console.log('readSvg for : ' + type + '-' + number);
+	//
+  const reader = new FileReader();
+  //
+  try
+  {
+		reader.readAsText(file);
+  }
+  catch(err) {console.log(err.message);}
+  //
+  //
+	// attach event, that will be fired, when read is end
+	reader.addEventListener("loadend", function() {
+	   $('#status').text('Applying ' + type + '...');
+		 $('#status').show();
+		 //
+	   // reader.result contains the contents of blob as a typed array
+	   // we insert content of file in DOM here
+	   if(type == 'mask')
+	   	maskLoad(reader.result, number);
+	   if(type == 'legend')
+	   	legendLoad(reader.result, number);
+	});
+  //
+}
+
+//
+//
+//
+function initFileLoader(){
+	//
+	const legendFileSelector = document.getElementById('legend-selector');
+	const maskFileSelector = document.getElementById('mask-selector');
+	//
+  legendFileSelector.addEventListener('change', (event) => {
+    const fileList = event.target.files;
+    console.log(fileList);
+    uploadedLegendFile = fileList;
+    //
+    $('#clear-btn').show();
+    //
+    if(uploadedLegendFile.length === 1 && uploadedMaskFile.length === 1){
+    	$('#load-btn').show();
+    }
+  });
+  maskFileSelector.addEventListener('change', (event) => {
+    const fileList = event.target.files;
+    console.log(fileList);
+    uploadedMaskFile = fileList;
+    //
+    $('#clear-btn').show();
+    //
+    if(uploadedLegendFile.length === 1 && uploadedMaskFile.length === 1){
+    	$('#load-btn').show();
+    }
+  });
+  //
+  // LOAD BUTTON
+  $('#load-btn').click(function(){
+  	let error = false;
+  	let errorMessage = null;
+  	//
+  	//console.log(uploadedLegendFile.length);
+  	//console.log(uploadedMaskFile.length);
+  	// Also load
+  	if(uploadedLegendFile.length === 1 && uploadedMaskFile.length === 1 ){
+  		console.log('Both files present');
+  		//
+  		if (uploadedLegendFile[0].type && uploadedLegendFile[0].type.indexOf('image/svg+xml') === -1) {
+	  		error = true;
+	  		errorMessage = 'File is not a svg image - found ' + uploadedLegendFile[0].type;
+		    console.log(errorMessage);
+		  }
+		  if (uploadedMaskFile[0].type && uploadedMaskFile[0].type.indexOf('image/svg+xml') === -1) {
+	  		error = true;
+	  		errorMessage = 'File is not a svg image - found ' + uploadedMaskFile[0].type;
+		    console.log(errorMessage);
+		  }
+  		//
+  		if(!error){
+  			//
+  			let index = maskFiles.length;
+  			readSvg(uploadedMaskFile[0], 'mask', index);
+  			readSvg(uploadedLegendFile[0], 'legend', index);
+  			//
+  		}else{
+  			let default_color = $('#status').css('color');
+  			//
+  			$('#status').text(errorMessage);
+				$('#status').show();
+				$('#status').css('color', 'red');
+				//
+				setTimeout(function(){
+					$('#status').css('color', default_color);
+				},1500);
+  		}
+  	}else{
+  		error = true;
+  		errorMessage = 'ERROR: No files';
+  		console.log(errorMessage);
+  	}
+  	//
+  	if(!error){
+  		//
+    	$('#load-btn').hide();
+    	$('#clear-btn').hide();
+	  	// Now clear
+	  	$('#legend-selector').val('');
+	  	$('#mask-selector').val('');
+  	}
+  	//
+  });
+  // CLEAR BUTTON
+  $('#clear-btn').click(function(){
+  	//
+    $('#load-btn').hide();
+  	$('#clear-btn').hide();
+  	//
+  	$('#legend-selector').val('');
+  	$('#mask-selector').val('');
+  });
+}
+
 /**
  * ------------------------------------------------
  * Main Init
  * ------------------------------------------------
  */
 function init(){
+
+	//
+	initFileLoader();
+	//
+	//
 	console.log('init called');
 	$('#status').text('Started');
 	//
@@ -40,12 +176,17 @@ function init(){
 	paperHeight = canvas.offsetHeight;
 	paperWidth = canvas.offsetWidth;
 
+
+	//
+	backgroundLayer = new paper.Layer();
+	maskLayer = new paper.Layer();
+	legendLayer = new paper.Layer();
+
 	// INTERACTIONS
 	initPanZoom();
 
 	//
 	loadHQ();
-	loadDataLegends();
 
 	//
 	paper.project.activeLayer = maskLayer;
@@ -82,43 +223,33 @@ function init(){
 	};
 }
 
-function loadDataLegends(){
-	console.log('loading legends');
+function maskLoad(svgxml, num){
 	//
-	maskLoad('data/01_newmask.svg');
-	legendLoad('data/01_newlegends.svg');
+	console.log('maskLoad called');
 	//
-}
-
-function maskLoad(file){
-	//
-	maskLayer = new paper.Layer();
-	//
-	$.ajax({
-		type: "GET",
-		async: false,
-		url: file,
-		dataType: "xml",
-		success: function(xml){
-			//console.log(paper);
-			let svgxml = xml.getElementsByTagName("svg")[0];
-			paper.project.importSVG(svgxml, function(item){
-				console.log('Loaded 01 mask');
-				//
-				mask1 = item;
-				mask1.data.offsetx = parseInt(svgxml.getAttribute('posx'));
-				mask1.data.offsety = parseInt(svgxml.getAttribute('posy'));
-				mask1.data.rHeight = parseInt(svgxml.getAttribute('refh'));
-				mask1.data.legendName = svgxml.getAttribute('legend');
-				mask1.data.maskName = 'mask1';
-				//
-				if(mask1.children != undefined)
-					updateChildLegend(mask1.children, mask1.data.legendName);
-				//
-				maskLayer.addChild(mask1);
-			});
-		}
-  });
+	paper.project.importSVG(svgxml, function(item){
+		console.log('Loaded 01 mask');
+		//
+		let mask = item;
+		maskFiles.push(mask);
+		//
+		mask.data.legendName = 'legend-'+maskFiles.length;
+		mask.data.maskName = 'mask-' + maskFiles.length;
+		//
+		if(mask.children != undefined)
+			updateChildLegend(mask.children, mask.data.legendName);
+		//
+		//
+		let s = paperHeight/mainScroll.height;
+		let lms = paperHeight/mask.bounds.height;//mask-scale
+		console.log('MASK SCALE: ' + lms);
+		//
+		mask.scale(lms);
+		mask.position = paper.view.center;
+		mask.position.x = (paperWidth*s*3/4) + (mainScroll.width*s/2);
+		//
+		maskLayer.addChild(mask);
+	});
 	//
 }
 
@@ -131,32 +262,27 @@ function updateChildLegend(ch, d){
 	}
 }
 
-function legendLoad(file){
+function legendLoad(svgxml){
 	//
-	legendLayer = new paper.Layer();
-	//
-	$.ajax({
-		type: "GET",
-		async: false,
-		url: file,
-		dataType: "xml",
-		success: function(xml){
-			//console.log(paper);
-			let svgxml = xml.getElementsByTagName("svg")[0];
-			paper.project.importSVG(svgxml, function(item){
-				console.log('Loaded 01 legend');
-				//
-				legend1 = item;
-				legend1.data.offsetx = parseInt(svgxml.getAttribute('posx'));
-				legend1.data.offsety = parseInt(svgxml.getAttribute('posy'));
-				legend1.data.rHeight = parseInt(svgxml.getAttribute('refh'));
-				legend1.name = svgxml.getAttribute('legend');
-				legend1.visible = false;
-				//
-				legendLayer.addChild(legend1);
-			});
-		}
-  });
+	paper.project.importSVG(svgxml, function(item){
+		console.log('Loaded 01 legend');
+		let legend = item;
+		legendFiles.push(legend);
+		//
+		legend.name = 'legend-'+legendFiles.length;
+		legend.visible = false;
+		//
+		//
+		let s = paperHeight/mainScroll.height;
+		let lms = paperHeight/legend.bounds.height;//mask-scale
+		console.log('LEGEND SCALE: ' + lms);
+		//
+		legend.scale(lms);
+		legend.position = paper.view.center;
+		legend.position.x = (paperWidth*s*3/4) + (mainScroll.width*s/2);
+		//
+		legendLayer.addChild(legend);
+	});
 	//
 }
 
@@ -166,7 +292,6 @@ function legendLoad(file){
  * ------------------------------------------------
  */
 function loadHQ(){
-	backgroundLayer = new paper.Layer();
 	$('#status').text('Loading HQ scroll...');
   console.log('loading High Quality Image');
   //
@@ -184,8 +309,11 @@ function loadHQ(){
     initSVGscroll();
 		initSplash(800);//splashWidth: 800px
 		//
+		//loadDataLegends();
+		//
+		backgroundLayer.sendToBack();
   };
-  downloadingImage.src = 'SCROLL_cs6_ver23_APP_final_HD.png';
+  downloadingImage.src = 'SCROLL_cs6_ver23_APP_final_Mobile.png';
 }
 
 function initSVGscroll(){
@@ -197,33 +325,22 @@ function initSVGscroll(){
 	//HQscroll
 	// Create a raster item using the image tag with id=''
 	let raster = new paper.Raster('HQscroll');
+	mainScroll = raster;
 	//
 	// Scale the raster
 	let s = paperHeight/raster.height;
 	console.log('SCALE: ' + s);
 	raster.scale(s);
 	//
-	//
-	let lms = paperHeight/mask1.data.rHeight;//mask-scale
-	console.log('LEGEND MASK SCALE: ' + lms);
-  //
-	mask1.scale(lms);
-	let posx = (mask1.data.offsetx*lms) + (paperWidth*s*3/4);
-	let posy = mask1.data.offsety*lms;
-	mask1.position = new paper.Point(posx, posy);
-	//
-	legend1.scale(lms);
-	legend1.position = new paper.Point(posx, posy);
-	//
 	// Move the raster to the center of the view
 	raster.position = paper.view.center;
 	raster.position.x = (paperWidth*s*3/4) + (raster.width*s/2);
+	//
 	//
 	scrollWidth = raster.width*s;
 	scrollHeight = paperHeight;
 	//
 	backgroundLayer.addChild(raster);
-	backgroundLayer.sendToBack();
 }
 
 function initSplash(_width){
@@ -312,31 +429,19 @@ function initPanZoom(){
 		}
 		//
   	//
-		// Pinch-Zoom
-		// Tricky spec - https://medium.com/@auchenberg/detecting-multi-touch-trackpad-gestures-in-javascript-a2505babb10e
-		if(et.ctrlKey){
-			paper.view.zoom = changeZoom(paper.view.zoom, et.deltaY);
-			// Center Y-axis on zoom-out
-			let bounds = paper.view.bounds;
-	    if (bounds.y < 0) paper.view.center = paper.view.center.subtract(new paper.Point(0, bounds.y));
-	    bounds = paper.view.bounds;
-	    let h = bounds.y + bounds.height;
-			if (h > paper.view.viewSize.height) paper.view.center = paper.view.center.subtract(new paper.Point(0, h - paper.view.viewSize.height));
-		}else{
-			let fac = 1.005/(paper.view.zoom*paper.view.zoom);
+		//
+		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
+		//
+		if(paper.view.zoom == 1){
+			let deltaValX, deltaValY;
+			deltaValX = et.deltaY;
+			deltaValY = et.deltaY;
 			//
-			if(paper.view.zoom == 1){
-				let deltaValX, deltaValY;
-				deltaValX = et.deltaY;
-				deltaValY = et.deltaY;
-				//
-				paper.view.center = changeCenter(paper.view.center, deltaValX, 0, fac);
-			}
-			else{
-				paper.view.center = changeCenter(paper.view.center, et.deltaX, et.deltaY, fac);
-			}
+			paper.view.center = changeCenter(paper.view.center, deltaValX, 0, fac);
 		}
-
+		else{
+			paper.view.center = changeCenter(paper.view.center, et.deltaX, et.deltaY, fac);
+		}
 	});
 }
 
