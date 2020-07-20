@@ -32,6 +32,17 @@ function newDeploy() {
     .pipe(deploy())
 };
 
+function copyAssets(){
+  return src('../assets/**/*')
+    .pipe(dest('dist/assets'));
+}
+
+function copyExamples(){
+  return src('../osmo_examples/**/*')
+    .pipe(dest('dist/examples'));
+}
+
+
 function styles() {
   return src('src/styles/*.scss', {
     sourcemaps: !isProd,
@@ -140,19 +151,19 @@ function html() {
 }
 
 function images() {
-  return src('src/images/**/*', { since: lastRun(images) })
+  return src('../assets/images/**/*', { since: lastRun(images) })
     .pipe($.imagemin())
     .pipe(dest('dist/images'));
 };
 
 
 function data() {
-  return src('src/data/**/*', { since: lastRun(data) })
+  return src('../assets/data/**/*', { since: lastRun(data) })
     .pipe(dest('dist/data'));
 };
 
 function fonts() {
-  return src('src/fonts/**/*.{eot,svg,ttf,woff,woff2}')
+  return src('../assets/fonts/**/*.{eot,svg,ttf,woff,woff2}')
     .pipe($.if(!isProd, dest('.tmp/fonts'), dest('dist/fonts')));
 };
 
@@ -204,7 +215,7 @@ function startAppServer() {
     notify: false,
     port,
     server: {
-      baseDir: ['.tmp', 'src'],
+      baseDir: ['.tmp', 'src', '../assets'],
       routes: {
         '/node_modules': 'node_modules'
       }
@@ -213,15 +224,15 @@ function startAppServer() {
 
   watch([
     'src/*.html',
-    'src/images/**/*',
-    'src/data/**/*',
+    '../assets/images/**/*',
+    '../assets/data/**/*',
     '.tmp/fonts/**/*'
   ]).on('change', server.reload);
 
   watch('src/styles/**/*.scss', styles);
   watch('src/scripts/**/*.js', scripts);
   watch('modernizr.json', modernizr);
-  watch('src/fonts/**/*', fonts);
+  watch('../assets/fonts/**/*', fonts);
 }
 
 function startTestServer() {
@@ -268,4 +279,4 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
-exports.dep = series(build, newDeploy);
+exports.dep = series(build, copyAssets, copyExamples, newDeploy);
