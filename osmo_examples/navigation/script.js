@@ -1,10 +1,19 @@
+let started = false;
+//
 let paperHeight, paperWidth;
 let scrollMousePos, scrollPosition;
 let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
 //
+let scrollType = 'Mobile';// Mobile, RQ, HQ
 let mainScroll;
+let exploreGroup;
+//
+let allTracksCount = 0;
+let currentTrack;
+let introTrack;
+let baseTracks = {};
 //
 let backgroundLayer;
 let navLayer;
@@ -30,6 +39,23 @@ let navTweenItem;
 //
 //
 //
+function start(){
+	console.log('Starting the audio context');
+	Tone.start();
+	//
+	currentTrack = 'intro';
+	introTrack.start();
+	//
+	started = true;
+	$('#start-btn').hide();
+	//
+	exploreGroup.tween(
+	    { opacity: 0 },
+	    { opacity: 1 },
+	    1500
+	);
+}
+
 //
 /**
  * ------------------------------------------------
@@ -54,6 +80,7 @@ function init(){
 	initPanZoom();
 
 	//
+	loadAudio();
 	loadHQ();
 
 	//
@@ -64,20 +91,75 @@ function init(){
 
 }
 
+
+function loadAudio(){
+	$('#status').text('Loading audio');
+	//
+	let base_path = '../../assets/audio/tracks/Baseline_'
+	let urls = {};
+	// Load base tracks
+	for(let i=0; i < 7; i++){
+		let index = (i+1);
+		let path = base_path + index + '.mp3';
+		//
+		//
+		let bplayer = new Tone.Player({
+			url: path,
+			loop: true,
+			fadeOut: 1,
+			fadeIn: 1
+		}).toDestination();
+		//
+		bplayer.onload = function(){
+			allTracksCount++;
+		};
+		//
+		baseTracks['base'+index] = bplayer;
+	}
+	//
+	// the intro player
+	introTrack = new Tone.Player({
+		url: "../../assets/audio/loops/-1.wav",
+		loop: true,
+		loopStart: 0,
+		loopEnd: 20,
+		fadeOut: 1
+	}).toDestination();
+	//
+	introTrack.onload = function(){
+		allTracksCount++;
+	};
+	//
+	//
+}
+
 /**
  * ------------------------------------------------
  * High Quality Image
  * ------------------------------------------------
  */
 function loadHQ(){
-	$('#status').text('Loading HQ scroll...');
+	$('#status').text('Loading '+scrollType+' scroll...');
   console.log('loading High Quality Image');
   //
   //
   let image = document.getElementById('HQscroll');
   var downloadingImage = new Image();
   downloadingImage.onload = function(){
-  	$('#status').text('Loaded');
+  	if(allTracksCount == 8){
+  		$('#status').text('Loaded');
+  		$('#status').show();
+  	}
+  	else{
+  		let waitTillTracksLoad = setInterval(function(){
+  			if(allTracksCount == 8){
+  				clearInterval(waitTillTracksLoad);
+  				$('#status').text('Loaded');
+  				$('#status').show();
+  			}else
+  				console.log('Waiting for allTracks to complete loading');
+	  	},2000);
+  	}
   	setInterval(function(){
   		$('#status').hide();
   	},2000);
@@ -92,7 +174,7 @@ function loadHQ(){
 		//
 		backgroundLayer.sendToBack();
   };
-  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_Mobile.png';
+  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }
 
 function initNav(){
@@ -115,11 +197,6 @@ function initNav(){
 			if(dur < 350)
 				dur = 350;
 		}
-		console.log('duration: ' + dur);
-		//if(chap_id != 1 && chap_id != 5)
-		//	locX += (paperWidth/2);
-		//else
-		//	locX += w/2;
 		//
 		navTweenItem.tween(
 		    { position: paper.view.center },
@@ -135,9 +212,22 @@ function initNav(){
 			//
 		};
 		//
-		//paper.view.center = new paper.Point(locX, paper.view.center.y);
-		//navTweenItem.position = paper.view.center;
+		// Stop all tracks and start target track
+		for(let i=0; i < 7; i++)
+  		baseTracks['base'+(i+1)].stop();
+  	//
+		setTimeout(function(){
+			console.log('Completed scroll for - ' + chap_id);
+			console.log("Changing base track...");
+    	currentTrack = 'base' + chap_id;
+    	//
+    	console.log('Now playing : ' + currentTrack);
+    	baseTracks[currentTrack].start();
+			//
+		},dur);
+		//
 		console.log(chap_id + ' clicked -- scroll to: ' + locX);
+		console.log('duration: ' + dur);
 	});
 	//
 	navTweenItem = new paper.Shape.Circle(paper.view.center, 30);
@@ -145,7 +235,7 @@ function initNav(){
 	navTweenItem.stroke = 'none';
 	navTweenItem.position = paper.view.center;
 	//
-	console.log(navTweenItem);
+	//console.log(navTweenItem);
 }
 
 function loadNav(){
@@ -204,8 +294,16 @@ function initSplash(_width){
 	// Move the raster to the center of the view
 	raster.position = paper.view.center;
 	raster.position.y -= 20;
+
+	// START BUTTON
+	$('#start-btn').css('position', 'fixed');
+	$('#start-btn').css('left', raster.position.x - $('#start-btn').outerWidth()/2);//;
+	$('#start-btn').css('top', raster.position.y + raster.height*s*0.65);//);
+
 	//
 	// SCROLL TEXT
+	//
+	exploreGroup = new paper.Group();
 	//
 	let textLoc = new paper.Point(raster.position.x - raster.width*s/3, raster.position.y + raster.height*s*0.65);
 	let text = new paper.PointText(textLoc);
@@ -215,6 +313,7 @@ function initSplash(_width){
 	text.fontSize = window.isMobile?'12px':'18px';
 	text.content = window.isMobile?'Hold & Scroll to explore':'Scroll to explore';
 	let textWidth = text.bounds.width;
+
 	//
 	// SCROLL ARROW
 	//
@@ -229,10 +328,13 @@ function initSplash(_width){
 	triangle.rotate(90);
 	triangle.fillColor = '#b97941';
 	//
+	exploreGroup.addChild(text);
+	exploreGroup.addChild(line);
+	exploreGroup.addChild(triangle);
+	exploreGroup.opacity = 0;
+	//
 	backgroundLayer.addChild(raster);
-	backgroundLayer.addChild(text);
-	backgroundLayer.addChild(line);
-	backgroundLayer.addChild(triangle);
+	backgroundLayer.addChild(exploreGroup);
 }
 
 
@@ -245,8 +347,26 @@ function initPanZoom(){
 	console.log('Initializing pan and zoom interactions');
 	// Main scrolling functionality
 	$('#main-scroll-canvas').on('mousewheel', function(event) {
-		let et;
+		if(!started)
+			return;
+		// check inactivity
+		clearTimeout($.data(this, 'scrollTimer'));
+    $.data(this, 'scrollTimer', setTimeout(function() {
+        //
+        if(currentNavLoc != -1 && (currentTrack != ('base'+currentNavLoc))){
+        	console.log("Changing base track - Haven't scrolled in 250ms!");
+        	currentTrack = 'base' + currentNavLoc;
+        	//
+        	for(let i=0; i < 7; i++)
+        		baseTracks['base'+(i+1)].stop();
+        	//
+        	console.log('Now playing : ' + currentTrack);
+        	baseTracks[currentTrack].start();
+        }
+    }, 250));
 
+		//
+		let et;
 		et = event.originalEvent;
 		event.preventDefault();
 		//
@@ -279,12 +399,15 @@ function hitNavEffect(){
 	//
 	var hitResult = navLayer.hitTest(paper.view.center, navHitOptions);
 	if(hitResult != null){
-		//console.log(hitResult.item.name);
 		let name = hitResult.item.name;
 		//
 		if(name.includes('nav-ch')){
-			if(currentNavLoc == -1)
+			if(currentNavLoc == -1){
 				$('.nav').fadeIn();
+				//
+				introTrack.stop();
+				currentTrack = 'none';
+			}
 			let navLoc = parseInt(name.replace('nav-ch', ''));
 			if(currentNavLoc != navLoc){
 				//console.log('Not same - ' + currentNavLoc + ' '  + navLoc);
@@ -310,6 +433,15 @@ function hitNavEffect(){
 		if(name.includes('intro')){
 			$('.nav').fadeOut();
 			currentNavLoc = -1;
+			//
+			if(currentTrack != 'intro'){
+				//
+				for(let i=0; i < 7; i++)
+					baseTracks['base'+(i+1)].stop();
+        //
+				introTrack.start();
+				currentTrack = 'intro';
+			}
 		}
 		/*
 		if(name.includes('outro')){
