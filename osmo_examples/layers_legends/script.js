@@ -28,7 +28,6 @@ init();
 //
 let uploadedLegendFile = [], uploadedMaskFile = [];
 let maskFiles = [], legendFiles = [];
-
 //
 //
 //
@@ -199,26 +198,9 @@ function init(){
 		//
 		//console.log(event.point);
 		mousePos = event.point;
-		var hitResult = maskLayer.hitTest(event.point, maskHitOptions);
-		if(hitResult != null){
-			$('#status').text('Showing: ' + hitResult.item.data.legendName);
-			$('#status').show();
-			//
-			legendLayer.visible = true;
-			//
-			//console.log('Finding legend...' + hitResult.item.data.legendName);
-			let lg = paper.project.getItem({name: hitResult.item.data.legendName});
-			lg.visible = true;
-			//
-			backgroundLayer.opacity = 0.1;
-		}else{
-			legendLayer.visible = false;
-			backgroundLayer.opacity = 1.0;
-			for(let i=0; i<legendLayer.children.length; i++){
-				let child = legendLayer.children[i];
-				child.visible = false;
-			}
-		}
+		//
+		hitMaskEffect(event.point);
+		//
 		//
 	};
 }
@@ -313,13 +295,10 @@ function loadHQ(){
 		//
 		backgroundLayer.sendToBack();
   };
-  downloadingImage.src = 'SCROLL_cs6_ver23_APP_final_Mobile.png';
+  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_Mobile.png';
 }
 
 function initSVGscroll(){
-	//
-	//scrollMousePos = paper.view.center;
-	//scrollPosition = paper.view.center;
 	//
 	//
 	//HQscroll
@@ -404,45 +383,53 @@ function initPanZoom(){
 		$('#status').show();
 		//
 		//
-		//console.log(event);
-		//event.point = new paper.Point(event.clientX, event.clientY);
-		//console.log(event.point);
 		if(mousePos != null){
 			mousePos.x += et.deltaX;
 			mousePos.y += et.deltaY;
 		}
-		var hitResult = maskLayer.hitTest(mousePos, maskHitOptions);
-		if(hitResult != null){
-			$('#status').text('Showing: ' + hitResult.item.data.legendName);
-			$('#status').show();
-			//console.log('Finding legend...' + hitResult.item.data.legendName);
-			let lg = paper.project.getItem({name: hitResult.item.data.legendName});
-			lg.visible = true;
-			backgroundLayer.opacity = 0.1;
-		}else{
-			legendLayer.visible = false;
-			backgroundLayer.opacity = 1.0;
-			for(let i=0; i<legendLayer.children.length; i++){
-				let child = legendLayer.children[i];
-				child.visible = false;
-			}
-		}
+		//
+		hitMaskEffect(mousePos);
 		//
   	//
 		//
 		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
 		//
-		if(paper.view.zoom == 1){
-			let deltaValX, deltaValY;
-			deltaValX = et.deltaY;
-			deltaValY = et.deltaY;
-			//
-			paper.view.center = changeCenter(paper.view.center, deltaValX, 0, fac);
-		}
-		else{
-			paper.view.center = changeCenter(paper.view.center, et.deltaX, et.deltaY, fac);
-		}
+		let deltaValX, deltaValY;
+		deltaValX = et.deltaY;
+		deltaValY = et.deltaY;
+		//
+		paper.view.center = changeCenter(paper.view.center, deltaValX, 0, fac);
 	});
+}
+
+/**
+ * ------------------------------------------------
+ * hitMaskEffect
+ * ------------------------------------------------
+ */
+function hitMaskEffect(pt){
+	var hitResult = maskLayer.hitTest(pt, maskHitOptions);
+	if(hitResult != null){
+		$('#status').text('Showing: ' + hitResult.item.data.legendName);
+		$('#status').show();
+		//
+		legendLayer.visible = true;
+		//
+		//console.log('Finding legend...' + hitResult.item.data.legendName);
+		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
+		lg.visible = true;
+		backgroundLayer.opacity = 0.1;
+	}else{
+		legendLayer.visible = false;
+		backgroundLayer.opacity = 1.0;
+		for(let i=0; i<legendLayer.children.length; i++){
+			let child = legendLayer.children[i];
+			child.visible = false;
+		}
+	}
+	//
+	//
+	//
 }
 
 /**
