@@ -6,7 +6,7 @@ let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
 //
-let scrollType = 'Mobile';// Mobile, RQ, HQ
+let scrollType = 'HQ';// Mobile, RQ, HQ
 let mainScroll;
 let exploreGroup;
 //
