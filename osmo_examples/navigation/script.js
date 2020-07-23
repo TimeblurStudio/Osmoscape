@@ -6,7 +6,7 @@ let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
 //
-let scrollType = 'Mobile';// Mobile, RQ, HQ
+let scrollType = 'HQ';// Mobile, RQ, HQ
 let mainScroll;
 let exploreGroup;
 //
@@ -107,12 +107,12 @@ function loadAudio(){
 			url: path,
 			loop: true,
 			fadeOut: 1,
-			fadeIn: 1
+			fadeIn: 1,
+			onload: function(){
+				allTracksCount++;
+			}
 		}).toDestination();
 		//
-		bplayer.onload = function(){
-			allTracksCount++;
-		};
 		//
 		baseTracks['base'+index] = bplayer;
 	}
@@ -123,12 +123,12 @@ function loadAudio(){
 		loop: true,
 		loopStart: 0,
 		loopEnd: 20,
-		fadeOut: 1
+		fadeOut: 1,
+		onload: function(){
+				allTracksCount++;
+			}
 	}).toDestination();
 	//
-	introTrack.onload = function(){
-		allTracksCount++;
-	};
 	//
 	//
 }
@@ -146,24 +146,7 @@ function loadHQ(){
   let image = document.getElementById('HQscroll');
   var downloadingImage = new Image();
   downloadingImage.onload = function(){
-  	if(allTracksCount == 8){
-  		$('#status').text('Loaded');
-  		$('#status').show();
-  	}
-  	else{
-  		let waitTillTracksLoad = setInterval(function(){
-  			if(allTracksCount == 8){
-  				clearInterval(waitTillTracksLoad);
-  				$('#status').text('Loaded');
-  				$('#status').show();
-  			}else
-  				console.log('Waiting for allTracks to complete loading');
-	  	},2000);
-  	}
-  	setInterval(function(){
-  		$('#status').hide();
-  	},2000);
-		console.log('Loaded HQ image');
+  	console.log('Loaded HQ image');
     image.src = this.src;
     //
     initSVGscroll();
@@ -172,7 +155,27 @@ function loadHQ(){
 		loadNav();
 		initNav();
 		//
-		backgroundLayer.sendToBack();
+		if(allTracksCount == 8){
+  		$('#status').text('Loaded');
+  		$('#status').show();
+  		setInterval(function(){	$('#status').hide();	}, 2000);
+  	}
+  	else{
+  		$('#start-btn').hide();
+  		let waitTillTracksLoad = setInterval(function(){
+  			console.log('Total tracks loaded = ' + allTracksCount);
+  			if(allTracksCount == 8){
+  				clearInterval(waitTillTracksLoad);
+  				$('#status').text('Loaded');
+  				$('#status').show();
+  				$('#start-btn').show();
+	  			setInterval(function(){	$('#status').hide();	}, 2000);
+  			}else
+  				console.log('Waiting for allTracks to complete loading');
+	  	},2000);
+  	}
+  	//
+  	backgroundLayer.sendToBack();
   };
   downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }

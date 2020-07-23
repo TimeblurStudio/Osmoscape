@@ -5,6 +5,7 @@ let mousePos = null;
 let maxZoom = 2;
 let scrollScale = 1;
 //
+let scrollType = 'HQ';// Mobile, RQ, HQ
 let mainScroll;
 var maskHitOptions = {
 	segments: false,
@@ -57,7 +58,6 @@ function readSvg(file, type, number) {
 	});
   //
 }
-
 //
 //
 //
@@ -274,7 +274,7 @@ function legendLoad(svgxml){
  * ------------------------------------------------
  */
 function loadHQ(){
-	$('#status').text('Loading HQ scroll...');
+	$('#status').text('Loading '+scrollType+' scroll...');
   console.log('loading High Quality Image');
   //
   //
@@ -295,7 +295,7 @@ function loadHQ(){
 		//
 		backgroundLayer.sendToBack();
   };
-  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_Mobile.png';
+  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }
 
 function initSVGscroll(){
