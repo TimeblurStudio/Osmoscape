@@ -201,8 +201,6 @@ const build = series(
   parallel(
     lint,
     series(parallel(styles, scripts, modernizr), html),
-    images,
-    data,
     fonts,
     libs,
     extras
