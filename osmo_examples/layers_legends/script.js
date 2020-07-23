@@ -5,7 +5,7 @@ let mousePos = null;
 let maxZoom = 2;
 let scrollScale = 1;
 //
-let scrollType = 'HQ';// Mobile, RQ, HQ
+let scrollType = 'HD';// Mobile, RQ, HQ
 let mainScroll;
 var maskHitOptions = {
 	segments: false,
