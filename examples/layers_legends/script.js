@@ -5,7 +5,7 @@ let mousePos = null;
 let maxZoom = 2;
 let scrollScale = 1;
 //
-let scrollType = 'HD';// Mobile, RQ, HQ
+let scrollType = 'Mobile';// Mobile, RQ, HQ
 let mainScroll;
 var maskHitOptions = {
 	segments: false,
@@ -228,7 +228,8 @@ function maskLoad(svgxml, num){
 		//
 		mask.scale(lms);
 		mask.position = paper.view.center;
-		mask.position.x = (paperWidth*s*3/4) + (mainScroll.width*s/2);
+		//console.log('Heights: paper - ' + paperHeight + ', mask - ' + mask.bounds.height + ', mainScroll - ' + mainScroll.height*s);
+		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
 		//
 		maskLayer.addChild(mask);
 	});
@@ -261,7 +262,7 @@ function legendLoad(svgxml){
 		//
 		legend.scale(lms);
 		legend.position = paper.view.center;
-		legend.position.x = (paperWidth*s*3/4) + (mainScroll.width*s/2);
+		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
 		//
 		legendLayer.addChild(legend);
 	});
@@ -313,7 +314,7 @@ function initSVGscroll(){
 	//
 	// Move the raster to the center of the view
 	raster.position = paper.view.center;
-	raster.position.x = (paperWidth*s*3/4) + (raster.width*s/2);
+	raster.position.x = (paperWidth*3/4) + (raster.width*s/2);
 	//
 	//
 	scrollWidth = raster.width*s;
