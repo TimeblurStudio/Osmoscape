@@ -1,0 +1,9 @@
+{
+	"1": {
+		"id": "1",
+		"title": "Detection of water on exoplanet",
+		"desc": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+		"legendpath": "../../assets/data/legends/01 Water in space.svg",
+		"maskpath": "../../assets/data/legends/01 Water in space mask.svg"
+	}
+}

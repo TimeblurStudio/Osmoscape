@@ -6,7 +6,7 @@ let maxZoom = 2;
 let scrollScale = 1;
 let isModalOpen = false;
 //
-let scrollType = 'HD';// Mobile, RQ, HQ
+let scrollType = 'Mobile';// Mobile, RQ, HQ
 let mainScroll;
 var maskHitOptions = {
 	segments: false,
@@ -30,15 +30,35 @@ initModal(false);
 //
 //
 //
-let datasets = {
-	1: {
-		id: '1',
-		title: 'water something',
-		desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.',
-		legendpath: '../../assets/data/legends/01 Water in space.svg',
-		maskpath: '../../assets/data/legends/01 Water in space mask.svg'
-	}
-};
+let datasets = {};
+let publishFiles = [];
+//
+$.getJSON( "../../assets/data/dataSummary.json", function( data ) {
+  console.log('Loaded datasets summary');
+  //
+  let dataWaitInterval = setInterval(function(){
+  	if(mainScroll != null){
+			clearInterval(dataWaitInterval);
+			//
+  		datasets = data;
+  		//
+  		//
+			let pF = {
+				fileName: 'dataSummary.json',
+				content: JSON.stringify (datasets),
+				exists: false,
+				sha: null,
+				updated: false
+			};
+			publishFiles.push(pF);
+  		//
+			loadDatasets();
+	  }
+  },1000);
+  //
+});
+//
+//
 let uploadedLegendFile = [], uploadedMaskFile = [];
 let maskFiles = [], legendFiles = [];
 //
@@ -61,6 +81,15 @@ function readSvg(file, type, number) {
 	   $('#status').text('Applying ' + type + '...');
 		 $('#status').show();
 		 //
+		 let pF = {
+			 fileName: file.name,
+			 content: reader.result,
+			 exists: false,
+			 sha: null,
+			 updated: false
+		 };
+		 publishFiles.push(pF);
+		 //
 	   // reader.result contains the contents of blob as a typed array
 	   // we insert content of file in DOM here
 	   if(type == 'mask')
@@ -74,23 +103,56 @@ function readSvg(file, type, number) {
 //
 //
 function initFileLoader(){
+	$('#currentLegend').hide();
+	$('#currentMask').hide();
+	//
+	$('#currentLegend .cancel').click(function(){
+		console.log('Cancel clicked!');
+		$('#currentLegend').hide();
+		$('#newLegend').show();
+	});
+	$('#currentMask .cancel').click(function(){
+		console.log('Cancel clicked!');
+		$('#currentMask').hide();
+		$('#newMask').show();
+	});
+	//
 	$("#data-id").change(function(){
 		let value = $("#data-id").val();
 		//
 		if(!(value.toString() in datasets)){
 			console.log('New dataset');
+			//
+			$('#newLegend').show();
+			$('#newMask').show();
+			$('#currentLegend').hide();
+			$('#currentMask').hide();
+			//
 			$('#load-btn').text('Load');
+			//
 		}else{
 			console.log('Update dataset');
 			//
+			//
+			$('#newLegend').hide();
+			$('#newMask').hide();
+			$('#currentLegend').show();
+			$('#currentMask').show();
+			//
 			$('#load-btn').text('Update');
 			//
-			if($('#data-title').val() == '')
-				$('#data-title').val(datasets[value].title);
-			if($('#data-desc').val() == '')
-				$('#data-desc').val(datasets[value].desc);
+			$('#data-title').val(datasets[value].title);
+			$('#data-desc').val(datasets[value].desc);
+			let legendFName = datasets[value].legendpath.substring(datasets[value].legendpath.lastIndexOf('/')+1);
+			$('#currentLegend .filename').text(legendFName);
+			let maskFName = datasets[value].maskpath.substring(datasets[value].maskpath.lastIndexOf('/')+1);
+			$('#currentMask .filename').text(maskFName);
 		}
+		//
+    $('#clear-btn').show();
 	});
+	//
+	//
 	//
 	const legendFileSelector = document.getElementById('legend-selector');
 	const maskFileSelector = document.getElementById('mask-selector');
@@ -112,6 +174,8 @@ function initFileLoader(){
   //
   // LOAD BUTTON
   $('#load-btn').click(function(){
+
+		//
   	let error = false;
   	let errorMessage = '';
   	//
@@ -133,28 +197,26 @@ function initFileLoader(){
 		  }
 		  if($('#data-id').val() == ''){
 	  		error = true;
-	  		errorMessage += 'Error: Data id not filled';
+	  		errorMessage += 'Error: Data id not filled\n';
 	  	}
 	  	if($('#data-title').val() == ''){
 	  		error = true;
-	  		errorMessage += 'Error: title not filled';
+	  		errorMessage += 'Error: title not filled\n';
 	  	}
 	  	if($('#data-desc').val() == ''){
 	  		error = true;
-	  		errorMessage += 'Error: Description not filled';
+	  		errorMessage += 'Error: Description not filled\n';
 	  	}
   	}else{
   		error = true;
-  		errorMessage = 'ERROR: No files';
+  		errorMessage += 'ERROR: No files\n';
   	}
   	//
   	// Now load
   	if(!error){
+  		$('#pub').prop('disabled', false);
   		//
 			let index = $('#data-id').val();
-			//
-			console.log(uploadedLegendFile[0]);
-			//
 			datasets[index] = {
 				id: index,
 				title: $('#data-title').val(),
@@ -187,25 +249,265 @@ function initFileLoader(){
   	//
   });
   // CLEAR BUTTON
-  $('#clear-btn').click(clearAll);
+  $('#clear-btn').click(function(){
+		$('#pub').prop('disabled', true);
+  	clearAll();
+  });
   //
+  // SUBMIT BUTTON
+  $('#submit-btn').click(function(){
+  	$('.close-button').hide();
+  	//
+  	console.log('Submit button clicked!!!');
+  	let error = false;
+  	let errorMessage = '';
+  	//
+  	if($('#pub-name').val() == ''){
+  		error = true;
+  		errorMessage = 'Publishing name required\n';
+  	}
+  	//
+  	if($('#pub-email').val() == ''){
+  		error = true;
+  		errorMessage = 'Publishing email required\n';
+  	}
+  	//
+  	if($('#pub-message').val() == ''){
+  		error = true;
+  		errorMessage = 'Publishing message required\n';
+  	}
+  	//
+  	if($('#pub-token').val() == ''){
+  		error = true;
+  		errorMessage = 'Publishing token required\n';
+  	}
+  	//
+  	//
+  	if(!error){
+  		console.log('Processing...');
+  		$('#progress').show();
+  		$('#Publishing').hide();
+  		//**** Get all information
+  		let allGetPromises = [];
+  		//**** Get the files and SHA
+  		for(let i=0; i < publishFiles.length; i++){
+  			let pF = publishFiles[i];
+  			//
+  			let filename = pF.fileName;
+  			//content: pF.content;
+				//exists: false,
+				//sha: null,
+				//updated: false
+  			//
+  			let geturl = '';
+  			if(i == 0 )
+  				geturl = 'https://api.github.com/repos/mikecjtio/testrepository/contents/assets/data/'+encodeURIComponent(filename);
+  			else
+  				geturl = 'https://api.github.com/repos/mikecjtio/testrepository/contents/assets/data/legends/'+encodeURIComponent(filename);
+  			//
+	  		let getpromise = new Promise((resolve, reject) => {
+	  			//
+	  			$.ajax({
+					    type: 'GET',
+					    headers: { "Authorization": 'Bearer ' + $('#pub-token').val() },
+					    url: geturl,
+					    success: function(data) {
+					    	//
+					    	console.log('Completed JSON request!');
+					    	console.log(data);
+					    	//
+					    	publishFiles[i].exists = true;
+					    	publishFiles[i].sha = data.sha;
+					    	//
+					    	resolve(i);
+					    },
+					    error : function(error){
+					    	console.log('Error JSON request');
+					    	console.log(error);
+					    	//
+					    	reject(i);
+					    },
+					    contentType: "application/json",
+					    dataType: 'json'
+					});
+	  			//
+	  		});
+	  		allGetPromises.push(getpromise);
+	  		//
+  		}
+  		console.log(allGetPromises);
+  		//
+  		//
+  		//
+
+  		//
+  		//***** Wait for all GET promises
+  		Promise.all(allGetPromises)
+  			.then((index)=>{
+					console.log('All promises to get meta data completed!');
+					uploadAllPubFiles('then')
+				})
+				.catch((index)=>{
+          // log that I have an error, return the entire array;
+          console.log('All promises to get meta data finished, but one or more failed!');
+          uploadAllPubFiles('catch')
+	      });
+			//
+			//
+			//
+  	}else{
+  		console.log('Error submitting');
+  		//
+  		let default_color = $('#status').css('color');
+  		//
+  		$('#status').text(errorMessage);
+			$('#status').show();
+			$('#status').css('color', 'red');
+			//
+			setTimeout(function(){
+				$('#status').css('color', default_color);
+			},1500);
+  		//
+  		console.log(errorMessage);
+  	}
+  });
 }
 
 //
 //
+//
+//
+let requestsIndex = 0;
+let uploadBranch = 'master';
+function uploadAllPubFiles(status){
+	console.log(publishFiles);
+	//
+	uploadReFile(requestsIndex);
+	//
+	//
+}
+
+function uploadReFile(i){
+	console.log('Uploading file at index: ' + i );
+	// Put the files
+	let pF = publishFiles[i];
+	//
+	let filename = pF.fileName;
+	let text_content = pF.content;
+	//exists: false,
+	//sha: null,
+	//updated: false
+	//
+	let geturl = '';
+	if(i == 0)
+		geturl = 'https://api.github.com/repos/mikecjtio/testrepository/contents/assets/data/'+encodeURIComponent(filename);
+	else
+		geturl = 'https://api.github.com/repos/mikecjtio/testrepository/contents/assets/data/legends/'+encodeURIComponent(filename);
+	//
+	let msg = '';
+	if(i == 0)
+		msg = $('#pub-message').val() + '-dataset';
+	else{
+		if(i%2 == 0)
+			msg = $('#pub-message').val() + '-legend' + parseInt(i/2);
+		else
+			msg = $('#pub-message').val() + '-mask' + parseInt((i+1)/2);
+	}
+	//
+	let databody;
+	if(pF.exists){
+		databody = {
+			message: msg,
+			sha: pF.sha,
+			branch: uploadBranch,
+			committer:{
+				name: $('#pub-name').val(),
+				email:$('#pub-email').val()
+			},
+			content: window.btoa(unescape(encodeURIComponent(text_content)))
+		};
+	}else{
+		databody = {
+			message: msg,
+			branch: uploadBranch,
+			committer:{
+				name: $('#pub-name').val(),
+				email:$('#pub-email').val()
+			},
+			content: window.btoa(unescape(encodeURIComponent(text_content)))
+		};
+	}
+	//
+	console.log(databody);
+	//
+	//
+	//
+	//
+	$.ajax({
+	    type: 'PUT',
+	    headers: { "Authorization": 'Bearer ' + $('#pub-token').val() },
+	    url: geturl,
+	    data: JSON.stringify (databody),
+	    success: function(data) {
+	    	//
+	    	console.log('Completed JSON PUT request!');
+	    	console.log(data);
+	    	//
+	    	//
+	    	publishFiles[i].updated = true;
+	    	//
+	    	requestsIndex++;
+	    	if(requestsIndex < publishFiles.length)
+					uploadReFile(requestsIndex);
+				else{
+					if(uploadBranch == 'master'){
+						uploadBranch = 'gh-pages';
+						requestsIndex = 0;
+						uploadReFile(requestsIndex);
+					}else{
+						console.log('Completed all requests!');
+						//
+						$('#pub-message').val('');
+						toggleModal();
+						//
+						$('#pub').prop('disabled', true);
+					}
+				}
+	    },
+	    error : function(error){
+	    	console.log('Error JSON PUT request');
+	    	console.log(error);
+	    	//
+	    },
+	    contentType: "application/json",
+	    dataType: 'json'
+	});
+	//
+	//
+}
+
+
+
+//
+//
 function clearAll(){
-  	//
-    $('#clear-btn').hide();
-  	//
-  	$('#legend-selector').val('');
-  	$('#mask-selector').val('');
-  	//
-  	$('#chapter-select').prop('selectedIndex',0);
-  	//
-  	$('#data-id').val('');
-  	$('#data-title').val('');
-  	$('#data-desc').val('');
-  }
+	//
+  $('#clear-btn').hide();
+	//
+	$('#legend-selector').val('');
+	$('#mask-selector').val('');
+	//
+	$('#chapter-select').prop('selectedIndex',0);
+	//
+	$('#data-id').val('');
+	$('#data-title').val('');
+	$('#data-desc').val('');
+	//
+	$('#currentLegend .cancel').click();
+	$('#currentMask .cancel').click();
+	//
+	$('#load-btn').text('Load');
+}
 
 /**
  * ------------------------------------------------
@@ -213,7 +515,6 @@ function clearAll(){
  * ------------------------------------------------
  */
 function init(){
-
 	//
 	initFileLoader();
 	//
@@ -255,6 +556,8 @@ function init(){
 	};
 }
 
+
+
 function maskLoad(svgxml, num){
 	//
 	console.log('maskLoad called');
@@ -278,13 +581,12 @@ function maskLoad(svgxml, num){
 		//
 		mask.scale(lms);
 		mask.position = paper.view.center;
-		mask.position.x = (paperWidth*s*3/4) + (mainScroll.width*s/2);
+		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width) - 5;
 		//
 		mask.onDoubleClick = function(event) {
 			//
 			console.log('Double clicked, fitBounds activated!');
 			//
-			//console.log()
 			// FIX ME!!
 			// Actually consilder LEGEND!!
 			//paper.view.zoom = paperHeight/mask.bounds.height;
@@ -327,7 +629,7 @@ function legendLoad(svgxml){
 		//
 		legend.scale(lms);
 		legend.position = paper.view.center;
-		legend.position.x = (paperWidth*s*3/4) + (mainScroll.width*s/2);
+		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width)  - 5;
 		//
 		legendLayer.addChild(legend);
 	});
@@ -357,8 +659,6 @@ function loadHQ(){
     initSVGscroll();
 		initSplash(800);//splashWidth: 800px
 		//
-		loadDatasets();
-		//
 		backgroundLayer.sendToBack();
   };
   downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
@@ -372,7 +672,6 @@ function loadDatasets(){
 	for (let id in datasets) {
 	  if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
-      console.log(datasets[id]);
       //
       maskLoad(datasets[id].maskpath, id);
       legendLoad(datasets[id].legendpath, id);
@@ -401,7 +700,7 @@ function initSVGscroll(){
 	//
 	// Move the raster to the center of the view
 	raster.position = paper.view.center;
-	raster.position.x = (paperWidth*s*3/4) + (raster.width*s/2);
+	raster.position.x = (paperWidth*3/4) + (raster.width*s/2);
 	//
 	//
 	scrollWidth = raster.width*s;
@@ -451,7 +750,6 @@ function initSplash(_width){
 	backgroundLayer.addChild(line);
 	backgroundLayer.addChild(triangle);
 }
-
 
 /**
  * ------------------------------------------------
@@ -506,9 +804,13 @@ function hitMaskEffect(pt){
 		//console.log('Finding legend...' + hitResult.item.data.legendName);
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
 		lg.visible = true;
+		//backgroundLayer.fillColor = 'black';
 		backgroundLayer.opacity = 0.1;
+		$("body").css("background-color","#5f6d70");
 	}else{
+		$("body").css("background-color","#b5ced5");
 		legendLayer.visible = false;
+		//backgroundLayer.fillColor = 'none';
 		backgroundLayer.opacity = 1.0;
 		for(let i=0; i<legendLayer.children.length; i++){
 			let child = legendLayer.children[i];
@@ -576,9 +878,35 @@ function changeZoom(oldZoom, delta){
  */
 function initModal(start_opned){
 	$('#new').click(function(){
+		//
+  	$('.close-button').show();
+		//
+		$('#progress').hide();
+		$('#Publishing').hide();
+		$('#newDataset').show();
+		//
 		toggleModal();
-	})
-
+	});
+	//
+	//
+	$('#pub').click(function(){
+		//
+  	$('.close-button').show();
+		//
+		console.log('Publish clicked!!!');
+		//
+		$('#progress').hide();
+		$('#Publishing').show();
+		$('#newDataset').hide();
+		//
+		toggleModal();
+		//
+		//
+		//console.log(datasets);
+		publishFiles[0].content = JSON.stringify (datasets);
+		console.log(publishFiles);
+		//
+	});
 	//
 	//
 	var modal = document.querySelector('.modal');

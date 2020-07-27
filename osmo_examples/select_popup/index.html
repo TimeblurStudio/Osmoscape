@@ -34,47 +34,74 @@
 
     <div class="uploader">
         <button class="btn btn-ultra-light" id="new">New data</button>
-        <button class="btn btn-ultra-light" disabled>Publish</button>
+        <button class="btn btn-ultra-light" disabled id="pub">Publish</button>
     </div>
 
     <? Uploader ?>
     <div class="modal">
       <div class="modal-content">
         <span class="close-button" style="z-index: 2000;">&times;</span>
-        <h2 style="margin-top: 0;">Add a Dataset</h2>
-        <p>1. Select chapter</p>
-        <select class="btn" name="chapters" id="chapters-select">
-          <option value="ch1">1. Water</option>
-          <option value="ch2">2. Earth globe</option>
-          <option value="ch3">3. Carbon atom</option>
-          <option value="ch4">4. Cotton</option>
-          <option value="ch5">5. Buildings</option>
-          <option value="ch6">6. River</option>
-          <option value="ch7">7. Plankton</option>
-        </select>
-        <input type="number" class="textplace btn-light" id="data-id" name="data-id" placeholder="number" style="margin-left: 15px; width: 45px;">
-        <p>2. Add title</p>
-        <input type="text" class="textplace btn-light" id="data-title" name="data-title">
-        <p>3. Add description</p>
-        <textarea class="textplace btn-light" id="data-desc" name="data-desc" rows="4" cols="34"></textarea>
-        <p>4. Select your svg files here</p>
-        <span>Legend:
-            <div class="button-wrap">
-                <label class ="new-button" for="legend-selector"> Select file </label>
-                <input type="file" id="legend-selector" accept="image/svg+xml" class="btn btn-ultra-light">
-            </div>
-        </span>
-        <br>
-        <span>Mask:
-            <div class="button-wrap" style="display: inline;margin-left: 12px;">
-                <label class ="new-button" for="mask-selector"> Select file </label>
-                <input type="file" id="mask-selector" accept="image/svg+xml" class="btn btn-ultra-light">
-            </div>
-        </span>
-        <br>
-        <hr>
-        <button type="button" class="btn btn-copper" id="load-btn">Load</button>
-        <button type="button" class="btn btn-copper" id="clear-btn">Clear</button>
+        <div id="newDataset">
+            <h2 style="margin-top: 0;">Add a Dataset</h2>
+            <p>1. Select chapter</p>
+            <select class="btn" name="chapters" id="chapters-select">
+              <option value="ch1">1. Water</option>
+              <option value="ch2">2. Earth globe</option>
+              <option value="ch3">3. Carbon atom</option>
+              <option value="ch4">4. Cotton</option>
+              <option value="ch5">5. Buildings</option>
+              <option value="ch6">6. River</option>
+              <option value="ch7">7. Plankton</option>
+            </select>
+            <input type="number" class="textplace btn-light" id="data-id" name="data-id" placeholder="number" min="1" max="60" style="margin-left: 15px; width: 45px;">
+            <p>2. Add title</p>
+            <input type="text" class="textplace btn-light" id="data-title" name="data-title">
+            <p>3. Add description</p>
+            <textarea class="textplace btn-light" id="data-desc" name="data-desc" rows="4" cols="34" style="max-width: 380px;"></textarea>
+            <p>4. Select your svg files here</p>
+            <span style="margin: 5px;">Legend:
+                <div class="button-wrap" id="newLegend">
+                    <label class ="new-button" for="legend-selector"> Select file </label>
+                    <input type="file" id="legend-selector" accept="image/svg+xml" class="btn btn-ultra-light">
+                </div>
+                <div style="display: inline;" id="currentLegend">
+                    <span class="filename">this is current legend...</span><span class="cancel" style="margin: 5px;">✖️</span>
+                    <br>
+                </div>
+            </span>
+            <br>
+            <span style="margin: 5px;">Mask:
+                <div class="button-wrap" id="newMask" style="display:inline;margin-left: 12px;">
+                    <label class ="new-button" for="mask-selector"> Select file </label>
+                    <input type="file" id="mask-selector" accept="image/svg+xml" class="btn btn-ultra-light">
+                </div>
+                <div style="display: inline;" id="currentMask">
+                    <span class="filename">this is current legend...</span><span class="cancel"  style="margin: 5px;">✖️</span>
+                    <br>
+                </div>
+            </span>
+            <br>
+            <hr>
+            <button type="button" class="btn btn-copper" id="load-btn">Load</button>
+            <button type="button" class="btn btn-copper" id="clear-btn">Clear</button>
+        </div>
+        <div id="Publishing" style="display: none;">
+            <h2 style="margin-top: 0;">Publish to github</h2>
+            <br>
+            Name: <input type="text" class="textplace btn-light" id="pub-name">
+            Email: <input type="text" class="textplace btn-light" id="pub-email">
+            Message: <input type="text" class="textplace btn-light" id="pub-message">
+            Auth Token: <input type="text" class="textplace btn-light" id="pub-token">
+            <br>
+            <br>
+            <button type="button" class="btn btn-copper" id="submit-btn">Submit</button>
+        </div>
+        <div id="progress" style="display:none;text-align: center;">
+          <p>Please wait while the files are being uploaded...</p>
+          <br>
+          <div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: black"></div><div class="sk-child sk-bounce2" style="background-color: black"></div><div class="sk-child sk-bounce3" style="background-color: black"></div></div>
+          <br>
+        </div>
       </div>
     </div>
 
