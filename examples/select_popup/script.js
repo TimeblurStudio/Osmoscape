@@ -325,7 +325,7 @@ function initFileLoader(){
 					    	console.log('Error JSON request');
 					    	console.log(error);
 					    	//
-					    	reject(i);
+					    	resolve(i);
 					    },
 					    contentType: "application/json",
 					    dataType: 'json'
