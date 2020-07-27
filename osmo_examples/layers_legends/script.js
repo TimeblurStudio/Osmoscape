@@ -229,7 +229,7 @@ function maskLoad(svgxml, num){
 		mask.scale(lms);
 		mask.position = paper.view.center;
 		//console.log('Heights: paper - ' + paperHeight + ', mask - ' + mask.bounds.height + ', mainScroll - ' + mainScroll.height*s);
-		mask.position.x = (paperHeight*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
+		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
 		//
 		maskLayer.addChild(mask);
 	});
@@ -259,11 +259,10 @@ function legendLoad(svgxml){
 		let s = paperHeight/mainScroll.height;
 		let lms = paperHeight/legend.bounds.height;//mask-scale
 		console.log('LEGEND SCALE: ' + lms);
-		console.log((mainScroll.width*s - legend.bounds.width*lms));
 		//
 		legend.scale(lms);
-		legend.position = paper.view.center ;
-		legend.position.x = (paperHeight*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
+		legend.position = paper.view.center;
+		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
 		//
 		legendLayer.addChild(legend);
 	});
@@ -315,7 +314,7 @@ function initSVGscroll(){
 	//
 	// Move the raster to the center of the view
 	raster.position = paper.view.center;
-	raster.position.x = (paperHeight*3/4) + (raster.width*s/2);
+	raster.position.x = (paperWidth*3/4) + (raster.width*s/2);
 	//
 	//
 	scrollWidth = raster.width*s;

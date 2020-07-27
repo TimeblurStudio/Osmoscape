@@ -7,7 +7,6 @@ This project is open-source and we plan for it to be accessible on most devices 
 More: https://nanditakumar.com/osmoscape/
 
 ## Usage
-There are other ways to get the licenses than downloading the [latest release](https://github.com/idleberg/Creative-Commons-Markdown/releases/latest) in your browser:
 
 ```bash
 # Use git
