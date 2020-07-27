@@ -6,7 +6,7 @@ let maxZoom = 2;
 let scrollScale = 1;
 let isModalOpen = false;
 //
-let scrollType = 'Mobile';// Mobile, RQ, HQ
+let scrollType = 'HD';// Mobile, RQ, HQ
 let mainScroll;
 var maskHitOptions = {
 	segments: false,

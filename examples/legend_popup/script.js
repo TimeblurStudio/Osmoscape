@@ -4,6 +4,7 @@ let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
 let scrollScale = 1;
+let isModalOpen = false;
 //
 let scrollType = 'HD';// Mobile, RQ, HQ
 let mainScroll;
@@ -21,139 +22,19 @@ let maskLayer;
 //
 //
 //
+//
 console.log('Initializing');
 init();
 //
 //
 //
 //
+let datasets = {};
+let publishFiles = [];
+//
+//
 let uploadedLegendFile = [], uploadedMaskFile = [];
 let maskFiles = [], legendFiles = [];
-//
-//
-//
-function readSvg(file, type, number) {
-	console.log('readSvg for : ' + type + '-' + number);
-	//
-  const reader = new FileReader();
-  //
-  try
-  {
-		reader.readAsText(file);
-  }
-  catch(err) {console.log(err.message);}
-  //
-  //
-	// attach event, that will be fired, when read is end
-	reader.addEventListener("loadend", function() {
-	   $('#status').text('Applying ' + type + '...');
-		 $('#status').show();
-		 //
-	   // reader.result contains the contents of blob as a typed array
-	   // we insert content of file in DOM here
-	   if(type == 'mask')
-	   	maskLoad(reader.result, number);
-	   if(type == 'legend')
-	   	legendLoad(reader.result, number);
-	});
-  //
-}
-//
-//
-//
-function initFileLoader(){
-	//
-	const legendFileSelector = document.getElementById('legend-selector');
-	const maskFileSelector = document.getElementById('mask-selector');
-	//
-  legendFileSelector.addEventListener('change', (event) => {
-    const fileList = event.target.files;
-    console.log(fileList);
-    uploadedLegendFile = fileList;
-    //
-    $('#clear-btn').show();
-    //
-    if(uploadedLegendFile.length === 1 && uploadedMaskFile.length === 1){
-    	$('#load-btn').show();
-    }
-  });
-  maskFileSelector.addEventListener('change', (event) => {
-    const fileList = event.target.files;
-    console.log(fileList);
-    uploadedMaskFile = fileList;
-    //
-    $('#clear-btn').show();
-    //
-    if(uploadedLegendFile.length === 1 && uploadedMaskFile.length === 1){
-    	$('#load-btn').show();
-    }
-  });
-  //
-  // LOAD BUTTON
-  $('#load-btn').click(function(){
-  	let error = false;
-  	let errorMessage = null;
-  	//
-  	//console.log(uploadedLegendFile.length);
-  	//console.log(uploadedMaskFile.length);
-  	// Also load
-  	if(uploadedLegendFile.length === 1 && uploadedMaskFile.length === 1 ){
-  		console.log('Both files present');
-  		//
-  		if (uploadedLegendFile[0].type && uploadedLegendFile[0].type.indexOf('image/svg+xml') === -1) {
-	  		error = true;
-	  		errorMessage = 'File is not a svg image - found ' + uploadedLegendFile[0].type;
-		    console.log(errorMessage);
-		  }
-		  if (uploadedMaskFile[0].type && uploadedMaskFile[0].type.indexOf('image/svg+xml') === -1) {
-	  		error = true;
-	  		errorMessage = 'File is not a svg image - found ' + uploadedMaskFile[0].type;
-		    console.log(errorMessage);
-		  }
-  		//
-  		if(!error){
-  			//
-  			let index = maskFiles.length;
-  			readSvg(uploadedMaskFile[0], 'mask', index);
-  			readSvg(uploadedLegendFile[0], 'legend', index);
-  			//
-  		}else{
-  			let default_color = $('#status').css('color');
-  			//
-  			$('#status').text(errorMessage);
-				$('#status').show();
-				$('#status').css('color', 'red');
-				//
-				setTimeout(function(){
-					$('#status').css('color', default_color);
-				},1500);
-  		}
-  	}else{
-  		error = true;
-  		errorMessage = 'ERROR: No files';
-  		console.log(errorMessage);
-  	}
-  	//
-  	if(!error){
-  		//
-    	$('#load-btn').hide();
-    	$('#clear-btn').hide();
-	  	// Now clear
-	  	$('#legend-selector').val('');
-	  	$('#mask-selector').val('');
-  	}
-  	//
-  });
-  // CLEAR BUTTON
-  $('#clear-btn').click(function(){
-  	//
-    $('#load-btn').hide();
-  	$('#clear-btn').hide();
-  	//
-  	$('#legend-selector').val('');
-  	$('#mask-selector').val('');
-  });
-}
 
 /**
  * ------------------------------------------------
@@ -161,29 +42,51 @@ function initFileLoader(){
  * ------------------------------------------------
  */
 function init(){
-
-	//
-	initFileLoader();
 	//
 	//
 	console.log('init called');
 	$('#status').text('Started');
+	//
+	//
+	$.getJSON( "../../assets/data/dataSummary.json", function( data ) {
+	  console.log('Loaded datasets summary');
+	  //
+	  let dataWaitInterval = setInterval(function(){
+	  	if(mainScroll != null){
+				clearInterval(dataWaitInterval);
+				//
+	  		datasets = data;
+	  		//
+	  		//
+				let pF = {
+					fileName: 'dataSummary.json',
+					content: JSON.stringify (datasets),
+					exists: false,
+					sha: null,
+					updated: false
+				};
+				publishFiles.push(pF);
+	  		//
+				loadDatasets();
+		  }
+	  },1000);
+	  //
+	});
+
 	//
 	// Setup PAPER canvas
 	let canvas = document.getElementById('main-scroll-canvas');
 	paper.setup(canvas);
 	paperHeight = canvas.offsetHeight;
 	paperWidth = canvas.offsetWidth;
-
-
 	//
 	backgroundLayer = new paper.Layer();
 	maskLayer = new paper.Layer();
 	legendLayer = new paper.Layer();
-
+	//
 	// INTERACTIONS
 	initPanZoom();
-
+	//
 	//
 	loadHQ();
 
@@ -205,6 +108,9 @@ function init(){
 	};
 }
 
+//
+//
+//
 function maskLoad(svgxml, num){
 	//
 	console.log('maskLoad called');
@@ -228,14 +134,31 @@ function maskLoad(svgxml, num){
 		//
 		mask.scale(lms);
 		mask.position = paper.view.center;
-		//console.log('Heights: paper - ' + paperHeight + ', mask - ' + mask.bounds.height + ', mainScroll - ' + mainScroll.height*s);
-		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
+		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width) - 5;
+		//
+		mask.onDoubleClick = function(event) {
+			//
+			console.log('Double clicked, fitBounds activated!');
+			//
+			// FIX ME!!
+			// Actually consilder LEGEND!!
+			//paper.view.zoom = paperHeight/mask.bounds.height;
+			//paper.view.center = mask.position;
+			//
+			console.log(mask);
+			//
+			//console.log(paper.view.zoom);
+			//console.log(paper.view.center);
+		};
 		//
 		maskLayer.addChild(mask);
 	});
 	//
 }
 
+//
+//
+//
 function updateChildLegend(ch, d){
 	for(let i=0; i < ch.length; i++){
 		let child = ch[i];
@@ -245,6 +168,9 @@ function updateChildLegend(ch, d){
 	}
 }
 
+//
+//
+//
 function legendLoad(svgxml){
 	//
 	paper.project.importSVG(svgxml, function(item){
@@ -262,7 +188,7 @@ function legendLoad(svgxml){
 		//
 		legend.scale(lms);
 		legend.position = paper.view.center;
-		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
+		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width)  - 5;
 		//
 		legendLayer.addChild(legend);
 	});
@@ -292,13 +218,32 @@ function loadHQ(){
     initSVGscroll();
 		initSplash(800);//splashWidth: 800px
 		//
-		//loadDataLegends();
-		//
 		backgroundLayer.sendToBack();
   };
   downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }
 
+//
+//
+//
+function loadDatasets(){
+	//
+	for (let id in datasets) {
+	  if (datasets.hasOwnProperty(id)) {
+      console.log('Loading data for : ' + id);
+      //
+      maskLoad(datasets[id].maskpath, id);
+      legendLoad(datasets[id].legendpath, id);
+      //
+	  }
+	}
+	//
+}
+
+
+//
+//
+//
 function initSVGscroll(){
 	//
 	//
@@ -323,6 +268,9 @@ function initSVGscroll(){
 	backgroundLayer.addChild(raster);
 }
 
+//
+//
+//
 function initSplash(_width){
 	//
 	// SPLASH
@@ -364,7 +312,6 @@ function initSplash(_width){
 	backgroundLayer.addChild(line);
 	backgroundLayer.addChild(triangle);
 }
-
 
 /**
  * ------------------------------------------------
@@ -419,9 +366,13 @@ function hitMaskEffect(pt){
 		//console.log('Finding legend...' + hitResult.item.data.legendName);
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
 		lg.visible = true;
+		//backgroundLayer.fillColor = 'black';
 		backgroundLayer.opacity = 0.1;
+		$("body").css("background-color","#5f6d70");
 	}else{
+		$("body").css("background-color","#b5ced5");
 		legendLayer.visible = false;
+		//backgroundLayer.fillColor = 'none';
 		backgroundLayer.opacity = 1.0;
 		for(let i=0; i<legendLayer.children.length; i++){
 			let child = legendLayer.children[i];
@@ -481,3 +432,41 @@ function changeZoom(oldZoom, delta){
   return newZoom;
 }
 
+//
+//
+//
+function readSvg(file, type, number) {
+	console.log('readSvg for : ' + type + '-' + number);
+	//
+  const reader = new FileReader();
+  //
+  try
+  {
+		reader.readAsText(file);
+  }
+  catch(err) {console.log(err.message);}
+  //
+  //
+	// attach event, that will be fired, when read is end
+	reader.addEventListener("loadend", function() {
+	   $('#status').text('Applying ' + type + '...');
+		 $('#status').show();
+		 //
+		 let pF = {
+			 fileName: file.name,
+			 content: reader.result,
+			 exists: false,
+			 sha: null,
+			 updated: false
+		 };
+		 publishFiles.push(pF);
+		 //
+	   // reader.result contains the contents of blob as a typed array
+	   // we insert content of file in DOM here
+	   if(type == 'mask')
+	   	maskLoad(reader.result, number);
+	   if(type == 'legend')
+	   	legendLoad(reader.result, number);
+	});
+  //
+}
