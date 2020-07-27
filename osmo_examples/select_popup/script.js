@@ -301,9 +301,9 @@ function initFileLoader(){
   			//
   			let geturl = '';
   			if(i == 0 )
-  				geturl = 'https://api.github.com/repos/mikecjtio/testrepository/contents/assets/data/'+encodeURIComponent(filename);
+  				geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/'+encodeURIComponent(filename);
   			else
-  				geturl = 'https://api.github.com/repos/mikecjtio/testrepository/contents/assets/data/legends/'+encodeURIComponent(filename);
+  				geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/legends/'+encodeURIComponent(filename);
   			//
 	  		let getpromise = new Promise((resolve, reject) => {
 	  			//
@@ -400,9 +400,9 @@ function uploadReFile(i){
 	//
 	let geturl = '';
 	if(i == 0)
-		geturl = 'https://api.github.com/repos/mikecjtio/testrepository/contents/assets/data/'+encodeURIComponent(filename);
+		geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/'+encodeURIComponent(filename);
 	else
-		geturl = 'https://api.github.com/repos/mikecjtio/testrepository/contents/assets/data/legends/'+encodeURIComponent(filename);
+		geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/legends/'+encodeURIComponent(filename);
 	//
 	let msg = '';
 	if(i == 0)
