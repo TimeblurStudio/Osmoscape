@@ -56,7 +56,6 @@ function copyAssets(){
 //
 function copyAllExamples(){
   return src('../osmo_examples/**/*')
-            .pipe(version(commitConfig))
             .pipe(dest('dist/examples/'));
 }
 //
