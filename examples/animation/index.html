@@ -1,0 +1,46 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Mike Cj">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <title>Osmoscape</title>
+    <link rel="apple-touch-icon" href="osmo_icon.png">
+
+    <!-- stylesheet Links -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&commit=18242b3">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&commit=18242b3" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?commit=18242b3">
+    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?commit=18242b3">
+    <link rel="stylesheet" href="styles/main.css?commit=18242b3">
+
+
+    <!-- scripts -->
+    <script src="scripts/modernizr.js?commit=18242b3"></script>
+    <script type="text/javascript" src="third_party/please-wait.min.js?commit=18242b3"></script>
+
+
+  </head>
+  <body>
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <img id="splash" src="images/OsmoSplash.png" alt="Splash image" height="1" style="display: none;">
+
+    <? Scroll Images ?>
+    <img id="HQscroll" src="" alt="High Quality scroll" height="1" style="display: none;">
+    <img id="RQscroll" src="" alt="Retina Quality scroll" height="1" style="display: none;">
+    <img id="MQscroll" src="" alt="Mobile Quality scroll" height="1" style="display: none;">
+
+    <? Scroll Section - PaperJS canvas ?>
+    <canvas id="main-scroll-canvas" resize="true"></canvas>
+
+    <!-- build:js scripts/bundle.js -->
+    <script src="scripts/bundle.js?commit=18242b3"></script>
+    <!-- endbuild -->
+  </body>
+</html>

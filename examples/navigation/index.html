@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Mike Cj">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <title>Osmoscape:Navigation</title>
+    <link rel="apple-touch-icon" href="osmo_icon.png">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js?commit=18242b3" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js?commit=18242b3" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js?commit=18242b3" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.32/Tone.js?commit=18242b3" crossorigin="anonymous"></script>
+
+    <!-- stylesheet Links -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&commit=18242b3">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&commit=18242b3" rel="stylesheet">
+    <link rel="stylesheet" href="main.css?commit=18242b3">
+  </head>
+  <body>
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <p id="status"></p>
+    <img id="splash" src="OsmoSplash.png" alt="Splash image" height="1" style="display: none;">
+
+    <? Scroll Images ?>
+    <img id="HQscroll" src="" alt="High Quality scroll" height="1" style="display: none;">
+
+    <? Scroll Section - PaperJS canvas ?>
+    <canvas id="main-scroll-canvas" resize="true"></canvas>
+
+    <ul class="nav">
+        <!--a href="#" class="prevjump"><img src="../../assets/icons/jumpprev.png"></a-->
+        <a href="#" class="jump" data-id="1"><img src="../../assets/images/icons/chapter_1_default.svg"></a>
+        <a href="#" class="jump" data-id="2"><img src="../../assets/images/icons/chapter_2_default.svg"></a>
+        <a href="#" class="jump" data-id="3"><img src="../../assets/images/icons/chapter_3_default.svg"></a>
+        <a href="#" class="jump" data-id="4"><img src="../../assets/images/icons/chapter_4_default.svg"></a>
+        <a href="#" class="jump" data-id="5"><img src="../../assets/images/icons/chapter_5_default.svg"></a>
+        <a href="#" class="jump" data-id="6"><img src="../../assets/images/icons/chapter_6_default.svg"></a>
+        <a href="#" class="jump" data-id="7"><img src="../../assets/images/icons/chapter_7_default.svg"></a>
+        <!--a href="#" class="nextjump"><img src="../../assets/icons/jumpnext.png"></a-->
+    </ul>
+
+    <button type="button" class="btn btn-filled" id="start-btn" onclick="start();">Start</button>
+
+
+    <div class="vinfo">commit: 18242b3</div>
+
+    <script src="script.js?commit=18242b3"></script>
+  </body>
+</html>
