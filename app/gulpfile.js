@@ -32,9 +32,9 @@ var commitConfig = {
   'value': commit_full.substring(0, 7),
   'replaces' : ['#{COMMIT_REPlACE}#'],
   'append': {
-    'key': 'commit',
+    'key': 'v',
     'to': ['html', 'css', 'js'],
-  },
+  }
 };
 
 
@@ -50,14 +50,48 @@ function copyAssets(){
   return src('../assets/**/*')
     .pipe(dest('dist/assets'));
 }
-
-function copyExamples(){
+//
+//
+//
+//
+function copyAllExamples(){
   return src('../osmo_examples/**/*')
-    .pipe(version(commitConfig))
-    .pipe(dest('dist/examples'));
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/'));
 }
-
-
+//
+function copyadd(){
+  return src('../osmo_examples/add_publish/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/add_publish/'));
+}
+function copyanim(){
+  return src('../osmo_examples/animation/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/animation/'));
+}
+function copycomp(){
+  return src('../osmo_examples/composition/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/composition/'));
+}
+function copyleg(){
+  return src('../osmo_examples/legend_popup/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/legend_popup/'));
+}
+function copynav(){
+  return src('../osmo_examples/navigation/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/navigation/'));
+}
+function copysou(){
+  return src('../osmo_examples/sound/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/sound/'));
+}
+//
+//
 function styles() {
   return src('src/styles/*.scss', {
     sourcemaps: !isProd,
@@ -292,4 +326,4 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
-exports.dep = series(build, copyAssets, copyExamples, newDeploy);
+exports.dep = series(build, copyAssets, series(copyAllExamples, copyadd, copyanim, copycomp, copyleg, copynav, copysou), newDeploy);
