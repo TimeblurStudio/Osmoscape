@@ -1,11 +1,23 @@
 {
-  "private": true,
+  "version": "0.1.0",
+  "commit": "08c9399",
+  "description": "Webapp for Osmoscape",
+  "main": "index.js",
+  "author": "Mike Cj <mike@timeblur.io>",
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TimeblurStudio/Osmoscape.git"
+  },
   "engines": {
     "node": ">=4"
   },
   "dependencies": {
     "babelify": "^10.0.0",
     "browserify": "^16.5.1",
+    "gulp-shell": "^0.8.0",
+    "gulp-version-number": "^0.2.4",
     "jquery": "^3.4.1",
     "jquery-mousewheel": "^3.1.13",
     "modernizr": "^3.7.1",

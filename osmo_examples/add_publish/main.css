@@ -25,6 +25,15 @@ canvas[resize] {
   height: 100%;
 }
 
+.vinfo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-family: monospace;
+  margin: 5px;
+}
+
+
 
 /*
  *  Usage:

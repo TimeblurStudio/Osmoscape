@@ -1,6 +1,7 @@
 // generated on 2020-06-27 using generator-webapp 4.0.0-8
 const { src, dest, watch, series, parallel, lastRun } = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
+var version = require('gulp-version-number');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 const Modernizr = require('modernizr');
@@ -13,7 +14,8 @@ const del = require('del');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const { argv } = require('yargs');
-const deploy      = require('gulp-gh-pages');
+const deploy = require('gulp-gh-pages');
+var execSync = require('child_process').execSync;
 
 const $ = gulpLoadPlugins();
 const server = browserSync.create();
@@ -23,6 +25,18 @@ const port = argv.port || 9000;
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
 const isDev = !isProd && !isTest;
+
+
+let commit_full = execSync('git log --format="%H" -n 1').toString();
+var commitConfig = {
+  'value': commit_full.substring(0, 7),
+  'replaces' : ['#{COMMIT_REPlACE}#'],
+  'append': {
+    'key': 'commit',
+    'to': ['html', 'css', 'js'],
+  },
+};
+
 
 /**
  * Push build to gh-pages
@@ -39,6 +53,7 @@ function copyAssets(){
 
 function copyExamples(){
   return src('../osmo_examples/**/*')
+    .pipe(version(commitConfig))
     .pipe(dest('dist/examples'));
 }
 

@@ -2,9 +2,9 @@
 [![npm](https://img.shields.io/badge/npm-v6.11.3-orange)]() [![node](https://img.shields.io/badge/node-10.17.0-orange)]() [![Yo](https://img.shields.io/badge/yo-v3.1-brightgreen)]()
 
 “OsmoScape” explores a graphical notation score, where data and graphs related to water have been arranged to form a sound score. The idea is that water recycles across the planet but carries forth the impressions of its environment. Therefore, the viewer via a webApp can read about the data and build a multi layered sound compositions constructed out of user engagement and can be shared over the Internet. Osmoscape is the culmination of three years of research, which seeks to explore a new way of archiving data, and sound that can be intuitively understood through a sound and data based interactions.
-
-This project is open-source and we plan for it to be accessible on most devices and platforms: Web, Desktop, iOS and Android
 More: https://nanditakumar.com/osmoscape/
+
+This project is open-source and, we plan for it to be accessible on most devices and platforms: Web, Desktop, iOS and Android.
 
 ## Usage
 
