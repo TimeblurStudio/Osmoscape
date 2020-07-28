@@ -7,229 +7,31 @@
     <meta name="author" content="Mike Cj">
     <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <title>Osmoscape:Legends</title>
+    <link rel="apple-touch-icon" href="osmo_icon.png">
 
-    <!-- Custom styles for this template -->
-    <link href="main.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js?commit=18242b3" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js?commit=18242b3" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js?commit=18242b3" crossorigin="anonymous"></script>
 
-    <title>Osmoscape:Examples</title>
-    <meta name="theme-color" content="#b6d0d7">
-
+    <!-- stylesheet Links -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&commit=18242b3">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&commit=18242b3" rel="stylesheet">
+    <link rel="stylesheet" href="main.css?commit=18242b3">
   </head>
   <body>
-    <!-- HEADER -->
-    <header>
-      <div class="collapse bg-dark" id="navbarHeader">
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 col-md-7 py-4">
-              <h4 class="text-white">About</h4>
-              <p class="text-muted">Add some information about the demos below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-            </div>
-            <div class="col-sm-4 offset-md-1 py-4">
-              <h4 class="text-white">Contact</h4>
-              <ul class="list-unstyled">
-                <!--li><a href="#" class="text-white">Follow on Twitter</a></li-->
-                <li><a href="https://github.com/TimeblurStudio/Osmoscape" class="text-white" target="_blank">Fork on Github</a></li>
-                <li><a href="mailto:mike@timeblur.io" class="text-white">Email me</a></li>
-                <li><a href="mailto:mike@timeblur.io" class="text-white">Contributors</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container d-flex justify-content-between">
-          <a href="#" class="navbar-brand d-flex align-items-center" style="text-decoration: none !important;">
-            <img src="logo.png" alt="Logo" style="height: 40px; display: inline;">
-            <span>Osmoscape</span>
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation" style="outline: none;">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-      </div>
-    </header>
+    <!--[if IE]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <p id="status"></p>
+    <img id="splash" src="OsmoSplash.png" alt="Splash image" height="1" style="display: none;">
 
-    <!-- MAIN -->
-    <main role="main">
-      <section class="jumbotron text-center">
-        <div class="container">
-          <h1>Demo examples</h1>
-          <p class="lead text-muted">This page contains various components of the osmoscape app. If you are new to osmoscape and you really like the app, this is the best place for you to try the demo and get started on exploring it's source-code. <br>Do consilder contributing!</p>
-          <!--p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p-->
-          <!--p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-          </p-->
-        </div>
-      </section>
-      <div class="album py-5 bg-light" style="background-color: #454545 !important">
-        <div class="container">
+    <? Scroll Images ?>
+    <img id="HQscroll" src="" alt="High Quality scroll" height="1" style="display: none;">
 
-          <div class="row">
-            <div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <img width="100%" height="100%" src="navigation/Thumbnail.gif"/>
-                <div class="card-body">
-                  <h4>Navigation demo</h4>
-                  <p class="card-text"></p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" onclick="goto(); function goto(){let url=location.href.split(/[?#]/)[0]; url+='/navigation';location.href=url;}" class="btn btn-sm btn-outline-secondary added">View</button>
-                      <!--button type="button" class="btn btn-sm btn-outline-secondary">Edit</button-->
-                    </div>
-                    <!--small class="text-muted">9 mins</small-->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <img width="100%" height="100%" src="add_publish/Thumbnail.png"/>
-                <div class="card-body">
-                  <h4>Publish data</h4>
-                  <p class="card-text"></p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" onclick="goto(); function goto(){let url=location.href.split(/[?#]/)[0]; url+='/add_publish';location.href=url;}" class="btn btn-sm btn-outline-secondary added">View</button>
-                      <!--button type="button" class="btn btn-sm btn-outline-secondary">Edit</button-->
-                    </div>
-                    <!--small class="text-muted">9 mins</small-->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <img width="100%" height="100%" src="legend_popup/Thumbnail.png"/>
-                <div class="card-body">
-                  <h4>Legends & Popup demo</h4>
-                  <p class="card-text"></p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" onclick="goto(); function goto(){let url=location.href.split(/[?#]/)[0]; url+='/legend_popup';location.href=url;}" class="btn btn-sm btn-outline-secondary added">View</button>
-                      <!--button type="button" class="btn btn-sm btn-outline-secondary">Edit</button-->
-                    </div>
-                    <!--small class="text-muted">9 mins</small-->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <img width="100%" height="100%" src="sound/Thumbnail.png"/>
-                <div class="card-body">
-                  <h4>Sound demo</h4>
-                  <p class="card-text"></p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" disabled>View</button>
-                      <!--button type="button" class="btn btn-sm btn-outline-secondary">Edit</button-->
-                    </div>
-                    <!--small class="text-muted">9 mins</small-->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <img width="100%" height="100%" src="animation/Thumbnail.png"/>
-                <div class="card-body">
-                  <h4>Animation demo</h4>
-                  <p class="card-text"></p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" disabled>View</button>
-                      <!--button type="button" class="btn btn-sm btn-outline-secondary">Edit</button-->
-                    </div>
-                    <!--small class="text-muted">9 mins</small-->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <img width="100%" height="100%" src="composition/Thumbnail.png"/>
-                <div class="card-body">
-                  <h4>Composition demo</h4>
-                  <p class="card-text"></p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" disabled>View</button>
-                      <!--button type="button" class="btn btn-sm btn-outline-secondary">Edit</button-->
-                    </div>
-                    <!--small class="text-muted">9 mins</small-->
-                  </div>
-                </div>
-              </div>
-            </div>
+    <? Scroll Section - PaperJS canvas ?>
+    <canvas id="main-scroll-canvas" resize="true"></canvas>
 
-            <!--div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4 shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div-->
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="text-muted" style="background-color: #b6d0d7 !important">
-      <div class="container">
-        <p class="float-right">
-          <a href="#">Back to top</a>
-        </p>
-        <a href="https://osmoscape.com/">Visit the homepage</a>
-        <p>Demo examples for various components in Osmoscape, please download and try it for yourself!</p>
-        <p>Contribute on Github? <a href="https://github.com/TimeblurStudio/Osmoscape" target="_blank">Github page</a> and read our <a href="https://github.com/TimeblurStudio/Osmoscape/blob/master/README.md#usage"  target="_blank">getting started guide</a>.</p>
-      </div>
-    </footer>
-
+    <script src="script.js?commit=18242b3"></script>
   </body>
 </html>
-
