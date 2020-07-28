@@ -103,6 +103,8 @@ function readSvg(file, type, number) {
 //
 //
 function initFileLoader(){
+	window.notyf = new Notyf();
+	//
 	$('#currentLegend').hide();
 	$('#currentMask').hide();
 	//
@@ -233,18 +235,11 @@ function initFileLoader(){
     	toggleModal();
     	setTimeout(clearAll, 1500);
 	  	//
+	  	window.notyf.success('Added');
   	}else{
-  		let default_color = $('#status').css('color');
-  		//
-  		$('#status').text(errorMessage);
-			$('#status').show();
-			$('#status').css('color', 'red');
-			//
-			setTimeout(function(){
-				$('#status').css('color', default_color);
-			},1500);
-  		//
   		console.log(errorMessage);
+  		//
+			window.notyf.error(errorMessage);
   	}
   	//
   });
@@ -259,6 +254,7 @@ function initFileLoader(){
   	$('.close-button').hide();
   	//
   	console.log('Submit button clicked!!!');
+  	//
   	let error = false;
   	let errorMessage = '';
   	//
@@ -324,6 +320,7 @@ function initFileLoader(){
 					    error : function(error){
 					    	console.log('Error JSON request');
 					    	console.log(error);
+					    	window.notyf.error('Error JSON request');
 					    	//
 					    	resolve(i);
 					    },
@@ -358,17 +355,9 @@ function initFileLoader(){
   	}else{
   		console.log('Error submitting');
   		//
-  		let default_color = $('#status').css('color');
-  		//
-  		$('#status').text(errorMessage);
-			$('#status').show();
-			$('#status').css('color', 'red');
-			//
-			setTimeout(function(){
-				$('#status').css('color', default_color);
-			},1500);
-  		//
   		console.log(errorMessage);
+  		//
+  		window.notyf.error(errorMessage);
   	}
   });
 }
@@ -467,6 +456,8 @@ function uploadReFile(i){
 					}else{
 						console.log('Completed all requests!');
 						//
+			  		window.notyf.success('Completed publishing!');
+			  		//
 						$('#pub-message').val('');
 						toggleModal();
 						//
@@ -478,6 +469,9 @@ function uploadReFile(i){
 	    	console.log('Error JSON PUT request');
 	    	console.log(error);
 	    	//
+	  		//
+	  		window.notyf.error('Error JSON PUT request\nTry again!');
+	  		toggleModal();
 	    },
 	    contentType: "application/json",
 	    dataType: 'json'
