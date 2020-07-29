@@ -150,7 +150,7 @@ function loadHQ(){
 		initSplash(800);//splashWidth: 800px
 		//
   };
-  downloadingImage.src = 'SCROLL_cs6_ver23_APP_final_HD.png';
+  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_HD.png';
 }
 
 
