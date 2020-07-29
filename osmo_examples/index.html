@@ -127,7 +127,7 @@
                   <p class="card-text"></p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" disabled>View</button>
+                      <button type="button" onclick="goto(); function goto(){let url=location.href.split(/[?#]/)[0]; url+='/sound';location.href=url;}" class="btn btn-sm btn-outline-secondary added">View</button>
                       <!--button type="button" class="btn btn-sm btn-outline-secondary">Edit</button-->
                     </div>
                     <!--small class="text-muted">9 mins</small-->
