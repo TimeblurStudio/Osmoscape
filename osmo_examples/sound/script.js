@@ -3,6 +3,9 @@ let scrollMousePos, scrollPosition;
 let scrollWidth, scrollHeight;
 let mousePos;
 let maxZoom = 2;
+let svgLoaded = false;
+let soundInstance = null;// sound function instance
+let audioInstance = null;//audio function instance
 //
 //
 //
@@ -11,6 +14,25 @@ console.log('Initializing');
 init();
 //
 //
+//
+function start(){
+	console.log('Starting the audio context');
+	Tone.start();
+	//
+	if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+  }
+	//
+	//
+	started = true;
+	$('#start-btn').hide();
+	//
+  //
+  audioInstance = new Audio(soundInstance.buffers, 1);
+  console.log(audioInstance);
+  console.log(soundInstance.buffers);
+  audioInstance.playFile(1);
+}
 //
 //
 /**
@@ -22,6 +44,7 @@ function init(){
 	console.log('init called');
 	$('#status').text('Started');
 	//
+
 	// Setup PAPER canvas
 	let canvas = document.getElementById('main-scroll-canvas');
 	paper.setup(canvas);
@@ -33,6 +56,9 @@ function init(){
 
 	//
 	loadHQ();
+
+	//
+	soundInstance = new Sounds();
 
 	// Draw PAPER
 	paper.view.draw();
@@ -142,9 +168,9 @@ function loadHQ(){
   let image = document.getElementById('HQscroll');
   var downloadingImage = new Image();
   downloadingImage.onload = function(){
-  	$('#status').text('Loaded');
-		console.log('Loaded HQ image');
+  	console.log('Loaded HQ image');
     image.src = this.src;
+    svgLoaded = true;
     //
     initSVGscroll();
 		initSplash(800);//splashWidth: 800px
