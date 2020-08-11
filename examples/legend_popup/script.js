@@ -121,8 +121,8 @@ function maskLoad(svgxml, num){
 		let mask = item;
 		maskFiles.push(mask);
 		//
-		mask.data.legendName = 'legend-'+maskFiles.length;
-		mask.data.maskName = 'mask-' + maskFiles.length;
+		mask.data.legendName = 'legend-'+num;
+		mask.data.maskName = 'mask-' + num;
 		//
 		if(mask.children != undefined)
 			updateChildLegend(mask.children, mask.data.legendName);
@@ -171,14 +171,14 @@ function updateChildLegend(ch, d){
 //
 //
 //
-function legendLoad(svgxml){
+function legendLoad(svgxml, num){
 	//
 	paper.project.importSVG(svgxml, function(item){
 		console.log('Loaded 01 legend');
 		let legend = item;
 		legendFiles.push(legend);
 		//
-		legend.name = 'legend-'+legendFiles.length;
+		legend.name = 'legend-'+num;
 		legend.visible = false;
 		//
 		//
