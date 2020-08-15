@@ -6,7 +6,7 @@ let maxZoom = 2;
 let scrollScale = 1;
 let isModalOpen = false;
 //
-let scrollType = '300-HIGH';// 150-LOW, 300-HIGH, 600-RETINA
+let scrollType = '300ppi-HIGH';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 let mainScroll;
 var maskHitOptions = {
 	segments: false,
@@ -363,6 +363,10 @@ function hitMaskEffect(pt){
 		$('#status').show();
 		//
 		legendLayer.visible = true;
+		for(let i=0; i<legendLayer.children.length; i++){
+			let child = legendLayer.children[i];
+			child.visible = false;
+		}
 		//
 		//console.log('Finding legend...' + hitResult.item.data.legendName);
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});

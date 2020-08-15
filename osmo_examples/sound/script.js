@@ -7,7 +7,7 @@ let svgLoaded = false;
 let soundInstance = null;// sound function instance
 let audioInstance = null;//audio function instance
 //
-let scrollType = '300-HIGH';// 150-LOW, 300-HIGH, 600-RETINA
+let scrollType = '300ppi-HIGH';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 //
 //
 //

@@ -6,7 +6,7 @@ let maxZoom = 2;
 let scrollScale = 1;
 let isModalOpen = false;
 //
-let scrollType = '300-HIGH';// 150-LOW, 300-HIGH, 600-RETINA
+let scrollType = '300ppi-HIGH';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 let mainScroll;
 var maskHitOptions = {
 	segments: false,
