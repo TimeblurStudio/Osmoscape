@@ -7,6 +7,8 @@ let svgLoaded = false;
 let soundInstance = null;// sound function instance
 let audioInstance = null;//audio function instance
 //
+let scrollType = '300-HIGH';// 150-LOW, 300-HIGH, 600-RETINA
+//
 //
 //
 //
@@ -161,7 +163,7 @@ function changeZoom(oldZoom, delta){
  * ------------------------------------------------
  */
 function loadHQ(){
-	$('#status').text('Loading HQ scroll...');
+	$('#status').text('Loading '+scrollType+' Quality scroll...');
   console.log('loading High Quality Image');
   //
   //
@@ -176,7 +178,7 @@ function loadHQ(){
 		initSplash(800);//splashWidth: 800px
 		//
   };
-  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_HD.png';
+  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }
 
 
@@ -195,7 +197,7 @@ function initSVGscroll(){
 	//
 	// Move the raster to the center of the view
 	raster.position = paper.view.center;
-	raster.position.x = (paperWidth*s*3/4) + (raster.width*s/2);
+	raster.position.x = (paperWidth*3/4) + (raster.width*s/2);
 	//
 	scrollWidth = raster.width*s;
 	scrollHeight = paperHeight;

@@ -6,7 +6,7 @@ let maxZoom = 2;
 let scrollScale = 1;
 let isModalOpen = false;
 //
-let scrollType = 'HD';// Mobile, RQ, HQ
+let scrollType = '300-HIGH';// 150-LOW, 300-HIGH, 600-RETINA
 let mainScroll;
 var maskHitOptions = {
 	segments: false,
@@ -557,13 +557,13 @@ function maskLoad(svgxml, num){
 	console.log('maskLoad called');
 	//
 	paper.project.importSVG(svgxml, function(item){
-		console.log('Loaded 01 mask');
+		console.log('Loaded '+num+' mask');
 		//
 		let mask = item;
 		maskFiles.push(mask);
 		//
-		mask.data.legendName = 'legend-'+maskFiles.length;
-		mask.data.maskName = 'mask-' + maskFiles.length;
+		mask.data.legendName = 'legend-'+num;
+		mask.data.maskName = 'mask-' + num;
 		//
 		if(mask.children != undefined)
 			updateChildLegend(mask.children, mask.data.legendName);
@@ -571,11 +571,12 @@ function maskLoad(svgxml, num){
 		//
 		let s = paperHeight/mainScroll.height;
 		let lms = paperHeight/mask.bounds.height;//mask-scale
+		console.log('MAIN SCALE: ' + s);
 		console.log('MASK SCALE: ' + lms);
 		//
 		mask.scale(lms);
 		mask.position = paper.view.center;
-		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width) - 5;
+		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
 		//
 		mask.onDoubleClick = function(event) {
 			//
@@ -606,14 +607,14 @@ function updateChildLegend(ch, d){
 	}
 }
 
-function legendLoad(svgxml){
+function legendLoad(svgxml, num){
 	//
 	paper.project.importSVG(svgxml, function(item){
-		console.log('Loaded 01 legend');
+		console.log('Loaded '+num+' legend');
 		let legend = item;
 		legendFiles.push(legend);
 		//
-		legend.name = 'legend-'+legendFiles.length;
+		legend.name = 'legend-'+num;
 		legend.visible = false;
 		//
 		//
@@ -623,7 +624,7 @@ function legendLoad(svgxml){
 		//
 		legend.scale(lms);
 		legend.position = paper.view.center;
-		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width)  - 5;
+		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
 		//
 		legendLayer.addChild(legend);
 	});
@@ -636,7 +637,7 @@ function legendLoad(svgxml){
  * ------------------------------------------------
  */
 function loadHQ(){
-	$('#status').text('Loading '+scrollType+' scroll...');
+	$('#status').text('Loading '+scrollType+' Quality scroll...');
   console.log('loading High Quality Image');
   //
   //
@@ -688,19 +689,19 @@ function initSVGscroll(){
 	mainScroll = raster;
 	//
 	// Scale the raster
-	let s = paperHeight/raster.height;
+	let s = paperHeight/mainScroll.height;
 	console.log('SCALE: ' + s);
-	raster.scale(s);
+	mainScroll.scale(s);
 	//
 	// Move the raster to the center of the view
-	raster.position = paper.view.center;
-	raster.position.x = (paperWidth*3/4) + (raster.width*s/2);
+	mainScroll.position = paper.view.center;
+	mainScroll.position.x = (paperWidth*3/4) + (mainScroll.width*s/2);
 	//
 	//
-	scrollWidth = raster.width*s;
+	scrollWidth = mainScroll.width*s;
 	scrollHeight = paperHeight;
 	//
-	backgroundLayer.addChild(raster);
+	backgroundLayer.addChild(mainScroll);
 }
 
 function initSplash(_width){

@@ -201,13 +201,13 @@ function html() {
 function images() {
   return src('../assets/images/**/*', { since: lastRun(images) })
     .pipe($.imagemin())
-    .pipe(dest('dist/images'));
+    .pipe(dest('dist/assets/images'));
 };
 
 
 function data() {
   return src('../assets/data/**/*', { since: lastRun(data) })
-    .pipe(dest('dist/data'));
+    .pipe(dest('dist/assets/data'));
 };
 
 function fonts() {
@@ -261,7 +261,7 @@ function startAppServer() {
     notify: false,
     port,
     server: {
-      baseDir: ['.tmp', 'src', '../assets'],
+      baseDir: ['.tmp', 'src', '../'],
       routes: {
         '/node_modules': 'node_modules'
       }

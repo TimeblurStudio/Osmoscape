@@ -135,7 +135,7 @@ osmo.Scroll = class {
 				//
 	      window.loading_screen.finish();
 	  };
-	  downloadingImage.src = '../assets/images/SCROLL_cs6_ver23_APP_final_HD.png';
+	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300-HIGH.png';
 
 	}
 
@@ -167,7 +167,7 @@ osmo.Scroll = class {
 	      window.loading_screen.finish();
 	      //
 	  };
-	  downloadingImage.src = '../assets/images/SCROLL_cs6_ver23_APP_final_Retina.png';
+	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300-HIGH.png';
 	}
 
 	/**
@@ -193,7 +193,7 @@ osmo.Scroll = class {
 	      window.loading_screen.finish();
 	      //
 	  };
-	  downloadingImage.src = '../assets/images/SCROLL_cs6_ver23_APP_final_Mobile.png';
+	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_nobg-LOW-300ppi.png';
 	}
 
 };

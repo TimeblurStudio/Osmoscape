@@ -114,7 +114,7 @@ osmo.svgScroll = class {
 			//
 			// Move the raster to the center of the view
 			raster.position = this.PAPER.view.center;
-			raster.position.x = (osmo.scroll.paperWidth*s*3/4) + (raster.width*s/2);
+			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*s/2);
 			//
 			this.scrollWidth = raster.width*s;
 			this.scrollHeight = osmo.scroll.paperHeight;
