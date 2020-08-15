@@ -6,7 +6,7 @@ let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
 //
-let scrollType = 'HD';// Mobile, RQ, HQ
+let scrollType = '300-HIGH';// 150-LOW, 300-HIGH, 600-RETINA
 let mainScroll;
 let exploreGroup;
 //
@@ -88,7 +88,6 @@ function init(){
 
 	// Draw PAPER
 	paper.view.draw();
-
 }
 
 
@@ -139,7 +138,7 @@ function loadAudio(){
  * ------------------------------------------------
  */
 function loadHQ(){
-	$('#status').text('Loading '+scrollType+' scroll...');
+	$('#status').text('Loading '+scrollType+' Quality scroll...');
   console.log('loading High Quality Image');
   //
   //
@@ -256,7 +255,7 @@ function loadNav(){
 		//
 		item.scale(lms);
 		item.position = paper.view.center;
-		item.position.x = (paperWidth*s*3/4) + (mainScroll.width*s/2);
+		item.position.x = (paperWidth*3/4) + (mainScroll.width*s/2);
 		item.opacity = 0.03;
 		//
 		navLayer.addChild(item);
@@ -272,18 +271,21 @@ function initSVGscroll(){
 	let raster = new paper.Raster('HQscroll');
 	mainScroll = raster;
 	// Scale the raster
-	let s = paperHeight/raster.height;
+	let s = paperHeight/mainScroll.height;
 	console.log('SCALE: ' + s);
-	raster.scale(s);
+	mainScroll.scale(s);
 	//
 	// Move the raster to the center of the view
-	raster.position = paper.view.center;
-	raster.position.x = (paperWidth*s*3/4) + (raster.width*s/2);
+	mainScroll.position = paper.view.center;
+	console.log('Test value');
+	console.log((paperWidth*3/4));
+	console.log((mainScroll.width*s/2));
+	raster.position.x = (paperWidth*3/4) + (mainScroll.width*s/2);
 	//
-	scrollWidth = raster.width*s;
+	scrollWidth = mainScroll.width*s;
 	scrollHeight = paperHeight;
 	//
-	backgroundLayer.addChild(raster);
+	backgroundLayer.addChild(mainScroll);
 }
 
 function initSplash(_width){

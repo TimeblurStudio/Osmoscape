@@ -26,14 +26,14 @@ window.onload = function() {
   if(!window.isMobile){
     console.log('Loading screen for desktop');
     window.loading_screen = window.pleaseWait({
-      logo: 'images/OsmoSplash.png',
+      logo: 'assets/images/OsmoSplash.png',
       backgroundColor: '#b4d2da',
       loadingHtml: DesktopHtmlContent
     });
   }else{
     console.log('Loading screen for mobile');
     window.loading_screen = window.pleaseWait({
-      logo: 'images/OsmoSplash.png',
+      logo: 'assets/images/OsmoSplash.png',
       backgroundColor: '#b4d2da',
       loadingHtml: please_wait_spinner
     });
