@@ -45,7 +45,7 @@ $.getJSON( "../../assets/data/dataSummary.json", function( data ) {
   		//
 			let pF = {
 				fileName: 'dataSummary.json',
-				content: JSON.stringify (datasets),
+				content: JSON.stringify (datasets, null, 2),
 				exists: false,
 				sha: null,
 				updated: false
@@ -908,7 +908,7 @@ function initModal(start_opned){
 		//
 		//
 		//console.log(datasets);
-		publishFiles[0].content = JSON.stringify (datasets);
+		publishFiles[0].content = JSON.stringify (datasets, null, 2);
 		console.log(publishFiles);
 		//
 	});
