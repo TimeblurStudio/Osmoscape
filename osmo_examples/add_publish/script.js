@@ -367,7 +367,7 @@ function initFileLoader(){
 //
 //
 let requestsIndex = 0;
-let uploadBranch = 'master';
+let uploadBranch = 'gh-pages';
 function uploadAllPubFiles(status){
 	console.log(publishFiles);
 	//
@@ -446,23 +446,33 @@ function uploadReFile(i){
 	    	publishFiles[i].updated = true;
 	    	//
 	    	requestsIndex++;
-	    	if(requestsIndex < publishFiles.length)
-					uploadReFile(requestsIndex);
+	    	if(requestsIndex < publishFiles.length){
+	    		setTimeout(function(){
+	    			uploadReFile(requestsIndex);
+	    		}, 1000);
+	    	}
 				else{
+					/*
 					if(uploadBranch == 'master'){
 						uploadBranch = 'gh-pages';
 						requestsIndex = 0;
 						uploadReFile(requestsIndex);
 					}else{
-						console.log('Completed all requests!');
-						//
-			  		window.notyf.success('Completed publishing!');
-			  		//
-						$('#pub-message').val('');
-						toggleModal();
-						//
-						$('#pub').prop('disabled', true);
-					}
+					*/
+					console.log('Completed all requests!');
+					//
+		  		window.notyf.success('Completed publishing!');
+		  		$('#status').text('Page will reload in few seconds.');
+		  		//
+					$('#pub-message').val('');
+					toggleModal();
+					//
+					$('#pub').prop('disabled', true);
+					//
+					setTimeout(function(){
+						location.reload()
+					}, 2500);
+					/*}*/
 				}
 	    },
 	    error : function(error){
