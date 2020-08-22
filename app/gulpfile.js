@@ -14,7 +14,7 @@ const del = require('del');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const { argv } = require('yargs');
-const deploy = require('gulp-gh-pages');
+const ghdeploy = require('gh-pages');
 var execSync = require('child_process').execSync;
 
 const $ = gulpLoadPlugins();
@@ -42,8 +42,7 @@ var commitConfig = {
  * Push build to gh-pages
  */
 function newDeploy() {
-  return src("./dist/**/*")
-    .pipe(deploy())
+  return ghdeploy.publish('dist')
 };
 
 function copyAssets(){
