@@ -33,11 +33,11 @@
         var _link = document.createElement('link');
         _link.rel = 'stylesheet';
         _link.href = 'main.css?v='+val;
-        document.body.appendChild(_link);
+        document.head.appendChild(_link);
         // Add script.js
         var _script = document.createElement('script');
         _script.src = 'script.js?v='+val;
-        document.body.appendChild(_script);
+        document.head.appendChild(_script);
     </script>
   </head>
   <body>
