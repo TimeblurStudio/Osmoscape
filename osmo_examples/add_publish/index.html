@@ -20,7 +20,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css" rel="stylesheet">
 
-    <link href="main.css" rel="stylesheet" >
+    <script>
+        // Assuming "?post=1234&action=edit"
+        var urlParams = new URLSearchParams(window.location.search);
+        //
+        if(urlParams.has('commit'))
+            val = urlParams.get('commit');
+        else
+            val = #{COMMIT_REPlACE}#;
+
+        // Add main.css
+        var _link = document.createElement('link');
+        _link.rel = 'stylesheet';
+        _link.href = 'main.css?v='+val;
+        document.body.appendChild(_link);
+        // Add script.js
+        var _script = document.createElement('script');
+        _script.src = 'script.js?v='+val;
+        document.body.appendChild(_script);
+    </script>
   </head>
   <body>
     <!--[if IE]>
@@ -38,6 +56,8 @@
     <div class="uploader">
         <button class="btn btn-ultra-light" id="new">New data</button>
         <button class="btn btn-ultra-light" disabled id="pub">Publish</button>
+        <button class="btn btn-ultra-light" id="popsave" style="display: none;color: #aaa;">Save</button>
+        <button class="btn btn-ultra-light" id="popcancel" style="display: none;color: #aaa;">Cancel</button>
     </div>
 
     <? Uploader ?>
@@ -111,6 +131,5 @@
 
 
     <div class="vinfo">commit: #{COMMIT_REPlACE}#</div>
-    <script src="script.js"></script>
   </body>
 </html>

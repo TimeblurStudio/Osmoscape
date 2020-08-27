@@ -3,42 +3,49 @@
     "id": "1",
     "title": "Detection of water on exoplanet",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/01 Water in space.svg",
-    "maskpath": "../../assets/data/legends/01 Water in space mask.svg"
+    "legendpath": "../../assets/data/legends/1 Water in space_legend-01.svg",
+    "maskpath": "../../assets/data/legends/1 Water in space_mask-01.svg"
   },
   "4": {
     "id": "4",
-    "title": "Water: Popullation: GDP",
+    "title": "Water: Population GDP",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/4 Water access vs GDP.svg",
     "maskpath": "../../assets/data/legends/4 Water access vs GDP mask.svg"
   },
   "5": {
     "id": "5",
-    "title": "Water: Popullation: GDP",
+    "title": "Industrial Agriculture Linking",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/5 Industrial Agriculture Linking_legend-01.svg",
     "maskpath": "../../assets/data/legends/5 Industrial Agriculture Linking_mask-01.svg"
   },
   "6": {
     "id": "6",
-    "title": "Water: Popullation: GDP",
+    "title": "Baseline water stress",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg"
   },
   "7": {
     "id": "7",
-    "title": "Water: Popullation: GDP",
+    "title": "Co2 Emission through the years",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/7 Co2 Emission through the years_legend-01.svg",
     "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg"
   },
   "8": {
     "id": "8",
-    "title": "Water: Popullation: GDP",
+    "title": "Global sea surface temperature",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/08_global sea surface temp-legend-01.svg",
     "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg"
+  },
+  "9": {
+    "id": "9",
+    "title": "Bay of Bengal & Arabian Sea SST",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend.svg",
+    "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg"
   }
 }

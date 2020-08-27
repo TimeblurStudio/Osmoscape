@@ -77,6 +77,18 @@ function init(){
 	// Setup PAPER canvas
 	let canvas = document.getElementById('main-scroll-canvas');
 	paper.setup(canvas);
+	/*
+	var canvasCtx = document.getElementById('main-scroll-canvas').getContext('2d');
+	canvasCtx.mozImageSmoothingEnabled = true;
+	canvasCtx.webkitImageSmoothingEnabled = true;
+	canvasCtx.msImageSmoothingEnabled = true;
+	canvasCtx.imageSmoothingEnabled = true;
+	canvasCtx.imageSmoothingQuality = 'high';
+	canvasCtx.filter = 'none';
+	console.log(canvasCtx);
+	*/
+
+	//
 	paperHeight = canvas.offsetHeight;
 	paperWidth = canvas.offsetWidth;
 	//
