@@ -128,14 +128,12 @@
       </div>
     </div>
 
-    <div class="vinfo"></div>
+    <div class="vinfo">commit: #{COMMIT_REPlACE}#</div>
     <script>
         var urlParams = new URLSearchParams(window.location.search);
         //
         if(urlParams.has('commit'))
             val = 'commit: ' + urlParams.get('commit');
-        else
-            val = 'commit: ' + '#{COMMIT_REPlACE}#';
         //
         $('.vinfo').text(val);
     </script>
