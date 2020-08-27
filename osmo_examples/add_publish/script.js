@@ -1,3 +1,8 @@
+let loaded = {
+	"HQimage" : false,
+	"svgdata": false
+}
+//
 let paperHeight, paperWidth;
 let scrollMousePos, scrollPosition;
 let scrollWidth, scrollHeight;
@@ -18,6 +23,12 @@ var maskHitOptions = {
 let backgroundLayer;
 let legendLayer;
 let maskLayer;
+//
+let hitPopupMode = 'hovering';//'hovering', 'focused'
+let bboxTool = null;
+let currentFocus = null;
+let popupBBoxes = {};
+//
 //
 //
 //
@@ -41,6 +52,7 @@ $.getJSON( "../../assets/data/dataSummary.json", function( data ) {
 			clearInterval(dataWaitInterval);
 			//
   		datasets = data;
+  		//
   		//
   		//
 			let pF = {
@@ -110,11 +122,13 @@ function initFileLoader(){
 	//
 	$('#currentLegend .cancel').click(function(){
 		console.log('Cancel clicked!');
+		$('#currentLegend .filename').text('');
 		$('#currentLegend').hide();
 		$('#newLegend').show();
 	});
 	$('#currentMask .cancel').click(function(){
 		console.log('Cancel clicked!');
+		$('#currentMask .filename').text('');
 		$('#currentMask').hide();
 		$('#newMask').show();
 	});
@@ -127,6 +141,8 @@ function initFileLoader(){
 			//
 			$('#newLegend').show();
 			$('#newMask').show();
+			$('#currentLegend .filename').text('');
+			$('#currentMask .filename').text('');
 			$('#currentLegend').hide();
 			$('#currentMask').hide();
 			//
@@ -178,6 +194,7 @@ function initFileLoader(){
   $('#load-btn').click(function(){
 
 		//
+  	let prefilled = false;
   	let error = false;
   	let errorMessage = '';
   	//
@@ -209,7 +226,13 @@ function initFileLoader(){
 	  		error = true;
 	  		errorMessage += 'Error: Description not filled\n';
 	  	}
-  	}else{
+  	}else if (($('#currentMask .filename').text() != '') && ($('#currentLegend .filename').text() != '')){
+  		//
+  		console.log('Both files were present beforehand');
+  		prefilled = true;
+  		//
+  	}
+  	else{
   		error = true;
   		errorMessage += 'ERROR: No files\n';
   	}
@@ -219,23 +242,35 @@ function initFileLoader(){
   		$('#pub').prop('disabled', false);
   		//
 			let index = $('#data-id').val();
+			let path = '../../assets/data/legends/';
+			let lpf = prefilled?$('#currentLegend .filename').text():uploadedLegendFile[0].name;
+			let mpf = prefilled?$('#currentMask .filename').text():uploadedMaskFile[0].name;
+
+			//
 			datasets[index] = {
 				id: index,
 				title: $('#data-title').val(),
 				desc: $('#data-desc').val(),
-				legendpath: '../../assets/data/legends/' + uploadedLegendFile[0].name,
-				maskpath: '../../assets/data/legends/' + uploadedMaskFile[0].name
+				legendpath: path + lpf,
+				maskpath: path + mpf
 			};
 			//
-			readSvg(uploadedMaskFile[0], 'mask', index);
-			readSvg(uploadedLegendFile[0], 'legend', index);
+			if(!prefilled){
+				//
+				readSvg(uploadedMaskFile[0], 'mask', index);
+				readSvg(uploadedLegendFile[0], 'legend', index);
+				//
+				//
+	    	//$('#clear-btn').hide();
+	    	//setTimeout(clearAll, 1500);
+		  	//
+		  	$('#currentMask .filename').text(uploadedMaskFile[0]);
+		  	$('#currentLegend .filename').text(uploadedLegendFile[0]);
+			}
 			//
-			//
-    	$('#clear-btn').hide();
-    	toggleModal();
-    	setTimeout(clearAll, 1500);
-	  	//
-	  	window.notyf.success('Added');
+			toggleModal();
+	    window.notyf.success('Added');
+	    //
   	}else{
   		console.log(errorMessage);
   		//
@@ -297,9 +332,9 @@ function initFileLoader(){
   			//
   			let geturl = '';
   			if(i == 0 )
-  				geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/'+encodeURIComponent(filename);
+  				geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/'+encodeURIComponent(filename)+'?ref=gh-pages';
   			else
-  				geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/legends/'+encodeURIComponent(filename);
+  				geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/legends/'+encodeURIComponent(filename)+'?ref=gh-pages';
   			//
 	  		let getpromise = new Promise((resolve, reject) => {
 	  			//
@@ -367,12 +402,12 @@ function initFileLoader(){
 //
 //
 let requestsIndex = 0;
-let uploadBranch = 'gh-pages';
+let uploadBranch = 'gh-pages';// Note sha for 'master' files will be different from 'gh-pages',
+															// changes needed under #submit-btn onclick for master to work
 function uploadAllPubFiles(status){
 	console.log(publishFiles);
 	//
 	uploadReFile(requestsIndex);
-	//
 	//
 }
 
@@ -470,7 +505,8 @@ function uploadReFile(i){
 					$('#pub').prop('disabled', true);
 					//
 					setTimeout(function(){
-						location.reload()
+						console.log('Completed');
+						//window.location.href = window.location.href.replace( /[\?#].*|$/, "?commit="+ );
 					}, 2500);
 					/*}*/
 				}
@@ -554,10 +590,169 @@ function init(){
 		//console.log(event.point);
 		mousePos = event.point;
 		//
-		hitMaskEffect(event.point);
+		if(hitPopupMode != 'focused'){
+			maskLayer.visible = true;
+			hitMaskEffect(event.point, 'hover');
+		}
 		//
 		//
 	};
+	//
+	//
+	paper.view.onMouseDown = function(event) {
+		//
+		mousePos = event.point;
+		//
+		if(hitPopupMode != 'focused'){
+			hitMaskEffect(event.point, 'click');
+		}
+		//
+		//
+	};
+}
+
+function newPopRect(p1, p2) {
+	// Create pixel perfect dotted rectable for drag selections.
+	var half = new paper.Point(0.5 / paper.view.zoom, 0.5 / paper.view.zoom);
+	var start = p1.add(half);
+	var end = p2.add(half);
+	var rect = new paper.CompoundPath();
+	rect.moveTo(start);
+	rect.lineTo(new paper.Point(start.x, end.y));
+	rect.lineTo(end);
+	rect.moveTo(start);
+	rect.lineTo(new paper.Point(end.x, start.y));
+	rect.lineTo(end);
+	rect.strokeColor = '#009DEC';
+	rect.strokeWidth = 1.0 / paper.view.zoom;
+	rect.dashOffset = 0.5 / paper.view.zoom;
+	rect.dashArray = [1.0 / paper.view.zoom, 1.0 / paper.view.zoom];
+	rect.data.guide = true;
+	rect.selected = false;
+	return rect;
+};
+
+function initSelect(){
+	// Create Paper tool
+	let tool = new paper.Tool();
+	tool.mouseStartPos = new paper.Point();
+	tool.mouseCurrentPos = new paper.Point();
+	tool.mousePrevPastePos = new paper.Point();
+	tool.box = null;
+	tool.PAPER = paper;
+	tool.SelectionBoundsChanged = false;
+	tool.hitItem = null;
+	tool.selectionBoundsShape = null;
+	tool.selectionBounds = null;
+	tool.selectionBounds = null;
+	tool.originalContent = null;
+	tool.getSelectionBoundsShape = function(){	return this.selectionBoundsShape;	};
+	tool.getSelectionBounds = function(){	return this.selectionBounds;	};
+	//
+	//
+	//
+	bboxTool = tool;
+
+	// Hit test
+	tool.hitItemTest = function(event) {
+		let hitItem = null;
+		// Hit test items
+		hitItem = paper.project.hitTest(event.point, this.settings.HitOptions);
+		return hitItem;
+	};
+
+	tool.dragRect = function(p1, p2) {
+		// Create pixel perfect dotted rectable for drag selections.
+		var half = new paper.Point(0.5 / paper.view.zoom, 0.5 / paper.view.zoom);
+		var start = p1.add(half);
+		var end = p2.add(half);
+		var rect = new paper.CompoundPath();
+		rect.moveTo(start);
+		rect.lineTo(new paper.Point(start.x, end.y));
+		rect.lineTo(end);
+		rect.moveTo(start);
+		rect.lineTo(new paper.Point(end.x, start.y));
+		rect.lineTo(end);
+		rect.strokeColor = '#009DEC';
+		rect.strokeWidth = 1.0 / paper.view.zoom;
+		rect.dashOffset = 0.5 / paper.view.zoom;
+		rect.dashArray = [1.0 / paper.view.zoom, 1.0 / paper.view.zoom];
+		rect.data.guide = true;
+		rect.removeOn({
+			drag: true,
+			up: false
+		});
+		return rect;
+	};
+
+	//
+	tool.on({
+
+		mousedown: function(event) {
+
+			this.SelectionBoundsChanged = false;
+			this.mouseStartPos = null;
+
+			// Clicked on empty area, engage box select.
+			console.log('Drag to engage box-select');
+			// Store mouse start position
+			this.mouseStartPos = event.point.clone();
+			//
+			if(popupBBoxes.hasOwnProperty(currentFocus)){
+				let count = popupBBoxes[currentFocus]['paths'].length;
+				for(let i=0; i < count; i++){
+					popupBBoxes[currentFocus]['paths'][i].visible = true;
+					popupBBoxes[currentFocus]['paths'][i].selected = true;
+				}
+			}
+			//
+			this.box = null;
+		},
+
+		mousedrag: function(event) {
+
+			// Confirmed box select
+			this.box = this.dragRect(this.mouseStartPos, event.point);
+		},
+
+		mouseup: function(event){
+			console.log('mouse-up happened');
+			if(!popupBBoxes.hasOwnProperty(currentFocus)){
+				popupBBoxes[currentFocus] = {
+					paths : [],
+					dimensions: []
+				}
+			}
+			//
+			if(this.box != null){
+				this.box.selected = true;
+				popupBBoxes[currentFocus]['paths'].push(this.box);
+				popupBBoxes[currentFocus]['dimensions'].push({
+					x : this.box.bounds.x,
+					y : this.box.bounds.y,
+					width : this.box.bounds.width,
+					height : this.box.bounds.height
+				});
+			}
+			//
+			$('#popsave').show();
+			$('#popcancel').show();
+			//
+			// Also, save to dataset
+			/*
+			var box = new paper.Rectangle(this.mouseStartPos, event.point);
+
+			var selectedPaths = this.getPathsIntersectingRect(box);
+			for (var i = 0; i < selectedPaths.length; i++){
+				selectedPaths[i].selected = !selectedPaths[i].selected;
+				selectedPaths[i].fullySelected = selectedPaths[i].selected;
+				selectedPaths[i].selectedColor = 'rgba(0,0,0,0)';
+			}
+			*/
+			//this.updateSelectionBounds();
+		}
+
+	});
 }
 
 
@@ -565,47 +760,54 @@ function init(){
 function maskLoad(svgxml, num){
 	//
 	console.log('maskLoad called');
-	//
-	paper.project.importSVG(svgxml, function(item){
-		console.log('Loaded '+num+' mask');
-		//
-		let mask = item;
-		maskFiles.push(mask);
-		//
-		mask.data.legendName = 'legend-'+num;
-		mask.data.maskName = 'mask-' + num;
-		//
-		if(mask.children != undefined)
-			updateChildLegend(mask.children, mask.data.legendName);
-		//
-		//
-		let s = paperHeight/mainScroll.height;
-		let lms = paperHeight/mask.bounds.height;//mask-scale
-		console.log('MAIN SCALE: ' + s);
-		console.log('MASK SCALE: ' + lms);
-		//
-		mask.scale(lms);
-		mask.position = paper.view.center;
-		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
-		//
-		mask.onDoubleClick = function(event) {
+	const mpromise = new Promise((resolve, reject) => {
+	  //
+	  //
+		paper.project.importSVG(svgxml, function(item){
+			console.log('Loaded '+num+' mask');
+			resolve('m'+num);
 			//
-			console.log('Double clicked, fitBounds activated!');
+			let mask = item;
+			maskFiles.push(mask);
 			//
-			// FIX ME!!
-			// Actually consilder LEGEND!!
-			//paper.view.zoom = paperHeight/mask.bounds.height;
-			//paper.view.center = mask.position;
+			mask.data.legendName = 'legend-'+num;
+			mask.data.maskName = 'mask-' + num;
 			//
-			console.log(mask);
+			if(mask.children != undefined)
+				updateChildLegend(mask.children, mask.data.legendName);
 			//
-			//console.log(paper.view.zoom);
-			//console.log(paper.view.center);
-		};
+			//
+			let s = paperHeight/mainScroll.height;
+			let lms = paperHeight/mask.bounds.height;//mask-scale
+			console.log('MAIN SCALE: ' + s);
+			console.log('MASK SCALE: ' + lms);
+			//
+			mask.scale(lms);
+			mask.position = paper.view.center;
+			mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
+			//
+			mask.onDoubleClick = function(event) {
+				//
+				console.log('Double clicked, fitBounds activated!');
+				//
+				// FIX ME!!
+				// Actually consilder LEGEND!!
+				//paper.view.zoom = paperHeight/mask.bounds.height;
+				//paper.view.center = mask.position;
+				//
+				console.log(mask);
+				//
+				//console.log(paper.view.zoom);
+				//console.log(paper.view.center);
+			};
+			//
+			maskLayer.addChild(mask);
+		});
 		//
-		maskLayer.addChild(mask);
+	  //
 	});
 	//
+	return mpromise;
 }
 
 function updateChildLegend(ch, d){
@@ -619,26 +821,32 @@ function updateChildLegend(ch, d){
 
 function legendLoad(svgxml, num){
 	//
-	paper.project.importSVG(svgxml, function(item){
-		console.log('Loaded '+num+' legend');
-		let legend = item;
-		legendFiles.push(legend);
+	const lpromise = new Promise((resolve, reject) => {
+		paper.project.importSVG(svgxml, function(item){
+			console.log('Loaded '+num+' legend');
+			resolve('l'+num);
+			//
+			let legend = item;
+			legendFiles.push(legend);
+			//
+			legend.name = 'legend-'+num;
+			legend.visible = false;
+			//
+			//
+			let s = paperHeight/mainScroll.height;
+			let lms = paperHeight/legend.bounds.height;//mask-scale
+			console.log('LEGEND SCALE: ' + lms);
+			//
+			legend.scale(lms);
+			legend.position = paper.view.center;
+			legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
+			//
+			legendLayer.addChild(legend);
+		});
 		//
-		legend.name = 'legend-'+num;
-		legend.visible = false;
-		//
-		//
-		let s = paperHeight/mainScroll.height;
-		let lms = paperHeight/legend.bounds.height;//mask-scale
-		console.log('LEGEND SCALE: ' + lms);
-		//
-		legend.scale(lms);
-		legend.position = paper.view.center;
-		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
-		//
-		legendLayer.addChild(legend);
 	});
 	//
+	return lpromise;
 }
 
 /**
@@ -654,11 +862,16 @@ function loadHQ(){
   let image = document.getElementById('HQscroll');
   var downloadingImage = new Image();
   downloadingImage.onload = function(){
-  	$('#status').text('Loaded');
-  	setInterval(function(){
-  		$('#status').hide();
-  	},2000);
-		console.log('Loaded HQ image');
+  	loaded.HQimage = true;
+  	//
+  	if(loaded.svgdata){
+  		$('#status').text('Loaded');
+  		setInterval(function(){	$('#status').hide();	},2000);
+  	}
+  	else
+  		$('#status').text('Loading datasets');
+  	//
+  	console.log('Loaded HQ image');
     image.src = this.src;
     //
     initSVGscroll();
@@ -671,6 +884,7 @@ function loadHQ(){
 
 //
 //
+let allSVGDataPromises = [];
 //
 function loadDatasets(){
 	//
@@ -678,8 +892,58 @@ function loadDatasets(){
 	  if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
-      maskLoad(datasets[id].maskpath, id);
-      legendLoad(datasets[id].legendpath, id);
+      let maskpromise = maskLoad(datasets[id].maskpath, id);
+      let legendpromise = legendLoad(datasets[id].legendpath, id);
+      //
+      allSVGDataPromises.push(maskpromise);
+      allSVGDataPromises.push(legendpromise);
+			//
+			Promise.all(allSVGDataPromises).then((values) => {
+			  console.log('Loaded all datasets');
+			  console.log(values);
+			  loaded.svgdata = true;
+		  	//
+		  	if(loaded.HQimage){
+		  		$('#status').text('Loaded');
+		  		setInterval(function(){	$('#status').hide();	},2000);
+		  	}
+		  	else
+		  		$('#status').text('Still loading HQ scroll image...');
+		  	//
+			});
+      //
+      if(datasets[id].hasOwnProperty('popdimensions')){
+      	console.log('Loading dimensions for : ' + id);
+      	//
+	      popupBBoxes[id] = {
+	      	paths: [],
+	      	dimensions: datasets[id].popdimensions
+	      }
+	      //
+	      let count = popupBBoxes[id]['dimensions'].length;
+				console.log('boxes: ' + count);
+				//
+				for(let i=0; i < count; i++){
+					//
+					let _x = parseInt(popupBBoxes[id]['dimensions'][i].x);
+					let _y = parseInt(popupBBoxes[id]['dimensions'][i].y);
+					let _width = parseInt(popupBBoxes[id]['dimensions'][i].width);
+					let _height = parseInt(popupBBoxes[id]['dimensions'][i].height);
+					//
+					let p1 = new paper.Point(_x, _y);
+					let p2 = new paper.Point(_x+_width, _y+_height);
+					console.log(p1);
+					console.log(p2);
+					let rectPath = newPopRect(p1,p2);
+					legendLayer.addChild(rectPath);
+					//
+					popupBBoxes[id]['paths'].push(rectPath);
+					popupBBoxes[id]['paths'][i].visible = true;
+					console.log(popupBBoxes[id]['paths'][i]);
+				}
+				//
+      }
+      //
       //
 	  }
 	}
@@ -766,9 +1030,12 @@ function initPanZoom(){
 	// Main scrolling functionality
 	$('#main-scroll-canvas').on('mousewheel', function(event) {
 		let et;
-
 		et = event.originalEvent;
 		event.preventDefault();
+		//
+		if(!loaded.svgdata && !loaded.HQimage)
+			return;
+		//
 		//
 		$('#status').text('Scrolling...');
 		$('#status').show();
@@ -779,7 +1046,8 @@ function initPanZoom(){
 			mousePos.y += et.deltaY;
 		}
 		//
-		hitMaskEffect(mousePos);
+		if(hitPopupMode != 'focused')
+			hitMaskEffect(mousePos, 'hover');
 		//
   	//
 		//
@@ -798,7 +1066,7 @@ function initPanZoom(){
  * hitMaskEffect
  * ------------------------------------------------
  */
-function hitMaskEffect(pt){
+function hitMaskEffect(pt, ctype){
 	var hitResult = maskLayer.hitTest(pt, maskHitOptions);
 	if(hitResult != null){
 		$('#status').text('Showing: ' + hitResult.item.data.legendName);
@@ -810,11 +1078,55 @@ function hitMaskEffect(pt){
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
 		lg.visible = true;
 		//backgroundLayer.fillColor = 'black';
-		backgroundLayer.opacity = 0.1;
-		$("body").css("background-color","#5f6d70");
+		//
+		if(ctype == 'hover'){
+			backgroundLayer.opacity = 0.08;
+			$("body").css("background-color","#5f6d70");
+			document.body.style.cursor = 'pointer';
+			//
+			//
+			let id = parseInt(hitResult.item.data.legendName.replace('legend-', ''));
+			if(popupBBoxes.hasOwnProperty(id)){
+				let count = popupBBoxes[id]['paths'].length;
+				for(let i=0; i < count; i++){
+					popupBBoxes[id]['paths'][i].visible = true;
+					popupBBoxes[id]['paths'][i].selected = false;
+				}
+			}
+			//
+			currentFocus = null;
+			//
+		}
+		if(ctype == 'click'){
+			backgroundLayer.opacity = 0;
+			$("body").css("background-color","#252525");
+			hitPopupMode = 'focused';
+			maskLayer.visible = false;
+			document.body.style.cursor = 'default';
+			//
+			$('#new').hide();
+			$('#pub').hide();
+			$('#popcancel').show();
+			//
+			//
+			setTimeout(function(){	initSelect();	}, 300);
+			//
+			currentFocus = parseInt(hitResult.item.data.legendName.replace('legend-', ''));
+			console.log('Focused on: ' + currentFocus );
+			//
+			if(popupBBoxes.hasOwnProperty(currentFocus)){
+				let count = popupBBoxes[currentFocus]['paths'].length;
+				for(let i=0; i < count; i++){
+					popupBBoxes[currentFocus]['paths'][i].visible = true;
+					popupBBoxes[currentFocus]['paths'][i].selected = true;
+				}
+			}
+			//
+		}
 	}else{
 		$("body").css("background-color","#b5ced5");
 		legendLayer.visible = false;
+		document.body.style.cursor = 'default';
 		//backgroundLayer.fillColor = 'none';
 		backgroundLayer.opacity = 1.0;
 		for(let i=0; i<legendLayer.children.length; i++){
@@ -882,6 +1194,7 @@ function changeZoom(oldZoom, delta){
  * ------------------------------------------------
  */
 function initModal(start_opned){
+	//
 	$('#new').click(function(){
 		//
   	$('.close-button').show();
@@ -913,6 +1226,61 @@ function initModal(start_opned){
 		//
 	});
 	//
+
+	$('#popsave').click(function(){
+		//
+		$('#new').show();
+		$('#pub').show();
+		$('#popsave').hide();
+		$('#popcancel').hide();
+		//
+		//
+		for (let key in popupBBoxes)
+			datasets[key]['popdimensions'] = popupBBoxes[key]['dimensions'];
+		//
+		if(popupBBoxes.hasOwnProperty(currentFocus)){
+			let count = popupBBoxes[currentFocus]['paths'].length;
+			console.log(count);
+			for(let i=0; i < count; i++){
+				popupBBoxes[currentFocus]['paths'][i].selected = false;
+				popupBBoxes[currentFocus]['paths'][i].visible = false;
+				console.log(popupBBoxes[currentFocus]['paths'][i]);
+			}
+		}
+		//
+		currentFocus = null;
+		hitPopupMode = 'hovering';
+		bboxTool = null;
+		hitMaskEffect(new paper.Point(0,0), 'exit');
+		//
+		console.log(datasets);
+	});
+
+	//
+	$('#popcancel').click(function(){
+		//
+		$('#new').show();
+		$('#pub').show();
+		$('#popsave').hide();
+		$('#popcancel').hide();
+		//
+		//
+		if(popupBBoxes.hasOwnProperty(currentFocus)){
+			let count = popupBBoxes[currentFocus]['paths'].length;
+			console.log(count);
+			for(let i=0; i < count; i++){
+				popupBBoxes[currentFocus]['paths'][i].selected = false;
+				popupBBoxes[currentFocus]['paths'][i].visible = false;
+				console.log(popupBBoxes[currentFocus]['paths'][i]);
+			}
+		}
+		//
+		currentFocus = null;
+		hitPopupMode = 'hovering';
+		bboxTool = null;
+		hitMaskEffect(new paper.Point(0,0), 'exit');
+		//
+	});
 	//
 	var modal = document.querySelector('.modal');
 	var closeButton = document.querySelector('.close-button');
