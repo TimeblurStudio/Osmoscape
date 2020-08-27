@@ -68,5 +68,26 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/13 Subsaharan_legend-01.svg",
     "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg"
+  },
+  "14": {
+    "id": "14",
+    "title": "CO2 concentration in ice core",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend-01.svg",
+    "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg"
+  },
+  "15": {
+    "id": "15",
+    "title": "Black carbon annually",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/15 Black carbon annual data_legend-01.svg",
+    "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg"
+  },
+  "16": {
+    "id": "16",
+    "title": "Glacier",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/16 glacier data_legend.svg",
+    "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg"
   }
 }
