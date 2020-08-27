@@ -47,12 +47,5 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend.svg",
     "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg"
-  },
-  "11": {
-    "id": "11",
-    "title": "Rain pH and Co2",
-    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/11 Rain pH and Co2-01.svg",
-    "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg"
   }
 }

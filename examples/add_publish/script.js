@@ -355,7 +355,8 @@ function initFileLoader(){
 					    error : function(error){
 					    	console.log('Error JSON request');
 					    	console.log(error);
-					    	window.notyf.error('Error JSON request');
+					    	console.log('Mostly file doesnt exist');
+					    	//window.notyf.error('Error JSON request');
 					    	//
 					    	resolve(i);
 					    },
@@ -475,7 +476,8 @@ function uploadReFile(i){
 	    success: function(data) {
 	    	//
 	    	console.log('Completed JSON PUT request!');
-	    	console.log(data);
+	    	let commitid = data.commit.sha.substring(0,7);
+				console.log(data);
 	    	//
 	    	//
 	    	publishFiles[i].updated = true;
@@ -506,7 +508,7 @@ function uploadReFile(i){
 					//
 					setTimeout(function(){
 						console.log('Completed');
-						//window.location.href = window.location.href.replace( /[\?#].*|$/, "?commit="+ );
+						window.location.href = window.location.href.replace( /[\?#].*|$/, "?commit="+commitid);
 					}, 2500);
 					/*}*/
 				}
