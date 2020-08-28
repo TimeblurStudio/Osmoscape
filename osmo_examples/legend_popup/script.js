@@ -1,3 +1,8 @@
+let loaded = {
+	"HQimage" : false,
+	"svgdata": false
+}
+//
 let paperHeight, paperWidth;
 let scrollMousePos, scrollPosition;
 let scrollWidth, scrollHeight;
@@ -127,46 +132,53 @@ function maskLoad(svgxml, num){
 	//
 	console.log('maskLoad called');
 	//
-	paper.project.importSVG(svgxml, function(item){
-		console.log('Loaded '+num+' mask');
+	const mpromise = new Promise((resolve, reject) => {
 		//
-		let mask = item;
-		maskFiles.push(mask);
-		//
-		mask.data.legendName = 'legend-'+num;
-		mask.data.maskName = 'mask-' + num;
-		//
-		if(mask.children != undefined)
-			updateChildLegend(mask.children, mask.data.legendName);
-		//
-		//
-		let s = paperHeight/mainScroll.height;
-		let lms = paperHeight/mask.bounds.height;//mask-scale
-		console.log('MAIN SCALE: ' + s);
-		console.log('MASK SCALE: ' + lms);
-		//
-		mask.scale(lms);
-		mask.position = paper.view.center;
-		mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
-		//
-		mask.onDoubleClick = function(event) {
+		paper.project.importSVG(svgxml, function(item){
+			console.log('Loaded '+num+' mask');
+			resolve('m'+num);
 			//
-			console.log('Double clicked, fitBounds activated!');
+			let mask = item;
+			maskFiles.push(mask);
 			//
-			// FIX ME!!
-			// Actually consilder LEGEND!!
-			//paper.view.zoom = paperHeight/mask.bounds.height;
-			//paper.view.center = mask.position;
+			mask.data.legendName = 'legend-'+num;
+			mask.data.maskName = 'mask-' + num;
 			//
-			console.log(mask);
+			if(mask.children != undefined)
+				updateChildLegend(mask.children, mask.data.legendName);
 			//
-			//console.log(paper.view.zoom);
-			//console.log(paper.view.center);
-		};
+			//
+			let s = paperHeight/mainScroll.height;
+			let lms = paperHeight/mask.bounds.height;//mask-scale
+			console.log('MAIN SCALE: ' + s);
+			console.log('MASK SCALE: ' + lms);
+			//
+			mask.scale(lms);
+			mask.position = paper.view.center;
+			mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
+			//
+			mask.onDoubleClick = function(event) {
+				//
+				console.log('Double clicked, fitBounds activated!');
+				//
+				// FIX ME!!
+				// Actually consilder LEGEND!!
+				//paper.view.zoom = paperHeight/mask.bounds.height;
+				//paper.view.center = mask.position;
+				//
+				console.log(mask);
+				//
+				//console.log(paper.view.zoom);
+				//console.log(paper.view.center);
+			};
+			//
+			maskLayer.addChild(mask);
+		});
 		//
-		maskLayer.addChild(mask);
 	});
 	//
+	//
+	return mpromise;
 }
 
 //
@@ -185,27 +197,34 @@ function updateChildLegend(ch, d){
 //
 //
 function legendLoad(svgxml, num){
-	//
-	paper.project.importSVG(svgxml, function(item){
-		console.log('Loaded '+num+' legend');
-		let legend = item;
-		legendFiles.push(legend);
+
+	const lpromise = new Promise((resolve, reject) => {
 		//
-		legend.name = 'legend-'+num;
-		legend.visible = false;
+		paper.project.importSVG(svgxml, function(item){
+			console.log('Loaded '+num+' legend');
+			resolve('l'+num);
+			//
+			let legend = item;
+			legendFiles.push(legend);
+			//
+			legend.name = 'legend-'+num;
+			legend.visible = false;
+			//
+			//
+			let s = paperHeight/mainScroll.height;
+			let lms = paperHeight/legend.bounds.height;//mask-scale
+			console.log('LEGEND SCALE: ' + lms);
+			//
+			legend.scale(lms);
+			legend.position = paper.view.center;
+			legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
+			//
+			legendLayer.addChild(legend);
+		});
 		//
-		//
-		let s = paperHeight/mainScroll.height;
-		let lms = paperHeight/legend.bounds.height;//mask-scale
-		console.log('LEGEND SCALE: ' + lms);
-		//
-		legend.scale(lms);
-		legend.position = paper.view.center;
-		legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
-		//
-		legendLayer.addChild(legend);
 	});
 	//
+	return lpromise;
 }
 
 /**
@@ -221,10 +240,17 @@ function loadHQ(){
   let image = document.getElementById('HQscroll');
   var downloadingImage = new Image();
   downloadingImage.onload = function(){
-  	$('#status').text('Loaded');
-  	setInterval(function(){
-  		$('#status').hide();
-  	},2000);
+  	loaded.HQimage = true;
+  	//
+  	//
+  	if(loaded.svgdata){
+  		$('#status').text('Loaded');
+  		setInterval(function(){	$('#status').hide();	},2000);
+  	}
+  	else
+  		$('#status').text('Loading datasets');
+  	//
+  	//
 		console.log('Loaded HQ image');
     image.src = this.src;
     //
@@ -238,6 +264,7 @@ function loadHQ(){
 
 //
 //
+let allSVGDataPromises = [];
 //
 function loadDatasets(){
 	//
@@ -245,11 +272,30 @@ function loadDatasets(){
 	  if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
-      maskLoad(datasets[id].maskpath, id);
-      legendLoad(datasets[id].legendpath, id);
+      let maskpromise = maskLoad(datasets[id].maskpath, id);
+      let legendpromise = legendLoad(datasets[id].legendpath, id);
+      //
+      allSVGDataPromises.push(maskpromise);
+      allSVGDataPromises.push(legendpromise);
+			//
       //
 	  }
 	}
+	//
+	//
+	Promise.all(allSVGDataPromises).then((values) => {
+	  console.log('Loaded all datasets');
+	  console.log(values);
+	  loaded.svgdata = true;
+  	//
+  	if(loaded.HQimage){
+  		$('#status').text('Loaded');
+  		setInterval(function(){	$('#status').hide();	},2000);
+  	}
+  	else
+  		$('#status').text('Still loading HQ scroll image...');
+  	//
+	});
 	//
 }
 
@@ -336,9 +382,12 @@ function initPanZoom(){
 	// Main scrolling functionality
 	$('#main-scroll-canvas').on('mousewheel', function(event) {
 		let et;
-
 		et = event.originalEvent;
 		event.preventDefault();
+		//
+		if(!loaded.svgdata || !loaded.HQimage)
+			return;
+		//
 		//
 		$('#status').text('Scrolling...');
 		$('#status').show();
