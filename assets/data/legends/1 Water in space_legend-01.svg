@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="AR_x5F_layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-	 y="0px" viewBox="0 0 9451.45 623.51" enable-background="new 0 0 9451.45 623.51" xml:space="preserve">
+<svg version="1.1" id="AR_x5F_layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  x="0px" y="0px" width="9451.45px" height="623.52px" viewBox="0 0 9451.45 623.51" enable-background="new 0 0 9451.45 623.51" xml:space="preserve">
 <g>
 	<path fill="#FFFFFF" d="M95.99,74.18c0.03-0.02,0.1-0.03,0.15-0.06c0.01,0,0.08-0.05,0.12,0.03c0,0.01,0.08,0.11,0.17,0.05
 		c0,0.01,0.05-0.05,0.12-0.02c0.01,0,0.11-0.05,0.02-0.14c0,0-0.11-0.11-0.25-0.14c-0.01,0-0.07-0.04-0.07-0.08
@@ -583,7 +582,7 @@
 		C198.45,147.85,198.43,148.01,198.45,148.06z"/>
 	<path fill="#FFFFFF" d="M203.42,148.04c-0.07,0.22-0.04,0.54-0.3,0.86c0,0.01-0.18,0.42,0.33,0.35c0,0,0.34-0.08,0.48-0.52
 		c0,0,0.08-0.61-0.08-0.73C203.84,148,203.52,147.74,203.42,148.04z"/>
-	
+
 		<ellipse transform="matrix(-0.5523 -0.8336 0.8336 -0.5523 191.2998 395.8241)" fill="#FFFFFF" cx="201.93" cy="146.55" rx="0.22" ry="0.33"/>
 	<path fill="#FFFFFF" d="M198.88,144.78c0.06,0.03,0.2,0.06,0.09,0.25c-0.01,0.02-0.12,0.41-0.15,0.49c0,0.01-0.24,0.41-0.55,0.12
 		c-0.01-0.01-0.4-0.22-0.39-0.45c0-0.01,0.04-0.17-0.07-0.29c-0.01,0.01-0.49-0.7-0.49-0.7s-0.21-0.3-0.14-0.59
@@ -2407,7 +2406,7 @@
 		l0.68,0.93l-0.42,0.32l-0.64-0.98l-0.62,0.96l-0.43-0.31L118.36,120.18z"/>
 </g>
 <g>
-	
+
 		<path fill="none" stroke="#C9507E" stroke-width="1.0259" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="
 		M184.18,192.63l0.05-0.02l0.15-0.07l0.25-0.12l0.34-0.16l0.43-0.2l0.51-0.24l0.58-0.28l0.65-0.32l0.72-0.35l0.78-0.38l0.83-0.41
 		l0.88-0.44l0.92-0.47l0.96-0.49l1-0.52l1.03-0.54l1.05-0.56l1.07-0.57l1.08-0.59l1.09-0.6l1.09-0.61l1.08-0.62l1.08-0.63l1.06-0.64
@@ -2716,7 +2715,7 @@
 	<circle fill="#FFFFFF" cx="368.96" cy="347.49" r="1.37"/>
 	<circle fill="#FFFFFF" cx="195.62" cy="324.36" r="1.37"/>
 	<g>
-		
+
 			<line fill="none" stroke="#C9507E" stroke-width="0.5129" stroke-linecap="round" stroke-miterlimit="10" stroke-dasharray="1.0259,2.0518" x1="300.15" y1="218.75" x2="432.75" y2="191.38"/>
 	</g>
 </g>
