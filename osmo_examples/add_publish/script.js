@@ -1,3 +1,6 @@
+// Note on 96 vs 72 ppi SVG issue with illustrator
+// https://community.adobe.com/t5/illustrator/svg-is-being-resized-when-saved-from-illustrator-cc/td-p/5767194?page=2
+
 let loaded = {
 	"HQimage" : false,
 	"svgdata": false
@@ -567,6 +570,8 @@ function init(){
 	// Setup PAPER canvas
 	let canvas = document.getElementById('main-scroll-canvas');
 	paper.setup(canvas);
+
+	//
 	paperHeight = canvas.offsetHeight;
 	paperWidth = canvas.offsetWidth;
 	//
@@ -1076,6 +1081,10 @@ function hitMaskEffect(pt, ctype){
 		$('#status').show();
 		//
 		legendLayer.visible = true;
+		for(let i=0; i<legendLayer.children.length; i++){
+			let child = legendLayer.children[i];
+			child.visible = false;
+		}
 		//
 		//console.log('Finding legend...' + hitResult.item.data.legendName);
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
