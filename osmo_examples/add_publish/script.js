@@ -355,7 +355,8 @@ function initFileLoader(){
 					    error : function(error){
 					    	console.log('Error JSON request');
 					    	console.log(error);
-					    	window.notyf.error('Error JSON request');
+					    	console.log('Mostly file doesnt exist');
+					    	//window.notyf.error('Error JSON request');
 					    	//
 					    	resolve(i);
 					    },
@@ -475,7 +476,8 @@ function uploadReFile(i){
 	    success: function(data) {
 	    	//
 	    	console.log('Completed JSON PUT request!');
-	    	console.log(data);
+	    	let commitid = data.commit.sha.substring(0,7);
+				console.log(data);
 	    	//
 	    	//
 	    	publishFiles[i].updated = true;
@@ -506,7 +508,7 @@ function uploadReFile(i){
 					//
 					setTimeout(function(){
 						console.log('Completed');
-						//window.location.href = window.location.href.replace( /[\?#].*|$/, "?commit="+ );
+						window.location.href = window.location.href.replace( /[\?#].*|$/, "?commit="+commitid);
 					}, 2500);
 					/*}*/
 				}
@@ -898,20 +900,6 @@ function loadDatasets(){
       allSVGDataPromises.push(maskpromise);
       allSVGDataPromises.push(legendpromise);
 			//
-			Promise.all(allSVGDataPromises).then((values) => {
-			  console.log('Loaded all datasets');
-			  console.log(values);
-			  loaded.svgdata = true;
-		  	//
-		  	if(loaded.HQimage){
-		  		$('#status').text('Loaded');
-		  		setInterval(function(){	$('#status').hide();	},2000);
-		  	}
-		  	else
-		  		$('#status').text('Still loading HQ scroll image...');
-		  	//
-			});
-      //
       if(datasets[id].hasOwnProperty('popdimensions')){
       	console.log('Loading dimensions for : ' + id);
       	//
@@ -948,6 +936,21 @@ function loadDatasets(){
 	  }
 	}
 	//
+	//
+	Promise.all(allSVGDataPromises).then((values) => {
+	  console.log('Loaded all datasets');
+	  console.log(values);
+	  loaded.svgdata = true;
+  	//
+  	if(loaded.HQimage){
+  		$('#status').text('Loaded');
+  		setInterval(function(){	$('#status').hide();	},2000);
+  	}
+  	else
+  		$('#status').text('Still loading HQ scroll image...');
+  	//
+	});
+
 }
 
 
@@ -1033,7 +1036,7 @@ function initPanZoom(){
 		et = event.originalEvent;
 		event.preventDefault();
 		//
-		if(!loaded.svgdata && !loaded.HQimage)
+		if(!loaded.svgdata || !loaded.HQimage)
 			return;
 		//
 		//

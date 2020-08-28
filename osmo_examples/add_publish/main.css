@@ -1,16 +1,4 @@
 /* head, html and body */
-html, body {
-  height: 100%;
-  margin: 0;
-  background: #b5ced5;
-  overflow: hidden;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  cursor: default;
-  transition: background 0.5s ease-in-out;
-  -webkit-transition: background 0.5s ease-in-out;
-  -moz-transition: background 0.5s ease-in-out;
-}
 
 h1, h2 {
   font-family: 'Roboto', sans-serif;

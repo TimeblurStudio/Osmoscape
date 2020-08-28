@@ -47,5 +47,47 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend.svg",
     "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg"
+  },
+  "11": {
+    "id": "11",
+    "title": "Rain pH and Co2",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/11 Rain pH and Co2-01.svg",
+    "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg"
+  },
+  "12": {
+    "id": "12",
+    "title": "Vermont acid rain layer",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 Print-01.svg",
+    "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg"
+  },
+  "13": {
+    "id": "13",
+    "title": "Subsaharan",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/13 Subsaharan_legend-01.svg",
+    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg"
+  },
+  "14": {
+    "id": "14",
+    "title": "CO2 concentration in ice core",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend-01.svg",
+    "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg"
+  },
+  "15": {
+    "id": "15",
+    "title": "Black carbon annually",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/15 Black carbon annual data_legend-01.svg",
+    "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg"
+  },
+  "16": {
+    "id": "16",
+    "title": "Glacier",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/16 glacier data_legend.svg",
+    "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg"
   }
 }
