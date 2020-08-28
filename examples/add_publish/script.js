@@ -1,3 +1,6 @@
+// Note on 96 vs 72 ppi SVG issue with illustrator
+// https://community.adobe.com/t5/illustrator/svg-is-being-resized-when-saved-from-illustrator-cc/td-p/5767194?page=2
+
 let loaded = {
 	"HQimage" : false,
 	"svgdata": false
@@ -567,6 +570,8 @@ function init(){
 	// Setup PAPER canvas
 	let canvas = document.getElementById('main-scroll-canvas');
 	paper.setup(canvas);
+
+	//
 	paperHeight = canvas.offsetHeight;
 	paperWidth = canvas.offsetWidth;
 	//
@@ -900,20 +905,6 @@ function loadDatasets(){
       allSVGDataPromises.push(maskpromise);
       allSVGDataPromises.push(legendpromise);
 			//
-			Promise.all(allSVGDataPromises).then((values) => {
-			  console.log('Loaded all datasets');
-			  console.log(values);
-			  loaded.svgdata = true;
-		  	//
-		  	if(loaded.HQimage){
-		  		$('#status').text('Loaded');
-		  		setInterval(function(){	$('#status').hide();	},2000);
-		  	}
-		  	else
-		  		$('#status').text('Still loading HQ scroll image...');
-		  	//
-			});
-      //
       if(datasets[id].hasOwnProperty('popdimensions')){
       	console.log('Loading dimensions for : ' + id);
       	//
@@ -950,6 +941,21 @@ function loadDatasets(){
 	  }
 	}
 	//
+	//
+	Promise.all(allSVGDataPromises).then((values) => {
+	  console.log('Loaded all datasets');
+	  console.log(values);
+	  loaded.svgdata = true;
+  	//
+  	if(loaded.HQimage){
+  		$('#status').text('Loaded');
+  		setInterval(function(){	$('#status').hide();	},2000);
+  	}
+  	else
+  		$('#status').text('Still loading HQ scroll image...');
+  	//
+	});
+
 }
 
 
@@ -1035,7 +1041,7 @@ function initPanZoom(){
 		et = event.originalEvent;
 		event.preventDefault();
 		//
-		if(!loaded.svgdata && !loaded.HQimage)
+		if(!loaded.svgdata || !loaded.HQimage)
 			return;
 		//
 		//
@@ -1075,6 +1081,10 @@ function hitMaskEffect(pt, ctype){
 		$('#status').show();
 		//
 		legendLayer.visible = true;
+		for(let i=0; i<legendLayer.children.length; i++){
+			let child = legendLayer.children[i];
+			child.visible = false;
+		}
 		//
 		//console.log('Finding legend...' + hitResult.item.data.legendName);
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
