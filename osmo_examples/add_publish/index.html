@@ -19,7 +19,20 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.css" rel="stylesheet">
-
+    <style>
+        html, body {
+          height: 100%;
+          margin: 0;
+          background: #b5ced5;
+          overflow: hidden;
+          font-family: 'Roboto', sans-serif;
+          font-weight: 300;
+          cursor: default;
+          transition: background 0.5s ease-in-out;
+          -webkit-transition: background 0.5s ease-in-out;
+          -moz-transition: background 0.5s ease-in-out;
+        }
+    </style>
     <script>
         // Assuming "?post=1234&action=edit"
         var urlParams = new URLSearchParams(window.location.search);
@@ -27,17 +40,17 @@
         if(urlParams.has('commit'))
             val = urlParams.get('commit');
         else
-            val = #{COMMIT_REPlACE}#;
+            val = '#{COMMIT_REPlACE}#';
 
         // Add main.css
         var _link = document.createElement('link');
         _link.rel = 'stylesheet';
         _link.href = 'main.css?v='+val;
-        document.body.appendChild(_link);
+        document.head.appendChild(_link);
         // Add script.js
         var _script = document.createElement('script');
         _script.src = 'script.js?v='+val;
-        document.body.appendChild(_script);
+        document.head.appendChild(_script);
     </script>
   </head>
   <body>
@@ -61,7 +74,7 @@
     </div>
 
     <? Uploader ?>
-    <div class="modal">
+    <div class="modal" style="visibility: hidden;">
       <div class="modal-content">
         <span class="close-button" style="z-index: 2000;">&times;</span>
         <div id="newDataset">
@@ -128,8 +141,14 @@
       </div>
     </div>
 
-
-
     <div class="vinfo">commit: #{COMMIT_REPlACE}#</div>
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        //
+        if(urlParams.has('commit'))
+            val = 'commit: ' + urlParams.get('commit');
+        //
+        $('.vinfo').text(val);
+    </script>
   </body>
 </html>
