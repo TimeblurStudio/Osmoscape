@@ -7,7 +7,7 @@
     "maskpath": "../../assets/data/legends/1 Water in space_mask-01.svg",
     "popdimensions": [
       {
-        "x": 1742.3799999999999,
+        "x": 662.3799999999999,
         "y": 21.5,
         "width": 666.0000000000002,
         "height": 492
@@ -37,7 +37,7 @@
     "maskpath": "../../assets/data/legends/5 Industrial Agriculture Linking_mask-01.svg",
     "popdimensions": [
       {
-        "x": 2710.3199999999997,
+        "x": 1630.3199999999997,
         "y": 261.5,
         "width": 427,
         "height": 395
@@ -157,7 +157,7 @@
     "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
     "popdimensions": [
       {
-        "x": 2529.9400000000005,
+        "x": 1449.9400000000005,
         "y": -0.5,
         "width": 1378,
         "height": 595
@@ -172,7 +172,7 @@
     "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg",
     "popdimensions": [
       {
-        "x": 2612.1900000000005,
+        "x": 1532.1900000000005,
         "y": 241.5,
         "width": 1322,
         "height": 543
@@ -194,7 +194,7 @@
     "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
     "popdimensions": [
       {
-        "x": 3807.5900000000006,
+        "x": 2727.5900000000006,
         "y": 21.5,
         "width": 859.9999999999995,
         "height": 767
@@ -209,7 +209,7 @@
     "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg",
     "popdimensions": [
       {
-        "x": 4547.415000000002,
+        "x": 3467.415000000002,
         "y": 196.5,
         "width": 1297,
         "height": 529
@@ -224,7 +224,7 @@
     "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg",
     "popdimensions": [
       {
-        "x": 4630.7750000000015,
+        "x": 3550.7750000000015,
         "y": 74.5,
         "width": 1084,
         "height": 676
@@ -239,7 +239,7 @@
     "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg",
     "popdimensions": [
       {
-        "x": 5384.635000000003,
+        "x": 4304.635000000003,
         "y": 58.5,
         "width": 1076,
         "height": 692
