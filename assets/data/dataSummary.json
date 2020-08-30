@@ -4,21 +4,45 @@
     "title": "Detection of water on exoplanet",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/1 Water in space_legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/1 Water in space_mask-01.svg"
+    "maskpath": "../../assets/data/legends/1 Water in space_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 662.3799999999999,
+        "y": 21.5,
+        "width": 666.0000000000002,
+        "height": 492
+      }
+    ]
   },
   "4": {
     "id": "4",
     "title": "Water: Population GDP",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/4 Water access vs GDP.svg",
-    "maskpath": "../../assets/data/legends/4 Water access vs GDP mask.svg"
+    "maskpath": "../../assets/data/legends/4 Water access vs GDP mask.svg",
+    "popdimensions": [
+      {
+        "height": 717,
+        "width": 806.9999999999998,
+        "x": 2165.255000000002,
+        "y": 10.5
+      }
+    ]
   },
   "5": {
     "id": "5",
     "title": "Industrial Agriculture Linking",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/5 Industrial Agriculture Linking_legend-01.svg",
-    "maskpath": "../../assets/data/legends/5 Industrial Agriculture Linking_mask-01.svg"
+    "maskpath": "../../assets/data/legends/5 Industrial Agriculture Linking_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 1630.3199999999997,
+        "y": 261.5,
+        "width": 427,
+        "height": 395
+      }
+    ]
   },
   "6": {
     "id": "6",
@@ -32,14 +56,30 @@
     "title": "Co2 Emission through the years",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/7 Co2 Emission through the years_legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg"
+    "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 1449.9400000000005,
+        "y": -0.5,
+        "width": 1378,
+        "height": 595
+      }
+    ]
   },
   "8": {
     "id": "8",
     "title": "Global sea surface temperature",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/08_global sea surface temp-legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg"
+    "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 1532.1900000000005,
+        "y": 241.5,
+        "width": 1322,
+        "height": 543
+      }
+    ]
   },
   "9": {
     "id": "9",
@@ -53,27 +93,59 @@
     "title": "Rain pH and Co2",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/11 Rain pH and Co2-01.svg",
-    "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg"
+    "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 2727.5900000000006,
+        "y": 21.5,
+        "width": 859.9999999999995,
+        "height": 767
+      }
+    ]
   },
   "14": {
     "id": "14",
     "title": "CO2 concentration in ice core",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg"
+    "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 3467.415000000002,
+        "y": 196.5,
+        "width": 1297,
+        "height": 529
+      }
+    ]
   },
   "15": {
     "id": "15",
     "title": "Black carbon annually",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/15 Black carbon annual data_legend-01.svg",
-    "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg"
+    "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 3550.7750000000015,
+        "y": 74.5,
+        "width": 1084,
+        "height": 676
+      }
+    ]
   },
   "16": {
     "id": "16",
     "title": "Glacier",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/16 glacier data_legend - Simplified.svg",
-    "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg"
+    "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg",
+    "popdimensions": [
+      {
+        "x": 4304.635000000003,
+        "y": 58.5,
+        "width": 1076,
+        "height": 692
+      }
+    ]
   }
 }
