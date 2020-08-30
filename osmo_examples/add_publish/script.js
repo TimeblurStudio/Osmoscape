@@ -195,7 +195,6 @@ function initFileLoader(){
   //
   // LOAD BUTTON
   $('#load-btn').click(function(){
-
 		//
   	let prefilled = false;
   	let error = false;
@@ -733,13 +732,20 @@ function initSelect(){
 			//
 			if(this.box != null){
 				this.box.selected = true;
+				//
+				let s = paperHeight/mainScroll.height;
+				//
 				popupBBoxes[currentFocus]['paths'].push(this.box);
 				popupBBoxes[currentFocus]['dimensions'].push({
-					x : this.box.bounds.x,
+					x : this.box.bounds.x - (paperWidth*3/4),
 					y : this.box.bounds.y,
 					width : this.box.bounds.width,
 					height : this.box.bounds.height
 				});
+				//
+				//
+				//
+				//
 			}
 			//
 			$('#popsave').show();
@@ -908,25 +914,26 @@ function loadDatasets(){
       if(datasets[id].hasOwnProperty('popdimensions')){
       	console.log('Loading dimensions for : ' + id);
       	//
-	      popupBBoxes[id] = {
+      	let dim = datasets[id].popdimensions;
+      	popupBBoxes[id] = {
 	      	paths: [],
-	      	dimensions: datasets[id].popdimensions
-	      }
+	      	dimensions: dim
+	      };
+	      //
 	      //
 	      let count = popupBBoxes[id]['dimensions'].length;
 				console.log('boxes: ' + count);
 				//
 				for(let i=0; i < count; i++){
-					//
-					let _x = parseInt(popupBBoxes[id]['dimensions'][i].x);
+					let s = paperHeight/mainScroll.height;
+		      //
+					let _x = parseInt(popupBBoxes[id]['dimensions'][i].x) + (paperWidth*3/4);
 					let _y = parseInt(popupBBoxes[id]['dimensions'][i].y);
 					let _width = parseInt(popupBBoxes[id]['dimensions'][i].width);
 					let _height = parseInt(popupBBoxes[id]['dimensions'][i].height);
 					//
 					let p1 = new paper.Point(_x, _y);
 					let p2 = new paper.Point(_x+_width, _y+_height);
-					console.log(p1);
-					console.log(p2);
 					let rectPath = newPopRect(p1,p2);
 					legendLayer.addChild(rectPath);
 					//
@@ -1243,6 +1250,7 @@ function initModal(start_opned){
 		//
 		$('#new').show();
 		$('#pub').show();
+		$('#pub').removeAttr('disabled');
 		$('#popsave').hide();
 		$('#popcancel').hide();
 		//
@@ -1277,6 +1285,7 @@ function initModal(start_opned){
 		$('#popcancel').hide();
 		//
 		//
+		console.log(popupBBoxes);
 		if(popupBBoxes.hasOwnProperty(currentFocus)){
 			let count = popupBBoxes[currentFocus]['paths'].length;
 			console.log(count);
