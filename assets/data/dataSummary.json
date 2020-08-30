@@ -7,7 +7,7 @@
     "maskpath": "../../assets/data/legends/1 Water in space_mask-01.svg",
     "popdimensions": [
       {
-        "x": 662.3799999999999,
+        "x": 1742.3799999999999,
         "y": 21.5,
         "width": 666.0000000000002,
         "height": 492
@@ -22,10 +22,10 @@
     "maskpath": "../../assets/data/legends/4 Water access vs GDP mask.svg",
     "popdimensions": [
       {
-        "height": 717,
-        "width": 806.9999999999998,
-        "x": 2165.255000000002,
-        "y": 10.5
+        "x": 1093.550000000002,
+        "y": 9.5,
+        "width": 795,
+        "height": 720
       }
     ]
   },
@@ -37,7 +37,7 @@
     "maskpath": "../../assets/data/legends/5 Industrial Agriculture Linking_mask-01.svg",
     "popdimensions": [
       {
-        "x": 1630.3199999999997,
+        "x": 2710.3199999999997,
         "y": 261.5,
         "width": 427,
         "height": 395
@@ -49,7 +49,105 @@
     "title": "Baseline water stress",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
-    "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg"
+    "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 1354.7950000000028,
+        "y": 415.5,
+        "width": 172,
+        "height": 86
+      },
+      {
+        "x": 1569.7950000000028,
+        "y": 377.5,
+        "width": 125,
+        "height": 80
+      },
+      {
+        "x": 1716.6150000000025,
+        "y": 456.5,
+        "width": 163,
+        "height": 74
+      },
+      {
+        "x": 1706.4550000000027,
+        "y": 575.5,
+        "width": 166,
+        "height": 82
+      },
+      {
+        "x": 1903.4550000000027,
+        "y": 552.5,
+        "width": 108,
+        "height": 80
+      },
+      {
+        "x": 2032.2050000000022,
+        "y": 486.5,
+        "width": 158,
+        "height": 73
+      },
+      {
+        "x": 2156.205000000002,
+        "y": 389.5,
+        "width": 105,
+        "height": 79
+      },
+      {
+        "x": 2065.205000000002,
+        "y": 319.5,
+        "width": 104,
+        "height": 81
+      },
+      {
+        "x": 2365.9000000000024,
+        "y": 422.5,
+        "width": 176,
+        "height": 81
+      },
+      {
+        "x": 2540.9000000000024,
+        "y": 351.5,
+        "width": 137,
+        "height": 79
+      },
+      {
+        "x": 2744.555000000002,
+        "y": 556.5,
+        "width": 158,
+        "height": 85
+      },
+      {
+        "x": 2916.3200000000024,
+        "y": 634.5,
+        "width": 115,
+        "height": 74
+      },
+      {
+        "x": 3073.185000000004,
+        "y": 603.5,
+        "width": 156,
+        "height": 77
+      },
+      {
+        "x": 3267.7450000000044,
+        "y": 629.5,
+        "width": 125,
+        "height": 75
+      },
+      {
+        "x": 3460.105000000007,
+        "y": 682.5,
+        "width": 134,
+        "height": 78
+      },
+      {
+        "x": 3652.105000000007,
+        "y": 692.5,
+        "width": 112,
+        "height": 82
+      }
+    ]
   },
   "7": {
     "id": "7",
@@ -59,7 +157,7 @@
     "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
     "popdimensions": [
       {
-        "x": 1449.9400000000005,
+        "x": 2529.9400000000005,
         "y": -0.5,
         "width": 1378,
         "height": 595
@@ -74,7 +172,7 @@
     "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg",
     "popdimensions": [
       {
-        "x": 1532.1900000000005,
+        "x": 2612.1900000000005,
         "y": 241.5,
         "width": 1322,
         "height": 543
@@ -96,7 +194,7 @@
     "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
     "popdimensions": [
       {
-        "x": 2727.5900000000006,
+        "x": 3807.5900000000006,
         "y": 21.5,
         "width": 859.9999999999995,
         "height": 767
@@ -111,7 +209,7 @@
     "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg",
     "popdimensions": [
       {
-        "x": 3467.415000000002,
+        "x": 4547.415000000002,
         "y": 196.5,
         "width": 1297,
         "height": 529
@@ -126,7 +224,7 @@
     "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg",
     "popdimensions": [
       {
-        "x": 3550.7750000000015,
+        "x": 4630.7750000000015,
         "y": 74.5,
         "width": 1084,
         "height": 676
@@ -141,7 +239,7 @@
     "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg",
     "popdimensions": [
       {
-        "x": 4304.635000000003,
+        "x": 5384.635000000003,
         "y": 58.5,
         "width": 1076,
         "height": 692
