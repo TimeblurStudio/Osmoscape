@@ -19,7 +19,15 @@
     "title": "Water acess vs GDP",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/4 Water access vs GDP-legend_01-01.svg",
-    "maskpath": "../../assets/data/legends/4 Water access vs GDP_mask-01-01.svg"
+    "maskpath": "../../assets/data/legends/4 Water access vs GDP_mask-01-01.svg",
+    "popdimensions": [
+      {
+        "x": 1037.9650000000001,
+        "y": 7.5,
+        "width": 792,
+        "height": 692
+      }
+    ]
   },
   "5": {
     "id": "5",
