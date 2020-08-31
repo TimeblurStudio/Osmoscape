@@ -16,18 +16,10 @@
   },
   "4": {
     "id": "4",
-    "title": "Water: Population GDP",
+    "title": "Water acess vs GDP",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/4 Water access vs GDP.svg",
-    "maskpath": "../../assets/data/legends/4 Water access vs GDP mask.svg",
-    "popdimensions": [
-      {
-        "x": 1093.550000000002,
-        "y": 9.5,
-        "width": 795,
-        "height": 720
-      }
-    ]
+    "legendpath": "../../assets/data/legends/4 Water access vs GDP-legend_01-01.svg",
+    "maskpath": "../../assets/data/legends/4 Water access vs GDP_mask-01-01.svg"
   },
   "5": {
     "id": "5",
