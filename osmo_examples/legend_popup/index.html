@@ -32,6 +32,20 @@
     <? Scroll Section - PaperJS canvas ?>
     <canvas id="main-scroll-canvas" resize="true"></canvas>
 
+    <div id="focused-info" style="display:none;">
+        <!--  -->
+        <div class="focused-content">
+            <h1 id="focused-heading">Heading</h1>
+            <br>
+            <p id="focused-description">Lorem ipsum</p>
+            <br><br>
+            <p><a href="#">Add</a> this to your composition</p>
+        </div>
+    </div>
+    <div id="focused-cta" style="display:none;">
+        <button class="btn btn-round-bright" id="popcancel" style="font-size:32px;">&#x2715;</button>
+    </div>
+
     <div class="vinfo">commit: #{COMMIT_REPlACE}#</div>
 
     <script src="script.js"></script>

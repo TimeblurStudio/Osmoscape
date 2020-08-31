@@ -1,3 +1,4 @@
+// https://www.npmjs.com/package/gulp-remove-logging
 // generated on 2020-06-27 using generator-webapp 4.0.0-8
 const { src, dest, watch, series, parallel, lastRun } = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
