@@ -201,6 +201,13 @@
       }
     ]
   },
+  "12": {
+    "id": "12",
+    "title": "lorem ipsum",
+    "desc": "lorem ipsum",
+    "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 legend.svg",
+    "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg"
+  },
   "14": {
     "id": "14",
     "title": "CO2 concentration in ice core",
