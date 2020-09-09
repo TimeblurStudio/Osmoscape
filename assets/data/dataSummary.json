@@ -274,18 +274,18 @@
     "legendpath": "../../assets/data/legends/21 Cotton production_legend-01.svg",
     "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg"
   },
-  "23": {
-    "id": "23",
-    "title": "marathwada water level",
+  "24": {
+    "id": "24",
+    "title": "marathwada rainfall",
     "desc": "Lorem Ipsum",
     "legendpath": "../../assets/data/legends/23 Marathawada drought Groundwater_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg"
   },
-  "25": {
-    "id": "25",
-    "title": "droughts",
+  "28": {
+    "id": "28",
+    "title": "hydroelectric",
     "desc": "lorem ipsum",
-    "legendpath": "../../assets/data/legends/24 Marathwada Rainfall_legend-01.svg",
-    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01.svg"
+    "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
+    "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01.svg"
   }
 }
