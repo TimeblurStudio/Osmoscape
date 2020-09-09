@@ -266,5 +266,12 @@
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_legend-01.svg",
     "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg"
+  },
+  "21": {
+    "id": "21",
+    "title": "cotton production",
+    "desc": "lorem ipsum",
+    "legendpath": "../../assets/data/legends/21 Cotton production_legend-01.svg",
+    "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg"
   }
 }
