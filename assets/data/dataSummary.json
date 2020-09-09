@@ -153,16 +153,8 @@
     "id": "7",
     "title": "Co2 Emission through the years",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/7 Co2 Emission through the years_legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
-    "popdimensions": [
-      {
-        "x": 1449.9400000000005,
-        "y": -0.5,
-        "width": 1378,
-        "height": 595
-      }
-    ]
+    "legendpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_legend-01.svg",
+    "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg"
   },
   "8": {
     "id": "8",
@@ -267,5 +259,12 @@
         "height": 550
       }
     ]
+  },
+  "20": {
+    "id": "20",
+    "title": "water withdrawal",
+    "desc": "lorem ipsum",
+    "legendpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_legend-01.svg",
+    "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg"
   }
 }
