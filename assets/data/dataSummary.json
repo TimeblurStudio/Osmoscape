@@ -208,13 +208,6 @@
     "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 legend.svg",
     "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg"
   },
-  "13": {
-    "id": "13",
-    "title": "Subsaharan",
-    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/13 Subsaharan-01.svg",
-    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg"
-  },
   "14": {
     "id": "14",
     "title": "CO2 concentration in ice core",
@@ -257,6 +250,21 @@
         "y": 58.5,
         "width": 1076,
         "height": 692
+      }
+    ]
+  },
+  "17": {
+    "id": "17",
+    "title": "Aral Sea",
+    "desc": "Lorem Ipsum",
+    "legendpath": "../../assets/data/legends/17 Aral sea river dynamics_legend-01.svg",
+    "maskpath": "../../assets/data/legends/17 Aral sea river dynamics_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 4936.110000000002,
+        "y": 224.5,
+        "width": 1350,
+        "height": 550
       }
     ]
   }
