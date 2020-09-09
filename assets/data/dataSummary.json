@@ -208,6 +208,13 @@
     "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 legend.svg",
     "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg"
   },
+  "13": {
+    "id": "13",
+    "title": "Subsaharan",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/13 Subsaharan-01.svg",
+    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg"
+  },
   "14": {
     "id": "14",
     "title": "CO2 concentration in ice core",
