@@ -274,11 +274,18 @@
     "legendpath": "../../assets/data/legends/21 Cotton production_legend-01.svg",
     "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg"
   },
-  "24": {
-    "id": "24",
-    "title": "marathwada rainfall",
+  "23": {
+    "id": "23",
+    "title": "marathwada water level",
     "desc": "Lorem Ipsum",
     "legendpath": "../../assets/data/legends/23 Marathawada drought Groundwater_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg"
+  },
+  "25": {
+    "id": "25",
+    "title": "droughts",
+    "desc": "lorem ipsum",
+    "legendpath": "../../assets/data/legends/24 Marathwada Rainfall_legend-01.svg",
+    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01.svg"
   }
 }
