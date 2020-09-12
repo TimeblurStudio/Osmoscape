@@ -16,16 +16,16 @@
   },
   "4": {
     "id": "4",
-    "title": "Water: Population GDP",
+    "title": "Water acess vs GDP",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/4 Water access vs GDP.svg",
-    "maskpath": "../../assets/data/legends/4 Water access vs GDP mask.svg",
+    "legendpath": "../../assets/data/legends/4 Water access vs GDP-legend_01-01.svg",
+    "maskpath": "../../assets/data/legends/4 Water access vs GDP_mask-01-01.svg",
     "popdimensions": [
       {
-        "x": 1093.550000000002,
-        "y": 9.5,
-        "width": 795,
-        "height": 720
+        "x": 1037.9650000000001,
+        "y": 7.5,
+        "width": 792,
+        "height": 692
       }
     ]
   },
@@ -153,16 +153,8 @@
     "id": "7",
     "title": "Co2 Emission through the years",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/7 Co2 Emission through the years_legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
-    "popdimensions": [
-      {
-        "x": 1449.9400000000005,
-        "y": -0.5,
-        "width": 1378,
-        "height": 595
-      }
-    ]
+    "legendpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_legend-01.svg",
+    "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg"
   },
   "8": {
     "id": "8",
@@ -200,6 +192,13 @@
         "height": 767
       }
     ]
+  },
+  "12": {
+    "id": "12",
+    "title": "lorem ipsum",
+    "desc": "lorem ipsum",
+    "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 legend.svg",
+    "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg"
   },
   "14": {
     "id": "14",
@@ -245,5 +244,48 @@
         "height": 692
       }
     ]
+  },
+  "17": {
+    "id": "17",
+    "title": "Aral Sea",
+    "desc": "Lorem Ipsum",
+    "legendpath": "../../assets/data/legends/17 Aral sea river dynamics_legend-01.svg",
+    "maskpath": "../../assets/data/legends/17 Aral sea river dynamics_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 4936.110000000002,
+        "y": 224.5,
+        "width": 1350,
+        "height": 550
+      }
+    ]
+  },
+  "20": {
+    "id": "20",
+    "title": "water withdrawal",
+    "desc": "lorem ipsum",
+    "legendpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_legend-01.svg",
+    "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg"
+  },
+  "21": {
+    "id": "21",
+    "title": "cotton production",
+    "desc": "lorem ipsum",
+    "legendpath": "../../assets/data/legends/21 Cotton production_legend-01.svg",
+    "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg"
+  },
+  "24": {
+    "id": "24",
+    "title": "marathwada rainfall",
+    "desc": "Lorem Ipsum",
+    "legendpath": "../../assets/data/legends/23 Marathawada drought Groundwater_legend-01-01.svg",
+    "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg"
+  },
+  "28": {
+    "id": "28",
+    "title": "hydroelectric",
+    "desc": "lorem ipsum",
+    "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
+    "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01.svg"
   }
 }
