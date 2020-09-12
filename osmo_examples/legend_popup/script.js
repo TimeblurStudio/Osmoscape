@@ -174,7 +174,8 @@ function init(){
 		//
 		currentFocus = null;
 		hitPopupMode = 'hovering';
-		hitMaskEffect(new paper.Point(0,0), 'exit');
+		mousePos = new paper.Point(0,0);
+		hitMaskEffect(mousePos, 'exit');
 		//
 		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
 		let currentCenter = paper.view.center;
@@ -504,8 +505,33 @@ function initPanZoom(){
 		//
 		$('#status').text('Scrolling...');
 		$('#status').show();
+		/*
+		if(mousePos != null && hitPopupMode != 'focused'){
+			//
+			//
+			if(popupBBoxes.hasOwnProperty(currentFocus)){
+				let count = popupBBoxes[currentFocus]['paths'].length;
+				console.log(count);
+				for(let i=0; i < count; i++){
+					popupBBoxes[currentFocus]['paths'][i].selected = false;
+					popupBBoxes[currentFocus]['paths'][i].visible = false;
+					console.log(popupBBoxes[currentFocus]['paths'][i]);
+				}
+			}
+			//
+			currentFocus = null;
+			hitPopupMode = 'hovering';
+			mousePos = new paper.Point(0,0);
+			hitMaskEffect(mousePos, 'exit');
+		}*/
 		//
-		//
+		if(mousePos != null && hitPopupMode != 'focused'){// Makes scrolling experince way smooth
+			maskLayer.visible = false;
+			mousePos = new paper.Point(0,0);
+			hitMaskEffect(mousePos, 'scrolling');
+		}
+
+		/*
 		if(mousePos != null){
 			mousePos.x += et.deltaX;
 			mousePos.y += et.deltaY;
@@ -514,7 +540,7 @@ function initPanZoom(){
 		if(hitPopupMode != 'focused')
 			hitMaskEffect(mousePos, 'hover');
 		//
-  	//
+  	*/
 		//
 		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
 		//

@@ -1055,7 +1055,7 @@ function initPanZoom(){
 		$('#status').text('Scrolling...');
 		$('#status').show();
 		//
-		//
+		/*
 		if(mousePos != null){
 			mousePos.x += et.deltaX;
 			mousePos.y += et.deltaY;
@@ -1063,7 +1063,12 @@ function initPanZoom(){
 		//
 		if(hitPopupMode != 'focused')
 			hitMaskEffect(mousePos, 'hover');
-		//
+		*/
+		if(mousePos != null && hitPopupMode != 'focused'){ // Makes scrolling experince way smooth
+			maskLayer.visible = false;
+			mousePos = new paper.Point(0,0);
+			hitMaskEffect(mousePos, 'scrolling');
+		}
   	//
 		//
 		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
