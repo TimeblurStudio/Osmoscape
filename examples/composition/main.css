@@ -1,0 +1,45 @@
+body{
+  margin-top: 0px;
+  overflow: auto;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome, Opera and Firefox */
+  background: #b5ced5;
+  overflow: hidden;
+  height:100%;
+  width: 100%;
+}
+
+#defaultCanvas{
+  position:fixed !important;
+  top:0;
+  left:0;
+  margin-left: -12px;
+  height:100%;
+  width: 100%;
+  pointer-events: none;
+}
+#bg{
+  position:absolute;
+  top:0;
+  left:0;
+  margin-left: -12px;
+}
+
+.draggable {
+  display: none;
+  position: absolute;
+  height: 40px;
+  width: 45%;
+  background-color: #84a9b988;
+  color: white;
+  border-radius: 0.75em;
+  touch-action: none;
+  user-select: none;
+  -webkit-transform: translate(0px, 0px);
+          transform: translate(0px, 0px);
+}
