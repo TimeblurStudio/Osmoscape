@@ -1,37 +1,421 @@
-<!doctype html>
-<html class="no-js" lang="">
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Mike Cj">
-    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="Osmoscape" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Osmoscape:Legends</title>
-    <link rel="apple-touch-icon" href="osmo_icon.png">
-
+    <script src="Lib/Tone.js"></script>
+    <script src="Lib/p5.js"></script>
+    <script src="Lib/p5.svg.js"></script>
+    <script src="Atom.js"></script>
+    <script src="Molecule.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/waveform-data@3.3.4/dist/waveform-data.js"></script>>
 
-    <!-- stylesheet Links -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="main.css">
+
+
+    <script>
+      var allWaveformData = {};
+      let dataPicks = {
+        '0':'1',
+        '1':'5',
+        '2':'4'
+      };
+      let dataPickedPositions = {
+        "1" : { "x": "0", "y": "0" },
+        "5" : { "x": "0", "y": "0" },
+        "4" : { "x": "0", "y": "0" },
+      };
+      //
+      //
+      var indexedDBavailable = true;
+      window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB ||
+      window.msIndexedDB;
+      //
+      window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction ||
+      window.msIDBTransaction;
+      window.IDBKeyRange = window.IDBKeyRange ||
+      window.webkitIDBKeyRange || window.msIDBKeyRange
+      //
+      if (!window.indexedDB) {
+        indexedDBavailable = false;
+      }
+      //
+      var svg, path;
+      let x=0, y=0;
+      let prevX=0, prevY=0;
+      //const svgWidth = 19704, svgHeight = 1299;
+      //const svgWidth = 12915.4857, svgHeight = 851.4624;
+      const svgWidth = 2436, svgHeight = 162.5;
+      var scaleBy=8;
+      var prevMouseX = 0, prevMouseY = 0;
+      var canvas;
+      var mols=[];
+      //
+      let files = [
+        "../../assets/audio/loops/-1.mp3",
+        "../../assets/audio/loops/0.mp3",
+        "../../assets/audio/loops/1.mp3",
+        "../../assets/audio/loops/4.mp3",
+        "../../assets/audio/loops/5.mp3",
+        "../../assets/audio/loops/6.mp3",
+        "../../assets/audio/loops/7.mp3",
+        "../../assets/audio/loops/8.mp3",
+        "../../assets/audio/loops/9.mp3",
+        "../../assets/audio/loops/10.mp3",
+        "../../assets/audio/loops/11.mp3",
+        "../../assets/audio/loops/12.mp3",
+        "../../assets/audio/loops/13.mp3",
+        "../../assets/audio/loops/14.mp3",
+        "../../assets/audio/loops/15.mp3",
+        "../../assets/audio/loops/16.mp3",
+        "../../assets/audio/loops/17.mp3",
+        "../../assets/audio/loops/19.mp3",
+        "../../assets/audio/loops/20.mp3",
+        "../../assets/audio/loops/21.mp3",
+        "../../assets/audio/loops/23.mp3",
+        "../../assets/audio/loops/24.mp3",
+        "../../assets/audio/loops/25.mp3",
+        "../../assets/audio/loops/28.mp3",
+        "../../assets/audio/loops/29.mp3",
+        "../../assets/audio/loops/30.mp3",
+        "../../assets/audio/loops/32.mp3",
+        "../../assets/audio/loops/33.mp3",
+        "../../assets/audio/loops/35.mp3",
+        "../../assets/audio/loops/36.mp3",
+        "../../assets/audio/loops/37.mp3",
+        "../../assets/audio/loops/38.mp3",
+        "../../assets/audio/loops/40.mp3",
+        "../../assets/audio/loops/41.mp3",
+        "../../assets/audio/loops/43.mp3",
+        "../../assets/audio/loops/44.mp3",
+        "../../assets/audio/loops/45.mp3",
+        "../../assets/audio/loops/46.mp3",
+        "../../assets/audio/loops/48.mp3",
+        "../../assets/audio/loops/50.mp3",
+        "../../assets/audio/loops/52.mp3",
+        "../../assets/audio/loops/53.mp3",
+        "../../assets/audio/loops/54.mp3",
+        "../../assets/audio/loops/58.mp3",
+        "../../assets/audio/loops/60.mp3",
+        "../../assets/audio/loops/62.mp3",
+        "../../assets/audio/loops/63.mp3",
+        "../../assets/audio/tracks/Baseline_1.mp3",
+        "../../assets/audio/tracks/Baseline_2.mp3",
+        "../../assets/audio/tracks/Baseline_3.mp3",
+        "../../assets/audio/tracks/Baseline_4.mp3",
+        "../../assets/audio/tracks/Baseline_5.mp3",
+        "../../assets/audio/tracks/Baseline_6.mp3",
+        "../../assets/audio/tracks/Baseline_7.mp3"
+      ];
+      var tapTimeout;
+      var buffers = new Tone.Buffers(files,{
+        "onload":soundsLoaded
+      });
+      //
+      function getBaseline(num){
+        return (files.length-1)-(7-num);
+      }
+      //
+      function soundsLoaded(){
+        console.log("loaded");
+        //
+        $('#status').text('Loaded');
+        setTimeout(function(){
+          $('#status').hide();
+        },1000);
+        //
+        addMolecule(250,250);
+      }
+      function addMolecule(X,Y){
+        var mol = new Molecule(X,Y, buffers, getBaseline(1));
+        mol.calcProps();
+        mols.push(mol);
+      }
+      var pg;
+      var drag = [];
+
+      function setup() {
+        //
+        canvas = createCanvas(window.innerWidth, window.innerHeight, SVG);
+        pg = createGraphics(svgWidth, svgHeight, SVG);
+        //
+        document.addEventListener('contextmenu', event => event.preventDefault());
+      }
+
+      function draw() {
+        clear();
+        pg.clear();
+        pg.scale(1/scaleBy,1/scaleBy);
+        scale(scaleBy,scaleBy);
+        if(mols!==undefined){
+          for(let mol of mols)
+            mol.render(pg);
+        }
+
+        image(pg, -window.pageXOffset/8,-window.pageYOffset/8, svgWidth, svgHeight, window.pageXOffset, window.pageYOffset, width, height);
+
+        scale(1/2,1/2);
+      }
+
+      function mousePressed(event){//touchStarted(){
+        //console.log(window.pageXOffset+mouseX);
+        if (Tone.context.state !== 'running')
+        {
+          Tone.context.resume();
+        }
+        drag = [];
+        for(let mol of mols)
+        {
+          drag.push(mol.clicked(new Point(window.pageXOffset+mouseX, window.pageYOffset+mouseY)));
+        }
+
+        if(drag.includes(true)){
+          //event.preventDefault();
+          document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+        }
+        else{
+            drag = [];
+            if(!drag.includes(true))
+            {
+              prevMouseX = mouseX;
+              prevMouseY = mouseY;
+              tapTimeout = setTimeout(function() {
+              if(prevMouseX==mouseX && prevMouseY==mouseY)
+                addMolecule(window.pageXOffset+mouseX, window.pageYOffset+mouseY);
+          }, 1000);
+          }
+        }
+        //mols.push(new Molecule(mouseX, mouseY));
+        //console.log("CUR:"+mouseX, mouseY);
+      }
+
+      function mouseMoved(event){
+
+      }
+
+      function mouseDragged(event){//touchMoved(){
+        clearTimeout(tapTimeout);
+        //
+        for(let mol of mols){
+          mol.dragged(new Point(window.pageXOffset+mouseX, window.pageYOffset+mouseY));
+        }
+        //
+      }
+
+      function mouseReleased(){
+
+        for(let mol of mols){
+          mol.mReleased();
+        }
+        document.getElementsByTagName('body')[0].style.overflow = 'auto';
+        clearTimeout(tapTimeout);
+      }
+
+      function windowResized() {
+        resizeCanvas(window.innerWidth, window.innerHeight);
+      }
+
+
+      let draggableOptions = {
+        // enable inertial throwing
+        inertia: true,
+        // keep the element within the area of it's parent
+        modifiers: [
+
+        ],
+        // enable autoScroll
+        autoScroll: true,
+
+        listeners: {
+          // call this function on every dragmove event
+          move: dragMoveListener,
+
+          // call this function on every dragend event
+          end (event) {
+            var textEl = event.target.querySelector('p')
+            //
+            if(event.pageX > $(window).width() || event.pageY > $(window).height() ){
+              console.log('Offset off for ' + event.currentTarget.id);
+              interact('#'+event.currentTarget.id).unset();
+              $('#'+event.currentTarget.id).remove();
+            }
+            //
+            let datindex = dataPicks[parseInt(event.currentTarget.id.replace('drag-', '')) - 1];
+            console.log(datindex);
+            //
+            dataPickedPositions[datindex].x = parseFloat(event.currentTarget.getAttribute('data-x'));
+            dataPickedPositions[datindex].y = parseFloat(event.currentTarget.getAttribute('data-y'));
+            //
+            textEl && (textEl.textContent =
+              'moved a distance of ' +
+              (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
+                         Math.pow(event.pageY - event.y0, 2) | 0))
+                .toFixed(2) + 'px')
+          }
+        }
+      };
+
+      let resizableOptions = {
+        inertia: {
+          resistance: 10,
+          minSpeed: 200,
+          endSpeed: 100
+        },
+        edges: {
+          top   : true,
+          left  : true,
+          bottom: true,
+          right : true
+        },
+        listeners: {
+          move (event) {
+            var target = event.target;
+            //
+            var x = (parseFloat(target.getAttribute('data-x')) || 0);
+            var y = (parseFloat(target.getAttribute('data-y')) || 0);
+            //
+            x += event.deltaRect.left;
+            y += event.deltaRect.top;
+            //
+            Object.assign(event.target.style, {
+              width: `${event.rect.width}px`,
+              height: `${event.rect.height}px`,
+              transform: `translate(${x}, ${y})`
+            });
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+            //
+            //dataPickedPositions
+            //
+            Object.assign(event.target.querySelector('canvas').style, {
+              width: `${event.rect.width}px`,
+              height: `${event.rect.height}px`
+            });
+            //
+          }
+        }
+      };
+      //
+      const scaleY = (amplitude, height) => {
+        const range = 256;
+        const offset = 128;
+
+        return height - ((amplitude + offset) * height) / range;
+      }
+
+      //
+      for(let i=1; i <= 5; i++){
+        //
+        interact('#drag-'+i)
+          .draggable(draggableOptions)
+          .resizable(resizableOptions);
+        //
+      }
+
+
+      function dragMoveListener (event) {
+        var target = event.target
+        // keep the dragged position in the data-x/data-y attributes
+        var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
+        var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
+
+        // translate the element
+        target.style.webkitTransform =
+          target.style.transform =
+            'translate(' + x + 'px, ' + y + 'px)'
+
+        // update the posiion attributes
+        target.setAttribute('data-x', x)
+        target.setAttribute('data-y', y)
+      }
+
+      // this function is used later in the resizing and gesture demos
+      window.dragMoveListener = dragMoveListener;
+
+      //
+      //
+      //
+      fetch('../../assets/audio/allwaveforms.json')
+        .then(response => response.json())
+        .then(function(json){
+          //
+          allWaveformData = json;
+          console.log(allWaveformData);
+          //
+          for(let i=0; i < Object.keys(dataPicks).length; i++){
+            let dp = dataPicks[i];
+            let index = i+1;
+            //
+            //
+            const waveform = WaveformData.create(allWaveformData[dp]);
+            //
+            console.log(`Waveform ${dp} has ${waveform.channels} channels`);
+            console.log(`Waveform ${dp} has length ${waveform.length} points`);
+            //
+            const canvas = document.getElementById(index+'_waveform');
+            //
+            canvas.width = $("#drag-"+index).width();
+            canvas.height = scaleY(1.0, 800);
+            $("#drag-"+index).height(canvas.height);
+            console.log(canvas.width + ' ' + canvas.height);
+            //
+            var maxLeft = $(window).width() - $("#drag-"+index).width();
+            var maxTop = $(window).height() - $("#drag-"+index).height();
+            var leftPos = Math.floor(Math.random() * (maxLeft + 1))
+            var topPos = Math.floor(Math.random() * (maxTop + 1))
+            //
+            dataPickedPositions[dp].x = leftPos;
+            dataPickedPositions[dp].y = topPos;
+            $("#drag-"+index).css({ left: leftPos, top: topPos });
+            //
+            const ctx = canvas.getContext('2d');
+            ctx.beginPath();
+            const channel = waveform.channel(0);
+            // Loop forwards, drawing the upper half of the waveform
+            for (let x = 0; x < waveform.length; x++) {
+              const val = channel.max_sample(x);
+              ctx.lineTo(x + 0.5, scaleY(val*8, canvas.height));
+            }
+            // Loop backwards, drawing the lower half of the waveform
+            for (let x = waveform.length - 1; x >= 0; x--) {
+              const val = channel.min_sample(x);
+              ctx.lineTo(x + 0.5, scaleY(val*8, canvas.height));
+            }
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+            //
+            //
+          }
+          //
+          $('.draggable').show();
+        });
+      //
+      //
+      //
+      //
+    </script>
   </head>
   <body>
-    <!--[if IE]>
-      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-    <p id="status"></p>
-    <img id="splash" src="OsmoSplash.png" alt="Splash image" height="1" style="display: none;">
+    <p id="status" style="display: inline;">Loading...</p>
+    <div id="drag-1" class="draggable">
+      <canvas width="100%" height="100%" id="1_waveform"></canvas>
+    </div>
+    <div id="drag-2" class="draggable">
+      <canvas width="100%" height="100%" id="2_waveform"></canvas>
+    </div>
+    <div id="drag-3" class="draggable">
+      <canvas width="100%" height="100%" id="3_waveform"></canvas>
+    </div>
 
-    <? Scroll Images ?>
-    <img id="HQscroll" src="" alt="High Quality scroll" height="1" style="display: none;">
 
-    <? Scroll Section - PaperJS canvas ?>
-    <canvas id="main-scroll-canvas" resize="true"></canvas>
 
-    <script src="script.js"></script>
+    <!--<img id="bg" src="main_svg.svg" width="16374px" height="1028px" />-->
+    <!--?xml version="1.0" encoding="utf-8"?-->
+    <!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
   </body>
+
 </html>
