@@ -49,105 +49,7 @@
     "title": "Baseline water stress",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
-    "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
-    "popdimensions": [
-      {
-        "x": 1354.7950000000028,
-        "y": 415.5,
-        "width": 172,
-        "height": 86
-      },
-      {
-        "x": 1569.7950000000028,
-        "y": 377.5,
-        "width": 125,
-        "height": 80
-      },
-      {
-        "x": 1716.6150000000025,
-        "y": 456.5,
-        "width": 163,
-        "height": 74
-      },
-      {
-        "x": 1706.4550000000027,
-        "y": 575.5,
-        "width": 166,
-        "height": 82
-      },
-      {
-        "x": 1903.4550000000027,
-        "y": 552.5,
-        "width": 108,
-        "height": 80
-      },
-      {
-        "x": 2032.2050000000022,
-        "y": 486.5,
-        "width": 158,
-        "height": 73
-      },
-      {
-        "x": 2156.205000000002,
-        "y": 389.5,
-        "width": 105,
-        "height": 79
-      },
-      {
-        "x": 2065.205000000002,
-        "y": 319.5,
-        "width": 104,
-        "height": 81
-      },
-      {
-        "x": 2365.9000000000024,
-        "y": 422.5,
-        "width": 176,
-        "height": 81
-      },
-      {
-        "x": 2540.9000000000024,
-        "y": 351.5,
-        "width": 137,
-        "height": 79
-      },
-      {
-        "x": 2744.555000000002,
-        "y": 556.5,
-        "width": 158,
-        "height": 85
-      },
-      {
-        "x": 2916.3200000000024,
-        "y": 634.5,
-        "width": 115,
-        "height": 74
-      },
-      {
-        "x": 3073.185000000004,
-        "y": 603.5,
-        "width": 156,
-        "height": 77
-      },
-      {
-        "x": 3267.7450000000044,
-        "y": 629.5,
-        "width": 125,
-        "height": 75
-      },
-      {
-        "x": 3460.105000000007,
-        "y": 682.5,
-        "width": 134,
-        "height": 78
-      },
-      {
-        "x": 3652.105000000007,
-        "y": 692.5,
-        "width": 112,
-        "height": 82
-      }
-    ]
+    "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg"
   },
   "7": {
     "id": "7",
@@ -287,26 +189,5 @@
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01.svg"
-  },
-  "29": {
-    "id": "29",
-    "title": "Thermal Utilities",
-    "desc": "Lorem Ipsum",
-    "legendpath": "../../assets/data/legends/29 Thermal Utilities India_legends-01.svg",
-    "maskpath": "../../assets/data/legends/29 Thermal Utilities India_mask-01.svg",
-    "popdimensions": [
-      {
-        "x": 7110.6750000000075,
-        "y": 357.5,
-        "width": 17.99999999999909,
-        "height": 22
-      },
-      {
-        "x": 6968.6750000000075,
-        "y": 188.5,
-        "width": 158.9999999999991,
-        "height": 193
-      }
-    ]
   }
 }
