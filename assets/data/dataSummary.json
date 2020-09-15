@@ -260,6 +260,13 @@
       }
     ]
   },
+  "19": {
+    "id": "19",
+    "title": "Aral sea breast milk analyte",
+    "desc": "Lorem Ipsum",
+    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_legend-01.svg",
+    "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg"
+  },
   "20": {
     "id": "20",
     "title": "water withdrawal",
@@ -309,9 +316,9 @@
       }
     ]
   },
-  "32": {
-    "id": "32",
-    "title": "32_Drying cities",
+  "30": {
+    "id": "30",
+    "title": "River interlinking",
     "desc": "Lorem Ipsum",
     "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
     "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg"
