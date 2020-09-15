@@ -309,9 +309,9 @@
       }
     ]
   },
-  "30": {
-    "id": "30",
-    "title": "River interlinking",
+  "32": {
+    "id": "32",
+    "title": "32_Drying cities",
     "desc": "Lorem Ipsum",
     "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
     "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg"
