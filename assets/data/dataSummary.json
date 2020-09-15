@@ -260,13 +260,6 @@
       }
     ]
   },
-  "19": {
-    "id": "19",
-    "title": "Aral sea breast milk analyte",
-    "desc": "Lorem Ipsum",
-    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_legend-01.svg",
-    "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg"
-  },
   "20": {
     "id": "20",
     "title": "water withdrawal",
@@ -322,5 +315,12 @@
     "desc": "Lorem Ipsum",
     "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
     "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg"
+  },
+  "33": {
+    "id": "33",
+    "title": "33_radon in bangalore",
+    "desc": "Lorem Ipsum",
+    "legendpath": "../../assets/data/legends/33_Radon_in_Bangalore_legend-01.svg",
+    "maskpath": "../../assets/data/legends/33_Radon_in_Bangalore_mask-01.svg"
   }
 }
