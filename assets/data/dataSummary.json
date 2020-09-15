@@ -287,5 +287,26 @@
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01.svg"
+  },
+  "29": {
+    "id": "29",
+    "title": "Thermal Utilities",
+    "desc": "Lorem Ipsum",
+    "legendpath": "../../assets/data/legends/29 Thermal Utilities India_legends-01.svg",
+    "maskpath": "../../assets/data/legends/29 Thermal Utilities India_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 7110.6750000000075,
+        "y": 357.5,
+        "width": 17.99999999999909,
+        "height": 22
+      },
+      {
+        "x": 6968.6750000000075,
+        "y": 188.5,
+        "width": 158.9999999999991,
+        "height": 193
+      }
+    ]
   }
 }
