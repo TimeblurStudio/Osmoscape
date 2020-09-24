@@ -43,3 +43,10 @@ body{
   -webkit-transform: translate(0px, 0px);
           transform: translate(0px, 0px);
 }
+
+.draggable p {
+  color: #333;
+  position: fixed;
+  bottom: 0;
+  left: 15px;
+}
