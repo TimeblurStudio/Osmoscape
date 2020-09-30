@@ -118,7 +118,7 @@ function loadAudio(){
 	//
 	// the intro player
 	introTrack = new Tone.Player({
-		url: "../../assets/audio/loops/-1.wav",
+		url: "../../assets/audio/loops/-1.mp3",
 		loop: true,
 		loopStart: 0,
 		loopEnd: 20,
