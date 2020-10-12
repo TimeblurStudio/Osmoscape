@@ -288,11 +288,11 @@
     "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01.svg"
   },
-  "32": {
-    "id": "32",
-    "title": "32_Drying cities_bangalore",
-    "desc": "32_Drying cities_bangalore",
-    "legendpath": "../../assets/data/legends/32 Drying cities_Bangalore_legend-01.svg",
-    "maskpath": "../../assets/data/legends/32 Drying cities_Bangalore_mask-01.svg"
+  "30": {
+    "id": "30",
+    "title": "30_River interlinking",
+    "desc": "30_River interlinking",
+    "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
+    "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg"
   }
 }
