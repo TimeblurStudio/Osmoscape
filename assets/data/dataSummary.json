@@ -323,11 +323,18 @@
     "legendpath": "../../assets/data/legends/53 Bottled water consumption_legend-01.svg",
     "maskpath": "../../assets/data/legends/53 Bottled water consumption_mask-01.svg"
   },
-  "60": {
-    "id": "60",
-    "title": "60 Fukushima PBFT radionuclides",
-    "desc": "60 Fukushima PBFT radionuclides",
-    "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_legend-01.svg",
-    "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01.svg"
+  "58": {
+    "id": "58",
+    "title": "58 Area of hypoxia in Gulf of mexico",
+    "desc": "58 Area of hypoxia in Gulf of mexico",
+    "legendpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_legend-01.svg",
+    "maskpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_mask-01.svg"
+  },
+  "63": {
+    "id": "63",
+    "title": "63 Sound Pollution",
+    "desc": "63 Sound Pollution",
+    "legendpath": "../../assets/data/legends/63 Sound Pollution_legend-01.svg",
+    "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01.svg"
   }
 }
