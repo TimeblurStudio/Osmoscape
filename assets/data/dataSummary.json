@@ -302,11 +302,11 @@
     "legendpath": "../../assets/data/legends/36 Rhine River temp_legend-01.svg",
     "maskpath": "../../assets/data/legends/36 Rhine River temp_mask-01.svg"
   },
-  "40": {
-    "id": "40",
-    "title": "40_Sukinda mines water_sediment_anlaysis for chromium",
-    "desc": "40_Sukinda mines water_sediment_anlaysis for chromium",
-    "legendpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend-01.svg",
-    "maskpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg"
+  "41": {
+    "id": "41",
+    "title": "41_Sukinda mines _sediment_anlaysis for chromium",
+    "desc": "41_Sukinda mines _sediment_anlaysis for chromium",
+    "legendpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium-01.svg",
+    "maskpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_mask-01.svg"
   }
 }
