@@ -288,11 +288,11 @@
     "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01.svg"
   },
-  "35": {
-    "id": "35",
-    "title": "35 Cola Cola Water Usage",
-    "desc": "35 Cola Cola Water Usage",
-    "legendpath": "../../assets/data/legends/35 Cola Cola Water Usage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/35 Cola Cola Water Usage_mask-01.svg"
+  "33": {
+    "id": "33",
+    "title": "33_Radon in Bangalore",
+    "desc": "33_Radon in Bangalore",
+    "legendpath": "../../assets/data/legends/33_Radon_in_Bangalore_legend-01.svg",
+    "maskpath": "../../assets/data/legends/33_Radon_in_Bangalore_mask-01.svg"
   }
 }
