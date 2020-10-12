@@ -295,11 +295,18 @@
     "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
     "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg"
   },
-  "38": {
-    "id": "38",
-    "title": "38_Chaohu Eutrophication",
-    "desc": "38_Chaohu Eutrophication",
-    "legendpath": "../../assets/data/legends/38 Chaohu Eutrophication_legend-01.svg",
-    "maskpath": "../../assets/data/legends/38 Chaohu Eutrophication_mask-01.svg"
+  "36": {
+    "id": "36",
+    "title": "36_Rhine_river_temperature",
+    "desc": "36_Rhine_river_temperature",
+    "legendpath": "../../assets/data/legends/36 Rhine River temp_legend-01.svg",
+    "maskpath": "../../assets/data/legends/36 Rhine River temp_mask-01.svg"
+  },
+  "40": {
+    "id": "40",
+    "title": "40_Sukinda mines water_sediment_anlaysis for chromium",
+    "desc": "40_Sukinda mines water_sediment_anlaysis for chromium",
+    "legendpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend-01.svg",
+    "maskpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg"
   }
 }
