@@ -309,11 +309,11 @@
     "legendpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_mask-01.svg"
   },
-  "44": {
-    "id": "44",
-    "title": "44 Guiyu - PDBE in Fish",
-    "desc": "44 Guiyu - PDBE in Fish",
-    "legendpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_legend-01.svg",
-    "maskpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_mask-01-01.svg"
+  "45": {
+    "id": "45",
+    "title": "45_b_Guiyu",
+    "desc": "45_b_Guiyu",
+    "legendpath": "../../assets/data/legends/45b_legend-01.svg",
+    "maskpath": "../../assets/data/legends/45b_mask-01.svg"
   }
 }
