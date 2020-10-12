@@ -316,11 +316,11 @@
     "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
     "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01.svg"
   },
-  "53": {
-    "id": "53",
-    "title": "53 Bottled water consumption Layer 3 Print",
-    "desc": "53 Bottled water consumption Layer 3 Print",
-    "legendpath": "../../assets/data/legends/53 Bottled water consumption_legend-01.svg",
-    "maskpath": "../../assets/data/legends/53 Bottled water consumption_mask-01.svg"
+  "54": {
+    "id": "54",
+    "title": "54_ Plastic bottled water_revised",
+    "desc": "54_ Plastic bottled water_revised",
+    "legendpath": "../../assets/data/legends/54_ Platic bottled water_legend-01.svg",
+    "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01.svg"
   }
 }
