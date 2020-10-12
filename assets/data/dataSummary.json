@@ -316,11 +316,11 @@
     "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
     "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01.svg"
   },
-  "50": {
-    "id": "50",
-    "title": "50_Antiobiotic _resistance in India",
-    "desc": "50_Antiobiotic _resistance in India",
-    "legendpath": "../../assets/data/legends/50 Antibiotic resistance in India_legend-01.svg",
-    "maskpath": "../../assets/data/legends/50 Antibiotic resistance in India_mask-01.svg"
+  "52": {
+    "id": "52",
+    "title": "52_Xenoestrogen in infertile men",
+    "desc": "52_Xenoestrogen in infertile men",
+    "legendpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_legend-01.svg",
+    "maskpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_mask-01.svg"
   }
 }
