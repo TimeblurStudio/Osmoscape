@@ -281,6 +281,13 @@
     "legendpath": "../../assets/data/legends/23 Marathawada drought Groundwater_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg"
   },
+  "25": {
+    "id": "25",
+    "title": "Droughts_in_india",
+    "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
+    "legendpath": "../../assets/data/legends/25  Droughts in India_legend-01.svg",
+    "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg"
+  },
   "28": {
     "id": "28",
     "title": "hydroelectric",
