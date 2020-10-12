@@ -260,6 +260,13 @@
       }
     ]
   },
+  "19": {
+    "id": "19",
+    "title": "19_Aral sea breast milk analytes",
+    "desc": "19_Aral sea breast milk analytes",
+    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_legend-01.svg",
+    "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg"
+  },
   "20": {
     "id": "20",
     "title": "water withdrawal",
@@ -288,11 +295,11 @@
     "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01.svg"
   },
-  "29": {
-    "id": "29",
-    "title": "29_Thermal_Utilities_India",
-    "desc": "29_Thermal_Utilities_India",
-    "legendpath": "../../assets/data/legends/29 Thermal Utilities India_legends-01.svg",
-    "maskpath": "../../assets/data/legends/29 Thermal Utilities India_mask-01.svg"
+  "30": {
+    "id": "30",
+    "title": "30_River interlinking",
+    "desc": "30_River interlinking",
+    "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
+    "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg"
   }
 }
