@@ -309,11 +309,11 @@
     "legendpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_mask-01.svg"
   },
-  "46": {
-    "id": "46",
-    "title": "46_India_Sewage_Generation",
-    "desc": "46_India_Sewage_Generation",
-    "legendpath": "../../assets/data/legends/46_legend-01.svg",
-    "maskpath": "../../assets/data/legends/46_mask-01.svg"
+  "48": {
+    "id": "48",
+    "title": "48_class 1 cities _sewage",
+    "desc": "48_class 1 cities _sewage",
+    "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
+    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01.svg"
   }
 }
