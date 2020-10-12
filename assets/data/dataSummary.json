@@ -323,11 +323,11 @@
     "legendpath": "../../assets/data/legends/53 Bottled water consumption_legend-01.svg",
     "maskpath": "../../assets/data/legends/53 Bottled water consumption_mask-01.svg"
   },
-  "55": {
-    "id": "55",
-    "title": "55",
-    "desc": "55",
-    "legendpath": "../../assets/data/legends/55_legend-01.svg",
-    "maskpath": "../../assets/data/legends/55_mask-01.svg"
+  "58": {
+    "id": "58",
+    "title": "58 Area of hypoxia in Gulf of mexico",
+    "desc": "58 Area of hypoxia in Gulf of mexico",
+    "legendpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_legend-01.svg",
+    "maskpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_mask-01.svg"
   }
 }
