@@ -287,5 +287,54 @@
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01.svg"
+  },
+  "30": {
+    "id": "30",
+    "title": "30_River interlinking",
+    "desc": "30_River interlinking",
+    "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
+    "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg"
+  },
+  "36": {
+    "id": "36",
+    "title": "36_Rhine_river_temperature",
+    "desc": "36_Rhine_river_temperature",
+    "legendpath": "../../assets/data/legends/36 Rhine River temp_legend-01.svg",
+    "maskpath": "../../assets/data/legends/36 Rhine River temp_mask-01.svg"
+  },
+  "43": {
+    "id": "43",
+    "title": "43 Guiyu PDBE in sediment",
+    "desc": "43 Guiyu PDBE in sediment",
+    "legendpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_legend-01-01.svg",
+    "maskpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_mask-01.svg"
+  },
+  "48": {
+    "id": "48",
+    "title": "48_class 1 cities _sewage",
+    "desc": "48_class 1 cities _sewage",
+    "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
+    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01.svg"
+  },
+  "53": {
+    "id": "53",
+    "title": "53 Bottled water consumption Layer 3 Print",
+    "desc": "53 Bottled water consumption Layer 3 Print",
+    "legendpath": "../../assets/data/legends/53 Bottled water consumption_legend-01.svg",
+    "maskpath": "../../assets/data/legends/53 Bottled water consumption_mask-01.svg"
+  },
+  "58": {
+    "id": "58",
+    "title": "58 Area of hypoxia in Gulf of mexico",
+    "desc": "58 Area of hypoxia in Gulf of mexico",
+    "legendpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_legend-01.svg",
+    "maskpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_mask-01.svg"
+  },
+  "63": {
+    "id": "63",
+    "title": "63 Sound Pollution",
+    "desc": "63 Sound Pollution",
+    "legendpath": "../../assets/data/legends/63 Sound Pollution_legend-01.svg",
+    "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01.svg"
   }
 }
