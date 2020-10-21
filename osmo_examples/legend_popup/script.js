@@ -1,3 +1,9 @@
+/* DEBUG LINKS HERE */
+// https://codebeautify.org/base64-to-image-converter
+// https://codebeautify.org/image-to-base64-converter
+// https://onlinepngtools.com/change-png-color
+
+
 let loaded = {
 	"HQimage" : false,
 	"svgdata": false
@@ -28,6 +34,7 @@ let hitPopupMode = 'hovering';//'hovering', 'focused'
 let prevBoundsCenter = null;
 let currentFocus = null;
 let popupBBoxes = {};
+let commitversion = '';
 //
 //
 //
@@ -52,12 +59,18 @@ let maskFiles = [], legendFiles = [];
  */
 function init(){
 	//
+	commitversion = $('#commitid').text();
+	console.log(commitversion);
+	//
 	//
 	console.log('init called');
 	$('#status').text('Started');
 	//
+
 	//
-	$.getJSON( "../../assets/data/dataSummary.json", function( data ) {
+	let dataURL = "../../assets/data/dataSummary.json" + "?v=" + commitversion;
+	console.log('dataURL: ' + dataURL);
+	$.getJSON(dataURL, function( data ) {
 	  console.log('Loaded datasets summary');
 	  //
 	  let dataWaitInterval = setInterval(function(){
@@ -127,6 +140,8 @@ function init(){
 		//
 		if(hitPopupMode != 'focused'){
 			maskLayer.visible = true;
+			//maskLayer.fillColor = 'black';
+			//maskLayer.opacity = 0.5;
 			hitMaskEffect(event.point, 'hover');
 		}
 		//
@@ -201,6 +216,8 @@ function maskLoad(svgxml, num){
 	console.log('maskLoad called');
 	//
 	const mpromise = new Promise((resolve, reject) => {
+
+		//svgxml = svgxml.replace("opacity=\"0.01\"","opacity=\"0.5\"");
 		//
 		paper.project.importSVG(svgxml, function(item){
 			console.log('Loaded '+num+' mask');
@@ -581,6 +598,7 @@ function hitMaskEffect(pt, ctype){
 		//console.log('Finding legend...' + hitResult.item.data.legendName);
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
 		lg.visible = true;
+		//
 		//backgroundLayer.fillColor = 'black';
 		//backgroundLayer.opacity = 0.1;
 		//$("body").css("background-color","#5f6d70");
@@ -618,17 +636,18 @@ function hitMaskEffect(pt, ctype){
 					popupBBoxes[currentFocus]['paths'][i].visible = false;// true to show rect box
 					popupBBoxes[currentFocus]['paths'][i].selected = false;
 				}
+				//
+				// Zoom into selected area!
+				let currentViewCenter = paper.view.bounds.center;
+				let newViewCenter = popupBBoxes[currentFocus]['paths'][0].bounds.center;
+				let deltaValX = newViewCenter.x - currentViewCenter.x + 250;
+				let deltaValY = -(newViewCenter.y - currentViewCenter.y);
+				//
+				let fac = 1.005/(paper.view.zoom*paper.view.zoom);
+				prevBoundsCenter = new paper.Point(paper.view.center.x, paper.view.center.y);
+				paper.view.center = changeCenter(paper.view.center, deltaValX, deltaValY, fac, false);
+				//
 			}
-			//
-			// Zoom into selected area!
-			let currentViewCenter = paper.view.bounds.center;
-			let newViewCenter = popupBBoxes[currentFocus]['paths'][0].bounds.center;
-			let deltaValX = newViewCenter.x - currentViewCenter.x + 250;
-			let deltaValY = -(newViewCenter.y - currentViewCenter.y);
-			//
-			let fac = 1.005/(paper.view.zoom*paper.view.zoom);
-			prevBoundsCenter = new paper.Point(paper.view.center.x, paper.view.center.y);
-			paper.view.center = changeCenter(paper.view.center, deltaValX, deltaValY, fac, false);
 			//
 		}
 		//
@@ -663,10 +682,10 @@ function changeCenter(oldCenter, deltaX, deltaY, factor, restricted=true){
   //
   if(restricted){
   	//
-  	if(oldCenter.x < paperWidth/2)
-	  	oldCenter.x  = paperWidth/2;
-	  if(oldCenter.x > scrollWidth)
-	  	oldCenter.x  = scrollWidth;
+  	//if(oldCenter.x < paperWidth/2)
+	  //	oldCenter.x  = paperWidth/2;
+	  //if(oldCenter.x > scrollWidth)
+	  //	oldCenter.x  = scrollWidth;
 	  //
 	  if((oldCenter.y*paper.view.zoom - paperHeight/2) <= 0 && deltaY > 0)
 	  	oldCenter.y = paperHeight/(2*paper.view.zoom);
