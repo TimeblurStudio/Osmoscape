@@ -31,6 +31,7 @@ let hitPopupMode = 'hovering';//'hovering', 'focused'
 let bboxTool = null;
 let currentFocus = null;
 let popupBBoxes = {};
+let commitversion = '';
 //
 //
 //
@@ -47,7 +48,9 @@ initModal(false);
 let datasets = {};
 let publishFiles = [];
 //
-$.getJSON( "../../assets/data/dataSummary.json", function( data ) {
+let dataURL = "../../assets/data/dataSummary.json"+ "?v=" + commitversion;
+console.log('dataURL: ' + dataURL);
+$.getJSON( dataURL, function( data ) {
   console.log('Loaded datasets summary');
   //
   let dataWaitInterval = setInterval(function(){
@@ -559,6 +562,8 @@ function clearAll(){
  * ------------------------------------------------
  */
 function init(){
+	commitversion = $('#commitid').text();
+	console.log(commitversion);
 	//
 	initFileLoader();
 	//
@@ -778,6 +783,10 @@ function maskLoad(svgxml, num){
 	  //
 		paper.project.importSVG(svgxml, function(item){
 			console.log('Loaded '+num+' mask');
+			if(window.debug)
+				$('#status').text('Loaded '+num+' mask-debug');
+			else
+				$('#status').text('Loaded '+num+' mask');
 			resolve('m'+num);
 			//
 			let mask = item;
@@ -837,6 +846,7 @@ function legendLoad(svgxml, num){
 	const lpromise = new Promise((resolve, reject) => {
 		paper.project.importSVG(svgxml, function(item){
 			console.log('Loaded '+num+' legend');
+			$('#status').text('Loaded '+num+' legend');
 			resolve('l'+num);
 			//
 			let legend = item;
@@ -905,7 +915,16 @@ function loadDatasets(){
 	  if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
-      let maskpromise = maskLoad(datasets[id].maskpath, id);
+      let mpath = datasets[id].maskpath;
+      if(window.debug){
+      	let pieces = mpath.split('/');
+	      let fname = pieces[pieces.length-1];
+	      pieces[pieces.length-1] = 'Debug';
+	      pieces.push(fname);
+	      mpath = pieces.join('/');
+      }
+      //
+      let maskpromise = maskLoad(mpath, id);
       let legendpromise = legendLoad(datasets[id].legendpath, id);
       //
       allSVGDataPromises.push(maskpromise);
