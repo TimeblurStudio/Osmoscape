@@ -153,7 +153,7 @@
     "id": "7",
     "title": "Co2 Emission through the years",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_legend-01.svg",
+    "legendpath": "../../assets/data/legends/7 Co2 Emission through the years_legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg"
   },
   "8": {
@@ -299,8 +299,8 @@
     "id": "24",
     "title": "24 lorem ipsum",
     "desc": "24 lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/24 Marathwada Rainfall_legend-01.svg",
-    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01.svg"
+    "legendpath": "../../assets/data/legends/24 Marathwada Rainfall_legend-01-simplified.svg",
+    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg"
   },
   "25": {
     "id": "25",
@@ -349,14 +349,14 @@
     "title": "35 Lorem Ipsum",
     "desc": "35 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/35 Cola Cola Water Usage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/35 Cola Cola Water Usage_mask-01.svg"
+    "maskpath": "../../assets/data/legends/35 Cola Cola Water Usage_mask-01-wOffset.svg"
   },
   "36": {
     "id": "36",
     "title": "36_Rhine_river_temperature",
     "desc": "36_Rhine_river_temperature",
     "legendpath": "../../assets/data/legends/36 Rhine River temp_legend-01.svg",
-    "maskpath": "../../assets/data/legends/36 Rhine River temp_mask-01.svg"
+    "maskpath": "../../assets/data/legends/36 Rhine River temp_mask-01-wOffset.svg"
   },
   "38": {
     "id": "38",
@@ -391,14 +391,14 @@
     "title": "44 Lorem Ipsum",
     "desc": "44 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_legend-01.svg",
-    "maskpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_mask-01-01.svg"
+    "maskpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_mask-01-01-wOffset.svg"
   },
   "45a": {
     "id": "45a",
     "title": "45a Lorem Ipsum",
     "desc": "45a Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/45a_legend-01.svg",
-    "maskpath": "../../assets/data/legends/45a_mask-01.svg"
+    "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg"
   },
   "45b": {
     "id": "45b",
@@ -419,21 +419,21 @@
     "title": "48_class 1 cities _sewage",
     "desc": "48_class 1 cities _sewage",
     "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01.svg"
+    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg"
   },
   "48b": {
     "id": "48b",
     "title": "48_class 1b cities _sewage",
     "desc": "48_class 1b cities _sewage",
     "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01.svg"
+    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg"
   },
   "50": {
     "id": "50",
     "title": "50 Lorem Ipsum",
     "desc": "50 Lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/50 Antibiotic resistance in India_legend-01.svg",
-    "maskpath": "../../assets/data/legends/50 Antibiotic resistance in India_mask-01.svg"
+    "legendpath": "../../assets/data/legends/50 Antibiotic resistance in India_legend-01-simplified.svg",
+    "maskpath": "../../assets/data/legends/50 Antibiotic resistance in India_mask-01-simplified.svg"
   },
   "52": {
     "id": "52",
@@ -454,7 +454,7 @@
     "title": "54 Lorem Ipsum",
     "desc": "54 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/54_ Platic bottled water_legend-01.svg",
-    "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01.svg"
+    "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01-simplified.svg"
   },
   "55": {
     "id": "55",
@@ -474,8 +474,8 @@
     "id": "60",
     "title": "60 Lorem Ipsum",
     "desc": "60 Lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_legend-01.svg",
-    "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01.svg"
+    "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_legend-01-simplified.svg",
+    "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg"
   },
   "63": {
     "id": "63",
