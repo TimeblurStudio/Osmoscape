@@ -221,6 +221,10 @@ function maskLoad(svgxml, num){
 		//
 		paper.project.importSVG(svgxml, function(item){
 			console.log('Loaded '+num+' mask');
+			if(window.debug)
+				$('#status').text('Loaded '+num+' mask-debug');
+			else
+				$('#status').text('Loaded '+num+' mask');
 			resolve('m'+num);
 			//
 			let mask = item;
@@ -272,6 +276,8 @@ function legendLoad(svgxml, num){
 		//
 		paper.project.importSVG(svgxml, function(item){
 			console.log('Loaded '+num+' legend');
+			$('#status').text('Loaded '+num+' legend');
+
 			resolve('l'+num);
 			//
 			let legend = item;
@@ -342,7 +348,16 @@ function loadDatasets(){
 	  if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
-      let maskpromise = maskLoad(datasets[id].maskpath, id);
+      let mpath = datasets[id].maskpath;
+      if(window.debug){
+	      let pieces = mpath.split('/');
+	      let fname = pieces[pieces.length-1];
+	      pieces[pieces.length-1] = 'Debug';
+	      pieces.push(fname);
+	      mpath = pieces.join('/');
+	    }
+      //
+      let maskpromise = maskLoad(mpath, id);
       let legendpromise = legendLoad(datasets[id].legendpath, id);
       //
       allSVGDataPromises.push(maskpromise);
@@ -380,11 +395,12 @@ function loadDatasets(){
 					let aprec = new paper.Path.Rectangle(arec);
 					//
 					popupBBoxes[id]['paths'].push(rectPath);
-					popupBBoxes[id]['paths'][i].visible = true;
+					popupBBoxes[id]['paths'][i].visible = false;
 					popupBBoxes[id]['rects'].push(aprec);
 					//console.log(popupBBoxes[id]['paths'][i]);
 				}
 				//
+				maskLayer.visible = false;
       }
       //
       //

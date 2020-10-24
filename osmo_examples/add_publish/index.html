@@ -33,31 +33,13 @@
           -moz-transition: background 0.5s ease-in-out;
         }
     </style>
-    <script>
-        // Assuming "?post=1234&action=edit"
-        var urlParams = new URLSearchParams(window.location.search);
-        //
-        if(urlParams.has('commit'))
-            val = urlParams.get('commit');
-        else
-            val = '#{COMMIT_REPlACE}#';
-
-        // Add main.css
-        var _link = document.createElement('link');
-        _link.rel = 'stylesheet';
-        _link.href = 'main.css?v='+val;
-        document.head.appendChild(_link);
-        // Add script.js
-        var _script = document.createElement('script');
-        _script.src = 'script.js?v='+val;
-        document.head.appendChild(_script);
-    </script>
   </head>
   <body>
     <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <p id="status"></p>
+    <button class="btn btn-ultra-light" id="debug" style="position: absolute; top: 0; right: 0; margin: 10px;outline: none;"> 🐞 </button>
     <img id="splash" src="../../assets/images/OsmoSplash.png" alt="Splash image" height="1" style="display: none;">
 
     <? Scroll Images ?>
@@ -144,11 +126,52 @@
     <div class="vinfo">commit: #{COMMIT_REPlACE}#</div>
     <script>
         var urlParams = new URLSearchParams(window.location.search);
+        window.debug = false;
+        //
+        if(urlParams.has('commit')){
+            val = 'commit: ' + urlParams.get('commit');
+            $('.vinfo').text(val);
+        }
+        if(urlParams.has('debug')){
+            window.debug = true;
+            let _current = $('.vinfo').text();
+            $('.vinfo').text(_current+'-debug');
+            //
+            $('#new').prop('disabled', true);
+            $('#debug').css('background', "#000a");
+
+        }
+        //
+        $('#debug').click(function(){
+            if(window.debug){
+                console.log('Disable debug');
+                window.location.href = window.location.pathname;
+            }else{
+                console.log('Enabled debug');
+                window.location.href = window.location.href.replace( /[\?#].*|$/, "?debug=1");
+            }
+
+        });
+        //
+    </script>
+    <script>
+        // Assuming "?post=1234&action=edit"
+        var urlParams = new URLSearchParams(window.location.search);
         //
         if(urlParams.has('commit'))
-            val = 'commit: ' + urlParams.get('commit');
-        //
-        $('.vinfo').text(val);
+            val = urlParams.get('commit');
+        else
+            val = '#{COMMIT_REPlACE}#';
+
+        // Add main.css
+        var _link = document.createElement('link');
+        _link.rel = 'stylesheet';
+        _link.href = 'main.css?v='+val;
+        document.head.appendChild(_link);
+        // Add script.js
+        var _script = document.createElement('script');
+        _script.src = 'script.js?v='+val;
+        document.head.appendChild(_script);
     </script>
   </body>
 </html>

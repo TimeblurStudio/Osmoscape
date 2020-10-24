@@ -17,13 +17,14 @@
     <!-- stylesheet Links -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css?v=#{COMMIT_REPlACE}#">
   </head>
   <body>
     <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <p id="status"></p>
+    <button class="btn btn-ultra-light" id="debug" style="position: absolute; top: 0; right: 0; margin: 10px;outline: none;"> 🐞 </button>
     <img id="splash" src="../../assets/images/OsmoSplash.png" alt="Splash image" height="1" style="display: none;">
 
     <? Scroll Images ?>
@@ -48,6 +49,32 @@
 
     <div class="vinfo" >commit: <span id="commitid">#{COMMIT_REPlACE}#</span></div>
 
-    <script src="script.js"></script>
+
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        window.debug = false;
+        //
+        if(urlParams.has('debug')){
+            window.debug = true;
+            let _current = $('.vinfo').text();
+            $('.vinfo').text(_current+'-debug');
+            //
+            $('#debug').css('background', "#000a");
+        }
+        //
+        //
+        $('#debug').click(function(){
+            if(window.debug){
+                console.log('Disable debug');
+                window.location.href = window.location.pathname;
+            }else{
+                console.log('Enabled debug');
+                window.location.href = window.location.href.replace( /[\?#].*|$/, "?debug=1");
+            }
+
+        });
+        //
+    </script>
+    <script src="script.js?v=#{COMMIT_REPlACE}#"></script>
   </body>
 </html>
