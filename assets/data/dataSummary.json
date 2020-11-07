@@ -1,11 +1,4 @@
 {
-  "0": {
-    "id": "0",
-    "title": "dna",
-    "desc": "lp",
-    "legendpath": "../../assets/data/legends/0_human_dna_legend-01.svg",
-    "maskpath": "../../assets/data/legends/0_human_dna_mask-01.svg"
-  },
   "1": {
     "id": "1",
     "title": "Detection of water on exoplanet",
