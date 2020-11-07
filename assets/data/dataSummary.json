@@ -1,4 +1,11 @@
 {
+  "0": {
+    "id": "0",
+    "title": "dna",
+    "desc": "lp",
+    "legendpath": "../../assets/data/legends/0_human_dna_legend-01.svg",
+    "maskpath": "../../assets/data/legends/0_human_dna_mask-01.svg"
+  },
   "1": {
     "id": "1",
     "title": "Detection of water on exoplanet",
@@ -483,12 +490,5 @@
     "desc": "48_class 1b cities _sewage",
     "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
     "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg"
-  },
-  "-1": {
-    "id": "-1",
-    "title": "water structure",
-    "desc": "lp",
-    "legendpath": "../../assets/data/legends/-1_water_structure_legend-01.svg",
-    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01.svg"
   }
 }
