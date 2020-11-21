@@ -29,12 +29,29 @@ var maskHitOptions = {
 let backgroundLayer;
 let legendLayer;
 let maskLayer;
+let navLayer;
 //
 let hitPopupMode = 'hovering';//'hovering', 'focused'
 let prevBoundsCenter = null;
 let currentFocus = null;
 let popupBBoxes = {};
 let commitversion = '';
+//
+//
+let allTracksCount = 0;
+let currentTrack;
+let introTrack;
+let baseTracks = {};
+//
+let navigationFile = null;
+var navHitOptions = {
+	segments: false,
+	stroke: false,
+	fill: true,
+	tolerance: 5
+};
+let currentNavLoc = -1;
+let navTweenItem;
 //
 //
 //
@@ -119,6 +136,7 @@ function init(){
 	backgroundLayer = new paper.Layer();
 	maskLayer = new paper.Layer();
 	legendLayer = new paper.Layer();
+	navLayer = new paper.Layer();
 	//
 	// INTERACTIONS
 	initPanZoom();
@@ -127,7 +145,9 @@ function init(){
 	loadHQ();
 
 	//
-	paper.project.activeLayer = maskLayer;
+	//paper.project.activeLayer = maskLayer;
+	//
+	paper.project.activeLayer = navLayer;
 
 	// Draw PAPER
 	paper.view.draw();
@@ -140,6 +160,7 @@ function init(){
 		//
 		if(hitPopupMode != 'focused'){
 			maskLayer.visible = true;
+			//
 			//maskLayer.fillColor = 'black';
 			//maskLayer.opacity = 0.5;
 			hitMaskEffect(event.point, 'hover');
@@ -211,7 +232,7 @@ function init(){
 //
 //
 //
-function maskLoad(svgxml, num){
+function maskLoad(svgxml, num, order = null){
 	//
 	console.log('maskLoad called');
 	//
@@ -232,6 +253,7 @@ function maskLoad(svgxml, num){
 			//
 			mask.data.legendName = 'legend-'+num;
 			mask.data.maskName = 'mask-' + num;
+			mask.data.order = order;
 			//
 			if(mask.children != undefined)
 				updateChildLegend(mask.children, mask.data.legendName);
@@ -333,9 +355,96 @@ function loadHQ(){
     initSVGscroll();
 		initSplash(800);//splashWidth: 800px
 		//
+		loadNav();
+		initNav();
+		//
 		backgroundLayer.sendToBack();
   };
   downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
+}
+
+function initNav(){
+	console.log('Initializing navigation');
+	$('.jump').click(function(el){
+		let chap_id = parseInt($(el.target.parentElement).attr('data-id'));
+		let locX = paper.project.getItem({name: 'nav-ch'+chap_id}).bounds.left;
+		let w = paper.project.getItem({name: 'nav-ch'+chap_id}).bounds.width;
+		//
+		if(w > paperWidth)
+			locX += (paperWidth/2);
+		else
+			locX += w/2;
+		//
+		let dur = 2000;
+		let diff = Math.abs(locX - paper.view.center.x);
+		if(diff < paperWidth ){
+			let ratio = diff/paperWidth;
+			dur = parseInt(2000 * ratio);
+			if(dur < 350)
+				dur = 350;
+		}
+		//
+		navTweenItem.tween(
+		    { position: paper.view.center },
+		    { position: new paper.Point(locX, paper.view.center.y) },
+		    {
+		    	easing: 'easeInOutQuad',
+		    	duration: dur
+		    }
+		).onUpdate = function(event) {
+			paper.view.center = navTweenItem.position;
+			//
+			hitNavEffect();
+			//
+		};
+		//
+		// Stop all tracks and start target track
+		for(let i=0; i < 7; i++)
+  		baseTracks['base'+(i+1)].stop();
+  	//
+		setTimeout(function(){
+			console.log('Completed scroll for - ' + chap_id);
+			console.log("Changing base track...");
+    	currentTrack = 'base' + chap_id;
+    	//
+    	console.log('Now playing : ' + currentTrack);
+    	baseTracks[currentTrack].start();
+			//
+		},dur);
+		//
+		console.log(chap_id + ' clicked -- scroll to: ' + locX);
+		console.log('duration: ' + dur);
+	});
+	//
+	navTweenItem = new paper.Shape.Circle(paper.view.center, 30);
+	navTweenItem.fill = '#222';
+	navTweenItem.stroke = 'none';
+	navTweenItem.position = paper.view.center;
+	//
+	//console.log(navTweenItem);
+}
+
+function loadNav(){
+	console.log('Loading nav sections');
+	//
+	//
+	let navPath = '../../assets/data/ChapterNavigation.svg';
+	paper.project.importSVG(navPath, function(item){
+		console.log('Loaded Navigation');
+		let navigationFile = item;
+		//
+		let s = paperHeight/mainScroll.height;
+		let lms = paperHeight/item.bounds.height;//mask-scale
+		console.log('Navigation SCALE: ' + lms);
+		//
+		item.scale(lms);
+		item.position = paper.view.center;
+		item.position.x = (paperWidth*3/4) + (mainScroll.width*s/2);
+		item.opacity = 0.03;
+		//
+		navLayer.addChild(item);
+	});
+	//
 }
 
 //
@@ -356,8 +465,11 @@ function loadDatasets(){
 	      pieces.push(fname);
 	      mpath = pieces.join('/');
 	    }
-      //
-      let maskpromise = maskLoad(mpath, id);
+	    let morder = datasets[id].order;
+	    if(morder != "front" && morder != "back")
+	    	morder = null;
+	    //
+      let maskpromise = maskLoad(mpath, id, morder);
       let legendpromise = legendLoad(datasets[id].legendpath, id);
       //
       allSVGDataPromises.push(maskpromise);
@@ -409,16 +521,34 @@ function loadDatasets(){
 	//
 	//
 	Promise.all(allSVGDataPromises).then((values) => {
-	  console.log('Loaded all datasets');
-	  loaded.svgdata = true;
-  	//
-  	if(loaded.HQimage){
-  		$('#status').text('Loaded');
-  		setInterval(function(){	$('#status').hide();	},2000);
-  	}
-  	else
-  		$('#status').text('Still loading HQ scroll image...');
-  	//
+		console.log('Processing datasets...');
+		$('#status').text('Processing datasets...');
+		setTimeout(function(){
+			// bring some masks to front and others back
+			for(let i=0; i < maskFiles.length; i++){
+				let order = maskFiles[i].data.order;
+				if(order != null){
+					console.log('sending ' + maskFiles[i].data.legendName + ' to ' + order);
+					if(order == 'front'){
+						maskFiles[i].sendToBack();
+					}
+					if(order == 'back'){
+						maskFiles[i].bringToFront();
+					}
+				}
+			}
+			//
+			console.log('Loaded all datasets');
+		  loaded.svgdata = true;
+	  	//
+	  	if(loaded.HQimage){
+	  		$('#status').text('Loaded');
+	  		setInterval(function(){	$('#status').hide();	},2000);
+	  	}
+	  	else
+	  		$('#status').text('Still loading HQ scroll image...');
+	  	//
+		}, 4000);
 	});
 	//
 }
@@ -524,56 +654,93 @@ function initSplash(_width){
  * Pan & Zoom Interaction
  * ------------------------------------------------
  */
+prevMouse = new paper.Point(0,0);
+window.minval = 10;
+window.interval = 0;
+window.intransition = false;
 function initPanZoom(){
 	console.log('Initializing pan and zoom interactions');
 	// Main scrolling functionality
 	$('#main-scroll-canvas').on('mousewheel', function(event) {
+		/*
+		if(!window.intransition){
+			/
+			mousePos = new paper.Point(event.offsetX,event.offsetY);
+			//
+			clearTimeout(window.interval);
+			window.interval = setTimeout(function() {
+	        console.log("Haven't scrolled in 500ms!");
+	        document.body.style.cursor = 'progress';
+					//
+	        var dx = mousePos.x - prevMouse.x;
+					var dy = mousePos.y - prevMouse.y;
+					var c = Math.sqrt( dx*dx + dy*dy );
+					//
+					if(c < window.minval){
+						if(hitPopupMode != 'focused'){
+							window.intransition = true;
+							maskLayer.visible = true;
+							hitMaskEffect(event.point, 'hover');
+						}
+					}
+					if(maskLayer.visible){
+						setTimeout(function(){
+							clearTimeout(window.interval);
+							window.intransition = false;
+							window.interval = 0;
+							document.body.style.cursor = 'default';
+						},2000);
+					}
+					//
+			    prevMouse.x = mousePos.x;
+			    prevMouse.y = mousePos.y;
+			    //
+	    }, 500);
+		}
+		if(window.intransition)
+			document.body.style.cursor = 'progress';
+			return;
+		*/
+		//
+		//
+		//
+		// check inactivity
+		clearTimeout($.data(this, 'scrollTimer'));
+    $.data(this, 'scrollTimer', setTimeout(function() {
+        //
+        if(currentNavLoc != -1 && (currentTrack != ('base'+currentNavLoc))){
+        	console.log("Changing base track - Haven't scrolled in 250ms!");
+        	currentTrack = 'base' + currentNavLoc;
+        	//
+        	//for(let i=0; i < 7; i++)
+        	//	baseTracks['base'+(i+1)].stop();
+        	//
+        	console.log('Now playing : ' + currentTrack);
+        	//baseTracks[currentTrack].start();
+        }
+    }, 250));
+		//
 		let et;
 		et = event.originalEvent;
 		event.preventDefault();
 		//
 		if(!loaded.svgdata || !loaded.HQimage)
 			return;
+
 		//
 		//
 		$('#status').text('Scrolling...');
 		$('#status').show();
-		/*
-		if(mousePos != null && hitPopupMode != 'focused'){
-			//
-			//
-			if(popupBBoxes.hasOwnProperty(currentFocus)){
-				let count = popupBBoxes[currentFocus]['paths'].length;
-				console.log(count);
-				for(let i=0; i < count; i++){
-					popupBBoxes[currentFocus]['paths'][i].selected = false;
-					popupBBoxes[currentFocus]['paths'][i].visible = false;
-					console.log(popupBBoxes[currentFocus]['paths'][i]);
-				}
-			}
-			//
-			currentFocus = null;
-			hitPopupMode = 'hovering';
-			mousePos = new paper.Point(0,0);
-			hitMaskEffect(mousePos, 'exit');
-		}*/
 		//
-		if(mousePos != null && hitPopupMode != 'focused'){// Makes scrolling experince way smooth
+		if(hitPopupMode != 'focused' && maskLayer.visible){// Makes scrolling experince way smooth
+			console.log('Hide mask on scroll');
 			maskLayer.visible = false;
+			console.log(maskLayer.visible);
 			mousePos = new paper.Point(0,0);
 			hitMaskEffect(mousePos, 'scrolling');
 		}
-
-		/*
-		if(mousePos != null){
-			mousePos.x += et.deltaX;
-			mousePos.y += et.deltaY;
-		}
 		//
-		if(hitPopupMode != 'focused')
-			hitMaskEffect(mousePos, 'hover');
-		//
-  	*/
+		hitNavEffect();
 		//
 		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
 		//
@@ -590,8 +757,71 @@ function initPanZoom(){
 			deltaValY = et.deltaY;
 			//
 			paper.view.center = changeCenter(paper.view.center, deltaValX, deltaValY, fac, false);
+			navTweenItem.position = paper.view.center;
 		}
 	});
+}
+
+/**
+ * ------------------------------------------------
+ * hitNavEffect
+ * ------------------------------------------------
+ */
+function hitNavEffect(){
+	//
+	var hitResult = navLayer.hitTest(paper.view.center, navHitOptions);
+	if(hitResult != null){
+		let name = hitResult.item.name;
+		//
+		if(name.includes('nav-ch')){
+			if(currentNavLoc == -1){
+				$('.nav').fadeIn();
+				//
+				//introTrack.stop();
+				currentTrack = 'none';
+			}
+			let navLoc = parseInt(name.replace('nav-ch', ''));
+			if(currentNavLoc != navLoc){
+				//console.log('Not same - ' + currentNavLoc + ' '  + navLoc);
+				let elements = $('.jump');
+				for(let i=0; i < elements.length; i++){
+					let ele = $(elements[i]);
+					let id = parseInt(ele.attr('data-id'));
+					if(ele.hasClass('selected') ){
+						ele.removeClass('selected');
+						ele.find('img')[0].src = ele.find('img')[0].src.replace("_selected","_default");
+					}
+					if(id == navLoc){
+						console.log('Updated - ' + navLoc);
+						currentNavLoc = navLoc;
+						ele.addClass('selected');
+						//
+						ele.find('img')[0].src = ele.find('img')[0].src.replace("_default","_selected");
+					}
+				}
+			}
+		}
+		//
+		if(name.includes('intro')){
+			$('.nav').fadeOut();
+			currentNavLoc = -1;
+			//
+			if(currentTrack != 'intro'){
+				//
+				//for(let i=0; i < 7; i++)
+				//	baseTracks['base'+(i+1)].stop();
+        //
+				//introTrack.start();
+				currentTrack = 'intro';
+			}
+		}
+		/*
+		if(name.includes('outro')){
+			$('.nav').fadeOut();
+			currentNavLoc = -1;
+		}
+		*/
+	}
 }
 
 /**
@@ -602,25 +832,29 @@ function initPanZoom(){
 function hitMaskEffect(pt, ctype){
 	var hitResult = maskLayer.hitTest(pt, maskHitOptions);
 	if(hitResult != null){
+		//console.log('Showing: ' + hitResult.item.data.legendName);
 		$('#status').text('Showing: ' + hitResult.item.data.legendName);
 		$('#status').show();
 		//
 		legendLayer.visible = true;
-		for(let i=0; i<legendLayer.children.length; i++){
-			let child = legendLayer.children[i];
-			child.visible = false;
+		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
+		//console.log(lg);
+		if(!lg.visible){
+			for(let i=0; i<legendLayer.children.length; i++){
+				let child = legendLayer.children[i];
+				child.visible = false;
+			}
+			lg.visible = true;
 		}
 		//
 		//console.log('Finding legend...' + hitResult.item.data.legendName);
-		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
-		lg.visible = true;
 		//
 		//backgroundLayer.fillColor = 'black';
 		//backgroundLayer.opacity = 0.1;
 		//$("body").css("background-color","#5f6d70");
 		if(ctype == 'hover'){
-			backgroundLayer.opacity = 0.08;
-			$("body").css("background-color","#5f6d70");
+			//backgroundLayer.opacity = 0.08;
+			//$("body").css("background-color","#5f6d70");
 			document.body.style.cursor = 'pointer';
 			//
 			//

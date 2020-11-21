@@ -1,4 +1,20 @@
 {
+  "-1": {
+    "id": "-1",
+    "title": "water structure",
+    "desc": "lp",
+    "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified.svg",
+    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
+    "order": "back"
+  },
+  "0": {
+    "id": "0",
+    "title": "dna",
+    "desc": "lp",
+    "legendpath": "../../assets/data/legends/0_human_dna_legend-01-Simplified.svg",
+    "maskpath": "../../assets/data/legends/0_human_dna_mask-01-Simplified.svg",
+    "order": "front"
+  },
   "1": {
     "id": "1",
     "title": "Detection of water on exoplanet",
@@ -50,6 +66,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
+    "order": "front",
     "popdimensions": [
       {
         "x": 1354.7950000000028,
@@ -176,7 +193,8 @@
     "title": "Bay of Bengal & Arabian Sea SST",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend.svg",
-    "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg"
+    "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg",
+    "order": "front"
   },
   "11": {
     "id": "11",
@@ -205,7 +223,8 @@
     "title": "13 lorem ipsum",
     "desc": "13 lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/13 Subsaharan_legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg"
+    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg",
+    "bringfront": true
   },
   "14": {
     "id": "14",
@@ -300,7 +319,8 @@
     "title": "24 lorem ipsum",
     "desc": "24 lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/24 Marathwada Rainfall_legend-01-simplified.svg",
-    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg"
+    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg",
+    "order": "back"
   },
   "25": {
     "id": "25",
@@ -475,7 +495,8 @@
     "title": "60 Lorem Ipsum",
     "desc": "60 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_legend-01-simplified.svg",
-    "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg"
+    "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg",
+    "order": "back"
   },
   "63": {
     "id": "63",
@@ -483,5 +504,12 @@
     "desc": "63 Sound Pollution",
     "legendpath": "../../assets/data/legends/63 Sound Pollution_legend-01.svg",
     "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01.svg"
+  },
+  "64": {
+    "id": "64",
+    "title": "plankton",
+    "desc": "lp",
+    "legendpath": "../../assets/data/legends/64_plankton_legend-01.svg",
+    "maskpath": "../../assets/data/legends/64_plankton_mask-01-Simplified.svg"
   }
 }
