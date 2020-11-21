@@ -1059,10 +1059,35 @@ function initSplash(_width){
  * Pan & Zoom Interaction
  * ------------------------------------------------
  */
+prevMouse = new paper.Point(0,0);
+window.minval = 10;
+window.interval = 0;
 function initPanZoom(){
 	console.log('Initializing pan and zoom interactions');
 	// Main scrolling functionality
 	$('#main-scroll-canvas').on('mousewheel', function(event) {
+		mousePos = new paper.Point(event.offsetX,event.offsetY);
+		//
+		clearInterval(window.interval);
+		window.interval = setInterval(function() {
+        console.log("Haven't scrolled in 100ms!");
+        //
+        var dx = mousePos.x - prevMouse.x;
+				var dy = mousePos.y - prevMouse.y;
+				var c = Math.sqrt( dx*dx + dy*dy );
+				//
+				if(c < window.minval){
+					clearInterval(window.interval);
+					if(hitPopupMode != 'focused'){
+						maskLayer.visible = true;
+						hitMaskEffect(event.point, 'hover');
+					}
+				}
+		    prevMouse.x = mousePos.x;
+		    prevMouse.y = mousePos.y;
+		    //
+    }, 100);
+		//
 		let et;
 		et = event.originalEvent;
 		event.preventDefault();
@@ -1074,16 +1099,7 @@ function initPanZoom(){
 		$('#status').text('Scrolling...');
 		$('#status').show();
 		//
-		/*
-		if(mousePos != null){
-			mousePos.x += et.deltaX;
-			mousePos.y += et.deltaY;
-		}
-		//
-		if(hitPopupMode != 'focused')
-			hitMaskEffect(mousePos, 'hover');
-		*/
-		if(mousePos != null && hitPopupMode != 'focused'){ // Makes scrolling experince way smooth
+		if(hitPopupMode != 'focused' &&  maskLayer.visible){ // Makes scrolling experince way smooth
 			maskLayer.visible = false;
 			mousePos = new paper.Point(0,0);
 			hitMaskEffect(mousePos, 'scrolling');

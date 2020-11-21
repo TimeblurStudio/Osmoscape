@@ -1,10 +1,19 @@
 {
+  "-1": {
+    "id": "-1",
+    "title": "water structure",
+    "desc": "lp",
+    "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified.svg",
+    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
+    "order": "back"
+  },
   "0": {
     "id": "0",
     "title": "dna",
     "desc": "lp",
-    "legendpath": "../../assets/data/legends/0_human_dna_legend-01.svg",
-    "maskpath": "../../assets/data/legends/0_human_dna_mask-01.svg"
+    "legendpath": "../../assets/data/legends/0_human_dna_legend-01-Simplified.svg",
+    "maskpath": "../../assets/data/legends/0_human_dna_mask-01-Simplified.svg",
+    "order": "front"
   },
   "1": {
     "id": "1",
@@ -57,6 +66,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
+    "order": "front",
     "popdimensions": [
       {
         "x": 1354.7950000000028,
@@ -183,7 +193,8 @@
     "title": "Bay of Bengal & Arabian Sea SST",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend.svg",
-    "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg"
+    "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg",
+    "order": "front"
   },
   "11": {
     "id": "11",
@@ -212,7 +223,8 @@
     "title": "13 lorem ipsum",
     "desc": "13 lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/13 Subsaharan_legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg"
+    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg",
+    "bringfront": true
   },
   "14": {
     "id": "14",
@@ -307,7 +319,8 @@
     "title": "24 lorem ipsum",
     "desc": "24 lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/24 Marathwada Rainfall_legend-01-simplified.svg",
-    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg"
+    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg",
+    "order": "back"
   },
   "25": {
     "id": "25",
@@ -400,12 +413,40 @@
     "legendpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_legend-01.svg",
     "maskpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_mask-01-01-wOffset.svg"
   },
+  "45a": {
+    "id": "45a",
+    "title": "45a Lorem Ipsum",
+    "desc": "45a Lorem ipsum dolor sit",
+    "legendpath": "../../assets/data/legends/45a_legend-01.svg",
+    "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg"
+  },
+  "45b": {
+    "id": "45b",
+    "title": "45b Lorem Ipsum",
+    "desc": "45b Lorem ipsum dolor sit",
+    "legendpath": "../../assets/data/legends/45b_legend-01.svg",
+    "maskpath": "../../assets/data/legends/45b_mask-01.svg"
+  },
   "46": {
     "id": "46",
     "title": "46 Lorem Ipsum",
     "desc": "46 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/46_legend-01.svg",
     "maskpath": "../../assets/data/legends/46_mask-01.svg"
+  },
+  "48a": {
+    "id": "48a",
+    "title": "48_class 1 cities _sewage",
+    "desc": "48_class 1 cities _sewage",
+    "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
+    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg"
+  },
+  "48b": {
+    "id": "48b",
+    "title": "48_class 1b cities _sewage",
+    "desc": "48_class 1b cities _sewage",
+    "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
+    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg"
   },
   "50": {
     "id": "50",
@@ -454,7 +495,8 @@
     "title": "60 Lorem Ipsum",
     "desc": "60 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_legend-01-simplified.svg",
-    "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg"
+    "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg",
+    "order": "back"
   },
   "63": {
     "id": "63",
@@ -468,34 +510,6 @@
     "title": "plankton",
     "desc": "lp",
     "legendpath": "../../assets/data/legends/64_plankton_legend-01.svg",
-    "maskpath": "../../assets/data/legends/64_plankton_mask-01.svg"
-  },
-  "45a": {
-    "id": "45a",
-    "title": "45a Lorem Ipsum",
-    "desc": "45a Lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/45a_legend-01.svg",
-    "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg"
-  },
-  "45b": {
-    "id": "45b",
-    "title": "45b Lorem Ipsum",
-    "desc": "45b Lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/45b_legend-01.svg",
-    "maskpath": "../../assets/data/legends/45b_mask-01.svg"
-  },
-  "48a": {
-    "id": "48a",
-    "title": "48_class 1 cities _sewage",
-    "desc": "48_class 1 cities _sewage",
-    "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg"
-  },
-  "48b": {
-    "id": "48b",
-    "title": "48_class 1b cities _sewage",
-    "desc": "48_class 1b cities _sewage",
-    "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg"
+    "maskpath": "../../assets/data/legends/64_plankton_mask-01-Simplified.svg"
   }
 }
