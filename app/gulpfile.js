@@ -34,7 +34,7 @@ var commitConfig = {
   'replaces' : ['#{COMMIT_REPlACE}#'],
   'append': {
     'key': 'v',
-    'to': ['html', 'css', 'js'],
+    'to': ['html', 'css', 'js']
   }
 };
 
@@ -294,7 +294,7 @@ function startTestServer() {
       }
     }
   });
-
+  //
   watch('test/index.html').on('change', server.reload);
   watch('src/scripts/**/*.js', scripts);
   watch('test/spec/**/*.js', lintTest);
@@ -325,4 +325,4 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
-exports.dep = series(build, copyAssets, series(copyAllExamples, copyadd, copyanim, copycomp, copyleg, copynav, copysou), newDeploy);
+exports.dep = series(build, copyAssets, copyAllExamples, copyadd, copyanim, copycomp, copyleg, copynav, copysou);//newDeploy

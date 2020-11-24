@@ -969,20 +969,44 @@ function loadDatasets(){
 	//
 	//
 	Promise.all(allSVGDataPromises).then((values) => {
-	  console.log('Loaded all datasets');
-	  console.log(values);
-	  loaded.svgdata = true;
-  	//
-  	if(loaded.HQimage){
-  		$('#status').text('Loaded');
-  		setInterval(function(){	$('#status').hide();	},2000);
-  	}
-  	else
-  		$('#status').text('Still loading HQ scroll image...');
-  	//
+		console.log('Processing datasets...');
+		$('#status').text('Processing datasets...');
+		setTimeout(function(){
+			//
+			correctMaskOrder();
+			//
+			console.log('Loaded all datasets');
+		  loaded.svgdata = true;
+	  	//
+	  	if(loaded.HQimage){
+	  		$('#status').text('Loaded');
+	  		setInterval(function(){	$('#status').hide();	},2000);
+	  	}
+	  	else
+	  		$('#status').text('Still loading HQ scroll image...');
+	  	//
+		}, 4000);
 	});
 
 }
+
+
+function correctMaskOrder(){
+		// bring some masks to front and others back
+		for(let i=0; i<maskLayer.children.length; i++){
+			let child = maskLayer.children[i];
+			//
+			let order = child.data.order;
+			//
+			if(order == 'back')
+				child.sendToBack();
+			if(order == 'front')
+				child.bringToFront();
+			//
+			//
+		}
+}
+
 
 
 //
