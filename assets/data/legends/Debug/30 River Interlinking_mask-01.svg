@@ -1,23 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Baseline" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="9451.45px" height="623.52px" viewBox="0 0 9451.45 623.52" enable-background="new 0 0 9451.45 623.52"
+	 width="9451.5px" height="623.5px" viewBox="0 0 9451.5 623.5" style="enable-background:new 0 0 9451.5 623.5;"
 	 xml:space="preserve">
-<path opacity="0.75" d="M5826.64,438.26h4.55v-3.62h-4.55V438.26z M5812.27,438.82h4.5v-4.18h-4.5V438.82z M5797.85,451.72h4.5
-	v-17.08h-4.5V451.72z M5783.48,468.34h4.5v-33.7h-4.5V468.34z M5769.06,478.18h4.5v-43.54h-4.5V478.18z M5754.64,520.26h4.55v-85.62
-	h-4.55V520.26z M5740.27,548.3h4.5V434.64h-4.5V548.3z M5725.86,600.67h4.5V434.64h-4.5V600.67z M5711.49,601.23h4.5v-166.6h-4.5
-	V601.23z"/>
-<rect x="5999.2" y="304" opacity="0.75" width="4.55" height="121.92"/>
-<rect x="5984.83" y="338.26" opacity="0.75" width="4.5" height="87.65"/>
-<rect x="5970.41" y="353.76" opacity="0.75" width="4.5" height="72.16"/>
-<rect x="5956.05" y="387.46" opacity="0.75" width="4.5" height="38.45"/>
-<rect x="5941.63" y="388.59" opacity="0.75" width="4.5" height="37.32"/>
-<rect x="5927.21" y="398.43" opacity="0.75" width="4.55" height="27.48"/>
-<rect x="5912.84" y="400.47" opacity="0.75" width="4.5" height="25.45"/>
-<rect x="5898.42" y="402.05" opacity="0.75" width="4.55" height="23.86"/>
-<rect x="5884.05" y="407.25" opacity="0.75" width="4.5" height="18.66"/>
-<rect x="5869.63" y="412.91" opacity="0.75" width="4.5" height="13.01"/>
-<rect x="5855.26" y="412.91" opacity="0.75" width="4.5" height="13.01"/>
-<rect x="5840.85" y="421.73" opacity="0.75" width="4.5" height="4.18"/>
+<style type="text/css">
+	.st0{opacity:0.75;enable-background:new    ;}
+</style>
+<g class="st0">
+	<path d="M5707.5,605.2V430.6h12.5v174.6H5707.5z M5721.9,604.7v-174h12.5v174H5721.9z M5736.3,552.3V430.6h12.5v121.7H5736.3z
+		 M5750.6,524.3v-93.6h12.6v93.6H5750.6z M5765.1,482.2v-51.5h12.5v51.5H5765.1z M5779.5,472.3v-41.7h12.5v41.7H5779.5z
+		 M5793.9,455.7v-25.1h12.5v25.1H5793.9z M5808.3,442.8v-12.2h12.5v12.2H5808.3z M5822.6,442.3v-11.6h12.6v11.6H5822.6z"/>
+</g>
+<g class="st0">
+	<rect x="5995.2" y="300" width="12.5" height="129.9"/>
+</g>
+<g class="st0">
+	<rect x="5980.8" y="334.3" width="12.5" height="95.6"/>
+</g>
+<g class="st0">
+	<rect x="5966.4" y="349.8" width="12.5" height="80.2"/>
+</g>
+<g class="st0">
+	<rect x="5952" y="383.5" width="12.5" height="46.4"/>
+</g>
+<g class="st0">
+	<rect x="5937.6" y="384.6" width="12.5" height="45.3"/>
+</g>
+<g class="st0">
+	<rect x="5923.2" y="394.4" width="12.5" height="35.5"/>
+</g>
+<g class="st0">
+	<rect x="5908.8" y="396.5" width="12.5" height="33.5"/>
+</g>
+<g class="st0">
+	<rect x="5894.4" y="398.1" width="12.5" height="31.9"/>
+</g>
+<g class="st0">
+	<rect x="5880" y="403.3" width="12.5" height="26.7"/>
+</g>
+<g class="st0">
+	<rect x="5865.6" y="408.9" width="12.5" height="21"/>
+</g>
+<g class="st0">
+	<rect x="5851.3" y="408.9" width="12.5" height="21"/>
+</g>
+<g class="st0">
+	<rect x="5836.9" y="417.7" width="12.5" height="12.2"/>
+</g>
 </svg>

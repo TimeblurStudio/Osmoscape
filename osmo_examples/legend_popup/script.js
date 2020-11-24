@@ -160,7 +160,6 @@ function init(){
 		//
 		if(hitPopupMode != 'focused'){
 			maskLayer.visible = true;
-			//
 			//maskLayer.fillColor = 'black';
 			//maskLayer.opacity = 0.5;
 			hitMaskEffect(event.point, 'hover');
@@ -254,6 +253,11 @@ function maskLoad(svgxml, num, order = null){
 			mask.data.legendName = 'legend-'+num;
 			mask.data.maskName = 'mask-' + num;
 			mask.data.order = order;
+			//
+			if(order == 'back')
+				mask.sendToBack();
+			if(order == 'front')
+				mask.bringToFront();
 			//
 			if(mask.children != undefined)
 				updateChildLegend(mask.children, mask.data.legendName);
@@ -524,19 +528,8 @@ function loadDatasets(){
 		console.log('Processing datasets...');
 		$('#status').text('Processing datasets...');
 		setTimeout(function(){
-			// bring some masks to front and others back
-			for(let i=0; i < maskFiles.length; i++){
-				let order = maskFiles[i].data.order;
-				if(order != null){
-					console.log('sending ' + maskFiles[i].data.legendName + ' to ' + order);
-					if(order == 'front'){
-						maskFiles[i].sendToBack();
-					}
-					if(order == 'back'){
-						maskFiles[i].bringToFront();
-					}
-				}
-			}
+			//
+			correctMaskOrder();
 			//
 			console.log('Loaded all datasets');
 		  loaded.svgdata = true;
@@ -551,6 +544,22 @@ function loadDatasets(){
 		}, 4000);
 	});
 	//
+}
+
+function correctMaskOrder(){
+		// bring some masks to front and others back
+		for(let i=0; i<maskLayer.children.length; i++){
+			let child = maskLayer.children[i];
+			//
+			let order = child.data.order;
+			//
+			if(order == 'back')
+				child.sendToBack();
+			if(order == 'front')
+				child.bringToFront();
+			//
+			//
+		}
 }
 
 
@@ -853,8 +862,8 @@ function hitMaskEffect(pt, ctype){
 		//backgroundLayer.opacity = 0.1;
 		//$("body").css("background-color","#5f6d70");
 		if(ctype == 'hover'){
-			//backgroundLayer.opacity = 0.08;
-			//$("body").css("background-color","#5f6d70");
+			backgroundLayer.opacity = 0.08;
+			$("body").css("background-color","#5f6d70");
 			document.body.style.cursor = 'pointer';
 			//
 			//
