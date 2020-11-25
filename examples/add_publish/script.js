@@ -131,12 +131,28 @@ function initFileLoader(){
 		$('#currentLegend .filename').text('');
 		$('#currentLegend').hide();
 		$('#newLegend').show();
+		//
+		let value = parseInt($("#data-id").val());
+		console.log('Removing legend - ' + value);
+		//
+		let lg = paper.project.getItem({name: 'legend-'+value});
+		lg.remove();
+		lg = null;
+		//
 	});
 	$('#currentMask .cancel').click(function(){
 		console.log('Cancel clicked!');
 		$('#currentMask .filename').text('');
 		$('#currentMask').hide();
 		$('#newMask').show();
+		//
+		let value = parseInt($("#data-id").val());
+		console.log('Removing mask - ' + value);
+		//
+		let ms = paper.project.getItem({name: 'mask-'+value});
+		ms.remove();
+		ms = null;
+		//
 	});
 	//
 	$("#data-id").change(function(){
@@ -620,6 +636,12 @@ function init(){
 		//
 		//
 	};
+
+	// Ideally stoppropgation only if modal is open
+	$( ".modal" ).mousemove(function( event ) {
+		event.stopPropagation();
+	});
+
 }
 
 function newPopRect(p1, p2) {
@@ -775,7 +797,7 @@ function initSelect(){
 
 
 
-function maskLoad(svgxml, num){
+function maskLoad(svgxml, num, order = null){
 	//
 	console.log('maskLoad called');
 	const mpromise = new Promise((resolve, reject) => {
@@ -794,6 +816,8 @@ function maskLoad(svgxml, num){
 			//
 			mask.data.legendName = 'legend-'+num;
 			mask.data.maskName = 'mask-' + num;
+			mask.name = 'mask-' + num;
+			mask.data.order = order;
 			//
 			if(mask.children != undefined)
 				updateChildLegend(mask.children, mask.data.legendName);
@@ -923,8 +947,10 @@ function loadDatasets(){
 	      pieces.push(fname);
 	      mpath = pieces.join('/');
       }
-      //
-      let maskpromise = maskLoad(mpath, id);
+      let morder = datasets[id].order;
+      if(morder != "front" && morder != "back")
+	    	morder = null;
+	    let maskpromise = maskLoad(mpath, id, morder);
       let legendpromise = legendLoad(datasets[id].legendpath, id);
       //
       allSVGDataPromises.push(maskpromise);
@@ -1152,15 +1178,18 @@ function hitMaskEffect(pt, ctype){
 		$('#status').show();
 		//
 		legendLayer.visible = true;
-		for(let i=0; i<legendLayer.children.length; i++){
-			let child = legendLayer.children[i];
-			child.visible = false;
-		}
-		//
-		//console.log('Finding legend...' + hitResult.item.data.legendName);
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
-		lg.visible = true;
-		//backgroundLayer.fillColor = 'black';
+		if(lg == null)	return;
+		if(!lg.visible){
+			for(let i=0; i<legendLayer.children.length; i++){
+				let child = legendLayer.children[i];
+				child.visible = false;
+			}
+			//
+			//console.log('Finding legend...' + hitResult.item.data.legendName);
+			lg.visible = true;
+			//backgroundLayer.fillColor = 'black';
+		}
 		//
 		if(ctype == 'hover'){
 			backgroundLayer.opacity = 0.08;
