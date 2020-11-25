@@ -403,6 +403,13 @@
     "legendpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium-01.svg",
     "maskpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_mask-01.svg"
   },
+  "42": {
+    "id": "42",
+    "title": "42 Lorem Ipsum",
+    "desc": "42 Lorem ipsum dolor sit",
+    "legendpath": "../../assets/data/legends/45a_legend-01.svg",
+    "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg"
+  },
   "43": {
     "id": "43",
     "title": "43 Guiyu PDBE in sediment",
@@ -417,17 +424,10 @@
     "legendpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_legend-01.svg",
     "maskpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_mask-01-01-wOffset.svg"
   },
-  "45a": {
-    "id": "45a",
-    "title": "45a Lorem Ipsum",
-    "desc": "45a Lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/45a_legend-01.svg",
-    "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg"
-  },
-  "45b": {
-    "id": "45b",
-    "title": "45b Lorem Ipsum",
-    "desc": "45b Lorem ipsum dolor sit",
+  "45": {
+    "id": "45",
+    "title": "45 Lorem Ipsum",
+    "desc": "45 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/45b_legend-01.svg",
     "maskpath": "../../assets/data/legends/45b_mask-01.svg"
   },

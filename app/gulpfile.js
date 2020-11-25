@@ -325,4 +325,4 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
-exports.dep = series(build, copyAssets, copyAllExamples, copyadd, copyanim, copycomp, copyleg, copynav, copysou);//newDeploy
+exports.dep = series(build, copyAssets, copyAllExamples, copyadd, copyanim, copycomp, copyleg, copynav, copysou, newDeploy);
