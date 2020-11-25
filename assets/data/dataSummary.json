@@ -464,8 +464,8 @@
     "id": "55",
     "title": "55 Lorem Ipsum",
     "desc": "55 Lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/55_legend-01.svg",
-    "maskpath": "../../assets/data/legends/55_mask-01.svg"
+    "legendpath": "../../assets/data/legends/55_legend-rasterised.svg",
+    "maskpath": "../../assets/data/legends/55_mask-rasterised-01.svg"
   },
   "58": {
     "id": "58",
@@ -487,7 +487,7 @@
     "title": "63 Sound Pollution",
     "desc": "63 Sound Pollution",
     "legendpath": "../../assets/data/legends/63 Sound Pollution_legend-01.svg",
-    "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01.svg"
+    "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01-01.svg"
   },
   "64": {
     "id": "64",
