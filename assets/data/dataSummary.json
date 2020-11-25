@@ -1,12 +1,4 @@
 {
-  "-1": {
-    "id": "-1",
-    "title": "water structure",
-    "desc": "lp",
-    "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified.svg",
-    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
-    "order": "back"
-  },
   "0": {
     "id": "0",
     "title": "dna",
@@ -223,9 +215,8 @@
     "id": "13",
     "title": "13 lorem ipsum",
     "desc": "13 lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/13 Subsaharan_legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg",
-    "order": "back"
+    "legendpath": "../../assets/data/legends/13 Subsaharan_legend_revised-01-updated.svg",
+    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg"
   },
   "14": {
     "id": "14",
@@ -439,20 +430,6 @@
     "maskpath": "../../assets/data/legends/46_mask-01-Simplified.svg",
     "order": "front"
   },
-  "48a": {
-    "id": "48a",
-    "title": "48_class 1 cities _sewage",
-    "desc": "48_class 1 cities _sewage",
-    "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg"
-  },
-  "48b": {
-    "id": "48b",
-    "title": "48_class 1b cities _sewage",
-    "desc": "48_class 1b cities _sewage",
-    "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg"
-  },
   "50": {
     "id": "50",
     "title": "50 Lorem Ipsum",
@@ -487,8 +464,8 @@
     "id": "55",
     "title": "55 Lorem Ipsum",
     "desc": "55 Lorem ipsum dolor sit",
-    "legendpath": "../../assets/data/legends/55_legend-01.svg",
-    "maskpath": "../../assets/data/legends/55_mask-01.svg"
+    "legendpath": "../../assets/data/legends/55_legend-rasterised.svg",
+    "maskpath": "../../assets/data/legends/55_mask-rasterised-01.svg"
   },
   "58": {
     "id": "58",
@@ -510,7 +487,7 @@
     "title": "63 Sound Pollution",
     "desc": "63 Sound Pollution",
     "legendpath": "../../assets/data/legends/63 Sound Pollution_legend-01.svg",
-    "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01.svg"
+    "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01-01.svg"
   },
   "64": {
     "id": "64",
@@ -519,5 +496,27 @@
     "legendpath": "../../assets/data/legends/64_plankton_legend-01.svg",
     "maskpath": "../../assets/data/legends/64_plankton_mask-01.svg",
     "order": "front"
+  },
+  "-1": {
+    "id": "-1",
+    "title": "water structure",
+    "desc": "lp",
+    "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified.svg",
+    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
+    "order": "back"
+  },
+  "48a": {
+    "id": "48a",
+    "title": "48_class 1 cities _sewage",
+    "desc": "48_class 1 cities _sewage",
+    "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
+    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg"
+  },
+  "48b": {
+    "id": "48b",
+    "title": "48_class 1b cities _sewage",
+    "desc": "48_class 1b cities _sewage",
+    "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
+    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg"
   }
 }
