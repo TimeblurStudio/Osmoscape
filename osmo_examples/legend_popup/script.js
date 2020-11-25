@@ -252,6 +252,7 @@ function maskLoad(svgxml, num, order = null){
 			//
 			mask.data.legendName = 'legend-'+num;
 			mask.data.maskName = 'mask-' + num;
+			mask.name = 'mask-' + num;
 			mask.data.order = order;
 			//
 			if(order == 'back')
@@ -847,6 +848,7 @@ function hitMaskEffect(pt, ctype){
 		//
 		legendLayer.visible = true;
 		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
+		if(lg == null)	return;
 		//console.log(lg);
 		if(!lg.visible){
 			for(let i=0; i<legendLayer.children.length; i++){
