@@ -33,6 +33,7 @@ let navLayer;
 //
 let hitPopupMode = 'hovering';//'hovering', 'focused'
 let prevBoundsCenter = null;
+let prevZoom = null;
 let currentFocus = null;
 let popupBBoxes = {};
 let commitversion = '';
@@ -160,6 +161,22 @@ function init(){
 		//
 		if(hitPopupMode != 'focused'){
 			maskLayer.visible = true;
+
+			Object.keys(popupBBoxes).forEach(function(key) {
+				//
+				let xMin = paper.view.center.x - paperWidth/2.0;
+				let xMax = paper.view.center.x + paperWidth/2.0;
+				//
+				if(popupBBoxes[key]['paths'][0].bounds.rightCenter.x > xMin && popupBBoxes[key]['paths'][0].bounds.rightCenter.x < xMax)
+					popupBBoxes[key]['mask'].visible = true;
+				//
+				if(popupBBoxes[key]['paths'][0].bounds.leftCenter.x > xMin && popupBBoxes[key]['paths'][0].bounds.leftCenter.x < xMax)
+					popupBBoxes[key]['mask'].visible = true;
+				//
+				if(popupBBoxes[key]['paths'][0].bounds.center.x > xMin && popupBBoxes[key]['paths'][0].bounds.center.x < xMax)
+					popupBBoxes[key]['mask'].visible = true;
+			});
+
 			//maskLayer.fillColor = 'black';
 			//maskLayer.opacity = 0.5;
 			hitMaskEffect(event.point, 'hover');
@@ -175,7 +192,7 @@ function init(){
 
 		if(document.body.style.cursor == 'zoom-in'){
 			console.log('Zoom-in at this place');
-			paper.view.zoom = changeZoom(paper.view.zoom, -1, false);
+			paper.view.zoom = changeZoom(paper.view.zoom, -1, 1.015, false);
 		}
 		//
 		if(hitPopupMode != 'focused'){
@@ -197,6 +214,12 @@ function init(){
 		document.body.style.cursor = 'default';
 		//
 		//
+		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
+		let currentCenter = paper.view.center;
+		let newCenter = prevBoundsCenter;
+		let zoomFac = prevZoom;
+		//
+		//let zoomFac = 1;
 		if(popupBBoxes.hasOwnProperty(currentFocus)){
 			let count = popupBBoxes[currentFocus]['paths'].length;
 			console.log(count);
@@ -205,6 +228,9 @@ function init(){
 				popupBBoxes[currentFocus]['paths'][i].visible = false;
 				console.log(popupBBoxes[currentFocus]['paths'][i]);
 			}
+			//zoomFac = fac * 0.85 * paperWidth / (1.0 * popupBBoxes[currentFocus]['paths'][0].bounds.width);
+			console.log('Decide zoom');
+			console.log(zoomFac);
 		}
 		//
 		currentFocus = null;
@@ -212,17 +238,12 @@ function init(){
 		mousePos = new paper.Point(0,0);
 		hitMaskEffect(mousePos, 'exit');
 		//
-		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
-		let currentCenter = paper.view.center;
-		let newCenter = prevBoundsCenter;
-		//
 		let deltaValX = newCenter.x - currentCenter.x;
-		let deltaValY = -(newCenter.y - currentCenter.y);
+		let deltaValY = newCenter.y - currentCenter.y;
 		//
-		console.log(deltaValX + ' ' + deltaValY);
-		//
+		paper.view.zoom = changeZoom(paper.view.zoom, 1, zoomFac, false);
 		paper.view.center = changeCenter(paper.view.center, deltaValX, deltaValY, fac);
-		paper.view.zoom = 1;
+		//
 	});
 	//
 
@@ -245,10 +266,18 @@ function maskLoad(svgxml, num, order = null){
 				$('#status').text('Loaded '+num+' mask-debug');
 			else
 				$('#status').text('Loaded '+num+' mask');
-			resolve('m'+num);
 			//
 			let mask = item;
 			maskFiles.push(mask);
+
+			//console.log(num + '-mask');
+			//console.log(mask);
+			//console.log(popupBBoxes[num]);
+			if(popupBBoxes[num] != undefined){
+				popupBBoxes[num]['mask'] = mask;
+			}
+			//
+			//
 			//
 			mask.data.legendName = 'legend-'+num;
 			mask.data.maskName = 'mask-' + num;
@@ -274,6 +303,8 @@ function maskLoad(svgxml, num, order = null){
 			mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
 			//
 			maskLayer.addChild(mask);
+			//
+			resolve('m'+num);
 		});
 		//
 	});
@@ -305,10 +336,16 @@ function legendLoad(svgxml, num){
 			console.log('Loaded '+num+' legend');
 			$('#status').text('Loaded '+num+' legend');
 
-			resolve('l'+num);
 			//
 			let legend = item;
 			legendFiles.push(legend);
+			//console.log(num + '-legend');
+			//console.log(legend);
+			//console.log(popupBBoxes[num]);
+			if(popupBBoxes[num] != undefined){
+				popupBBoxes[num]['legend'] = legend;
+			}
+			//
 			//
 			legend.name = 'legend-'+num;
 			legend.visible = false;
@@ -323,6 +360,8 @@ function legendLoad(svgxml, num){
 			legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
 			//
 			legendLayer.addChild(legend);
+			//
+			resolve('l'+num);
 		});
 		//
 	});
@@ -486,6 +525,8 @@ function loadDatasets(){
       	//
       	let dim = datasets[id].popdimensions;
       	popupBBoxes[id] = {
+      		mask: null,
+      		legend: null,
 	      	paths: [],
 	      	rects: [],
 	      	dimensions: dim
@@ -745,7 +786,11 @@ function initPanZoom(){
 		if(hitPopupMode != 'focused' && maskLayer.visible){// Makes scrolling experince way smooth
 			console.log('Hide mask on scroll');
 			maskLayer.visible = false;
-			console.log(maskLayer.visible);
+			//
+			Object.keys(popupBBoxes).forEach(function(key) {
+				popupBBoxes[key]['mask'].visible = false;
+			});
+			//
 			mousePos = new paper.Point(0,0);
 			hitMaskEffect(mousePos, 'scrolling');
 		}
@@ -862,21 +907,22 @@ function hitMaskEffect(pt, ctype){
 		//
 		//backgroundLayer.fillColor = 'black';
 		//backgroundLayer.opacity = 0.1;
-		//$("body").css("background-color","#5f6d70");
+		//$("body").css("background-color","#6d7c80");
 		if(ctype == 'hover'){
 			backgroundLayer.opacity = 0.08;
-			$("body").css("background-color","#5f6d70");
+			$("body").css("background-color","#6d7c80");
 			document.body.style.cursor = 'pointer';
 			//
 			//
 			prevBoundsCenter = null;
+			prevZoom = null;
 			currentFocus = null;
 			//
 		}
 		if(ctype == 'click'){
 			//
 			backgroundLayer.opacity = 0;
-			$("body").css("background-color","#252525");
+			$("body").css("background-color","#24292b");
 			hitPopupMode = 'focused';
 			maskLayer.visible = false;
 			document.body.style.cursor = 'zoom-in';
@@ -899,15 +945,19 @@ function hitMaskEffect(pt, ctype){
 				}
 				//
 				// Zoom into selected area!
+				let fac = 1.005/(paper.view.zoom*paper.view.zoom);
 				let currentViewCenter = paper.view.bounds.center;
 				let newViewCenter = popupBBoxes[currentFocus]['paths'][0].bounds.center;
-				let deltaValX = newViewCenter.x - currentViewCenter.x + 250;
+				let zoomFac = fac * 0.5 * paperWidth / (1.0 * popupBBoxes[currentFocus]['paths'][0].bounds.width);
+				let deltaValX = newViewCenter.x - currentViewCenter.x + 250.0/zoomFac;
 				let deltaValY = -(newViewCenter.y - currentViewCenter.y);
 				//
-				let fac = 1.005/(paper.view.zoom*paper.view.zoom);
 				prevBoundsCenter = new paper.Point(paper.view.center.x, paper.view.center.y);
 				paper.view.center = changeCenter(paper.view.center, deltaValX, deltaValY, fac, false);
 				//
+				//
+				prevZoom = zoomFac;
+				paper.view.zoom = changeZoom(paper.view.zoom, -1, zoomFac, false);
 			}
 			//
 		}
@@ -962,8 +1012,7 @@ function changeCenter(oldCenter, deltaX, deltaY, factor, restricted=true){
  * changeZoom
  * ------------------------------------------------
  */
-function changeZoom(oldZoom, delta, restricted=true){
-	let factor = 1.015;
+function changeZoom(oldZoom, delta, factor=1.015, restricted=true){
 	let newZoom = oldZoom;
 	//
 	if(delta < 0)
