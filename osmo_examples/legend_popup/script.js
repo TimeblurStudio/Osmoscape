@@ -53,6 +53,7 @@ var navHitOptions = {
 };
 let currentNavLoc = -1;
 let navTweenItem;
+let backgroundTweenItem;
 //
 //
 //
@@ -64,7 +65,6 @@ init();
 //
 //
 let datasets = {};
-let publishFiles = [];
 //
 //
 let uploadedLegendFile = [], uploadedMaskFile = [];
@@ -76,6 +76,7 @@ let maskFiles = [], legendFiles = [];
  * ------------------------------------------------
  */
 function init(){
+
 	//
 	commitversion = $('#commitid').text();
 	console.log(commitversion);
@@ -97,17 +98,8 @@ function init(){
 				//
 	  		datasets = data;
 	  		//
+	  		loadDatasets();
 	  		//
-				let pF = {
-					fileName: 'dataSummary.json',
-					content: JSON.stringify (datasets),
-					exists: false,
-					sha: null,
-					updated: false
-				};
-				publishFiles.push(pF);
-	  		//
-				loadDatasets();
 		  }
 	  },1000);
 	  //
@@ -117,7 +109,6 @@ function init(){
 	// Setup PAPER canvas
 	let canvas = document.getElementById('main-scroll-canvas');
 	paper.setup(canvas);
-	//
 	//
 	/*
 	var canvasCtx = document.getElementById('main-scroll-canvas').getContext('2d');
@@ -139,6 +130,12 @@ function init(){
 	legendLayer = new paper.Layer();
 	navLayer = new paper.Layer();
 	//
+	backgroundTweenItem = new paper.Shape.Circle(new paper.Point(0,0), 30);
+	backgroundTweenItem.fill = 'none';
+	backgroundTweenItem.stroke = 'none';
+	backgroundTweenItem.position = new paper.Point(0,0);
+	maskLayer.addChild(backgroundTweenItem);
+	//
 	// INTERACTIONS
 	initPanZoom();
 	//
@@ -159,27 +156,25 @@ function init(){
 		//console.log(event.point);
 		mousePos = event.point;
 		//
-		if(hitPopupMode != 'focused'){
-			maskLayer.visible = true;
+		if(loaded.HQimage && loaded.svgdata){
+			if(hitPopupMode != 'focused'){
+				maskLayer.visible = true;
 
-			Object.keys(popupBBoxes).forEach(function(key) {
-				//
-				let xMin = paper.view.center.x - paperWidth/2.0;
-				let xMax = paper.view.center.x + paperWidth/2.0;
-				//
-				if(popupBBoxes[key]['paths'][0].bounds.rightCenter.x > xMin && popupBBoxes[key]['paths'][0].bounds.rightCenter.x < xMax)
-					popupBBoxes[key]['mask'].visible = true;
-				//
-				if(popupBBoxes[key]['paths'][0].bounds.leftCenter.x > xMin && popupBBoxes[key]['paths'][0].bounds.leftCenter.x < xMax)
-					popupBBoxes[key]['mask'].visible = true;
-				//
-				if(popupBBoxes[key]['paths'][0].bounds.center.x > xMin && popupBBoxes[key]['paths'][0].bounds.center.x < xMax)
-					popupBBoxes[key]['mask'].visible = true;
-			});
+				Object.keys(popupBBoxes).forEach(function(key) {
+					//
+					let xMin = paper.view.center.x - paperWidth/2.0;
+					let xMax = paper.view.center.x + paperWidth/2.0;
+					//
+					//
+					if(popupBBoxes[key]['mask'].bounds.rightCenter.x > xMin && popupBBoxes[key]['mask'].bounds.leftCenter.x < xMax)
+						popupBBoxes[key]['mask'].visible = true;
+					//
+				});
 
-			//maskLayer.fillColor = 'black';
-			//maskLayer.opacity = 0.5;
-			hitMaskEffect(event.point, 'hover');
+				//maskLayer.fillColor = 'black';
+				//maskLayer.opacity = 0.5;
+				hitMaskEffect(event.point, 'hover');
+			}
 		}
 		//
 		//
@@ -493,12 +488,64 @@ function loadNav(){
 
 //
 //
+let earlySVGDataPromises = [];
 let allSVGDataPromises = [];
 //
 function loadDatasets(){
 	//
 	for (let id in datasets) {
-	  if (datasets.hasOwnProperty(id)) {
+		loadDataset(id, true);
+		/*
+		if(parseInt(id) < 15){
+			loadDataset(id, true);
+		}else{// delayed by 100 seconds
+			setTimeout(function(){
+				loadDataset(id, false);
+			},100000);
+		}
+		*/
+	}
+	//
+	//
+	Promise.all(earlySVGDataPromises).then((values) => {
+		console.log('Processing early datasets...');
+		$('#status').text('Processing early datasets...');
+		setTimeout(function(){
+			//
+			correctMaskOrder();
+			//
+			console.log('Loaded all datasets');
+		  loaded.svgdata = true;
+	  	//
+	  	if(loaded.HQimage){
+	  		$('#status').text('Loaded');
+	  		setInterval(function(){	$('#status').hide();	},2000);
+	  	}
+	  	else
+	  		$('#status').text('Still loading HQ scroll image...');
+	  	//
+		}, 4000);
+	});
+
+	//
+	/*
+	setTimeout(function(){// delayed by 120 seconds
+		//
+		Promise.all(allSVGDataPromises).then((values) => {
+			console.log('Processing remaining datasets...');
+			$('#status').text('Processing remaining datasets...');
+			setTimeout(function(){
+				correctMaskOrder();
+				console.log('Loaded remaining datasets');
+			}, 1500);
+		});
+		//
+	}, 120000);
+	*/
+}
+
+function loadDataset(id, early=true){
+	if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
       let mpath = datasets[id].maskpath;
@@ -516,9 +563,14 @@ function loadDatasets(){
       let maskpromise = maskLoad(mpath, id, morder);
       let legendpromise = legendLoad(datasets[id].legendpath, id);
       //
-      allSVGDataPromises.push(maskpromise);
-      allSVGDataPromises.push(legendpromise);
-			//
+      if(early){
+      	earlySVGDataPromises.push(maskpromise);
+      	earlySVGDataPromises.push(legendpromise);
+      }else{
+      	allSVGDataPromises.push(maskpromise);
+	      allSVGDataPromises.push(legendpromise);
+      }
+      //
 			//
       if(datasets[id].hasOwnProperty('popdimensions')){
       	console.log('Loading dimensions for : ' + id);
@@ -562,30 +614,7 @@ function loadDatasets(){
       }
       //
       //
-	  }
 	}
-	//
-	//
-	Promise.all(allSVGDataPromises).then((values) => {
-		console.log('Processing datasets...');
-		$('#status').text('Processing datasets...');
-		setTimeout(function(){
-			//
-			correctMaskOrder();
-			//
-			console.log('Loaded all datasets');
-		  loaded.svgdata = true;
-	  	//
-	  	if(loaded.HQimage){
-	  		$('#status').text('Loaded');
-	  		setInterval(function(){	$('#status').hide();	},2000);
-	  	}
-	  	else
-	  		$('#status').text('Still loading HQ scroll image...');
-	  	//
-		}, 4000);
-	});
-	//
 }
 
 function correctMaskOrder(){
@@ -886,31 +915,31 @@ function hitNavEffect(){
  */
 function hitMaskEffect(pt, ctype){
 	var hitResult = maskLayer.hitTest(pt, maskHitOptions);
+	//
+	let fromOpacity = backgroundLayer.opacity, toOpacity;
+	let fromColor = new paper.Color($("body").css("background-color")), toColor;
+	let tweening = false;
+	let dur = 800;
+	let lg;
+	//
+	//
 	if(hitResult != null){
+		//
+		legendLayer.visible = true;
+		lg = paper.project.getItem({name: hitResult.item.data.legendName});
+		if(lg == null)	return;
 		//console.log('Showing: ' + hitResult.item.data.legendName);
 		$('#status').text('Showing: ' + hitResult.item.data.legendName);
 		$('#status').show();
-		//
-		legendLayer.visible = true;
-		let lg = paper.project.getItem({name: hitResult.item.data.legendName});
-		if(lg == null)	return;
-		//console.log(lg);
-		if(!lg.visible){
-			for(let i=0; i<legendLayer.children.length; i++){
-				let child = legendLayer.children[i];
-				child.visible = false;
-			}
-			lg.visible = true;
-		}
-		//
 		//console.log('Finding legend...' + hitResult.item.data.legendName);
 		//
 		//backgroundLayer.fillColor = 'black';
 		//backgroundLayer.opacity = 0.1;
 		//$("body").css("background-color","#6d7c80");
 		if(ctype == 'hover'){
-			backgroundLayer.opacity = 0.08;
-			$("body").css("background-color","#6d7c80");
+			//console.log('on hover');
+			toOpacity = 0.25;
+			toColor =  new paper.Color("#6d7c80");
 			document.body.style.cursor = 'pointer';
 			//
 			//
@@ -920,9 +949,13 @@ function hitMaskEffect(pt, ctype){
 			//
 		}
 		if(ctype == 'click'){
+			//$("#focused-info").css("transition",  'right 1.5s linear');
+			//$("#focused-info").css("right",  '0px');
+			$("#focused-info").animate({ right:'0px'}, 1200);
+			//console.log('on click');
+			toOpacity = 0;
+			toColor =  new paper.Color("#24292b");
 			//
-			backgroundLayer.opacity = 0;
-			$("body").css("background-color","#24292b");
 			hitPopupMode = 'focused';
 			maskLayer.visible = false;
 			document.body.style.cursor = 'zoom-in';
@@ -964,15 +997,56 @@ function hitMaskEffect(pt, ctype){
 		//
 		//
 	}else{
-		$("body").css("background-color","#b5ced5");
+		//$("#focused-info").css("transition",  'right 0.1s linear');
+		//$("#focused-info").css("right",  '-500px');
+		$("#focused-info").animate({ right:'-500px'}, 100);
+		//console.log('no hover');
+		toOpacity = 1.0;
+		toColor =  new paper.Color("#b5ced5");
+		//
 		legendLayer.visible = false;
 		document.body.style.cursor = 'default';
 		//backgroundLayer.fillColor = 'none';
-		backgroundLayer.opacity = 1.0;
 		for(let i=0; i<legendLayer.children.length; i++){
 			let child = legendLayer.children[i];
 			child.visible = false;
 		}
+	}
+	//
+	//
+	if(!tweening){
+		setTimeout(function(){tweening = false;}, dur*1.2);
+		backgroundTweenItem.tween(
+		    { val: 1.0 },
+		    { val: 0.0 },
+		    {
+		    	easing: 'easeInOutQuad',
+		    	duration: dur
+		    }
+		).onUpdate = function(event) {
+			tweening = true;
+			//
+			let currentVal = backgroundTweenItem.val;
+			let lerpedColor = new paper.Color(
+				toColor.red+(fromColor.red-toColor.red)*currentVal,
+				toColor.green+(fromColor.green-toColor.green)*currentVal,
+				toColor.blue+(fromColor.blue-toColor.blue)*currentVal);
+			//
+			backgroundLayer.opacity = toOpacity + (fromOpacity - toOpacity) * currentVal;
+			$("body").css("background-color",  lerpedColor.toCSS(true));
+			//
+
+			if(typeof lg !== "undefined"){
+				if(!lg.visible && currentVal == 0){
+					for(let i=0; i<legendLayer.children.length; i++){
+						let child = legendLayer.children[i];
+						child.visible = false;
+					}
+					lg.visible = true;
+				}
+			}
+			//
+		};
 	}
 	//
 	//
@@ -1049,15 +1123,6 @@ function readSvg(file, type, number) {
 	reader.addEventListener("loadend", function() {
 	   $('#status').text('Applying ' + type + '...');
 		 $('#status').show();
-		 //
-		 let pF = {
-			 fileName: file.name,
-			 content: reader.result,
-			 exists: false,
-			 sha: null,
-			 updated: false
-		 };
-		 publishFiles.push(pF);
 		 //
 	   // reader.result contains the contents of blob as a typed array
 	   // we insert content of file in DOM here
