@@ -345,7 +345,15 @@
     "title": "cotton production",
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/21 Cotton production_legend-01.svg",
-    "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg"
+    "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 5569.352386451121,
+        "y": 8.5,
+        "width": 1227,
+        "height": 760
+      }
+    ]
   },
   "23": {
     "id": "23",
@@ -588,21 +596,45 @@
     "desc": "46 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/46_legend-01.svg",
     "maskpath": "../../assets/data/legends/46_mask-01-Simplified.svg",
-    "order": "front"
+    "order": "front",
+    "popdimensions": [
+      {
+        "x": 8356.43999999999,
+        "y": 367.5,
+        "width": 418,
+        "height": 343
+      }
+    ]
   },
   "50": {
     "id": "50",
     "title": "50 Lorem Ipsum",
     "desc": "50 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/50 Antibiotic resistance in India_legend-01-simplified.svg",
-    "maskpath": "../../assets/data/legends/50 Antibiotic resistance in India_mask-01-simplified.svg"
+    "maskpath": "../../assets/data/legends/50 Antibiotic resistance in India_mask-01-simplified.svg",
+    "popdimensions": [
+      {
+        "x": 8651.029999999984,
+        "y": 19.5,
+        "width": 1211,
+        "height": 545
+      }
+    ]
   },
   "52": {
     "id": "52",
     "title": "52 Lorem Ipsum",
     "desc": "52 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_legend-01.svg",
-    "maskpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_mask-01.svg"
+    "maskpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 8606.344999999988,
+        "y": 39.5,
+        "width": 883,
+        "height": 505
+      }
+    ]
   },
   "53": {
     "id": "53",
@@ -610,7 +642,15 @@
     "desc": "53 Bottled water consumption Layer 3 Print",
     "legendpath": "../../assets/data/legends/53 Bottled water consumption_legend-01.svg",
     "maskpath": "../../assets/data/legends/53 Bottled water consumption_mask-01-Simplified.svg",
-    "order": "back"
+    "order": "back",
+    "popdimensions": [
+      {
+        "x": 8496.024999999998,
+        "y": 15.5,
+        "width": 1413,
+        "height": 798
+      }
+    ]
   },
   "54": {
     "id": "54",
@@ -618,7 +658,15 @@
     "desc": "54 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/54_ Platic bottled water_legend-01.svg",
     "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01-simplified.svg",
-    "order": "front"
+    "order": "front",
+    "popdimensions": [
+      {
+        "x": 9879.752386451104,
+        "y": 453.5,
+        "width": 961,
+        "height": 353
+      }
+    ]
   },
   "55": {
     "id": "55",
@@ -632,7 +680,15 @@
     "title": "58 Area of hypoxia in Gulf of mexico",
     "desc": "58 Area of hypoxia in Gulf of mexico",
     "legendpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_legend-01.svg",
-    "maskpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_mask-01.svg"
+    "maskpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 9299.819999999998,
+        "y": 24.5,
+        "width": 1243,
+        "height": 595
+      }
+    ]
   },
   "60": {
     "id": "60",
@@ -640,14 +696,30 @@
     "desc": "60 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_legend-01-Simplified2.svg",
     "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg",
-    "order": "back"
+    "order": "back",
+    "popdimensions": [
+      {
+        "x": 9490.634999999995,
+        "y": 23.5,
+        "width": 1346,
+        "height": 729
+      }
+    ]
   },
   "63": {
     "id": "63",
     "title": "63 Sound Pollution",
     "desc": "63 Sound Pollution",
     "legendpath": "../../assets/data/legends/63 Sound Pollution_legend-01.svg",
-    "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01-01.svg"
+    "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01-01.svg",
+    "popdimensions": [
+      {
+        "x": 9447.944999999976,
+        "y": 18.5,
+        "width": 506,
+        "height": 380
+      }
+    ]
   },
   "64": {
     "id": "64",
@@ -655,7 +727,15 @@
     "desc": "lp",
     "legendpath": "../../assets/data/legends/64_plankton_legend-01.svg",
     "maskpath": "../../assets/data/legends/64_plankton_mask-01.svg",
-    "order": "front"
+    "order": "front",
+    "popdimensions": [
+      {
+        "x": 10874.752386451117,
+        "y": 60.5,
+        "width": 774,
+        "height": 717
+      }
+    ]
   },
   "-1": {
     "id": "-1",
