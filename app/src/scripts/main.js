@@ -22,8 +22,8 @@ window.onload = function() {
   let please_wait_spinner = '<div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #b97941"></div><div class="sk-child sk-bounce2" style="background-color: #b97941"></div><div class="sk-child sk-bounce3" style="background-color: #b97941"></div></div>';
   let DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'"><h2 id="quality-choice" style="font-family: \'Roboto\'"><a id="quality-choice-best" style="font-family: \'Roboto\'" class="invert" onclick="osmo.scroll.loadRQ();" href="#">RETINA QUALITY</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a class="invert" onclick="osmo.scroll.loadHQ();" href="#">HIGH QUALITY</a></h2></div>';
   //
-
-  if(!window.isMobile){
+  let loadMobile = !window.isMobile;
+  if(loadMobile){
     console.log('Loading screen for desktop');
     window.loading_screen = window.pleaseWait({
       logo: 'assets/images/OsmoSplash.png',
