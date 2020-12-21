@@ -11,9 +11,10 @@ import paper from 'paper';
 import tone from 'tone';
 //
 import {} from './Visuals/movingStars';
-import {} from './Visuals/svgScroll';
+import {} from './Visuals/dataSvg';
 import {} from './Visuals/testShapes';
 import {} from './Interactions/PanAndZoom';
+import {} from './Interactions/Navigation';
 
 window.osmo = window.osmo || {};
 window.$ = $;
@@ -74,14 +75,12 @@ osmo.Scroll = class {
 		// INTERACTIONS
 		osmo.pzinteract = new osmo.PanAndZoom();
 		osmo.pzinteract.init();
+		osmo.navinteract = new osmo.Navigation();
+		osmo.navinteract.init();
 
 		// Star instance
 		//osmo.mstars = new osmo.movingStars();
 		//osmo.mstars.init();
-
-		// data SVG instance
-		//osmo.datasvg = new osmo.svgScroll();
-		//osmo.datasvg.init();
 
 		// test Visuals instance
 		//osmo.test = new osmo.testShapes();
@@ -129,14 +128,17 @@ osmo.Scroll = class {
 	  		console.log('Loaded HQ image');
 	      image.src = this.src;
 	      //
-	      osmo.datasvg = new osmo.svgScroll();
+	      osmo.datasvg = new osmo.dataSvg();
 	      osmo.datasvg.init('High');
 	      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
+	      //
+	      osmo.navinteract.loadNav();
+	      osmo.navinteract.initNav();
 				//
 	      window.loading_screen.finish();
 	  };
 	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png';
-
+	  //
 	}
 
 	/**
@@ -160,14 +162,18 @@ osmo.Scroll = class {
 	      image.src = this.src;
 	      //
 	      //
-	      osmo.datasvg = new osmo.svgScroll();
+	      osmo.datasvg = new osmo.dataSvg();
 				osmo.datasvg.init('Retina');
 	      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
 	      //
+	      osmo.navinteract.loadNav();
+	      osmo.navinteract.initNav();
+				//
 	      window.loading_screen.finish();
 	      //
 	  };
 	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_600ppi-RETINA.png';
+
 	}
 
 	/**
@@ -186,10 +192,13 @@ osmo.Scroll = class {
 	  		console.log('Loaded MQ image');
 	      image.src = this.src;
 	      //
-	      osmo.datasvg = new osmo.svgScroll();
+	      osmo.datasvg = new osmo.dataSvg();
 				osmo.datasvg.init('Mobile');
 	      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
 	      //
+	      osmo.navinteract.loadNav();
+	      osmo.navinteract.initNav();
+				//
 	      window.loading_screen.finish();
 	      //
 	  };

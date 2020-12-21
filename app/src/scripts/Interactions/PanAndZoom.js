@@ -27,7 +27,7 @@ osmo.PanAndZoom = class {
 
 		//@private
 		this.mousePos;
-		this.maxZoom = 1.5;
+		this.maxZoom = 1;
 		this.isCompletedDetecting = false;
 		this.isTrackpadDetected = false;
 
@@ -42,37 +42,12 @@ osmo.PanAndZoom = class {
 	 * ------------------------------------------------
 	 */
 	init(){
-		console.log('Initlaized Pan & Zoom');
+		console.log('Initlaizing Pan & Zoom interactions');
 
-		if(!window.isMobile){
-			function detectTrackPad(e) {
-			  var isTrackpad = false;
-			  if (e.wheelDeltaY) {
-			    if (e.wheelDeltaY === (e.deltaY * -3)) {
-			      isTrackpad = true;
-			    }
-			  }
-			  else if (e.deltaMode === 0) {
-			    isTrackpad = true;
-			  }
-			  console.log(isTrackpad ? 'Trackpad detected' : 'Mousewheel detected');
-			  osmo.pzinteract.isCompletedDetecting = true;
-			  osmo.pzinteract.isTrackpadDetected = isTrackpad;
-			  //
-			  if(osmo.pzinteract.isCompletedDetecting){
-					document.removeEventListener('mousewheel', detectTrackPad, false);
-					document.removeEventListener('DOMMouseScroll', detectTrackPad, false);
-			  }
-			}
+		osmo.pzinteract.detectMouseType();
 
-			document.addEventListener('mousewheel', detectTrackPad, false);
-			document.addEventListener('DOMMouseScroll', detectTrackPad, false);
-		}else{
-			this.isCompletedDetecting = true;
-			this.isTrackpadDetected = true;
-		}
-
-
+		/* EARLY METHOD BELOW FOR TOUCH */
+		/*
 		//touchmove works for iOS, and Android
 		let prevX = 0;
 		let prevY = 0;
@@ -100,19 +75,32 @@ osmo.PanAndZoom = class {
 			//
 		  $('#main-scroll-canvas').trigger(newEvent);
 		});
+		*/
 
 		// Main scrolling functionality
 		$('#main-scroll-canvas').on('mousewheel', function(event) {
-			//console.log('mousewheel');
-			//console.log(event);
+			osmo.navinteract.updateBasetrack();
+			osmo.navinteract.hitNavEffect();
+			//
 			let et;
-
 			if(!window.isMobile){
 				et = event.originalEvent;
 				event.preventDefault();
 			}else{
 				et = event;
 			}
+			//
+			//
+			let fac = 1.005/(osmo.scroll.PAPER.view.zoom*osmo.scroll.PAPER.view.zoom);
+			//
+			let deltaValX, deltaValY;
+			deltaValX = et.deltaY;
+			deltaValY = et.deltaY;
+			//
+			osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, deltaValX, 0, fac);
+
+			/* EARLY METHOD BELOW INCLUDES TOUCH, TRACKPAD, MOUSE */
+			/*
 			// Pinch-Zoom
 			// Tricky spec - https://medium.com/@auchenberg/detecting-multi-touch-trackpad-gestures-in-javascript-a2505babb10e
 			if(et.ctrlKey && osmo.pzinteract.isTrackpadDetected){
@@ -144,8 +132,46 @@ osmo.PanAndZoom = class {
 					osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, et.deltaX, et.deltaY, fac);
 				}
 			}
+			*/
 
 		});
+	}
+
+	/**
+	 * ------------------------------------------------
+	 * detectMouseType
+	 * ------------------------------------------------
+	 */
+	detectMouseType(){
+		if(!window.isMobile){
+			function detectTrackPad(e) {
+			  var isTrackpad = false;
+			  if (e.wheelDeltaY) {
+			    if (e.wheelDeltaY === (e.deltaY * -3)) {
+			      isTrackpad = true;
+			    }
+			  }
+			  else if (e.deltaMode === 0) {
+			    isTrackpad = true;
+			  }
+			  console.log(isTrackpad ? 'Trackpad detected' : 'Mousewheel detected');
+			  osmo.pzinteract.isCompletedDetecting = true;
+			  osmo.pzinteract.isTrackpadDetected = isTrackpad;
+			  //
+			  if(osmo.pzinteract.isCompletedDetecting){
+			  	$('#scrollm').hide();
+			  	//
+					document.removeEventListener('mousewheel', detectTrackPad, false);
+					document.removeEventListener('DOMMouseScroll', detectTrackPad, false);
+			  }
+			}
+			//
+			document.addEventListener('mousewheel', detectTrackPad, false);
+			document.addEventListener('DOMMouseScroll', detectTrackPad, false);
+		}else{
+			this.isCompletedDetecting = true;
+			this.isTrackpadDetected = true;
+		}
 	}
 
 	/**
@@ -158,18 +184,18 @@ osmo.PanAndZoom = class {
 		let offset = new this.PAPER.Point(deltaX, -deltaY);
     offset = offset.multiply(factor);
     oldCenter = oldCenter.add(offset);
-    //
+    /*
     if(oldCenter.x < osmo.scroll.paperWidth/2)
     	oldCenter.x  = osmo.scroll.paperWidth/2;
-    if(oldCenter.x > osmo.datasvg.scrollWidth)
-    	oldCenter.x  = osmo.datasvg.scrollWidth;
+    if(oldCenter.x > (osmo.datasvg.scrollWidth + osmo.scroll.paperWidth/2))
+    	oldCenter.x  = (osmo.datasvg.scrollWidth + osmo.scroll.paperWidth/2);
     //
     //
 		if((oldCenter.y*osmo.scroll.PAPER.view.zoom - osmo.scroll.paperHeight/2) <= 0 && deltaY > 0)
     	oldCenter.y = osmo.scroll.paperHeight/(2*osmo.scroll.PAPER.view.zoom);
     if(oldCenter.y*osmo.scroll.PAPER.view.zoom > (-osmo.scroll.paperHeight/2 + osmo.scroll.paperHeight*osmo.scroll.PAPER.view.zoom) && deltaY < 0)
     	oldCenter.y = (-osmo.scroll.paperHeight/(2*osmo.scroll.PAPER.view.zoom) + osmo.scroll.paperHeight);
-    //
+    */
     //
     return oldCenter;
 	}

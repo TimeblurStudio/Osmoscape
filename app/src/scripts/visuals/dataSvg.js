@@ -11,14 +11,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	svgScroll
+ * class:	dataSvg
  * desc:
  * ------------------------------------------------
  */
-osmo.svgScroll = class {
+osmo.dataSvg = class {
 
 	constructor(){
-		console.log('osmo.svgScroll - constructor');
+		console.log('osmo.dataSvg - constructor');
 
 		// ----------------
 		// Lib
@@ -30,6 +30,8 @@ osmo.svgScroll = class {
 		this.mousePos;
 		this.quality = 'HQ';
 		this.scrollWidth;
+		this.scrollHeight;
+		this.scale;
 
 		// Methods
 		this.init;
@@ -44,21 +46,22 @@ osmo.svgScroll = class {
 	 * ------------------------------------------------
 	 */
 	initSplash(_width){
-		console.log('osmo.svgScroll - initSplash');
+		//
+		console.log('osmo.dataSvg - initSplash');
 		//
 		// SPLASH
 		//
 		let raster = new this.PAPER.Raster('splash');
 		// Scale the raster
-		let s = _width/raster.width;
-		raster.scale(s);
+		this.scale = _width/raster.width;
+		raster.scale(this.scale);
 		// Move the raster to the center of the view
 		raster.position = this.PAPER.view.center;
 		raster.position.y -= 20;
 		//
 		// SCROLL TEXT
 		//
-		let textLoc = new this.PAPER.Point(raster.position.x - raster.width*s/3, raster.position.y + raster.height*s*0.65);
+		let textLoc = new this.PAPER.Point(raster.position.x - raster.width*this.scale/3, raster.position.y + raster.height*this.scale*0.65);
 		let text = new this.PAPER.PointText(textLoc);
 		text.justification = 'left';
 		text.fillColor = '#b97941';
@@ -70,7 +73,7 @@ osmo.svgScroll = class {
 		// SCROLL ARROW
 		//
 		let start = new this.PAPER.Point(textLoc.x + textWidth + 10, textLoc.y - 5);
-		let end = new this.PAPER.Point(start.x+(raster.width*s/2)-textWidth, start.y);
+		let end = new this.PAPER.Point(start.x+(raster.width*this.scale/2)-textWidth, start.y);
 		let line = new this.PAPER.Path();
 		line.strokeColor = '#b97941';
 		line.moveTo(start);
@@ -80,6 +83,9 @@ osmo.svgScroll = class {
 		triangle.rotate(90);
 		triangle.fillColor = '#b97941';
 		//
+		//
+
+
 	}
 
 
@@ -89,34 +95,26 @@ osmo.svgScroll = class {
 	 * ------------------------------------------------
 	 */
 	init(q){
-		console.log('osmo.svgScroll - initStars');
+		console.log('osmo.dataSvg - initStars');
 		this.quality = q;
 		//
 		this.mousePos = this.PAPER.view.center;
 		this.position = this.PAPER.view.center;
-		/*
-		console.log('Loading SVG...');
-		let svg_paths = this.PAPER.project.importSVG(
-			'./data/SCROLL_cs6_ver23_APP_v2-01.svg'
-			, function(){
-				console.log('Completed loading data SVG.');
-				console.log(svg_paths);
-			});
-		*/
+		//
 		if(this.quality == 'High'){
 			//
 			//HQscroll
 			// Create a raster item using the image tag with id=''
 			let raster = new this.PAPER.Raster('HQscroll');
 			// Scale the raster
-			let s = osmo.scroll.paperHeight/raster.height;
-			raster.scale(s);
+			this.scale = osmo.scroll.paperHeight/raster.height;
+			raster.scale(this.scale);
 			//
 			// Move the raster to the center of the view
 			raster.position = this.PAPER.view.center;
-			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*s/2);
+			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*this.scale/2);
 			//
-			this.scrollWidth = raster.width*s;
+			this.scrollWidth = raster.width*this.scale;
 			this.scrollHeight = osmo.scroll.paperHeight;
 		}else if(this.quality == 'Mobile'){
 			//
@@ -124,14 +122,14 @@ osmo.svgScroll = class {
 			// Create a raster item using the image tag with id=''
 			let raster = new this.PAPER.Raster('MQscroll');
 			// Scale the raster
-			let s = osmo.scroll.paperHeight/raster.height;
-			raster.scale(s);
+			this.scale = osmo.scroll.paperHeight/raster.height;
+			raster.scale(this.scale);
 			// Move the raster to the center of the view
 			raster.position = this.PAPER.view.center;
-			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*s/2);
+			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*this.scale/2);
 			//
 			//
-			this.scrollWidth = raster.width*s;
+			this.scrollWidth = raster.width*this.scale;
 			this.scrollHeight = osmo.scroll.paperHeight;
 		}else if(this.quality == 'Retina'){
 			//
@@ -139,14 +137,14 @@ osmo.svgScroll = class {
 			// Create a raster item using the image tag with id=''
 			let raster = new this.PAPER.Raster('RQscroll');
 			// Scale the raster
-			let s = osmo.scroll.paperHeight/raster.height;
-			raster.scale(s);
+			this.scale = osmo.scroll.paperHeight/raster.height;
+			raster.scale(this.scale);
 			//
 			// Move the raster to the center of the view
 			raster.position = this.PAPER.view.center;
-			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*s/2);
+			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*this.scale/2);
 			//
-			this.scrollWidth = raster.width*s;
+			this.scrollWidth = raster.width*this.scale;
 			this.scrollHeight = osmo.scroll.paperHeight;
 		}
 	}
