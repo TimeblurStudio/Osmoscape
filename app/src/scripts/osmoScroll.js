@@ -46,6 +46,7 @@ osmo.Scroll = class {
 		this.paperWidth;
 		this.splashWidth;
 		this.loaded = {	'HQimage' : false,	'svgdata': false	};
+		this.hitPopupMode = 'hovering';
 
 		// Methods
 		this.init;
@@ -108,6 +109,7 @@ osmo.Scroll = class {
 
 		paper.view.onMouseMove = function(event) {
 			//osmo.mstars.mouseMoved(event);
+			osmo.legend.mouseMoved(event);
 		};
 
 		paper.view.onKeyDown = function(event) {
