@@ -2,7 +2,7 @@
 // generated on 2020-06-27 using generator-webapp 4.0.0-8
 const { src, dest, watch, series, parallel, lastRun } = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
-var version = require('gulp-version-number');
+const version = require('gulp-version-number');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 const Modernizr = require('modernizr');
@@ -16,7 +16,9 @@ const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 const { argv } = require('yargs');
 const ghdeploy = require('gh-pages');
+const stripDebug = require('gulp-strip-debug');
 var execSync = require('child_process').execSync;
+var uglify = require('gulp-uglify');
 
 const $ = gulpLoadPlugins();
 const server = browserSync.create();
@@ -27,7 +29,15 @@ const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
 const isDev = !isProd && !isTest;
 
+// version for app
+var pack = JSON.parse(fs.readFileSync('./package.json'));
+var versionConfig = {
+  'value': pack.version,
+  'replaces' : ['#{VERSION_REPlACE}#']
+};
 
+
+// commit-id for examples
 let commit_full = execSync('git log --format="%H" -n 1').toString();
 var commitConfig = {
   'value': commit_full.substring(0, 7),
@@ -59,32 +69,32 @@ function copyAllExamples(){
             .pipe(dest('dist/examples/'));
 }
 //
-function copyadd(){
+function commitadd(){
   return src('../osmo_examples/add_publish/index.html')
             .pipe(version(commitConfig))
             .pipe(dest('dist/examples/add_publish/'));
 }
-function copyanim(){
+function commitanim(){
   return src('../osmo_examples/animation/index.html')
             .pipe(version(commitConfig))
             .pipe(dest('dist/examples/animation/'));
 }
-function copycomp(){
+function commitcomp(){
   return src('../osmo_examples/composition/index.html')
             .pipe(version(commitConfig))
             .pipe(dest('dist/examples/composition/'));
 }
-function copyleg(){
+function commitleg(){
   return src('../osmo_examples/legend_popup/index.html')
             .pipe(version(commitConfig))
             .pipe(dest('dist/examples/legend_popup/'));
 }
-function copynav(){
+function commitnav(){
   return src('../osmo_examples/navigation/index.html')
             .pipe(version(commitConfig))
             .pipe(dest('dist/examples/navigation/'));
 }
-function copysou(){
+function commitsou(){
   return src('../osmo_examples/sound/index.html')
             .pipe(version(commitConfig))
             .pipe(dest('dist/examples/sound/'));
@@ -110,17 +120,19 @@ function styles() {
     .pipe(server.reload({stream: true}));
 };
 
-function scripts() {
+
+//
+//
+function scriptsdev() {
 
   var browserifyjs = {
     in: './src/scripts/main.js',
-    outdir: $.if(!isProd, '.tmp/scripts', 'dist/scripts'),
+    outdir: '.tmp/scripts',
     out: 'bundle.js',
     jsOpts: {
       debug: false
     }
   };
-
 
   return browserify(browserifyjs.jsOpts)
     .transform(babel, { presets: ['@babel/preset-env']})
@@ -128,10 +140,40 @@ function scripts() {
     .bundle()
     .on('error', function(err){ console.log(err.stack); })
     .pipe(vinylsource(browserifyjs.out))
+    .pipe(vinylbuffer())
     .pipe(dest(browserifyjs.outdir))
     .pipe(server.reload({stream: true}));
+}
+
+
+
+//
+//
+function scripts() {
+
+  var browserifyjs = {
+    in: './src/scripts/main.js',
+    outdir: 'dist/scripts',
+    out: 'bundle.js',
+    jsOpts: {
+      debug: false
+    }
+  };
+
+  return browserify(browserifyjs.jsOpts)
+    .transform(babel, { presets: ['@babel/preset-env']})
+    .require(browserifyjs.in, { entry: true })
+    .bundle()
+    .on('error', function(err){ console.log(err.stack); })
+    .pipe(vinylsource(browserifyjs.out))
+    .pipe(vinylbuffer())
+    .pipe(stripDebug())
+    .pipe(uglify())
+    .pipe(dest(browserifyjs.outdir));
 };
 
+//
+//
 async function modernizr() {
   const readConfig = () => new Promise((resolve, reject) => {
     fs.readFile(`${__dirname}/modernizr.json`, 'utf8', (err, data) => {
@@ -178,6 +220,7 @@ function lintTest() {
 
 function html() {
   return src('src/*.html')
+    .pipe(version(versionConfig))
     .pipe(dest('dist'));
 
   /*
@@ -244,11 +287,20 @@ function measureSize() {
     .pipe($.size({title: 'build', gzip: true}));
 }
 
+const commitAllExamples = parallel(
+  commitadd,
+  commitanim,
+  commitcomp,
+  commitleg,
+  commitnav,
+  commitsou
+);
+
 const build = series(
-  clean,
   parallel(
     lint,
     series(parallel(styles, scripts, modernizr), html),
+    images,
     fonts,
     libs,
     extras
@@ -276,7 +328,7 @@ function startAppServer() {
   ]).on('change', server.reload);
 
   watch('src/styles/**/*.scss', styles);
-  watch('src/scripts/**/*.js', scripts);
+  watch('src/scripts/**/*.js', scriptsdev);
   watch('modernizr.json', modernizr);
   watch('../assets/fonts/**/*', fonts);
 }
@@ -315,14 +367,14 @@ function startDistServer() {
 
 let serve;
 if (isDev) {
-  serve = series(clean, parallel(styles, scripts, modernizr, fonts, libs), startAppServer);
+  serve = series(clean, parallel(styles, scriptsdev, modernizr, fonts, libs), startAppServer);
 } else if (isTest) {
-  serve = series(clean, scripts, startTestServer);
+  serve = series(clean, scriptsdev, startTestServer);
 } else if (isProd) {
-  serve = series(build, startDistServer);
+  serve = series(clean, build, startDistServer);
 }
 
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
-exports.dep = series(build, copyAssets, copyAllExamples, copyadd, copyanim, copycomp, copyleg, copynav, copysou, newDeploy);
+exports.dep = series(clean, copyAssets, copyAllExamples, commitAllExamples, build, newDeploy);

@@ -13,6 +13,7 @@ import tone from 'tone';
 import {} from './Visuals/movingStars';
 import {} from './Visuals/dataSvg';
 import {} from './Visuals/testShapes';
+import {} from './Visuals/Legend';
 import {} from './Interactions/PanAndZoom';
 import {} from './Interactions/Navigation';
 
@@ -44,6 +45,7 @@ osmo.Scroll = class {
 		this.paperHeight;
 		this.paperWidth;
 		this.splashWidth;
+		this.loaded = {	'HQimage' : false,	'svgdata': false	};
 
 		// Methods
 		this.init;
@@ -77,6 +79,13 @@ osmo.Scroll = class {
 		osmo.pzinteract.init();
 		osmo.navinteract = new osmo.Navigation();
 		osmo.navinteract.init();
+
+		// LEGEND
+		osmo.legend = new osmo.Legend();
+		osmo.legend.init();
+
+
+		// POPUP & AUDIO
 
 		// Star instance
 		//osmo.mstars = new osmo.movingStars();
@@ -116,9 +125,10 @@ osmo.Scroll = class {
 	loadHQ(){
 	  console.log('osmo.scroll.loadHQ - called');
 	  //
+	  let self = this;
 	  osmo.pzinteract.setMaxZoom(2);
 	  //
-	  let please_wait_spinner = '<div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #b97941"></div><div class="sk-child sk-bounce2" style="background-color: #b97941"></div><div class="sk-child sk-bounce3" style="background-color: #b97941"></div></div>';
+	  let please_wait_spinner = '<div id="percentage" style="color: #b97941; font-weight: 400;"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #b97941"></div><div class="sk-child sk-bounce2" style="background-color: #b97941"></div><div class="sk-child sk-bounce3" style="background-color: #b97941"></div></div>';
   	$('.pg-loading-html').empty();
   	$('.pg-loading-html').append($.parseHTML( please_wait_spinner ));
 	  //
@@ -134,8 +144,11 @@ osmo.Scroll = class {
 	      //
 	      osmo.navinteract.loadNav();
 	      osmo.navinteract.initNav();
-				//
-	      window.loading_screen.finish();
+	      //
+	      self.loaded.HQimage = true;
+				osmo.datasvg.backgroundLayer.sendToBack();
+	      if(self.loaded.HQimage && self.loaded.svgdata)
+	      	window.loading_screen.finish();
 	  };
 	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png';
 	  //
@@ -151,29 +164,31 @@ osmo.Scroll = class {
 	  //
 	  osmo.pzinteract.setMaxZoom(4);
 	  //
-	  let please_wait_spinner = '<div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #b97941"></div><div class="sk-child sk-bounce2" style="background-color: #b97941"></div><div class="sk-child sk-bounce3" style="background-color: #b97941"></div></div>';
+	  let please_wait_spinner = '<div id="percentage" style="color: #b97941; font-weight: 400;"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #b97941"></div><div class="sk-child sk-bounce2" style="background-color: #b97941"></div><div class="sk-child sk-bounce3" style="background-color: #b97941"></div></div>';
   	$('.pg-loading-html').empty();
   	$('.pg-loading-html').append($.parseHTML( please_wait_spinner ));
 	  //
 	  let image = document.getElementById('RQscroll');
 	  var downloadingImage = new Image();
 	  downloadingImage.onload = function(){
-	  		console.log('Loaded RQ image');
-	      image.src = this.src;
-	      //
-	      //
-	      osmo.datasvg = new osmo.dataSvg();
-				osmo.datasvg.init('Retina');
-	      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
-	      //
-	      osmo.navinteract.loadNav();
-	      osmo.navinteract.initNav();
-				//
-	      window.loading_screen.finish();
-	      //
+  		console.log('Loaded RQ image');
+      image.src = this.src;
+      //
+      //
+      osmo.datasvg = new osmo.dataSvg();
+			osmo.datasvg.init('Retina');
+      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
+      //
+      osmo.navinteract.loadNav();
+      osmo.navinteract.initNav();
+      //
+      self.loaded.HQimage = true;
+      osmo.datasvg.backgroundLayer.sendToBack();
+      if(self.loaded.HQimage && self.loaded.svgdata)
+      	window.loading_screen.finish();
 	  };
 	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_600ppi-RETINA.png';
-
+	  //
 	}
 
 	/**
@@ -198,9 +213,11 @@ osmo.Scroll = class {
 	      //
 	      osmo.navinteract.loadNav();
 	      osmo.navinteract.initNav();
-				//
-	      window.loading_screen.finish();
 	      //
+	      self.loaded.HQimage = true;
+				osmo.datasvg.backgroundLayer.sendToBack();
+	      if(self.loaded.HQimage && self.loaded.svgdata)
+	      	window.loading_screen.finish();
 	  };
 	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png';
 	}

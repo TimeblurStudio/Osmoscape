@@ -32,6 +32,8 @@ osmo.dataSvg = class {
 		this.scrollWidth;
 		this.scrollHeight;
 		this.scale;
+		this.mainScroll;
+		this.backgroundLayer;
 
 		// Methods
 		this.init;
@@ -84,8 +86,6 @@ osmo.dataSvg = class {
 		triangle.fillColor = '#b97941';
 		//
 		//
-
-
 	}
 
 
@@ -95,6 +95,9 @@ osmo.dataSvg = class {
 	 * ------------------------------------------------
 	 */
 	init(q){
+		this.backgroundLayer = new this.PAPER.Layer();
+
+		//
 		console.log('osmo.dataSvg - initStars');
 		this.quality = q;
 		//
@@ -106,6 +109,8 @@ osmo.dataSvg = class {
 			//HQscroll
 			// Create a raster item using the image tag with id=''
 			let raster = new this.PAPER.Raster('HQscroll');
+			this.mainScroll = raster;
+			this.backgroundLayer.addChild(this.mainScroll);
 			// Scale the raster
 			this.scale = osmo.scroll.paperHeight/raster.height;
 			raster.scale(this.scale);
@@ -121,6 +126,8 @@ osmo.dataSvg = class {
 			//MQscroll
 			// Create a raster item using the image tag with id=''
 			let raster = new this.PAPER.Raster('MQscroll');
+			this.mainScroll = raster;
+			this.backgroundLayer.addChild(this.mainScroll);
 			// Scale the raster
 			this.scale = osmo.scroll.paperHeight/raster.height;
 			raster.scale(this.scale);
@@ -136,6 +143,8 @@ osmo.dataSvg = class {
 			//RQscroll
 			// Create a raster item using the image tag with id=''
 			let raster = new this.PAPER.Raster('RQscroll');
+			this.mainScroll = raster;
+			this.backgroundLayer.addChild(this.mainScroll);
 			// Scale the raster
 			this.scale = osmo.scroll.paperHeight/raster.height;
 			raster.scale(this.scale);

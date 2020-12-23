@@ -56,5 +56,9 @@
     <!-- build:js scripts/bundle.js -->
     <script src="scripts/bundle.js"></script>
     <!-- endbuild -->
+    <script>
+        window.version = #{VERSION_REPLACE}#;
+        console.log(window.version);
+    </script>>
   </body>
 </html>
