@@ -11,7 +11,7 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	PanAndZoom
+ * class:	Navigation
  * desc:
  * ------------------------------------------------
  */
