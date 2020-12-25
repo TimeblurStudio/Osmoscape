@@ -15,7 +15,7 @@ window.osmo = window.osmo || {};
  * desc:
  * ------------------------------------------------
  */
-osmo.dataSvg = class {
+osmo.DataSvg = class {
 
 	constructor(){
 		console.log('osmo.dataSvg - constructor');
@@ -26,19 +26,17 @@ osmo.dataSvg = class {
 		this.PAPER = osmo.scroll.PAPER;
 
 		//@private
-		this.position;
-		this.mousePos;
 		this.quality = 'HQ';
 		this.scrollWidth;
 		this.scrollHeight;
 		this.scale;
 		this.mainScroll;
 		this.backgroundLayer;
+		this.backgroundTweenItem;
 
 		// Methods
 		this.init;
 		this.update;
-		this.mouseMoved;
 	}
 
 
@@ -96,13 +94,18 @@ osmo.dataSvg = class {
 	 */
 	init(q){
 		this.backgroundLayer = new this.PAPER.Layer();
+		//
+		//
+		this.backgroundTweenItem = new this.PAPER.Shape.Circle(new this.PAPER.Point(0,0), 30);
+		this.backgroundTweenItem.fill = 'none';
+		this.backgroundTweenItem.stroke = 'none';
+		this.backgroundTweenItem.position = new this.PAPER.Point(0,0);
+		this.backgroundLayer.addChild(this.backgroundTweenItem);
+		//
 
 		//
 		console.log('osmo.dataSvg - initStars');
 		this.quality = q;
-		//
-		this.mousePos = this.PAPER.view.center;
-		this.position = this.PAPER.view.center;
 		//
 		if(this.quality == 'High'){
 			//
@@ -165,15 +168,6 @@ osmo.dataSvg = class {
 	 */
 	update(event){
 
-	}
-
-	/**
-	 * ------------------------------------------------
-	 * mouse and keypad interactions
-	 * ------------------------------------------------
-	 */
-	mouseMoved(event){
-		this.mousePos = event.point;
 	}
 
 

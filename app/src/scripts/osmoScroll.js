@@ -10,15 +10,17 @@ import 'jquery-mousewheel';
 import paper from 'paper';
 import tone from 'tone';
 //
-import {} from './Visuals/movingStars';
-import {} from './Visuals/dataSvg';
-import {} from './Visuals/testShapes';
-import {} from './Visuals/Legend';
+import {} from './Visuals/DataSvg';
+import {} from './Visuals/LegendSvg';
 import {} from './Interactions/PanAndZoom';
 import {} from './Interactions/Navigation';
-
+import {} from './Interactions/Legend';
+//
+//
 window.osmo = window.osmo || {};
 window.$ = $;
+//
+//
 /**
  * ------------------------------------------------
  * class:	Scroll
@@ -46,7 +48,11 @@ osmo.Scroll = class {
 		this.paperWidth;
 		this.splashWidth;
 		this.loaded = {	'HQimage' : false,	'svgdata': false	};
+		//
 		this.hitPopupMode = 'hovering';
+		this.prevBoundsCenter = null;
+		this.prevZoom = null;
+		//
 
 		// Methods
 		this.init;
@@ -78,24 +84,17 @@ osmo.Scroll = class {
 		// INTERACTIONS
 		osmo.pzinteract = new osmo.PanAndZoom();
 		osmo.pzinteract.init();
-		osmo.navinteract = new osmo.Navigation();
+		osmo.navinteract = new osmo.NavigationInteraction();
 		osmo.navinteract.init();
 
 		// LEGEND
-		osmo.legend = new osmo.Legend();
-		osmo.legend.init();
-
+		osmo.legendsvg = new osmo.LegendSvg();
+		osmo.legendsvg.init();
+		osmo.legendinteract = new osmo.LegendInteraction();
 
 		// POPUP & AUDIO
-
-		// Star instance
-		//osmo.mstars = new osmo.movingStars();
-		//osmo.mstars.init();
-
-		// test Visuals instance
-		//osmo.test = new osmo.testShapes();
-		//osmo.test.init();
-
+		//
+		//
 
 		// Draw PAPER
 		paper.view.draw();
@@ -109,7 +108,7 @@ osmo.Scroll = class {
 
 		paper.view.onMouseMove = function(event) {
 			//osmo.mstars.mouseMoved(event);
-			osmo.legend.mouseMoved(event);
+			osmo.legendinteract.mouseMoved(event);
 		};
 
 		paper.view.onKeyDown = function(event) {
@@ -140,7 +139,7 @@ osmo.Scroll = class {
 	  		console.log('Loaded HQ image');
 	      image.src = this.src;
 	      //
-	      osmo.datasvg = new osmo.dataSvg();
+	      osmo.datasvg = new osmo.DataSvg();
 	      osmo.datasvg.init('High');
 	      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
 	      //

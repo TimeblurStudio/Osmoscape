@@ -11,19 +11,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	Popup
+ * class:	PopupInteraction
  * desc:
  * ------------------------------------------------
  */
-osmo.Popup = class {
+osmo.PopupInteraction = class {
 
 	constructor(){
-		console.log('osmo.Popup - constructor');
-
-	}
-
-	init(){
-		console.log('osmo.Legend - init');
+		console.log('osmo.PopupInteraction - constructor');
 
 	}
 
