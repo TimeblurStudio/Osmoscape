@@ -15,7 +15,7 @@ window.osmo = window.osmo || {};
  * desc:
  * ------------------------------------------------
  */
-osmo.Legend = class {
+osmo.LegendSvg = class {
 
 	constructor(){
 		console.log('osmo.Legend - constructor');
@@ -33,16 +33,6 @@ osmo.Legend = class {
 		this.legendFiles = [];
 		this.maskLayer;
 		this.legendLayer;
-		this.mousePos = null;
-		this.maskHitOptions = {
-			segments: false,
-			stroke: false,
-			fill: true,
-			tolerance: 5
-		};
-		this.prevBoundsCenter = null;
-		this.prevZoom = null;
-		this.backgroundTweenItem;
 
 		// Methods
 		this.init;
@@ -75,15 +65,13 @@ osmo.Legend = class {
 		this.maskLayer = new this.PAPER.Layer();
 		this.legendLayer = new this.PAPER.Layer();
 		//
-		//
-		this.backgroundTweenItem = new this.PAPER.Shape.Circle(new this.PAPER.Point(0,0), 30);
-		this.backgroundTweenItem.fill = 'none';
-		this.backgroundTweenItem.stroke = 'none';
-		this.backgroundTweenItem.position = new this.PAPER.Point(0,0);
-		this.maskLayer.addChild(this.backgroundTweenItem);
-		//
 	}
 
+	/**
+	 * ------------------------------------------------
+	 * loadDataset
+	 * ------------------------------------------------
+	 */
 	loadDataset(id, early=true){
 		if (this.datasets.hasOwnProperty(id)) {
 	    console.log('Loading data for : ' + id);
@@ -122,7 +110,6 @@ osmo.Legend = class {
 	    		mask: null,
 	    		legend: null,
 	      	paths: [],
-	      	rects: [],
 	      	dimensions: dim
 	      };
 	      //
@@ -143,13 +130,9 @@ osmo.Legend = class {
 					let rectPath = this.newPopRect(p1,p2);
 					this.legendLayer.addChild(rectPath);
 					//
-					let arec = new this.PAPER.Rectangle(p1,p2);
-					let aprec = new this.PAPER.Path.Rectangle(arec);
-					//
 					this.popupBBoxes[id]['paths'].push(rectPath);
 					this.popupBBoxes[id]['paths'][i].visible = false;
-					this.popupBBoxes[id]['rects'].push(aprec);
-					//console.log(popupBBoxes[id]['paths'][i]);
+					//
 				}
 				//
 				this.maskLayer.visible = false;
@@ -159,7 +142,11 @@ osmo.Legend = class {
 		}
 	}
 
-
+	/**
+	 * ------------------------------------------------
+	 * newPopRect
+	 * ------------------------------------------------
+	 */
 	newPopRect(p1, p2) {
 		// Create pixel perfect dotted rectable for drag selections.
 		var half = new this.PAPER.Point(0.5 / this.PAPER.view.zoom, 0.5 / this.PAPER.view.zoom);
@@ -181,22 +168,16 @@ osmo.Legend = class {
 		return rect;
 	};
 
-
+	/**
+	 * ------------------------------------------------
+	 * loadDatasets
+	 * ------------------------------------------------
+	 */
 	loadDatasets(){
 		let self = this;
 		//
-		for (let id in this.datasets) {
+		for (let id in this.datasets)
 			this.loadDataset(id, true);
-			/*
-			if(parseInt(id) < 15){
-				loadDataset(id, true);
-			}else{// delayed by 100 seconds
-				setTimeout(function(){
-					loadDataset(id, false);
-				},100000);
-			}
-			*/
-		}
 		//
 		//
 		Promise.all(this.earlySVGDataPromises).then((values) => {
@@ -210,25 +191,14 @@ osmo.Legend = class {
 				//
 			}, 4000);
 		});
-
 		//
-		/*
-		setTimeout(function(){// delayed by 120 seconds
-			//
-			Promise.all(allSVGDataPromises).then((values) => {
-				console.log('Processing remaining datasets...');
-				$('#status').text('Processing remaining datasets...');
-				setTimeout(function(){
-					correctMaskOrder();
-					console.log('Loaded remaining datasets');
-				}, 1500);
-			});
-			//
-		}, 120000);
-		*/
 	}
 
-
+	/**
+	 * ------------------------------------------------
+	 * correctMaskOrder
+	 * ------------------------------------------------
+	 */
 	correctMaskOrder(){
 			// bring some masks to front and others back
 			for(let i=0; i<this.maskLayer.children.length; i++){
@@ -244,9 +214,11 @@ osmo.Legend = class {
 			}
 	}
 
-	//
-	//
-	//
+	/**
+	 * ------------------------------------------------
+	 * maskLoad
+	 * ------------------------------------------------
+	 */
 	maskLoad(svgxml, num, order = null){
 		let self = this;
 		//
@@ -301,21 +273,11 @@ osmo.Legend = class {
 		return mpromise;
 	}
 
-	//
-	//
-	//
-	updateChildLegend(ch, d){
-		for(let i=0; i < ch.length; i++){
-			let child = ch[i];
-			child.data.legendName = d;
-			if(child.children != undefined)
-				this.updateChildLegend(child.children, d);
-		}
-	}
-
-	//
-	//
-	//
+	/**
+	 * ------------------------------------------------
+	 * legendLoad
+	 * ------------------------------------------------
+	 */
 	legendLoad(svgxml, num){
 		let self = this;
 		//
@@ -358,160 +320,18 @@ osmo.Legend = class {
 		return lpromise;
 	}
 
-
 	/**
 	 * ------------------------------------------------
-	 * mouseMoved
+	 * updateChildLegend
 	 * ------------------------------------------------
 	 */
-	mouseMoved(event){
-		//
-		let self = this;
-		this.mousePos = event.point;
-		//
-		if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata){
-			if(osmo.scroll.hitPopupMode != 'focused'){
-				this.maskLayer.visible = true;
-
-				Object.keys(this.popupBBoxes).forEach(function(key) {
-					//
-					let xMin = self.PAPER.view.center.x - osmo.scroll.paperWidth/2.0;
-					let xMax = self.PAPER.view.center.x + osmo.scroll.paperWidth/2.0;
-					//
-					//
-					if(self.popupBBoxes[key]['mask'].bounds.rightCenter.x > xMin && self.popupBBoxes[key]['mask'].bounds.leftCenter.x < xMax)
-						self.popupBBoxes[key]['mask'].visible = true;
-					//
-				});
-
-				//maskLayer.fillColor = 'black';
-				//maskLayer.opacity = 0.5;
-				this.hitMaskEffect(event.point, 'hover');
-			}
+	updateChildLegend(ch, d){
+		for(let i=0; i < ch.length; i++){
+			let child = ch[i];
+			child.data.legendName = d;
+			if(child.children != undefined)
+				this.updateChildLegend(child.children, d);
 		}
-		//
 	}
-
-	/**
-	 * ------------------------------------------------
-	 * hitMaskEffect
-	 * ------------------------------------------------
-	 */
-	hitMaskEffect(pt, ctype){
-		let self = this;
-		var hitResult = this.maskLayer.hitTest(pt, this.maskHitOptions);
-		//
-		let fromOpacity = osmo.datasvg.backgroundLayer.opacity, toOpacity;
-		let fromColor = new this.PAPER.Color($('body').css('background-color')), toColor;
-		let tweening = false;
-		let dur = 800;
-		let lg;
-		let currentFocus = null;
-		//
-		//
-		if(hitResult != null){
-			//
-			this.legendLayer.visible = true;
-			lg = this.PAPER.project.getItem({name: hitResult.item.data.legendName});
-			if(lg == null)	return;
-			//
-			if(ctype == 'hover'){
-				//
-				toOpacity = 0.25;
-				toColor =  new this.PAPER.Color('#6d7c80');
-				document.body.style.cursor = 'pointer';
-				//
-				this.prevBoundsCenter = null;
-				this.prevZoom = null;
-				currentFocus = null;
-				//
-			}
-			//
-			if(ctype == 'click'){
-				//
-				toOpacity = 0;
-				toColor =  new this.PAPER.Color('#24292b');
-				//
-				osmo.scroll.hitPopupMode = 'focused';
-				this.maskLayer.visible = false;
-				document.body.style.cursor = 'zoom-in';
-				//
-				currentFocus = parseInt(hitResult.item.data.legendName.replace('legend-', ''));
-				console.log('Focused on: ' + currentFocus );
-				//
-				if(this.popupBBoxes.hasOwnProperty(currentFocus)){
-					let count = this.popupBBoxes[currentFocus]['paths'].length;
-					for(let i=0; i < count; i++){
-						this.popupBBoxes[currentFocus]['paths'][i].visible = false;// true to show rect box
-						this.popupBBoxes[currentFocus]['paths'][i].selected = false;
-					}
-					//
-					// Zoom into selected area!
-					let fac = 1.005/(this.PAPER.view.zoom*this.PAPER.view.zoom);
-					let currentViewCenter = this.PAPER.view.bounds.center;
-					let newViewCenter = this.popupBBoxes[currentFocus]['paths'][0].bounds.center;
-					let zoomFac = fac * 0.5 * osmo.scroll.paperWidth / (1.0 * this.popupBBoxes[currentFocus]['paths'][0].bounds.width);
-					let deltaValX = newViewCenter.x - currentViewCenter.x + 250.0/zoomFac;
-					let deltaValY = -(newViewCenter.y - currentViewCenter.y);
-					//
-					prevBoundsCenter = new this.PAPER.Point(this.PAPER.view.center.x, this.PAPER.view.center.y);
-					this.PAPER.view.center = changeCenter(this.PAPER.view.center, deltaValX, deltaValY, fac, false);
-					//
-					//
-					prevZoom = zoomFac;
-					this.PAPER.view.zoom = changeZoom(this.PAPER.view.zoom, -1, zoomFac, false);
-					//
-				}
-				//
-			}
-			//
-			//
-		}else{
-			toOpacity = 1.0;
-			toColor =  new this.PAPER.Color('#b5ced5');
-			//
-			this.legendLayer.visible = false;
-			document.body.style.cursor = 'default';
-			for(let i=0; i<this.legendLayer.children.length; i++){
-				let child = this.legendLayer.children[i];
-				child.visible = false;
-			}
-			//
-		}
-		//
-		if(!tweening){
-			setTimeout(function(){tweening = false;}, dur*1.2);
-			self.backgroundTweenItem.tween(
-			    { val: 1.0 },
-			    { val: 0.0 },
-			    { easing: 'easeInOutQuad', duration: dur }
-			).onUpdate = function(event) {
-				tweening = true;
-				//
-				let currentVal = self.backgroundTweenItem.val;
-				let lerpedColor = new self.PAPER.Color(
-					toColor.red+(fromColor.red-toColor.red)*currentVal,
-					toColor.green+(fromColor.green-toColor.green)*currentVal,
-					toColor.blue+(fromColor.blue-toColor.blue)*currentVal);
-				//
-				osmo.datasvg.backgroundLayer.opacity = toOpacity + (fromOpacity - toOpacity) * currentVal;
-				$('body').css('background-color',  lerpedColor.toCSS(true));
-				//
-				if(typeof lg !== 'undefined'){
-					if(!lg.visible && currentVal == 0){
-						for(let i=0; i<self.legendLayer.children.length; i++){
-							let child = self.legendLayer.children[i];
-							child.visible = false;
-						}
-						lg.visible = true;
-					}
-				}
-				//
-			};
-		}
-		//
-		//
-	}
-
 
 };

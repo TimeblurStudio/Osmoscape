@@ -26,7 +26,6 @@ osmo.PanAndZoom = class {
 		this.PAPER = osmo.scroll.PAPER;
 
 		//@private
-		this.mousePos;
 		this.maxZoom = 1;
 		this.isCompletedDetecting = false;
 		this.isTrackpadDetected = false;

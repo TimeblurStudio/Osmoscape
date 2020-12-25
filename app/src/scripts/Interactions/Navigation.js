@@ -15,10 +15,10 @@ window.osmo = window.osmo || {};
  * desc:
  * ------------------------------------------------
  */
-osmo.Navigation = class {
+osmo.NavigationInteraction = class {
 
 	constructor(){
-		console.log('osmo.Navigation - constructor');
+		console.log('osmo.NavigationInteraction - constructor');
 
 		// ----------------
 		// Lib
