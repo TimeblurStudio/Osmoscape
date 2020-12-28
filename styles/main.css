@@ -9,6 +9,100 @@
   max-width: 800px;
 }
 
+#focused-info {
+  position: fixed;
+  bottom: 0;
+  right: -500px;
+  width: 500px;
+  height: 100%;
+  background-color: #24292b;
+  cursor: default;
+}
+
+.focused-content {
+  padding: 100px 40px;
+  color: #f8f9fa;
+  font-size: 21px;
+}
+
+.focused-content a {
+  color: #f8f9fa !important;
+}
+
+#focused-cta {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  width: 100%;
+  margin: auto;
+  text-align: right;
+}
+
+#focused_waveform_state {
+  display: none;
+  width: 75px;
+  margin: auto;
+  font-size: 30px;
+  margin-left: 20px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+#focused_waveforms {
+  width: 350px;
+}
+
+.btn-ultra-light {
+  color: #212529;
+  background-color: #f8f9fa33;
+  border-color: #f8f9fa;
+}
+
+.btn-round-bright {
+  color: #212529 !important;
+  background-color: #f8f9fa !important;
+  border-color: #f8f9fa !important;
+  border-radius: 32px !important;
+  width: 64px !important;
+}
+
+.btn-light {
+  color: #212529;
+  background-color: #f8f9fa;
+  border-color: #a8a9aa;
+}
+
+.btn-copper {
+  color: #eee;
+  background-color: #b97941;
+  border-color: #f8f9fa;
+}
+
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .pg-loading-logo {
@@ -125,8 +219,8 @@ canvas[resize] {
   margin-top: 50px;
   text-indent: 12px;
   color: #ffffff;
-  -webkit-animation: colorText 5s ease-out infinite, nudgeText 5s ease-out infinite;
-          animation: colorText 5s ease-out infinite, nudgeText 5s ease-out infinite;
+  -webkit-animation: colorText 8s ease-out infinite, nudgeText 8s ease-out infinite;
+          animation: colorText 8s ease-out infinite, nudgeText 8s ease-out infinite;
 }
 
 .mouse {
@@ -138,8 +232,8 @@ canvas[resize] {
   height: 88px;
   border-radius: 100px;
   background-size: 100% 200%;
-  -webkit-animation: colorSlide 5s linear infinite, nudgeMouse 5s ease-out infinite;
-          animation: colorSlide 5s linear infinite, nudgeMouse 5s ease-out infinite;
+  -webkit-animation: colorSlide 8s linear infinite, nudgeMouse 8s ease-out infinite;
+          animation: colorSlide 8s linear infinite, nudgeMouse 8s ease-out infinite;
 }
 
 .mouse:before, .mouse:after {
@@ -164,8 +258,8 @@ canvas[resize] {
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  -webkit-animation: trackBallSlide 5s linear infinite;
-          animation: trackBallSlide 5s linear infinite;
+  -webkit-animation: trackBallSlide 8s linear infinite;
+          animation: trackBallSlide 8s linear infinite;
 }
 
 @-webkit-keyframes colorSlide {
@@ -574,4 +668,40 @@ canvas[resize] {
   90% {
     color: #ffffff;
   }
+}
+
+/* NAVIGATION */
+.nav {
+  position: fixed;
+  width: 336px;
+  bottom: 0;
+  left: 50%;
+  margin-left: -164px;
+  padding: 0;
+  display: none;
+}
+
+.jump {
+  display: inline;
+  margin: 10px;
+}
+
+.jump img {
+  height: 26px;
+}
+
+.prevjump img {
+  height: 18px;
+  margin: 5px;
+  margin-right: 15px;
+}
+
+.nextjump img {
+  height: 18px;
+  margin: 5px;
+  margin-left: 15px;
+}
+
+.selectedch path {
+  fill: red;
 }

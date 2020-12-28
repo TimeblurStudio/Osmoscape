@@ -39,6 +39,34 @@
     <? Scroll Section - PaperJS canvas ?>
     <canvas id="main-scroll-canvas" resize="true"></canvas>
 
+    <div id="focused-info" style="display:none;">
+        <!--  -->
+        <div class="focused-content">
+            <h1 id="focused-heading">Heading</h1>
+            <br>
+            <p id="focused-description">Lorem ipsum</p>
+            <br><br>
+            <div style="display: flex;color: white;">
+                <div id="focused_waveform_state">▶</div>
+                <div id="focused_waveforms"></div>
+            </div>
+            <p><a href="#">Add</a> this to your composition</p>
+        </div>
+    </div>
+    <div id="focused-cta" style="display:none;">
+        <button class="btn" id="popcancel" style="font-size:32px;background: none; color: white;">&#x2715;</button>
+    </div>
+
+    <ul class="nav">
+        <a href="#" class="jump" data-id="1"><img src="./assets/images/icons/chapter_1_default.svg"></a>
+        <a href="#" class="jump" data-id="2"><img src="./assets/images/icons/chapter_2_default.svg"></a>
+        <a href="#" class="jump" data-id="3"><img src="./assets/images/icons/chapter_3_default.svg"></a>
+        <a href="#" class="jump" data-id="4"><img src="./assets/images/icons/chapter_4_default.svg"></a>
+        <a href="#" class="jump" data-id="5"><img src="./assets/images/icons/chapter_5_default.svg"></a>
+        <a href="#" class="jump" data-id="6"><img src="./assets/images/icons/chapter_6_default.svg"></a>
+        <a href="#" class="jump" data-id="7"><img src="./assets/images/icons/chapter_7_default.svg"></a>
+    </ul>
+
     <div style="transform: scale(0.5);" id="scrollm">
         <div class="mouse"></div>
     </div>
@@ -46,5 +74,9 @@
     <!-- build:js scripts/bundle.js -->
     <script src="scripts/bundle.js"></script>
     <!-- endbuild -->
+    <script>
+        window.version = #{VERSION_REPLACE}#;
+        console.log(window.version);
+    </script>>
   </body>
 </html>
