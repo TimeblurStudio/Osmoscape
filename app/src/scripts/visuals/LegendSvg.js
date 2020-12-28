@@ -185,8 +185,10 @@ osmo.LegendSvg = class {
 			setTimeout(function(){
 				console.log('Loaded all datasets');
 			  osmo.scroll.loaded.svgdata = true;
-	      if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata)
+	      if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata){
 	      	window.loading_screen.finish();
+	      	osmo.bgaudio.start();
+	      }
 				self.correctMaskOrder();
 				//
 			}, 4000);

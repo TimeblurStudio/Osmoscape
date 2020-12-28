@@ -164,7 +164,6 @@ osmo.Scroll = class {
 	  //
 	  let image = document.getElementById('HQscroll');
 	  var downloadingImage = new Image();
-	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png';
 	  downloadingImage.onload = function(){
 	  		console.log('Loaded HQ image');
 	      image.src = this.src;
@@ -179,9 +178,12 @@ osmo.Scroll = class {
 	      //
 	      self.loaded.HQimage = true;
 				osmo.datasvg.backgroundLayer.sendToBack();
-	      if(self.loaded.HQimage && self.loaded.svgdata)
+	      if(self.loaded.HQimage && self.loaded.svgdata){
 	      	window.loading_screen.finish();
+	      	osmo.bgaudio.start();
+	      }
 	  };
+	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png';
 	  //
 	}
 
@@ -202,7 +204,6 @@ osmo.Scroll = class {
 	  //
 	  let image = document.getElementById('RQscroll');
 	  var downloadingImage = new Image();
-	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_600ppi-RETINA.png';
 	  downloadingImage.onload = function(){
   		console.log('Loaded RQ image');
       //
@@ -217,9 +218,12 @@ osmo.Scroll = class {
       //
       self.loaded.HQimage = true;
       osmo.datasvg.backgroundLayer.sendToBack();
-      if(self.loaded.HQimage && self.loaded.svgdata)
+      if(self.loaded.HQimage && self.loaded.svgdata){
       	window.loading_screen.finish();
+      	osmo.bgaudio.start();
+      }
 	  };
+	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_600ppi-RETINA.png';
 	  //
 	}
 
@@ -249,8 +253,10 @@ osmo.Scroll = class {
 	      //
 	      self.loaded.HQimage = true;
 				osmo.datasvg.backgroundLayer.sendToBack();
-	      if(self.loaded.HQimage && self.loaded.svgdata)
+	      if(self.loaded.HQimage && self.loaded.svgdata){
 	      	window.loading_screen.finish();
+	      	//osmo.bgaudio.start(); //Mandate to click on a start button to start audio interactions
+	      }
 	  };
 	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png';
 	}
