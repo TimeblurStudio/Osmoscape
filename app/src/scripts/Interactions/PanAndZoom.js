@@ -80,6 +80,21 @@ osmo.PanAndZoom = class {
 		$('#main-scroll-canvas').on('mousewheel', function(event) {
 			osmo.navinteract.updateBasetrack();
 			osmo.navinteract.hitNavEffect();
+			// check inactivity
+			clearTimeout($.data(this, 'scrollTimer'));
+	    $.data(this, 'scrollTimer', setTimeout(function() {
+	        //
+	        if(osmo.navinteract.currentNavLoc != -1 && (osmo.bgaudio.currentTrack != ('base'+osmo.navinteract.currentNavLoc))){
+	        	console.log('Changing base track - Haven\'t scrolled in 250ms!');
+	        	osmo.bgaudio.currentTrack = 'base' + osmo.navinteract.currentNavLoc;
+	        	//
+	        	//for(let i=0; i < 7; i++)
+	        	//	baseTracks['base'+(i+1)].stop();
+	        	//
+	        	console.log('Now playing : ' + osmo.bgaudio.currentTrack);
+	        	//baseTracks[currentTrack].start();
+	        }
+	    }, 250));
 			//
 			let et;
 			if(!window.isMobile){
@@ -87,6 +102,22 @@ osmo.PanAndZoom = class {
 				event.preventDefault();
 			}else{
 				et = event;
+			}
+			//
+			if(!osmo.scroll.loaded.svgdata || !osmo.scroll.loaded.HQimage)
+				return;
+
+			//
+			//
+			if(osmo.scroll.hitPopupMode != 'focused' && osmo.legendsvg.maskLayer.visible){// Makes scrolling experince way smooth
+				console.log('Hide mask on scroll');
+				osmo.legendsvg.maskLayer.visible = false;
+				//
+				Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
+					osmo.legendsvg.popupBBoxes[key]['mask'].visible = false;
+				});
+				//
+				osmo.legendinteract.hitMaskEffect(new osmo.scroll.PAPER.Point(0,0), 'scrolling');
 			}
 			//
 			//
