@@ -39,6 +39,20 @@
   text-align: right;
 }
 
+#focused_waveform_state{
+  display: none;
+  width: 75px;
+  margin: auto;
+  font-size: 30px;
+  margin-left: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
+#focused_waveforms{
+  width: 350px;
+}
+
 
 .btn-ultra-light{
   color: #212529;
