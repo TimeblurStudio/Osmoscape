@@ -11,16 +11,16 @@
     <link rel="apple-touch-icon" href="assets/images/osmo_icon.png">
 
     <!-- stylesheet Links -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.4.2">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.4.2" rel="stylesheet">
-    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.4.2">
-    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.4.2">
-    <link rel="stylesheet" href="styles/main.css?v=0.4.2">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.5.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.5.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.5.0">
+    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.5.0">
+    <link rel="stylesheet" href="styles/main.css?v=0.5.0">
 
 
     <!-- scripts -->
-    <script src="scripts/modernizr.js?v=0.4.2"></script>
-    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.4.2"></script>
+    <script src="scripts/modernizr.js?v=0.5.0"></script>
+    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.5.0"></script>
 
 
   </head>
@@ -37,7 +37,7 @@
     <img id="MQscroll" src="" alt="Mobile Quality scroll" height="1" style="display: none;">
 
     <? Scroll Section - PaperJS canvas ?>
-    <canvas id="main-scroll-canvas" resize="true"></canvas>
+    <canvas id="main-scroll-canvas" resize="true" hidpi="off" data-paper-hidpi="off"></canvas>
 
     <div id="focused-info" style="display:none;">
         <!--  -->
@@ -50,7 +50,7 @@
                 <div id="focused_waveform_state">▶</div>
                 <div id="focused_waveforms"></div>
             </div>
-            <p><a href="#">Add</a> this to your composition</p>
+            <p style="margin-left: 20px; font-size: 16px;"><a href="#">Add</a> this to your composition</p>
         </div>
     </div>
     <div id="focused-cta" style="display:none;">
@@ -71,10 +71,17 @@
         <div class="mouse"></div>
     </div>
 
-    <div class="vinfo" >v<span id="versionid">0.4.2</span></div>
+    <div class="vinfo" >v<span id="versionid">0.5.0</span></div>
+
+    <!--
+        Additional menu items required -
+        1. info(paragraph, interaction guide, and credits),
+        2. fullscreen,
+        3. volume controls
+    -->
 
     <!-- build:js scripts/bundle.js -->
-    <script src="scripts/bundle.js?v=0.4.2"></script>
+    <script src="scripts/bundle.js?v=0.5.0"></script>
     <!-- endbuild -->
     <script>
         window.version = #{VERSION_REPLACE}#;

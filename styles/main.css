@@ -61,6 +61,8 @@
 
 #focused_waveforms {
   width: 350px;
+  -webkit-mask-image: -webkit-gradient(linear, left top, right top, from(#fff6), to(#fff6));
+  -webkit-mask-image: linear-gradient(to right, #fff6, #fff6 100%);
 }
 
 .btn-ultra-light {
