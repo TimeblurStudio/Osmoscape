@@ -125,8 +125,13 @@ osmo.PanAndZoom = class {
 			//
 			if(osmo.scroll.hitPopupMode != 'focused'){
 				let deltaValX, deltaValY;
-				deltaValX = et.deltaY;
-				deltaValY = et.deltaY;
+				if(Math.abs(et.deltaY) > Math.abs(et.deltaX)){
+					deltaValX = et.deltaY;
+					deltaValY = et.deltaY;
+				}else{
+					deltaValX = et.deltaX;
+					deltaValY = et.deltaX;
+				}
 				//
 				osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, deltaValX, 0, fac);
 			}

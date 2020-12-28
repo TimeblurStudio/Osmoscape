@@ -33,7 +33,11 @@ const isDev = !isProd && !isTest;
 var pack = JSON.parse(fs.readFileSync('./package.json'));
 var versionConfig = {
   'value': pack.version,
-  'replaces' : ['#{VERSION_REPlACE}#']
+  'replaces' : ['#{VERSION_REPLACE}#'],
+  'append': {
+    'key': 'v',
+    'to': ['html', 'css', 'js']
+  }
 };
 
 
@@ -219,7 +223,7 @@ function lintTest() {
 };
 
 function html() {
-  return src('src/*.html')
+  return src('src/index.html')
     .pipe(version(versionConfig))
     .pipe(dest('dist'));
 

@@ -36,16 +36,20 @@ osmo.PopupInteraction = class {
 		//
 		$('#focused_waveform_state').click(function(){
 			let curr_val = $('#focused_waveform_state').html();
-			if(curr_val == '▶')
+			if(curr_val == '▶'){
 				$('#focused_waveform_state').html('<b>Ⅱ</b>');
-			if(curr_val == '<b>Ⅱ</b>')
+				//-webkit-mask-image: linear-gradient(to right, #ffff, #ffff 10%, #fff6 10%, #fff6 100%);
+			}
+			if(curr_val == '<b>Ⅱ</b>'){
 				$('#focused_waveform_state').html('▶');
+			}
 		});
 		//
 	}
 
 	close(){
 		let legendsvg = this.LEGENDSVG;
+		$('.nav').show();
 		//
 		$('#focused-cta').hide();
 		$('#focused-info').hide();
@@ -87,6 +91,7 @@ osmo.PopupInteraction = class {
 	 */
 	mouseClicked(event){
 		let legendsvg = this.LEGENDSVG;
+		$('.nav').hide();
 		//
 		if(document.body.style.cursor == 'zoom-in'){
 			console.log('Zoom-in at this place');
