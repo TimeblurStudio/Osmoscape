@@ -9,9 +9,13 @@ import $ from 'jquery';
 import 'jquery-mousewheel';
 import paper from 'paper';
 import tone from 'tone';
+import WaveformData from 'waveform-data';
 //
+import {} from './Audio/BackgroundAudio';
+import {} from './Audio/DataAudio';
 import {} from './Visuals/DataSvg';
 import {} from './Visuals/LegendSvg';
+import {} from './Visuals/AudioWaveform';
 import {} from './Interactions/PanAndZoom';
 import {} from './Interactions/Navigation';
 import {} from './Interactions/Legend';
@@ -38,6 +42,7 @@ osmo.Scroll = class {
 		// ----------------
 		this.PAPER;
 		this.TONE;
+		this.WAVEFORMDATA;
 
 		// ----------------
 		// new Class objects/instance
@@ -69,7 +74,6 @@ osmo.Scroll = class {
 		this.loadMQ;
 	}
 
-
 	/**
 	 * ------------------------------------------------
 	 * Init
@@ -85,8 +89,18 @@ osmo.Scroll = class {
 		osmo.scroll.paperHeight = canvas.offsetHeight;
 		osmo.scroll.paperWidth = canvas.offsetWidth;
 
-		// Setup TONE
+		// Setup LIBS
 		osmo.scroll.TONE = tone;
+		osmo.scroll.WAVEFORMDATA = WaveformData;
+
+		// AUDIO
+		osmo.bgaudio  = new osmo.BackgroundAudio();
+		osmo.bgaudio.loadAudio();
+		osmo.dataaudio  = new osmo.DataAudio();
+		osmo.dataaudio.init();
+		osmo.audiowaveform  = new osmo.AudioWaveform();
+		osmo.audiowaveform.init();
+
 
 		// INTERACTIONS
 		osmo.pzinteract = new osmo.PanAndZoom();
@@ -99,8 +113,7 @@ osmo.Scroll = class {
 		osmo.legendsvg.init();
 		osmo.legendinteract = new osmo.LegendInteraction();
 
-		// POPUP & AUDIO
-		//
+		// POPUP
 		osmo.popupinteract = new osmo.PopupInteraction();
 		osmo.popupinteract.init();
 		//

@@ -25,6 +25,7 @@ osmo.NavigationInteraction = class {
 		// ----------------
 		this.PAPER = osmo.scroll.PAPER;
 		this.TONE = osmo.scroll.TONE;
+		this.BGAUDIO = osmo.bgaudio;
 
 		//@private
 		this.mousePos;
@@ -38,12 +39,6 @@ osmo.NavigationInteraction = class {
 		this.currentNavLoc = -1;
 		this.navTweenItem;
 		this.navLayer;
-
-		//
-		this.allTracksCount = 0;
-		this.currentTrack;
-		this.introTrack;
-		this.baseTracks = {};
 
 		// Methods
 		this.init;
@@ -64,61 +59,8 @@ osmo.NavigationInteraction = class {
 		//this.PAPER.project.activeLayer = this.navLayer;
 
 		//
-		this.loadAudio();
+		this.BGAUDIO.loadAudio();
 	}
-
-
-	loadAudio(){
-		//
-		let base_path = './assets/audio/tracks/Baseline_'
-		let urls = {};
-		// Load base tracks
-		for(let i=0; i < 7; i++){
-			let index = (i+1);
-			let path = base_path + index + '.mp3';
-			//
-			//
-			let bplayer = new this.TONE.Player({
-				url: path,
-				loop: true,
-				fadeOut: 1,
-				fadeIn: 1,
-				onload: function(){
-					this.allTracksCount++;
-					console.log(this.allTracksCount);
-				}
-			}).toMaster();
-			//
-			//
-			this.baseTracks['base'+index] = bplayer;
-		}
-		//
-		// the intro player
-		this.introTrack = new this.TONE.Player({
-			url: './assets/audio/loops/-1.mp3',
-			loop: true,
-			loopStart: 0,
-			loopEnd: 20,
-			fadeOut: 1,
-			onload: function(){
-					allTracksCount++;
-					console.log(this.allTracksCount);
-				}
-		}).toMaster();
-		//
-		//
-		//
-	}
-
-	start(){
-		console.log('Starting the audio context');
-		this.TONE.start();
-		//
-		this.currentTrack = 'intro';
-		this.introTrack.start();
-		//
-	}
-
 
 	loadNav(){
 		console.log('Loading nav sections');
@@ -182,15 +124,15 @@ osmo.NavigationInteraction = class {
 			//
 			// Stop all tracks and start target track
 			for(let i=0; i < 7; i++)
-	  		osmo.navinteract.baseTracks['base'+(i+1)].stop();
+	  		osmo.bgaudio.baseTracks['base'+(i+1)].stop();
 	  	//
 			setTimeout(function(){
 				console.log('Completed scroll for - ' + chap_id);
 				console.log('Changing base track...');
-	    	osmo.navinteract.currentTrack = 'base' + chap_id;
+	    	osmo.bgaudio.currentTrack = 'base' + chap_id;
 	    	//
-	    	console.log('Now playing : ' + osmo.navinteract.currentTrack);
-	    	osmo.navinteract.baseTracks[osmo.navinteract.currentTrack].start();
+	    	console.log('Now playing : ' + osmo.bgaudio.currentTrack);
+	    	osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].start();
 				//
 			},dur);
 			//
@@ -205,7 +147,7 @@ osmo.NavigationInteraction = class {
 
 		//console.log(navTweenItem);
 		//
-		osmo.navinteract.start();
+		osmo.bgaudio.start();
 		//
 	}
 
@@ -214,15 +156,15 @@ osmo.NavigationInteraction = class {
 		clearTimeout($.data(this, 'scrollTimer'));
     $.data(this, 'scrollTimer', setTimeout(function() {
         //
-        if(this.currentNavLoc != -1 && (this.currentTrack != ('base'+this.currentNavLoc))){
+        if(this.currentNavLoc != -1 && (this.BGAUDIO.currentTrack != ('base'+this.currentNavLoc))){
         	console.log('Changing base track - Haven\'t scrolled in 250ms!');
-        	this.currentTrack = 'base' + this.currentNavLoc;
+        	this.BGAUDIO.currentTrack = 'base' + this.currentNavLoc;
         	//
         	for(let i=0; i < 7; i++)
-        		this.baseTracks['base'+(i+1)].stop();
+        		this.BGAUDIO.baseTracks['base'+(i+1)].stop();
         	//
-        	console.log('Now playing : ' + this.currentTrack);
-        	this.baseTracks[this.currentTrack].start();
+        	console.log('Now playing : ' + this.BGAUDIO.currentTrack);
+        	this.BGAUDIO.baseTracks[this.BGAUDIO.currentTrack].start();
         }
     }.bind(this), 250));
 	}
@@ -245,8 +187,8 @@ osmo.NavigationInteraction = class {
 				if(this.currentNavLoc == -1){
 					$('.nav').fadeIn();
 					//
-					this.introTrack.stop();
-					this.currentTrack = 'none';
+					this.BGAUDIO.introTrack.stop();
+					this.BGAUDIO.currentTrack = 'none';
 				}
 				let navLoc = parseInt(name.replace('nav-ch', ''));
 				if(this.currentNavLoc != navLoc){
@@ -274,13 +216,13 @@ osmo.NavigationInteraction = class {
 				$('.nav').fadeOut();
 				this.currentNavLoc = -1;
 				//
-				if(this.currentTrack != 'intro'){
+				if(this.BGAUDIO.currentTrack != 'intro'){
 					//
 					for(let i=0; i < 7; i++)
-						this.baseTracks['base'+(i+1)].stop();
+						this.BGAUDIO.baseTracks['base'+(i+1)].stop();
 	        //
-					this.introTrack.start();
-					this.currentTrack = 'intro';
+					this.BGAUDIO.introTrack.start();
+					this.BGAUDIO.currentTrack = 'intro';
 				}
 			}
 			/*

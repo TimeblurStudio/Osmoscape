@@ -26,17 +26,21 @@ osmo.PopupInteraction = class {
 		//
 		this.currentFocus = null;
 		//
-
 	}
 
 	init(){
-	//
-		//
-		//
 		//
 		$('#popcancel').click(function(){
 			this.close();
 		}.bind(this));
+		//
+		$('#focused_waveform_state').click(function(){
+			let curr_val = $('#focused_waveform_state').html();
+			if(curr_val == '▶')
+				$('#focused_waveform_state').html('<b>Ⅱ</b>');
+			if(curr_val == '<b>Ⅱ</b>')
+				$('#focused_waveform_state').html('▶');
+		});
 		//
 	}
 
@@ -45,6 +49,7 @@ osmo.PopupInteraction = class {
 		//
 		$('#focused-cta').hide();
 		$('#focused-info').hide();
+		$('#'+this.currentFocus+'_waveform').hide();
 		document.body.style.cursor = 'default';
 		//
 		let fac = 1.005/(this.PAPER.view.zoom*this.PAPER.view.zoom);
@@ -136,6 +141,11 @@ osmo.PopupInteraction = class {
 				//
 				$('#focused-cta').show();
 				$('#focused-info').show();
+				$('#'+this.currentFocus+'_waveform').show();
+				if($('#'+this.currentFocus+'_waveform').length)
+					$('#focused_waveform_state').show();
+				else
+					$('#focused_waveform_state').hide();
 				//
 				if(legendsvg.popupBBoxes.hasOwnProperty(this.currentFocus)){
 					let count = legendsvg.popupBBoxes[this.currentFocus]['paths'].length;
