@@ -9,6 +9,14 @@
   max-width: 800px;
 }
 
+.vinfo {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-family: monospace;
+  margin: 5px;
+}
+
 #focused-info {
   position: fixed;
   bottom: 0;
