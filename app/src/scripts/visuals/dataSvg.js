@@ -11,14 +11,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	dataSvg
+ * class:	DataSvg
  * desc:
  * ------------------------------------------------
  */
 osmo.DataSvg = class {
 
 	constructor(){
-		console.log('osmo.dataSvg - constructor');
+		console.log('osmo.DataSvg - constructor');
 
 		// ----------------
 		// Lib
@@ -47,7 +47,7 @@ osmo.DataSvg = class {
 	 */
 	initSplash(_width){
 		//
-		console.log('osmo.dataSvg - initSplash');
+		console.log('osmo.DataSvg - initSplash');
 		//
 		// SPLASH
 		//
@@ -55,6 +55,7 @@ osmo.DataSvg = class {
 		// Scale the raster
 		this.scale = _width/raster.width;
 		raster.scale(this.scale);
+		console.log('Main image scale - ' + this.scale);
 		// Move the raster to the center of the view
 		raster.position = this.PAPER.view.center;
 		raster.position.y -= 20;
@@ -104,7 +105,7 @@ osmo.DataSvg = class {
 		//
 
 		//
-		console.log('osmo.dataSvg - initStars');
+		console.log('osmo.DataSvg - initStars');
 		this.quality = q;
 		//
 		if(this.quality == 'High'){
@@ -159,6 +160,7 @@ osmo.DataSvg = class {
 			this.scrollWidth = raster.width*this.scale;
 			this.scrollHeight = osmo.scroll.paperHeight;
 		}
+		//
 	}
 
 	/**

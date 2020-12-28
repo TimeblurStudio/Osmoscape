@@ -24,12 +24,6 @@ osmo.LegendInteraction = class {
 		this.LEGENDSVG = osmo.legendsvg;
 		this.DATASVG = osmo.datasvg;
 		//
-		this.maskHitOptions = {
-			segments: false,
-			stroke: false,
-			fill: true,
-			tolerance: 5
-		};
 	}
 
 	/**
@@ -71,14 +65,14 @@ osmo.LegendInteraction = class {
 	hitMaskEffect(pt, ctype){
 		let legendsvg = this.LEGENDSVG;
 		//
+		//
 		let fromOpacity = osmo.datasvg.backgroundLayer.opacity, toOpacity;
 		let fromColor = new this.PAPER.Color($('body').css('background-color')), toColor;
 		let tweening = false;
 		let dur = 800;
 		let lg;
-		let currentFocus = null;
 		//
-		let hitResult = legendsvg.maskLayer.hitTest(pt, this.maskHitOptions);
+		let hitResult = legendsvg.maskLayer.hitTest(pt, osmo.scroll.maskHitOptions);
 		if(hitResult != null){
 			//
 			legendsvg.legendLayer.visible = true;
@@ -93,45 +87,6 @@ osmo.LegendInteraction = class {
 				//
 				osmo.scroll.prevBoundsCenter = null;
 				osmo.scroll.prevZoom = null;
-				currentFocus = null;
-				//
-			}
-			//
-			if(ctype == 'click'){
-				//
-				toOpacity = 0;
-				toColor =  new this.PAPER.Color('#24292b');
-				//
-				osmo.scroll.hitPopupMode = 'focused';
-				legendsvg.maskLayer.visible = false;
-				document.body.style.cursor = 'zoom-in';
-				//
-				currentFocus = parseInt(hitResult.item.data.legendName.replace('legend-', ''));
-				console.log('Focused on: ' + currentFocus );
-				//
-				if(legendsvg.popupBBoxes.hasOwnProperty(currentFocus)){
-					let count = legendsvg.popupBBoxes[currentFocus]['paths'].length;
-					for(let i=0; i < count; i++){
-						legendsvg.popupBBoxes[currentFocus]['paths'][i].visible = false;// true to show rect box
-						legendsvg.popupBBoxes[currentFocus]['paths'][i].selected = false;
-					}
-					//
-					// Zoom into selected area!
-					let fac = 1.005/(this.PAPER.view.zoom*this.PAPER.view.zoom);
-					let currentViewCenter = this.PAPER.view.bounds.center;
-					let newViewCenter = legendsvg.popupBBoxes[currentFocus]['paths'][0].bounds.center;
-					let zoomFac = fac * 0.5 * osmo.scroll.paperWidth / (1.0 * legendsvg.popupBBoxes[currentFocus]['paths'][0].bounds.width);
-					let deltaValX = newViewCenter.x - currentViewCenter.x + 250.0/zoomFac;
-					let deltaValY = -(newViewCenter.y - currentViewCenter.y);
-					//
-					osmo.scroll.prevBoundsCenter = new this.PAPER.Point(this.PAPER.view.center.x, this.PAPER.view.center.y);
-					this.PAPER.view.center = changeCenter(this.PAPER.view.center, deltaValX, deltaValY, fac, false);
-					//
-					//
-					osmo.scroll.prevZoom = zoomFac;
-					this.PAPER.view.zoom = changeZoom(this.PAPER.view.zoom, -1, zoomFac, false);
-					//
-				}
 				//
 			}
 			//

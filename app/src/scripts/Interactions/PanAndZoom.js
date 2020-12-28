@@ -92,11 +92,21 @@ osmo.PanAndZoom = class {
 			//
 			let fac = 1.005/(osmo.scroll.PAPER.view.zoom*osmo.scroll.PAPER.view.zoom);
 			//
-			let deltaValX, deltaValY;
-			deltaValX = et.deltaY;
-			deltaValY = et.deltaY;
-			//
-			osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, deltaValX, 0, fac);
+			if(osmo.scroll.hitPopupMode != 'focused'){
+				let deltaValX, deltaValY;
+				deltaValX = et.deltaY;
+				deltaValY = et.deltaY;
+				//
+				osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, deltaValX, 0, fac);
+			}
+			else{
+				let deltaValX, deltaValY;
+				deltaValX = et.deltaX;
+				deltaValY = et.deltaY;
+				//
+				osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, deltaValX, deltaValY, fac, false);
+				osmo.navinteract.navTweenItem.position = osmo.scroll.PAPER.view.center;
+			}
 
 			/* EARLY METHOD BELOW INCLUDES TOUCH, TRACKPAD, MOUSE */
 			/*
@@ -178,25 +188,23 @@ osmo.PanAndZoom = class {
 	 * changeCenter
 	 * ------------------------------------------------
 	 */
-	changeCenter(oldCenter, deltaX, deltaY, factor){
+	changeCenter(oldCenter, deltaX, deltaY, factor, restricted=true){
 		//
 		let offset = new this.PAPER.Point(deltaX, -deltaY);
-    offset = offset.multiply(factor);
-    oldCenter = oldCenter.add(offset);
-    /*
-    if(oldCenter.x < osmo.scroll.paperWidth/2)
-    	oldCenter.x  = osmo.scroll.paperWidth/2;
-    if(oldCenter.x > (osmo.datasvg.scrollWidth + osmo.scroll.paperWidth/2))
-    	oldCenter.x  = (osmo.datasvg.scrollWidth + osmo.scroll.paperWidth/2);
-    //
-    //
-		if((oldCenter.y*osmo.scroll.PAPER.view.zoom - osmo.scroll.paperHeight/2) <= 0 && deltaY > 0)
-    	oldCenter.y = osmo.scroll.paperHeight/(2*osmo.scroll.PAPER.view.zoom);
-    if(oldCenter.y*osmo.scroll.PAPER.view.zoom > (-osmo.scroll.paperHeight/2 + osmo.scroll.paperHeight*osmo.scroll.PAPER.view.zoom) && deltaY < 0)
-    	oldCenter.y = (-osmo.scroll.paperHeight/(2*osmo.scroll.PAPER.view.zoom) + osmo.scroll.paperHeight);
-    */
-    //
-    return oldCenter;
+	  offset = offset.multiply(factor);
+	  oldCenter = oldCenter.add(offset);
+	  //
+	  //
+	  if(restricted){
+	  	//
+	  	//
+		  if((oldCenter.y*this.PAPER.view.zoom - osmo.scroll.paperHeight/2) <= 0 && deltaY > 0)
+		  	oldCenter.y = osmo.scroll.paperHeight/(2*this.PAPER.view.zoom);
+		  if(oldCenter.y*this.PAPER.view.zoom > (-osmo.scroll.paperHeight/2 + osmo.scroll.paperHeight*this.PAPER.view.zoom) && deltaY < 0)
+		  	oldCenter.y = (-osmo.scroll.paperHeight/(2*this.PAPER.view.zoom) + osmo.scroll.paperHeight);
+		  //
+	  }
+	  return oldCenter;
 	}
 
 	/**
@@ -204,23 +212,23 @@ osmo.PanAndZoom = class {
 	 * changeZoom
 	 * ------------------------------------------------
 	 */
-	changeZoom(oldZoom, delta){
-		let factor = 1.015;
+	changeZoom(oldZoom, delta, factor=1.015, restricted=true){
 		let newZoom = oldZoom;
 		//
 		if(delta < 0)
 			newZoom = oldZoom * factor;
-    if(delta > 0)
-    	newZoom = oldZoom / factor;
-    //
-		if(newZoom <= 1)
-			newZoom = 1;
-		if(newZoom > this.maxZoom)
-			newZoom = this.maxZoom;
+	  if(delta > 0)
+	  	newZoom = oldZoom / factor;
+	  //
+	  if(restricted){
+	  	if(newZoom <= 1)
+				newZoom = 1;
+			if(newZoom > maxZoom)
+				newZoom = maxZoom;
+	  }
 		//
-    return newZoom;
+	  return newZoom;
 	}
-
 
 	/**
 	 * ------------------------------------------------
