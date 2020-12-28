@@ -34,26 +34,47 @@ osmo.PopupInteraction = class {
 			this.close();
 		}.bind(this));
 		//
+		let playerinterval = null;
 		$('#focused_waveform_state').click(function(){
 			let curr_val = $('#focused_waveform_state').html();
 			if(curr_val == '▶'){
 				$('#focused_waveform_state').html('<b>Ⅱ</b>');
 				//-webkit-mask-image: linear-gradient(to right, #ffff, #ffff 10%, #fff6 10%, #fff6 100%);
+				$('#'+this.currentFocus+'_audio').trigger('play');
+				playerinterval = setInterval(function(){
+					let percentage = 100 * $('#'+this.currentFocus+'_audio')[0].currentTime / $('#'+this.currentFocus+'_audio')[0].duration;
+					let now = percentage.toFixed(2).toString() + '%';
+					if(percentage < 99.5){
+						let next = (percentage+0.5).toFixed(2).toString() + '%';
+						$('#focused_waveforms').css('-webkit-mask-image','linear-gradient(to right, #ffff, #ffff '+now+', #fff6 '+next+', #fff6 100%)');
+					}else{
+						clearInterval(playerinterval);
+						playerinterval = null;
+						$('#focused_waveform_state').html('▶');
+					}
+				}.bind(this),50);
 			}
 			if(curr_val == '<b>Ⅱ</b>'){
 				$('#focused_waveform_state').html('▶');
+				clearInterval(playerinterval);
+				playerinterval = null;
+				$('#focused_waveforms').css('-webkit-mask-image', 'linear-gradient(to right, #fff6, #fff6 100%)');
+				$('#'+this.currentFocus+'_audio').trigger('pause');
 			}
-		});
+		}.bind(this));
 		//
 	}
 
 	close(){
 		let legendsvg = this.LEGENDSVG;
 		$('.nav').show();
+		// FIX ME!!!
+		// ALSO MAKE SURE TO STOP PLAYING WAVEFORM
 		//
 		$('#focused-cta').hide();
 		$('#focused-info').hide();
 		$('#'+this.currentFocus+'_waveform').hide();
+		//$('#'+this.currentFocus+'_audio').hide();
 		document.body.style.cursor = 'default';
 		//
 		let fac = 1.005/(this.PAPER.view.zoom*this.PAPER.view.zoom);
@@ -147,6 +168,7 @@ osmo.PopupInteraction = class {
 				$('#focused-cta').show();
 				$('#focused-info').show();
 				$('#'+this.currentFocus+'_waveform').show();
+				//$('#'+this.currentFocus+'_audio').show();
 				if($('#'+this.currentFocus+'_waveform').length)
 					$('#focused_waveform_state').show();
 				else

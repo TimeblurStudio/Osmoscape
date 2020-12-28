@@ -79,7 +79,15 @@ osmo.AudioWaveform = class {
 	        ctx.stroke();
 	        ctx.fill();
 	        //
+	        var sound = document.createElement('audio');
+					sound.id = index+'_audio';
+					sound.controls = 'controls';
+					sound.src = osmo.dataaudio.audioFiles[key];
+					sound.type = 'audio/mp3';
+					sound.style.display = 'none';
+					//
 	      	document.getElementById('focused_waveforms').appendChild(canvas);
+	      	document.getElementById('focused_waveforms').appendChild(sound);
 				});
 	      //
 	      //$('.draggable').show();

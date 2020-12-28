@@ -147,7 +147,6 @@ osmo.NavigationInteraction = class {
 
 		//console.log(navTweenItem);
 		//
-		osmo.bgaudio.start();
 		//
 	}
 
