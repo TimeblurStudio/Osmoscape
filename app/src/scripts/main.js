@@ -1,5 +1,7 @@
 /*global osmo:true, $:true*/
 
+
+import './jquery-global.js';
 import {} from './osmoScroll';
 
 
