@@ -11,18 +11,16 @@
     <link rel="apple-touch-icon" href="assets/images/osmo_icon.png">
 
     <!-- stylesheet Links -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.5.0">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.5.0" rel="stylesheet">
-    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.5.0">
-    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.5.0">
-    <link rel="stylesheet" href="styles/main.css?v=0.5.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.6.1">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.6.1" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.6.1">
+    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.6.1">
+    <link rel="stylesheet" href="styles/main.css?v=0.6.1">
 
 
     <!-- scripts -->
-    <script src="scripts/modernizr.js?v=0.5.0"></script>
-    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.5.0"></script>
-
-
+    <script src="scripts/modernizr.js?v=0.6.1"></script>
+    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.6.1"></script>
   </head>
   <body>
     <!--[if IE]>
@@ -67,11 +65,56 @@
         <a href="#" class="jump" data-id="7"><img src="./assets/images/icons/chapter_7_default.svg"></a>
     </ul>
 
-    <div style="transform: scale(0.5);" id="scrollm">
-        <div class="mouse"></div>
+    <div style="position: absolute; bottom: 100px; left: calc(50% - 50px);" id="scrollm">
+        <!--div class="mouse"></div-->
+        <div id="headphones" style="width: 100px;height: 100px;transform: scale(2.5);filter: invert(1)"></div>
     </div>
 
-    <div class="vinfo" >v<span id="versionid">0.5.0</span></div>
+
+    <div class="head-actions">
+
+      <i class="material-icons" id="show-info" style="padding: 10px; cursor: pointer; color: white;">info</i>
+      <i class="material-icons" id="enter-fullscreen" style="padding: 10px; cursor: pointer; color: white;">fullscreen</i>
+      <div style="display: inline;">
+        <div class="speaker" >
+            <svg viewBox="0 0 100 77" xmlns="http://www.w3.org/2000/svg">
+                <path id="speakB" class="volElem" stroke="#9E9E9E" d="M51.2,18.5v-13c0-2.1-2.5-3.3-4.1-1.9L21.8,25.9c-1.4,1.2-3.1,1.9-4.9,1.9H8.2c-2.3,0-4.2,1.9-4.2,4.2v13.3c0,2.3,1.9,4.2,4.2,4.2H17c1.9,0,3.7,0.7,5.1,1.9l25,22c1.6,1.4,4.1,0.3,4.1-1.9v-13" opacity="0.4"/>
+                <path id="speakF" class="volElem" stroke="#F4F4F4" d="M51.2,18.5v-13c0-2.1-2.5-3.3-4.1-1.9L21.8,25.9c-1.4,1.2-3.1,1.9-4.9,1.9H8.2c-2.3,0-4.2,1.9-4.2,4.2v13.3c0,2.3,1.9,4.2,4.2,4.2H17c1.9,0,3.7,0.7,5.1,1.9l25,22c1.6,1.4,4.1,0.3,4.1-1.9v-13"/>
+                <path id="arcBigB" class="volElem" stroke="#9E9E9E" d="M72.2,64.1C81.1,59,87,49.4,87,38.5c0-10.9-5.9-20.5-14.8-25.6" opacity="0.4"/>
+                <path id="arcBigF" class="volElem" stroke="#F4F4F4" d="M72.2,64.1C81.1,59,87,49.4,87,38.5c0-10.9-5.9-20.5-14.8-25.6"/>
+                <path id="arcSmB" class="volElem" stroke="#9E9E9E" d="M59,51.3c4.4-2.6,7.4-7.4,7.4-12.8s-3-10.3-7.4-12.8" opacity="0.4" />
+                <path id="arcSmF" class="volElem" stroke="#F4F4F4" d="M59,51.3c4.4-2.6,7.4-7.4,7.4-12.8s-3-10.3-7.4-12.8"/>
+                <line id="crossLtRb" class="volElem" opacity="0.6" stroke="#CECECE" x1="43.8" y1="29.2" x2="62.6" y2="47.8" transform="scale(0)" />
+                <line id="crossLbRt" class="volElem" opacity="0.6" stroke="#CECECE" x1="62.6" y1="29.2" x2="43.8" y2="47.8" transform="scale(0)" />
+            </svg>
+        </div>
+        <div class="vlCtrl" style="display: none;">
+            <svg viewBox="0 0 280 27" xmlns="http://www.w3.org/2000/svg">
+                <line id="ctrlLineB" class="volElem" stroke="#9E9E9E" x1="13" y1="13.5" x2="261.2" y2="13.5" opacity="0.3"/>
+                <line id="ctrlLineF" class="volElem" stroke="#F4F4F4" x1="13" y1="13.5" x2="191.2" y2="13.5"/>
+                <circle id="ctrlCirce" cx="191.2" cy="13.5" r="13" fill="#F4F4F4"/>
+            </svg>
+        </div>
+      </div>
+      <!--button id="show-info"
+         class="mdc-icon-button material-icons"
+         aria-label="Show Info"
+         aria-pressed="false">
+         <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">close</i>
+         <i class="material-icons mdc-icon-button__icon">info</i>
+      </button>
+
+      <button id="enter-fullscreen"
+         class="mdc-icon-button material-icons"
+         aria-label="Enter fullscreen"
+         aria-pressed="false">
+         <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">fullscreen_exit</i>
+         <i class="material-icons mdc-icon-button__icon">fullscreen</i>
+      </button-->
+    </div>
+
+
+    <div class="vinfo" >v<span id="versionid">0.6.1</span></div>
 
     <!--
         Additional menu items required -
@@ -79,13 +122,32 @@
         2. fullscreen,
         3. volume controls
     -->
+    <div class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+
+        <!-- EDITOR: https://onlinehtmleditor.dev/ -->
+        <h1><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif">OSMOSCAPE</span></h1>
+        <h3><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif">Echoes of the Osmotic Landscape by Nandita Kumar</span></h3>
+        <p>&nbsp;</p>
+        <p><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif"><span style="font-size:12pt"><span style="color:#434343"><strong>About:</strong></span></span></span></p>
+        <p><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif"><span style="font-size:12pt"><span style="color:#000000"><span>Osmoscape is a collaborative effort and a culmination of three years of research, which seeks to explore a new way of archiving data, and sound that can be intuitively understood through a sound and data based interactions. The idea is to have an interactive book which is also accessible through a web app that is free and open source.</span></span></span></span></p>
+        <p>&nbsp;</p>
+        <p><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif"><span style="font-size:12pt"><span style="color:#434343"><span><strong>Demos and code:</strong></span></span></span></span></p>
+        <p><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif"><span style="font-size:12pt"><span style="color:#000000"><span>We have few demos for you to try: </span></span></span><a href="https://app.osmoscape.com/examples" style="text-decoration:none"><span style="font-size:12pt"><span style="color:#1155cc"><span><u>https://app.osmoscape.com/examples</u></span></span></span></a></span></p>
+        <p><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif"><span style="font-size:12pt"><span style="color:#000000"><span>What you will see once you open the link below is a sound composition scroll, which is designed as a long landscape. &ldquo;Navigation&rdquo;, &ldquo;Legends &amp; popup&rdquo; should give you a fair bit of idea on the interaction for scroll. It&rsquo;s currently work in progress, so if you find any bugs, great! Just let us know and if possible any solutions too.&nbsp;</span></span></span></span></p>
+        <p><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif"><span style="font-size:12pt"><span style="color:#000000"><span>You can find all the source code here: </span></span></span><a href="https://github.com/TimeblurStudio/Osmoscape" style="text-decoration:none"><span style="font-size:12pt"><span style="color:#1155cc"><span><u>https://github.com/TimeblurStudio/Osmoscape</u></span></span></span></a></span></p>
+        <p><span style="font-family:Lucida Sans Unicode,Lucida Grande,sans-serif"><span style="font-size:12pt"><span style="color:#000000"><span><em>Note:</em></span></span></span><span style="font-size:12pt"><span style="color:#000000"><span> preferred browser is chrome, device can be laptop/desktop</span></span></span></span></p>
+        <p>&nbsp;</p>
+      </div>
+    </div>
 
     <!-- build:js scripts/bundle.js -->
-    <script src="scripts/bundle.js?v=0.5.0"></script>
+    <script src="scripts/bundle.js?v=0.6.1"></script>
     <!-- endbuild -->
     <script>
         window.version = #{VERSION_REPLACE}#;
         console.log(window.version);
-    </script>>
+    </script>
   </body>
 </html>
