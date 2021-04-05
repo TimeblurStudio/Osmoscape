@@ -110,55 +110,69 @@ osmo.DataSvg = class {
 		//
 		if(this.quality == 'High'){
 			//
+			let self = this;
 			//HQscroll
 			// Create a raster item using the image tag with id=''
-			let raster = new this.PAPER.Raster('HQscroll');
-			this.mainScroll = raster;
-			this.backgroundLayer.addChild(this.mainScroll);
-			// Scale the raster
-			this.scale = osmo.scroll.paperHeight/raster.height;
-			raster.scale(this.scale);
+			var imageElement = document.getElementById('HQscroll');
+			let raster = new this.PAPER.Raster(imageElement);
+			raster.on('load', function() {
+				self.mainScroll = raster;
+				self.backgroundLayer.addChild(self.mainScroll);
+				// Scale the raster
+				self.scale = osmo.scroll.paperHeight/raster.height;
+				raster.scale(self.scale);
+				//
+				// Move the raster to the center of the view
+				raster.position = self.PAPER.view.center;
+				raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*self.scale/2);
+				//
+				self.scrollWidth = raster.width*self.scale;
+				self.scrollHeight = osmo.scroll.paperHeight;
+			});
 			//
-			// Move the raster to the center of the view
-			raster.position = this.PAPER.view.center;
-			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*this.scale/2);
-			//
-			this.scrollWidth = raster.width*this.scale;
-			this.scrollHeight = osmo.scroll.paperHeight;
 		}else if(this.quality == 'Mobile'){
 			//
+			let self = this;
 			//MQscroll
 			// Create a raster item using the image tag with id=''
-			let raster = new this.PAPER.Raster('MQscroll');
-			this.mainScroll = raster;
-			this.backgroundLayer.addChild(this.mainScroll);
-			// Scale the raster
-			this.scale = osmo.scroll.paperHeight/raster.height;
-			raster.scale(this.scale);
-			// Move the raster to the center of the view
-			raster.position = this.PAPER.view.center;
-			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*this.scale/2);
-			//
-			//
-			this.scrollWidth = raster.width*this.scale;
-			this.scrollHeight = osmo.scroll.paperHeight;
+			var imageElement = document.getElementById('MQscroll');
+			let raster = new this.PAPER.Raster(imageElement);
+			raster.on('load', function() {
+				//
+				self.mainScroll = raster;
+				self.backgroundLayer.addChild(self.mainScroll);
+				// Scale the raster
+				self.scale = osmo.scroll.paperHeight/raster.height;
+				raster.scale(self.scale);
+				// Move the raster to the center of the view
+				raster.position = self.PAPER.view.center;
+				raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*self.scale/2);
+				//
+				self.scrollWidth = raster.width*self.scale;
+				self.scrollHeight = osmo.scroll.paperHeight;
+				//
+			});
 		}else if(this.quality == 'Retina'){
 			//
+			let self = this;
 			//RQscroll
 			// Create a raster item using the image tag with id=''
-			let raster = new this.PAPER.Raster('RQscroll');
-			this.mainScroll = raster;
-			this.backgroundLayer.addChild(this.mainScroll);
-			// Scale the raster
-			this.scale = osmo.scroll.paperHeight/raster.height;
-			raster.scale(this.scale);
-			//
-			// Move the raster to the center of the view
-			raster.position = this.PAPER.view.center;
-			raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*this.scale/2);
-			//
-			this.scrollWidth = raster.width*this.scale;
-			this.scrollHeight = osmo.scroll.paperHeight;
+			var imageElement = document.getElementById('RQscroll');
+			let raster = new this.PAPER.Raster(imageElement);
+			raster.on('load', function() {
+				self.mainScroll = raster;
+				self.backgroundLayer.addChild(self.mainScroll);
+				// Scale the raster
+				self.scale = osmo.scroll.paperHeight/raster.height;
+				raster.scale(self.scale);
+				//
+				// Move the raster to the center of the view
+				raster.position = self.PAPER.view.center;
+				raster.position.x = (osmo.scroll.paperWidth*3/4) + (raster.width*self.scale/2);
+				//
+				self.scrollWidth = raster.width*self.scale;
+				self.scrollHeight = osmo.scroll.paperHeight;
+			});
 		}
 		//
 	}

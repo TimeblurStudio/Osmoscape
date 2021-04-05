@@ -727,9 +727,13 @@ osmo.Scroll = class {
   	$('.pg-loading-html').append($.parseHTML( please_wait_spinner ));
 	  //
 	  let image = document.getElementById('HQscroll');
+	  /*
+	  //
+	  // APPROACH 1
 	  var downloadingImage = new Image();
 	  downloadingImage.onload = function(){
 	  		console.log('Loaded HQ image');
+	      console.log(this.src);
 	      image.src = this.src;
 	      //
 	      osmo.datasvg = new osmo.DataSvg();
@@ -748,8 +752,49 @@ osmo.Scroll = class {
 	      }
 	  };
 	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png';
+	  */
 	  //
+	  // APPROACH 2
+	  fetch('assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png')
+		.then(res => {
+			//
+			res.blob()
+					.then(blob => {
+						var reader  = new FileReader();
+				    reader.addEventListener('load', function () {
+				        //
+				        console.log('Loaded HQ image');
+      					image.src = reader.result;
+					      //
+					      osmo.datasvg = new osmo.DataSvg();
+					      osmo.datasvg.init('High');
+					      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
+					      //
+					      osmo.navinteract.loadNav();
+					      osmo.navinteract.initNav();
+					      //
+					      //
+					      self.loaded.HQimage = true;
+								osmo.datasvg.backgroundLayer.sendToBack();
+					      if(self.loaded.HQimage && self.loaded.svgdata){
+					      	window.loading_screen.finish();
+					      	osmo.bgaudio.start();
+					      }
+				        //
+				    }, false);
+
+				    reader.onerror = () => {
+				      console.error(this);
+				    };
+				    reader.readAsDataURL(blob);
+					})
+					.catch(err => console.error(err));
+		  //
+		})
+		.catch(err => console.error(err));
+		//
 	}
+
 
 	/**
 	 * ------------------------------------------------
@@ -767,11 +812,15 @@ osmo.Scroll = class {
   	$('.pg-loading-html').append($.parseHTML( please_wait_spinner ));
 	  //
 	  let image = document.getElementById('RQscroll');
+	  /*
+	  //
+	  // APPROACH 1
 	  var downloadingImage = new Image();
 	  downloadingImage.onload = function(){
-  		console.log('Loaded RQ image');
-      //
-      image.src = this.src;
+  		//
+      console.log('Loaded RQ image');
+      console.log(this.src);
+	    image.src = this.src;
     	//
       osmo.datasvg = new osmo.DataSvg();
 			osmo.datasvg.init('Retina');
@@ -788,8 +837,49 @@ osmo.Scroll = class {
       }
 	  };
 	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_600ppi-RETINA.png';
+	  */
 	  //
+	  // APPROACH 2
+	  fetch('assets/images/SCROLL_cs6_ver23_APP_final_600ppi-RETINA.png')
+		.then(res => {
+			//
+			res.blob()
+					.then(blob => {
+						var reader  = new FileReader();
+				    reader.addEventListener('load', function () {
+				        //
+				        console.log('Loaded RQ image');
+      					image.src = reader.result;
+					      //
+					      osmo.datasvg = new osmo.DataSvg();
+					      osmo.datasvg.init('Retina');
+					      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
+					      //
+					      osmo.navinteract.loadNav();
+					      osmo.navinteract.initNav();
+					      //
+					      //
+					      self.loaded.HQimage = true;
+								osmo.datasvg.backgroundLayer.sendToBack();
+					      if(self.loaded.HQimage && self.loaded.svgdata){
+					      	window.loading_screen.finish();
+					      	osmo.bgaudio.start();
+					      }
+				        //
+				    }, false);
+
+				    reader.onerror = () => {
+				      console.error(this);
+				    };
+				    reader.readAsDataURL(blob);
+					})
+					.catch(err => console.error(err));
+		  //
+		})
+		.catch(err => console.error(err));
+		//
 	}
+
 
 	/**
 	 * ------------------------------------------------
@@ -803,11 +893,16 @@ osmo.Scroll = class {
 	  osmo.pzinteract.setMaxZoom(2);
 	  //
 	  let image = document.getElementById('MQscroll');
-	  image.src = this.src;
+	  /*
+	  //
+	  // APPROACH 1
 	  var downloadingImage = new Image();
 	  downloadingImage.onload = function(){
+	  		//
 	  		console.log('Loaded MQ image');
-	      //
+	  		console.log(this.src);
+	      image.src = this.src;
+	  		//
 	      osmo.datasvg = new osmo.DataSvg();
 				osmo.datasvg.init('Mobile');
 	      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
@@ -822,7 +917,48 @@ osmo.Scroll = class {
 	      	//osmo.bgaudio.start(); //Mandate to click on a start button to start audio interactions
 	      }
 	  };
-	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png';
+	  downloadingImage.src = 'assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW.png';
+	  */
+	  //
+	  // APPROACH 2
+	  fetch('assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW.png')
+		.then(res => {
+			//
+			res.blob()
+					.then(blob => {
+						var reader  = new FileReader();
+				    reader.addEventListener('load', function () {
+				        //
+				        console.log('Loaded MQ image');
+      					image.src = reader.result;
+					      //
+					      osmo.datasvg = new osmo.DataSvg();
+					      osmo.datasvg.init('Mobile');
+					      osmo.datasvg.initSplash(osmo.scroll.splashWidth);
+					      //
+					      osmo.navinteract.loadNav();
+					      osmo.navinteract.initNav();
+					      //
+					      //
+					      self.loaded.HQimage = true;
+								osmo.datasvg.backgroundLayer.sendToBack();
+					      if(self.loaded.HQimage && self.loaded.svgdata){
+					      	window.loading_screen.finish();
+					      	osmo.bgaudio.start();
+					      }
+				        //
+				    }, false);
+
+				    reader.onerror = () => {
+				      console.error(this);
+				    };
+				    reader.readAsDataURL(blob);
+					})
+					.catch(err => console.error(err));
+		  //
+		})
+		.catch(err => console.error(err));
+		//
 	}
 
 };

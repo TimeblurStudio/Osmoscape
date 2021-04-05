@@ -58,7 +58,7 @@ osmo.AudioWaveform = class {
 	        canvas.width = 350;
 	        canvas.height = self.scaleY(1.0, 180);
 	        canvas.style.display = 'none';
-	        console.log('Added ' + index+'_waveform' + ' of dimension '+ canvas.width + ' ' + canvas.height);
+	        //console.log('Added ' + index+'_waveform' + ' of dimension '+ canvas.width + ' ' + canvas.height);
 	        //
 	        const ctx = canvas.getContext('2d');
 	        ctx.beginPath();
