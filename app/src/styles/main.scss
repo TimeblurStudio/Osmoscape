@@ -6,6 +6,75 @@ body{
   user-select: none;
 }
 
+#cursor{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cursor-pointer-wrapper{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+}
+
+.cursor-pointer{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  opacity: 0;
+  -webkit-transition: opacity .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: opacity .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: opacity .3s cubic-bezier(.165,.84,.44,1),transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: opacity .3s cubic-bezier(.165,.84,.44,1),transform .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+}
+
+.cursor-txt{
+  position: absolute;
+  left: 50%;
+  bottom: -25px;
+  width: 160px;
+  margin-left: -80px;
+  font: 700 13px/15px Roboto,sans-serif;
+  letter-spacing: 3px;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transform: translateY(10px);
+  transform: translateY(10px);
+  -webkit-transition: opacity .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: opacity .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: opacity .3s cubic-bezier(.165,.84,.44,1),transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: opacity .3s cubic-bezier(.165,.84,.44,1),transform .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+}
+
+.cursor-loading{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-animation: cursor-loading-anim none 1.5s infinite;
+  animation: cursor-loading-anim none 1.5s infinite;
+}
+
 .browserupgrade {
   margin: 0.2em 0;
   background: #ccc;
@@ -507,10 +576,13 @@ svg, path {
   position: fixed;
   width: 336px;
   bottom: 0;
-  left: 50%;
-  margin-left: -164px;
-  padding: 0;
+  left: calc(50% - 164px);
+  padding: 10px;
   display: none;
+  margin-bottom: 18px;
+  z-index: 10;
+  background: #0001;
+  border-radius: 20px;
 }
 
 .jump{

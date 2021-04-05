@@ -137,12 +137,14 @@ osmo.Scroll = class {
 
 		paper.view.onMouseMove = function(event) {
 			//osmo.mstars.mouseMoved(event);
-			osmo.legendinteract.mouseMoved(event);
+			if(!osmo.navinteract.isOnDiv)
+				osmo.legendinteract.mouseMoved(event);
 		};
 
 		paper.view.onMouseDown = function(event) {
 			//osmo.mstars.mouseMoved(event);
-			osmo.popupinteract.mouseClicked(event);
+			if(!osmo.navinteract.isOnDiv)
+				osmo.popupinteract.mouseClicked(event);
 		};
 
 

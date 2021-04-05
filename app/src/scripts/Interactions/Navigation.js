@@ -39,6 +39,7 @@ osmo.NavigationInteraction = class {
 		this.currentNavLoc = -1;
 		this.navTweenItem;
 		this.navLayer;
+		this.isOnDiv = false;
 
 		// Methods
 		this.init;
@@ -60,6 +61,17 @@ osmo.NavigationInteraction = class {
 
 		//
 		this.BGAUDIO.loadAudio();
+		//
+
+		let self = this;
+		$('.nav').mouseenter(function(){
+			self.isOnDiv = true;
+			console.log('ondiv')
+		});
+		$('.nav').mouseleave(function(){
+			self.isOnDiv = false;
+			console.log('offdiv')
+		});
 	}
 
 	loadNav(){
