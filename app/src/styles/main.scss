@@ -344,7 +344,9 @@ $animDuration: 8s;
   position: absolute;
   width: 150px;
   float: right;
-  transform: translate(-51px, 61px) rotate(-90deg);
+  transform: translate(-61px, 61px) rotate(-90deg);
+  padding: 10px;
+  margin-top: -10px;
 }
 
 svg, path {

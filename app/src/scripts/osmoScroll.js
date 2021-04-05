@@ -252,10 +252,36 @@ osmo.Scroll = class {
 	speakerMicroInteraction(){
 		console.log('speakerMicroInteraction');
 		$(document).ready(function () {
+
+			// Speaker interaction
+			let isOnCtrl = false;
+			let isOnSpeaker = false;
+
+			// Check if mouse is on volume control
+			$('.vlCtrl').mouseenter(function(){
+				isOnCtrl = true;
+			});
+			$('.vlCtrl').mouseleave(function(){
+				isOnCtrl = false;
+				//
+				if(!isOnSpeaker)
+					$('.vlCtrl').hide();
+				//
+			});
+
+			// Check if mouse is on speaker control
 			$('.speaker').hover(function(){
+				isOnSpeaker = true;
 				$('.vlCtrl').show();
 			}, function(){
-				//$('.vlCtrl').hide();
+				isOnSpeaker = false;
+				console.log('speaker off-hover, now check for vlCtrl');
+				//if(!isOnCtrl)
+				//		$('.vlCtrl').hide();
+				setTimeout(function(){
+					if(!isOnCtrl || isOnSpeaker)
+						$('.vlCtrl').fadeOut();
+				},1500);
 			});
 			//
 
