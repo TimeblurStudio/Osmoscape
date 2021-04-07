@@ -11,16 +11,16 @@
     <link rel="apple-touch-icon" href="assets/images/osmo_icon.png">
 
     <!-- stylesheet Links -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.6.1">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.6.1" rel="stylesheet">
-    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.6.1">
-    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.6.1">
-    <link rel="stylesheet" href="styles/main.css?v=0.6.1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.7.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.7.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.7.0">
+    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.7.0">
+    <link rel="stylesheet" href="styles/main.css?v=0.7.0">
 
 
     <!-- scripts -->
-    <script src="scripts/modernizr.js?v=0.6.1"></script>
-    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.6.1"></script>
+    <script src="scripts/modernizr.js?v=0.7.0"></script>
+    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.7.0"></script>
   </head>
   <body>
     <!--[if IE]>
@@ -33,6 +33,26 @@
     <img id="HQscroll" src="" alt="High Quality scroll" height="1" style="display: none;">
     <img id="RQscroll" src="" alt="Retina Quality scroll" height="1" style="display: none;">
     <img id="MQscroll" src="" alt="Mobile Quality scroll" height="1" style="display: none;">
+
+    <? Custom Cursor ?>
+    <div id="cursor">
+        <div class="cursor-pointer-wrapper">
+            <div class="cursor-pointer">
+                <div class="cursor-pointer-dot"  style="display: none;"></div>
+                <div class="cursor-txt" style="display: none;">Click &amp; drag</div>
+                <div class="cursor-loading" id="cursor-cl"  style="display: none;">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="100%" height="100%" class="intro-svg-txt">
+                        <circle class="cursor-loading-circle"  id="cursor-clc" cx="10" cy="10" r="9" fill="none" stroke="#fff" stroke-width="2"></circle>
+                    </svg>
+                </div>
+                <div class="cursor-loading-full" id="cursor-clf" style="display: none;">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="100%" height="100%" class="intro-svg-txt">
+                        <circle class="cursor-loading-circle"  id="cursor-clcf" cx="10" cy="10" r="9" fill="none" stroke="#fff" stroke-width="2"></circle>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <? Scroll Section - PaperJS canvas ?>
     <canvas id="main-scroll-canvas" resize="true" hidpi="off" data-paper-hidpi="off"></canvas>
@@ -50,20 +70,25 @@
             </div>
             <p style="margin-left: 20px; font-size: 16px;"><a href="#">Add</a> this to your composition</p>
         </div>
-    </div>
-    <div id="focused-cta" style="display:none;">
-        <button class="btn" id="popcancel" style="font-size:32px;background: none; color: white;">&#x2715;</button>
+
+        <!--  -->
+        <div id="focused-cta" style="display:none;">
+            <button class="btn" id="popcancel" style="font-size: 32px; color: #24292b; border-radius: 50%; background: white; height: 60px; width: 60px;">&#x2715;</button>
+        </div>
+
     </div>
 
-    <ul class="nav">
-        <a href="#" class="jump" data-id="1"><img src="./assets/images/icons/chapter_1_default.svg"></a>
-        <a href="#" class="jump" data-id="2"><img src="./assets/images/icons/chapter_2_default.svg"></a>
-        <a href="#" class="jump" data-id="3"><img src="./assets/images/icons/chapter_3_default.svg"></a>
-        <a href="#" class="jump" data-id="4"><img src="./assets/images/icons/chapter_4_default.svg"></a>
-        <a href="#" class="jump" data-id="5"><img src="./assets/images/icons/chapter_5_default.svg"></a>
-        <a href="#" class="jump" data-id="6"><img src="./assets/images/icons/chapter_6_default.svg"></a>
-        <a href="#" class="jump" data-id="7"><img src="./assets/images/icons/chapter_7_default.svg"></a>
-    </ul>
+    <div class="nav">
+        <ul style="padding: 0; margin: 0;">
+            <a href="#" class="jump" data-id="1"><img src="./assets/images/icons/chapter_1_default.svg"></a>
+            <a href="#" class="jump" data-id="2"><img src="./assets/images/icons/chapter_2_default.svg"></a>
+            <a href="#" class="jump" data-id="3"><img src="./assets/images/icons/chapter_3_default.svg"></a>
+            <a href="#" class="jump" data-id="4"><img src="./assets/images/icons/chapter_4_default.svg"></a>
+            <a href="#" class="jump" data-id="5"><img src="./assets/images/icons/chapter_5_default.svg"></a>
+            <a href="#" class="jump" data-id="6"><img src="./assets/images/icons/chapter_6_default.svg"></a>
+            <a href="#" class="jump" data-id="7"><img src="./assets/images/icons/chapter_7_default.svg"></a>
+        </ul>
+    </div>
 
     <div style="position: absolute; bottom: 100px; left: calc(50% - 50px);" id="scrollm">
         <!--div class="mouse"></div-->
@@ -88,11 +113,11 @@
                 <line id="crossLbRt" class="volElem" opacity="0.6" stroke="#CECECE" x1="62.6" y1="29.2" x2="43.8" y2="47.8" transform="scale(0)" />
             </svg>
         </div>
-        <div class="vlCtrl" style="display: none;">
+        <div class="vlCtrl" style="display: none; ">
             <svg viewBox="0 0 280 27" xmlns="http://www.w3.org/2000/svg">
                 <line id="ctrlLineB" class="volElem" stroke="#9E9E9E" x1="13" y1="13.5" x2="261.2" y2="13.5" opacity="0.3"/>
-                <line id="ctrlLineF" class="volElem" stroke="#F4F4F4" x1="13" y1="13.5" x2="191.2" y2="13.5"/>
-                <circle id="ctrlCirce" cx="191.2" cy="13.5" r="13" fill="#F4F4F4"/>
+                <line style="cursor: pointer;" id="ctrlLineF" class="volElem" stroke="#F4F4F4" x1="13" y1="13.5" x2="191.2" y2="13.5"/>
+                <circle style="cursor: pointer;" id="ctrlCirce" cx="191.2" cy="13.5" r="13" fill="#F4F4F4"/>
             </svg>
         </div>
       </div>
@@ -114,7 +139,7 @@
     </div>
 
 
-    <div class="vinfo" >v<span id="versionid">0.6.1</span></div>
+    <div class="vinfo" >v<span id="versionid">0.7.0</span></div>
 
     <!--
         Additional menu items required -
@@ -143,7 +168,7 @@
     </div>
 
     <!-- build:js scripts/bundle.js -->
-    <script src="scripts/bundle.js?v=0.6.1"></script>
+    <script src="scripts/bundle.js?v=0.7.0"></script>
     <!-- endbuild -->
     <script>
         window.version = #{VERSION_REPLACE}#;
