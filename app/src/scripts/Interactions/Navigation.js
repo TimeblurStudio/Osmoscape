@@ -66,11 +66,9 @@ osmo.NavigationInteraction = class {
 		let self = this;
 		$('.nav').mouseenter(function(){
 			self.isOnDiv = true;
-			console.log('ondiv')
 		});
 		$('.nav').mouseleave(function(){
 			self.isOnDiv = false;
-			console.log('offdiv')
 		});
 	}
 
