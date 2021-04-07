@@ -25,6 +25,8 @@ osmo.PopupInteraction = class {
 		this.DATASVG = osmo.datasvg;
 		//
 		this.currentFocus = null;
+		this.dragMode = false;
+		this.isDragging = false;
 		//
 	}
 
@@ -63,6 +65,14 @@ osmo.PopupInteraction = class {
 			}
 		}.bind(this));
 		//
+		//
+		$('#focused-info').mouseenter(function(){
+			$('#cursor').hide();
+		});
+		$('#focused-info').mouseleave(function(){
+			$('#cursor').show();
+		});
+		//
 	}
 
 	close(){
@@ -75,7 +85,14 @@ osmo.PopupInteraction = class {
 		$('#focused-info').hide();
 		$('#'+this.currentFocus+'_waveform').hide();
 		//$('#'+this.currentFocus+'_audio').hide();
-		document.body.style.cursor = 'default';
+		$('.cursor-pointer').css('border', '2px solid white');
+		$('.cursor-loading').hide();
+		$('.cursor-loading-full').hide();
+		$('.cursor-pointer-dot').hide();
+		$('.cursor-txt').hide();
+		this.dragMode = false;
+		this.isDragging = false;
+		//document.body.style.cursor = 'default';
 		//
 		let fac = 1.005/(this.PAPER.view.zoom*this.PAPER.view.zoom);
 		let currentCenter = this.PAPER.view.center;
@@ -113,17 +130,64 @@ osmo.PopupInteraction = class {
 	mouseClicked(event){
 		let legendsvg = this.LEGENDSVG;
 		$('.nav').hide();
-		//
+		/*
 		if(document.body.style.cursor == 'zoom-in'){
 			console.log('Zoom-in at this place');
 			this.PAPER.view.zoom = osmo.pzinteract.changeZoom(this.PAPER.view.zoom, -1, 1.015, false);
 		}
+		*/
+		if(this.dragMode){
+			this.isDragging = true;
+			$('#cursor').hide();
+		}
+
+
 		//
 		if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata){
 			if(osmo.scroll.hitPopupMode != 'focused'){
 				this.hitMaskEffect(event.point, 'click');
 			}
 		}
+		//
+	}
+
+	/**
+	 * ------------------------------------------------
+	 * mouseMoved
+	 * ------------------------------------------------
+	 */
+	mouseMoved(deltaValX, deltaValY){
+		//
+		if(this.dragMode && this.isDragging){
+			let fac = 1.005/(osmo.scroll.PAPER.view.zoom*osmo.scroll.PAPER.view.zoom);
+			//console.log(deltaValX + ' ' + deltaValY + ' ' + fac);
+			this.PAPER.view.center = osmo.pzinteract.changeCenter(this.PAPER.view.center, deltaValX, deltaValY, fac, false);
+		}
+		//
+	}
+
+
+	mouseUp(event){
+		if(this.dragMode){
+			this.isDragging = false;
+			$('#cursor').show();
+		}
+	}
+
+	reset_animation(_id, _class) {
+	  /*
+	  var el = document.getElementById(_id);
+	  console.log(el);
+	  el.style.animation = 'none';
+	  el.offsetHeight; // trigger reflow
+	  el.style.animation = null;
+	  */
+	  //
+	  let $target = $('#'+_id);
+    $target.removeClass(_class);
+		setTimeout( function(){
+			$target.addClass(_class);
+		},100);
 		//
 	}
 
@@ -156,7 +220,27 @@ osmo.PopupInteraction = class {
 				//
 				osmo.scroll.hitPopupMode = 'focused';
 				legendsvg.maskLayer.visible = false;
-				document.body.style.cursor = 'zoom-in';
+				// Also make sure it's not in loading stage
+				$('.cursor-pointer').css('border', 'none');
+				$('.cursor-loading-full').show();
+				$('.cursor-pointer-dot').hide();
+				$('.cursor-txt').hide();
+				this.reset_animation('cursor-clcf', 'cursor-loading-circle');
+				this.reset_animation('cursor-clf', 'cursor-loading-full');
+				this.dragMode = false;
+				this.isDragging = false;
+				//
+				let self = this;
+				setTimeout(function(){
+					$('.cursor-loading-full').hide();
+					$('.cursor-pointer-dot').show();
+					$('.cursor-txt').html('Click & drag');
+					$('.cursor-txt').show();
+					self.dragMode = true;
+					self.isDragging = false;
+				},8000);
+				//
+				//document.body.style.cursor = 'zoom-in';
 				//
 				this.currentFocus = parseInt(hitResult.item.data.legendName.replace('legend-', ''));
 				console.log('Focused on: ' + this.currentFocus );
@@ -208,7 +292,15 @@ osmo.PopupInteraction = class {
 			$('#focused-info').animate({ right:'-500px'}, 100);
 			//
 			legendsvg.legendLayer.visible = false;
-			document.body.style.cursor = 'default';
+			//document.body.style.cursor = 'default';
+			$('.cursor-pointer').css('border', '2px solid white');
+			$('.cursor-loading').hide();
+			$('.cursor-loading-full').hide();
+			$('.cursor-pointer-dot').hide();
+			$('.cursor-txt').hide();
+			this.dragMode = false;
+			this.isDragging = false;
+			//
 			for(let i=0; i<legendsvg.legendLayer.children.length; i++){
 				let child = legendsvg.legendLayer.children[i];
 				child.visible = false;

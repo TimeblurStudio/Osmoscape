@@ -24,6 +24,7 @@ osmo.LegendInteraction = class {
 		this.LEGENDSVG = osmo.legendsvg;
 		this.DATASVG = osmo.datasvg;
 		//
+		this.cursorLoading = null;
 	}
 
 	/**
@@ -57,6 +58,23 @@ osmo.LegendInteraction = class {
 		//
 	}
 
+	reset_animation(_id, _class) {
+	  /*
+	  var el = document.getElementById(_id);
+	  console.log(el);
+	  el.style.animation = 'none';
+	  el.offsetHeight; // trigger reflow
+	  el.style.animation = null;
+	  */
+	  //
+	  let $target = $('#'+_id);
+    $target.removeClass(_class);
+		setTimeout( function(){
+			$target.addClass(_class);
+		},100);
+		//
+	}
+
 	/**
 	 * ------------------------------------------------
 	 * hitMaskEffect
@@ -83,7 +101,28 @@ osmo.LegendInteraction = class {
 				//
 				toOpacity = 0.25;
 				toColor =  new this.PAPER.Color('#6d7c80');
-				document.body.style.cursor = 'pointer';
+				//document.body.style.cursor = 'pointer';
+				//
+				if(this.cursorLoading == null){
+					//
+					$('.cursor-pointer').css('border', 'none');
+					$('.cursor-loading').show();
+					this.reset_animation('cursor-clc', 'cursor-loading-circle');
+					this.reset_animation('cursor-cl', 'cursor-loading');
+					//
+					let self = this;
+					this.cursorLoading = setTimeout(function(){
+						//
+						self.cursorLoading = null;
+						//
+						$('.cursor-pointer').css('border', '2px solid white');
+						$('.cursor-loading').hide();
+						$('.cursor-pointer-dot').show();
+						$('.cursor-txt').html('Click to open');
+						$('.cursor-txt').show();
+						//
+					},8000);//
+				}
 				//
 				osmo.scroll.prevBoundsCenter = null;
 				osmo.scroll.prevZoom = null;
@@ -96,7 +135,17 @@ osmo.LegendInteraction = class {
 			toColor =  new this.PAPER.Color('#b5ced5');
 			//
 			legendsvg.legendLayer.visible = false;
-			document.body.style.cursor = 'default';
+			if(this.cursorLoading != null)
+				clearTimeout(this.cursorLoading);
+			this.cursorLoading = null;
+			//document.body.style.cursor = 'default';
+			$('.cursor-pointer').css('border', '2px solid white');
+			$('.cursor-loading').hide();
+			$('.cursor-loading-full').hide();
+			$('.cursor-pointer-dot').hide();
+			$('.cursor-txt').hide();
+
+			//
 			for(let i=0; i<legendsvg.legendLayer.children.length; i++){
 				let child = legendsvg.legendLayer.children[i];
 				child.visible = false;

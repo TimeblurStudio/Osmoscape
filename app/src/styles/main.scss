@@ -1,4 +1,4 @@
-body{
+body {
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
@@ -6,18 +6,19 @@ body{
   user-select: none;
 }
 
-#cursor{
+#cursor {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 100000000;
   pointer-events: none;
 }
 
-.cursor-pointer-wrapper{
+.cursor-pointer-wrapper {
   position: absolute;
+  opacity: 0;
   left: 0;
   top: 0;
   width: 20px;
@@ -25,22 +26,49 @@ body{
   margin: -10px 0 0 -10px;
 }
 
-.cursor-pointer{
+.cursor-pointer {
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  content: '';
+  opacity: 1;
   position: absolute;
   left: 0;
   top: 0;
-  width: 20px;
-  height: 20px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  opacity: 0;
-  -webkit-transition: opacity .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
-  transition: opacity .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
-  transition: opacity .3s cubic-bezier(.165,.84,.44,1),transform .3s cubic-bezier(.165,.84,.44,1);
-  transition: opacity .3s cubic-bezier(.165,.84,.44,1),transform .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  -webkit-transition: -webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: -webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: transform .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
 }
 
-.cursor-txt{
+.cursor-pointer-dot {
+  border: 2px solid #fff;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  content: '';
+  opacity: 1;
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0.4);
+  -webkit-transition: -webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: -webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: transform .3s cubic-bezier(.165,.84,.44,1);
+  transition: transform .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
+}
+
+.cursor-txt {
+  position: absolute;
+  color: white;
   left: 50%;
   bottom: -25px;
   width: 160px;
@@ -50,7 +78,7 @@ body{
   text-align: center;
   text-transform: uppercase;
   white-space: nowrap;
-  opacity: 0;
+  opacity: 0.75;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -64,16 +92,153 @@ body{
   transition: opacity .3s cubic-bezier(.165,.84,.44,1),transform .3s cubic-bezier(.165,.84,.44,1),-webkit-transform .3s cubic-bezier(.165,.84,.44,1);
 }
 
-.cursor-loading{
+.cursor-loading {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  opacity: 0;
+  opacity: 1;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-animation: cursor-loading-anim-nr none 1.5s 1;
+  animation: cursor-loading-anim-nr none 1.5s 1;
+}
+
+.cursor-loading-full {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 1;
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
   -webkit-animation: cursor-loading-anim none 1.5s infinite;
   animation: cursor-loading-anim none 1.5s infinite;
 }
+
+.intro-svg-txt {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font: 700 200px/200px Catamaran,sans-serif;
+  overflow: hidden;
+}
+
+.cursor-loading-circle {
+  stroke-dasharray: 56.548667764616278;
+  stroke-dashoffset: 0;
+  -webkit-animation: cursor-loading-circle-anim none 8s 1;
+  animation: cursor-loading-circle-anim none 8s 1;
+}
+
+@-webkit-keyframes cursor-loading-anim-nr {
+    0% {
+        -webkit-animation-timing-function: cubic-bezier(.55, .085, .68, .53);
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    }
+
+    50% {
+        -webkit-animation-timing-function: none;
+        animation-timing-function: none
+    }
+
+    100% {
+        -webkit-animation-timing-function: none;
+        animation-timing-function: none
+    }
+}
+
+@keyframes cursor-loading-anim-nr {
+    0% {
+        -webkit-animation-timing-function: cubic-bezier(.55, .085, .68, .53);
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    }
+
+    50% {
+        -webkit-animation-timing-function: none;
+        animation-timing-function: none
+    }
+
+    100% {
+        -webkit-animation-timing-function: none;
+        animation-timing-function: none
+    }
+}
+
+@-webkit-keyframes cursor-loading-anim {
+    0% {
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        -webkit-animation-timing-function: cubic-bezier(.55, .085, .68, .53);
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    }
+
+    50% {
+        -webkit-transform: rotate(630deg);
+        transform: rotate(630deg);
+        -webkit-animation-timing-function: none;
+        animation-timing-function: none
+    }
+
+    100% {
+        -webkit-transform: rotate(630deg);
+        transform: rotate(630deg);
+        -webkit-animation-timing-function: none;
+        animation-timing-function: none
+    }
+}
+
+@keyframes cursor-loading-anim {
+    0% {
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        -webkit-animation-timing-function: cubic-bezier(.55, .085, .68, .53);
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    }
+
+    50% {
+        -webkit-transform: rotate(630deg);
+        transform: rotate(630deg);
+        -webkit-animation-timing-function: none;
+        animation-timing-function: none
+    }
+
+    100% {
+        -webkit-transform: rotate(630deg);
+        transform: rotate(630deg);
+        -webkit-animation-timing-function: none;
+        animation-timing-function: none
+    }
+}
+
+@-webkit-keyframes cursor-loading-circle-anim {
+    0% {
+        stroke-dashoffset: 0;
+        -webkit-animation-timing-function: cubic-bezier(.55, .085, .68, .53);
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    }
+
+    50% {
+        stroke-dashoffset: 56.548667764616278;
+        -webkit-animation-timing-function: cubic-bezier(.25, .46, .45, .94);
+        animation-timing-function: cubic-bezier(.25, .46, .45, .94)
+    }
+}
+
+@keyframes cursor-loading-circle-anim {
+    0% {
+        stroke-dashoffset: 0;
+        -webkit-animation-timing-function: cubic-bezier(.55, .085, .68, .53);
+        animation-timing-function: cubic-bezier(.55, .085, .68, .53)
+    }
+
+    50% {
+        stroke-dashoffset: 56.548667764616278;
+        -webkit-animation-timing-function: cubic-bezier(.25, .46, .45, .94);
+        animation-timing-function: cubic-bezier(.25, .46, .45, .94)
+    }
+}
+
 
 .browserupgrade {
   margin: 0.2em 0;
@@ -100,8 +265,9 @@ body{
   right: -500px;
   width: 500px;
   height: 100%;
-  background-color: #24292b;
+  background-color: #24292b55;
   cursor: default;
+  backdrop-filter: blur(4px);
 }
 
 .focused-content {
@@ -116,8 +282,8 @@ body{
 
 #focused-cta{
   position: fixed;
-  top: 50px;
-  right: 50px;
+  bottom: 50px;
+  right: 250px;
   width: 100%;
   margin: auto;
   text-align: right;

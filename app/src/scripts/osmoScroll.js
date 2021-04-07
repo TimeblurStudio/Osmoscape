@@ -129,6 +129,47 @@ osmo.Scroll = class {
 		paper.view.draw();
 
 		//
+		// Custom Mouse follow
+		document.addEventListener('mousemove', function(e) {
+		    let mouseX = e.pageX;
+		    let mouseY = e.pageY;
+		    //if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata)
+				$('.cursor-pointer-wrapper').css('transform', 'translate3d('+mouseX+'px, '+mouseY+'px, 0px)');
+
+		});
+
+		document.addEventListener('mousemove', function(e) {
+		    let deltaX = e.movementX * -1;
+		    let deltaY = e.movementY;
+		    //
+		    if(!osmo.navinteract.isOnDiv){
+					osmo.popupinteract.mouseMoved(deltaX, deltaY);
+				}
+
+		});
+
+		// Custom mouse hide/show
+		// HEAD ACTIONS
+		$('.head-actions').mouseenter(function(){
+			document.body.style.cursor = 'auto';
+			$('.cursor-pointer-wrapper').css('opacity', 0);
+		});
+		$('.head-actions').mouseleave(function(){
+			document.body.style.cursor = 'none';
+			$('.cursor-pointer-wrapper').css('opacity', 1);
+		});
+		// NAVIGATION
+		$('.nav').mouseenter(function(){
+			document.body.style.cursor = 'auto';
+			$('.cursor-pointer-wrapper').css('opacity', 0);
+		});
+		$('.nav').mouseleave(function(){
+			document.body.style.cursor = 'none';
+			$('.cursor-pointer-wrapper').css('opacity', 1);
+		});
+
+
+		//
 		// Update on paper events
 		//
 		paper.view.onFrame = function(event) {
@@ -137,8 +178,10 @@ osmo.Scroll = class {
 
 		paper.view.onMouseMove = function(event) {
 			//osmo.mstars.mouseMoved(event);
-			if(!osmo.navinteract.isOnDiv)
+			//
+			if(!osmo.navinteract.isOnDiv){
 				osmo.legendinteract.mouseMoved(event);
+			}
 		};
 
 		paper.view.onMouseDown = function(event) {
@@ -147,7 +190,14 @@ osmo.Scroll = class {
 				osmo.popupinteract.mouseClicked(event);
 		};
 
-
+		paper.view.onMouseUp = function(event) {
+			//osmo.mstars.mouseMoved(event);
+			//if(!osmo.navinteract.isOnDiv)
+			//	osmo.popupinteract.mouseClicked(event);
+			if(!osmo.navinteract.isOnDiv){
+				osmo.popupinteract.mouseUp(event);
+			}
+		};
 
 		paper.view.onKeyDown = function(event) {
 			//osmo.mstars.keyDown(event);

@@ -188,6 +188,10 @@ osmo.LegendSvg = class {
 	      if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata){
 	      	window.loading_screen.finish();
 	      	osmo.bgaudio.start();
+	      	//
+	      	document.body.style.cursor = 'none';
+	      	$('.cursor-pointer-wrapper').css('opacity', 1);
+	      	//
 	      }
 				self.correctMaskOrder();
 				//
