@@ -3,6 +3,9 @@
 
 /*
 	*ADD AUTHOUR AND LISCENSE*
+
+	!!Fix ME!!
+	- Background fading not working at all
 */
 
 'use strict';

@@ -3,6 +3,9 @@
 
 /*
 	*ADD AUTHOUR AND LISCENSE*
+
+      !!Fix ME!!
+      - Autoplay audio data on popup & stop it on close
 */
 
 'use strict';

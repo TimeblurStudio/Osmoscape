@@ -25,6 +25,7 @@ osmo.LegendInteraction = class {
 		this.DATASVG = osmo.datasvg;
 		//
 		this.cursorLoading = null;
+		this.tweenTimeout = null;
 	}
 
 	/**
@@ -89,6 +90,9 @@ osmo.LegendInteraction = class {
 		let tweening = false;
 		let dur = 800;
 		let lg;
+		// Fix ME!!
+		// 1. Wait atleast 4s before you start faading
+		// 2. Switching from one dataset to another does not fix the cursor i.e. it's both loading and click mode
 		//
 		let hitResult = legendsvg.maskLayer.hitTest(pt, osmo.scroll.maskHitOptions);
 		if(hitResult != null){
@@ -102,11 +106,16 @@ osmo.LegendInteraction = class {
 				toOpacity = 0.25;
 				toColor =  new this.PAPER.Color('#6d7c80');
 				//document.body.style.cursor = 'pointer';
+				if(this.cursorLoading != null)
+					clearTimeout(this.cursorLoading);
+				this.cursorLoading = null;
 				//
 				if(this.cursorLoading == null){
 					//
 					$('.cursor-pointer').css('border', 'none');
 					$('.cursor-loading').show();
+					$('.cursor-pointer-dot').hide();
+					$('.cursor-txt').hide();
 					this.reset_animation('cursor-clc', 'cursor-loading-circle');
 					this.reset_animation('cursor-cl', 'cursor-loading');
 					//
@@ -153,35 +162,54 @@ osmo.LegendInteraction = class {
 			//
 		}
 		//
+		let timeout = 10;
+		if(this.cursorLoading != null)
+			timeout = 8100;
+		//
+		let self = this;
 		if(!tweening){
-			setTimeout(function(){tweening = false;}, dur*1.2);
-			osmo.datasvg.backgroundTweenItem.tween(
-			    { val: 1.0 },
-			    { val: 0.0 },
-			    { easing: 'easeInOutQuad', duration: dur }
-			).onUpdate = function(event) {
-				tweening = true;
+			//
+			if(this.tweenTimeout != null)
+				clearTimeout(this.tweenTimeout);
+			this.tweenTimeout = null;
+			this.tweenTimeout = setTimeout(function(){
 				//
-				let currentVal = osmo.datasvg.backgroundTweenItem.val;
-				let lerpedColor = new osmo.scroll.PAPER.Color(
-					toColor.red+(fromColor.red-toColor.red)*currentVal,
-					toColor.green+(fromColor.green-toColor.green)*currentVal,
-					toColor.blue+(fromColor.blue-toColor.blue)*currentVal);
+				if(self.tweenTimeout != null)
+					clearTimeout(self.tweenTimeout);
+				self.tweenTimeout = null;
 				//
-				osmo.datasvg.backgroundLayer.opacity = toOpacity + (fromOpacity - toOpacity) * currentVal;
-				$('body').css('background-color',  lerpedColor.toCSS(true));
-				//
-				if(typeof lg !== 'undefined'){
-					if(!lg.visible && currentVal == 0){
-						for(let i=0; i<legendsvg.legendLayer.children.length; i++){
-							let child = legendsvg.legendLayer.children[i];
-							child.visible = false;
+				//Tween
+				setTimeout(function(){tweening = false;}, dur*1.2);
+				osmo.datasvg.backgroundTweenItem.tween(
+				    { val: 1.0 },
+				    { val: 0.0 },
+				    { easing: 'easeInOutQuad', duration: dur }
+				).onUpdate = function(event) {
+					tweening = true;
+					//
+					let currentVal = osmo.datasvg.backgroundTweenItem.val;
+					let lerpedColor = new osmo.scroll.PAPER.Color(
+						toColor.red+(fromColor.red-toColor.red)*currentVal,
+						toColor.green+(fromColor.green-toColor.green)*currentVal,
+						toColor.blue+(fromColor.blue-toColor.blue)*currentVal);
+					//
+					osmo.datasvg.backgroundLayer.opacity = toOpacity + (fromOpacity - toOpacity) * currentVal;
+					$('body').css('background-color',  lerpedColor.toCSS(true));
+					//
+					if(typeof lg !== 'undefined'){
+						if(!lg.visible && currentVal == 0){
+							for(let i=0; i<legendsvg.legendLayer.children.length; i++){
+								let child = legendsvg.legendLayer.children[i];
+								child.visible = false;
+							}
+							lg.visible = true;
 						}
-						lg.visible = true;
 					}
-				}
+					//
+				};
 				//
-			};
+			}, timeout);
+
 		}
 		//
 		//
