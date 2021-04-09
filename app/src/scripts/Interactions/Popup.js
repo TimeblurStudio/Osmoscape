@@ -27,6 +27,7 @@ osmo.PopupInteraction = class {
 		this.currentFocus = null;
 		this.dragMode = false;
 		this.isDragging = false;
+		this.loadingStage = null;
 		//
 	}
 
@@ -89,6 +90,7 @@ osmo.PopupInteraction = class {
 		$('.cursor-loading').hide();
 		$('.cursor-loading-full').hide();
 		$('.cursor-pointer-dot').hide();
+		$('.cursor-txt').html('');
 		$('.cursor-txt').hide();
 		this.dragMode = false;
 		this.isDragging = false;
@@ -220,6 +222,10 @@ osmo.PopupInteraction = class {
 				//
 				osmo.scroll.hitPopupMode = 'focused';
 				legendsvg.maskLayer.visible = false;
+				//
+				if(this.loadingStage != null)
+					clearTimeout(this.loadingStage);
+				this.loadingStage = null;
 				// Also make sure it's not in loading stage
 				$('.cursor-pointer').css('border', 'none');
 				$('.cursor-loading-full').show();
@@ -231,7 +237,12 @@ osmo.PopupInteraction = class {
 				this.isDragging = false;
 				//
 				let self = this;
-				setTimeout(function(){
+				this.loadingStage = setTimeout(function(){
+					//
+					if(this.loadingStage != null)
+						clearTimeout(this.loadingStage);
+					this.loadingStage = null;
+					//
 					$('.cursor-loading-full').hide();
 					$('.cursor-pointer-dot').show();
 					$('.cursor-txt').html('Click & drag');
