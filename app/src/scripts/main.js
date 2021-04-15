@@ -13,6 +13,7 @@ window.isMobile = mobileCheck();
 window.onload = function() {
 	//
 	console.log('Window loaded');
+  window.version = $('#versionid').text();
 
   // Scroll instance
   osmo.scroll = new osmo.Scroll();
@@ -22,7 +23,7 @@ window.onload = function() {
 	//
 	//
   let please_wait_spinner = '<div id="percentage" style="color: #b97941; font-weight: 400;"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #b97941"></div><div class="sk-child sk-bounce2" style="background-color: #b97941"></div><div class="sk-child sk-bounce3" style="background-color: #b97941"></div></div>';
-  let DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'; font-weight: 300;"><h2 id="quality-choice" style="font-family: \'Roboto\'; font-weight: 300;"><a id="quality-choice-best" style="font-family: \'Roboto\'; font-weight: 300;" class="invert" onclick="osmo.scroll.loadRQ();" href="#">RETINA QUALITY</a><span style="font-weight: 300;">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span><a class="invert" onclick="osmo.scroll.loadHQ();" href="#">HIGH QUALITY</a></h2></div>';
+  let DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'; font-weight: 300;"><h2 id="quality-choice" style="font-family: \'Roboto\'; font-weight: 300;"><a id="quality-choice-best" style="font-family: \'Roboto\'; font-weight: 300; cursor: pointer;" class="invert" href="#" onclick="osmo.scroll.loadRQ();">RETINA QUALITY</a><span style="font-weight: 300;">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span><a class="invert" onclick="osmo.scroll.loadHQ();"  href="#" style="cursor: pointer;">HIGH QUALITY</a></h2></div>';
   //
   let loadMobile = !window.isMobile;
   if(loadMobile){

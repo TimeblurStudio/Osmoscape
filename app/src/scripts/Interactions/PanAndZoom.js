@@ -77,7 +77,8 @@ osmo.PanAndZoom = class {
 		*/
 
 		// Main scrolling functionality
-		$('#main-scroll-canvas').on('mousewheel', function(event) {
+		//$('#main-scroll-canvas').on('mousewheel', function(event) {
+		$('#main-scroll-canvas').on('wheel', function(event){
 			osmo.navinteract.updateBasetrack();
 			osmo.navinteract.hitNavEffect();
 			// check inactivity
@@ -206,12 +207,12 @@ osmo.PanAndZoom = class {
 			  if(osmo.pzinteract.isCompletedDetecting){
 			  	$('#scrollm').hide();
 			  	//
-					document.removeEventListener('mousewheel', detectTrackPad, false);
+					document.removeEventListener('wheel', detectTrackPad, false);
 					document.removeEventListener('DOMMouseScroll', detectTrackPad, false);
 			  }
 			}
 			//
-			document.addEventListener('mousewheel', detectTrackPad, false);
+			document.addEventListener('wheel', detectTrackPad, false);
 			document.addEventListener('DOMMouseScroll', detectTrackPad, false);
 		}else{
 			this.isCompletedDetecting = true;

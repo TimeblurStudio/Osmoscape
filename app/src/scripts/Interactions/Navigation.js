@@ -100,9 +100,15 @@ osmo.NavigationInteraction = class {
 		console.log('Initializing navigation');
 
 		$('.jump').click(function(el){
+			console.log(el);
+			//
 			let chap_id = parseInt($(el.target.parentElement).attr('data-id'));
 			let locX = osmo.scroll.PAPER.project.getItem({name: 'nav-ch'+chap_id}).bounds.left;
 			let w = osmo.scroll.PAPER.project.getItem({name: 'nav-ch'+chap_id}).bounds.width;
+			//
+			console.log(chap_id);
+			console.log(locX);
+			console.log(w);
 			//
 			if(w > osmo.scroll.paperWidth)
 				locX += (osmo.scroll.paperWidth/2);

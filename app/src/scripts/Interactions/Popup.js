@@ -33,38 +33,69 @@ osmo.PopupInteraction = class {
 
 	init(){
 		//
+		let self = this;
 		$('#popcancel').click(function(){
-			this.close();
-		}.bind(this));
+			self.close();
+		});
 		//
 		let playerinterval = null;
 		$('#focused_waveform_state').click(function(){
 			let curr_val = $('#focused_waveform_state').html();
+			let curr_focus = '#'+self.currentFocus+'_audio';
 			if(curr_val == '▶'){
 				$('#focused_waveform_state').html('<b>Ⅱ</b>');
 				//-webkit-mask-image: linear-gradient(to right, #ffff, #ffff 10%, #fff6 10%, #fff6 100%);
-				$('#'+this.currentFocus+'_audio').trigger('play');
+				console.log(curr_focus);
+				$(curr_focus).trigger('play');
+				jQuery({volume: 0}).animate({volume: 1},{
+					duration: $(curr_focus)[0].duration*0.005,
+					step: function(val) {
+						console.log(val);
+						$(curr_focus)[0].volume = val;
+						//console.log( 'Currently @ ' + this.property );
+			    }
+				});
+				//
 				playerinterval = setInterval(function(){
-					let percentage = 100 * $('#'+this.currentFocus+'_audio')[0].currentTime / $('#'+this.currentFocus+'_audio')[0].duration;
+					if(curr_val == '▶'){
+						clearInterval(playerinterval);
+						playerinterval = null;
+					}
+					//
+					let percentage = 100 * $(curr_focus)[0].currentTime / $(curr_focus)[0].duration;
 					let now = percentage.toFixed(2).toString() + '%';
 					if(percentage < 99.5){
 						let next = (percentage+0.5).toFixed(2).toString() + '%';
 						$('#focused_waveforms').css('-webkit-mask-image','linear-gradient(to right, #ffff, #ffff '+now+', #fff6 '+next+', #fff6 100%)');
+						//
 					}else{
 						clearInterval(playerinterval);
 						playerinterval = null;
-						$('#focused_waveform_state').html('▶');
+						//
+						jQuery({volume: 1}).animate({volume: 0},{
+							duration: $(curr_focus)[0].duration*0.004,
+							step: function(val) {
+								console.log(val);
+								$(curr_focus)[0].volume = val;
+					    }
+						});
+						//
+						setTimeout(function(){
+							$('#focused_waveform_state').html('▶');
+							$('#focused_waveform_state').click();
+						}, $(curr_focus)[0].duration*0.005);
+						//
 					}
-				}.bind(this),50);
+				},50);
 			}
 			if(curr_val == '<b>Ⅱ</b>'){
 				$('#focused_waveform_state').html('▶');
 				clearInterval(playerinterval);
 				playerinterval = null;
 				$('#focused_waveforms').css('-webkit-mask-image', 'linear-gradient(to right, #fff6, #fff6 100%)');
-				$('#'+this.currentFocus+'_audio').trigger('pause');
+				$(curr_focus).trigger('pause');
 			}
-		}.bind(this));
+		});
 		//
 		//
 		$('#focused-info').mouseenter(function(){
@@ -82,10 +113,24 @@ osmo.PopupInteraction = class {
 		// FIX ME!!!
 		// ALSO MAKE SURE TO STOP PLAYING WAVEFORM
 		//
+		let curr_val = $('#focused_waveform_state').html();
+		let curr_focus = '#'+this.currentFocus+'_audio';
+		if(curr_val == '<b>Ⅱ</b>'){
+			$('#focused_waveform_state').html('▶');
+			//clearInterval(playerinterval);
+			//playerinterval = null;
+			$('#focused_waveforms').css('-webkit-mask-image', 'linear-gradient(to right, #fff6, #fff6 100%)');
+			$(curr_focus).trigger('pause');
+		}
+		//
 		$('#focused-cta').hide();
 		$('#focused-info').hide();
 		$('#'+this.currentFocus+'_waveform').hide();
-		//$('#'+this.currentFocus+'_audio').hide();
+		//
+		if(this.loadingStage != null)
+			clearTimeout(this.loadingStage);
+		this.loadingStage = null;
+		//
 		$('.cursor-pointer').css('border', '2px solid white');
 		$('.cursor-loading').hide();
 		$('.cursor-loading-full').hide();
@@ -231,8 +276,8 @@ osmo.PopupInteraction = class {
 				$('.cursor-loading-full').show();
 				$('.cursor-pointer-dot').hide();
 				$('.cursor-txt').hide();
-				this.reset_animation('cursor-clcf', 'cursor-loading-circle');
-				this.reset_animation('cursor-clf', 'cursor-loading-full');
+				//this.reset_animation('cursor-clcf', 'cursor-loading-circle');
+				//this.reset_animation('cursor-clf', 'cursor-loading-full');
 				this.dragMode = false;
 				this.isDragging = false;
 				//
@@ -249,7 +294,7 @@ osmo.PopupInteraction = class {
 					$('.cursor-txt').show();
 					self.dragMode = true;
 					self.isDragging = false;
-				},8000);
+				},4000);
 				//
 				//document.body.style.cursor = 'zoom-in';
 				//
@@ -263,7 +308,7 @@ osmo.PopupInteraction = class {
 				$('#focused-cta').show();
 				$('#focused-info').show();
 				$('#'+this.currentFocus+'_waveform').show();
-				//$('#'+this.currentFocus+'_audio').show();
+				//
 				if($('#'+this.currentFocus+'_waveform').length)
 					$('#focused_waveform_state').show();
 				else
