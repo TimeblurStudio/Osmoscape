@@ -26,6 +26,7 @@ osmo.LegendInteraction = class {
 		//
 		this.cursorLoading = null;
 		this.tweenTimeout = null;
+		this.prevHitResultName = null;
 	}
 
 	/**
@@ -96,8 +97,12 @@ osmo.LegendInteraction = class {
 		//
 		let hitResult = legendsvg.maskLayer.hitTest(pt, osmo.scroll.maskHitOptions);
 		if(hitResult != null){
+			//console.log('hit: ' + this.prevHitResultName + ' ' + hitResult.item.data.legendName);
+			if(this.prevHitResultName == hitResult.item.data.legendName)
+				return;
 			//
-			legendsvg.legendLayer.visible = true;
+			if(!legendsvg.legendLayer.visible)
+				legendsvg.legendLayer.visible = true;
 			lg = this.PAPER.project.getItem({name: hitResult.item.data.legendName});
 			if(lg == null)	return;
 			//
@@ -143,7 +148,8 @@ osmo.LegendInteraction = class {
 			toOpacity = 1.0;
 			toColor =  new this.PAPER.Color('#b5ced5');
 			//
-			legendsvg.legendLayer.visible = false;
+			if(!legendsvg.legendLayer.visible)
+				legendsvg.legendLayer.visible = false;
 			if(this.cursorLoading != null)
 				clearTimeout(this.cursorLoading);
 			this.cursorLoading = null;
@@ -157,17 +163,24 @@ osmo.LegendInteraction = class {
 			//
 			for(let i=0; i<legendsvg.legendLayer.children.length; i++){
 				let child = legendsvg.legendLayer.children[i];
-				child.visible = false;
+				if(child.visible)
+					child.visible = false;
 			}
 			//
 		}
 		//
+		//
 		let timeout = 10;
 		if(this.cursorLoading != null)
-			timeout = 8100;
+			timeout = 5800;
 		//
 		let self = this;
 		if(!tweening){
+			if(hitResult != null){
+				//console.log('tweening: ' + this.prevHitResultName + ' ' + hitResult.item.data.legendName);
+				if(this.prevHitResultName == hitResult.item.data.legendName)
+					return;
+			}
 			//
 			if(this.tweenTimeout != null)
 				clearTimeout(this.tweenTimeout);
@@ -200,7 +213,8 @@ osmo.LegendInteraction = class {
 						if(!lg.visible && currentVal == 0){
 							for(let i=0; i<legendsvg.legendLayer.children.length; i++){
 								let child = legendsvg.legendLayer.children[i];
-								child.visible = false;
+								if(child.visible)
+									child.visible = false;
 							}
 							lg.visible = true;
 						}
@@ -209,10 +223,15 @@ osmo.LegendInteraction = class {
 				};
 				//
 			}, timeout);
-
 		}
 		//
 		//
+		if(hitResult != null){
+			//console.log('updating prev: ' + hitResult.item.data.legendName);
+			this.prevHitResultName = hitResult.item.data.legendName;
+		}else{
+			this.prevHitResultName = null;
+		}
 	}
 
 };

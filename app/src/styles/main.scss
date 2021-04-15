@@ -265,10 +265,24 @@ body {
   right: -500px;
   width: 500px;
   height: 100%;
-  background-color: #24292b55;
+  background-color: #24292bbb;
   cursor: default;
   backdrop-filter: blur(4px);
 }
+
+@supports (backdrop-filter: blur(4px)) {
+  #focused-info{
+    position: fixed;
+    bottom: 0;
+    right: -500px;
+    width: 500px;
+    height: 100%;
+    background-color: #24292b55;
+    cursor: default;
+    backdrop-filter: blur(4px);
+  }
+}
+
 
 .focused-content {
   padding: 100px 40px;
@@ -465,8 +479,6 @@ canvas[resize] {
   width: 100%;
   height: 100%;
 }
-
-
 
 /* Mouse scroll */
 

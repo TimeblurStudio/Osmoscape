@@ -3,9 +3,6 @@
 
 /*
 	*ADD AUTHOUR AND LISCENSE*
-
-	!!Fix ME!!
-	- Background fading not working at all
 */
 
 'use strict';
@@ -60,8 +57,8 @@ osmo.BackgroundAudio = class {
 			let bplayer = new this.TONE.Player({
 				url: path,
 				loop: true,
-				fadeOut: 1,
-				fadeIn: 1,
+				fadeOut: 10,
+				fadeIn: 2,
 				onload: function(){
 					this.allTracksCount++;
 					console.log(this.allTracksCount);
@@ -78,7 +75,8 @@ osmo.BackgroundAudio = class {
 			loop: true,
 			loopStart: 0,
 			loopEnd: 20,
-			fadeOut: 1,
+			fadeOut: 4,
+			fadeIn: 2,
 			onload: function(){
 					allTracksCount++;
 					console.log(this.allTracksCount);
