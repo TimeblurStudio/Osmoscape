@@ -255,10 +255,24 @@ body {
   right: -500px;
   width: 500px;
   height: 100%;
-  background-color: #24292b55;
+  background-color: #24292bbb;
   cursor: default;
   -webkit-backdrop-filter: blur(4px);
           backdrop-filter: blur(4px);
+}
+
+@supports ((-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))) {
+  #focused-info {
+    position: fixed;
+    bottom: 0;
+    right: -500px;
+    width: 500px;
+    height: 100%;
+    background-color: #24292b55;
+    cursor: default;
+    -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+  }
 }
 
 .focused-content {
@@ -1095,4 +1109,43 @@ svg, path {
 
 .head-actions .icon i.not-active {
   color: #888;
+}
+
+.volumeslider {
+  width: 37.5px;
+  height: 1px;
+  display: inline;
+  margin-top: 31px;
+  -webkit-appearance: none;
+  background: #b97941;
+  outline: none;
+  opacity: 1;
+  -webkit-transition: .2s;
+  -webkit-transition: opacity .2s;
+  transition: opacity .2s;
+  -webkit-transform: rotate(90deg);
+  /* Safari and Chrome */
+  /* Firefox */
+  /* IE 9 */
+  /* Opera */
+  transform: rotate(90deg);
+}
+
+.volumeslider:hover {
+  opacity: 1;
+}
+
+.volumeslider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 3px;
+  height: 15px;
+  background: #d3d3d3;
+  cursor: pointer;
+}
+
+.volumeslider::-moz-range-thumb {
+  width: 3px;
+  height: 15px;
+  background: #d3d3d3;
+  cursor: pointer;
 }
