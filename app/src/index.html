@@ -57,7 +57,7 @@
     <? Scroll Section - PaperJS canvas ?>
     <canvas id="main-scroll-canvas" resize="true" hidpi="off" data-paper-hidpi="off"></canvas>
 
-    <div id="focused-info" style="display:none;">
+    <div id="focused-info" style="display: none;"> <!-- style="right: 0px !important;z-index: 100000000;"-->
         <!--  -->
         <div class="focused-content">
             <h1 id="focused-heading">Heading</h1>
@@ -67,6 +67,10 @@
             <div style="display: flex;color: white;">
                 <div id="focused_waveform_state">▶</div>
                 <div id="focused_waveforms"></div>
+                <div style="display: none;">
+                    <input type="range" orient="vertical" class="volumeslider" id="popup_volslider">
+                    <input type="range" orient="vertical" class="volumeslider" id="popup_volslider_inverted">
+                </div>
             </div>
             <p style="margin-left: 20px; font-size: 16px;"><a href="#">Add</a> this to your composition</p>
         </div>

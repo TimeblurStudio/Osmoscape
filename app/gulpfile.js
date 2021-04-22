@@ -1,5 +1,15 @@
 // https://www.npmjs.com/package/gulp-remove-logging
 // generated on 2020-06-27 using generator-webapp 4.0.0-8
+
+
+/*
+  *ADD AUTHOUR AND LISCENSE*
+
+      !!Fix ME!!
+      - Update change log on publish either on github or on the page
+
+*/
+
 const { src, dest, watch, series, parallel, lastRun } = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const version = require('gulp-version-number');

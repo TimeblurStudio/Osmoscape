@@ -830,3 +830,42 @@ svg, path {
 .head-actions .icon i.not-active {
   color: #888;
 }
+
+
+
+.volumeslider {
+  width: 37.5px;
+  height: 1px;
+  display: inline;
+  margin-top: 31px;
+  -webkit-appearance: none;
+  background: #b97941;
+  outline: none;
+  opacity: 1;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  -webkit-transform: rotate(90deg); /* Safari and Chrome */
+  -moz-transform: rotate(90deg);   /* Firefox */
+  -ms-transform: rotate(90deg);   /* IE 9 */
+  -o-transform: rotate(90deg);   /* Opera */
+  transform: rotate(90deg);
+}
+
+.volumeslider:hover {
+  opacity: 1;
+}
+
+.volumeslider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 3px;
+  height: 15px;
+  background: #d3d3d3;
+  cursor: pointer;
+}
+
+.volumeslider::-moz-range-thumb {
+  width: 3px;
+  height: 15px;
+  background: #d3d3d3;
+  cursor: pointer;
+}

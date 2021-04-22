@@ -65,13 +65,13 @@ osmo.AudioWaveform = class {
 	        const channel = waveform.channel(0);
 	        // Loop forwards, drawing the upper half of the waveform
 	        for (let x = 0; x < waveform.length; x++) {
-	          const val = channel.max_sample(x);
-	          ctx.lineTo(x + 0.5, self.scaleY(val*8, canvas.height));
+	        	const val = channel.max_sample(x);
+		        ctx.lineTo(x + 0.5, self.scaleY(val*8, canvas.height));
 	        }
 	        // Loop backwards, drawing the lower half of the waveform
 	        for (let x = waveform.length - 1; x >= 0; x--) {
 	          const val = channel.min_sample(x);
-	          ctx.lineTo(x + 0.5, self.scaleY(val*8, canvas.height));
+		        ctx.lineTo(x + 0.5, self.scaleY(val*8, canvas.height));
 	        }
 	        ctx.closePath();
 	        ctx.strokeStyle = '#fff';
@@ -79,15 +79,24 @@ osmo.AudioWaveform = class {
 	        ctx.stroke();
 	        ctx.fill();
 	        //
-	        var sound = document.createElement('audio');
-					sound.id = index+'_audio';
-					sound.controls = 'controls';
-					sound.src = osmo.dataaudio.audioFiles[key];
-					sound.type = 'audio/mp3';
-					sound.style.display = 'none';
-					//
-	      	document.getElementById('focused_waveforms').appendChild(canvas);
-	      	document.getElementById('focused_waveforms').appendChild(sound);
+	        if(osmo.legendsvg.datasets[key] != undefined){
+	        	if(osmo.legendsvg.datasets[key].audiofile != undefined){
+	        		//
+			        var sound = document.createElement('audio');
+							sound.id = index+'_audio';
+							sound.controls = 'controls';
+							//
+							sound.src = osmo.legendsvg.datasets[key].audiofile;
+							sound.type = 'audio/mp3';
+							sound.style.display = 'none';
+							//
+			      	document.getElementById('focused_waveforms').appendChild(canvas);
+			      	document.getElementById('focused_waveforms').appendChild(sound);
+			      	//
+			      }
+	        }
+	        //
+	        //
 				});
 	      //
 	      //$('.draggable').show();
