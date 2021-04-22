@@ -14,7 +14,6 @@ import WaveformData from 'waveform-data';
 import screenfull from 'screenfull/dist/screenfull';
 //
 import {} from './Audio/BackgroundAudio';
-import {} from './Audio/DataAudio';
 import {} from './Visuals/DataSvg';
 import {} from './Visuals/LegendSvg';
 import {} from './Visuals/AudioWaveform';
@@ -104,10 +103,6 @@ osmo.Scroll = class {
 		// AUDIO
 		osmo.bgaudio  = new osmo.BackgroundAudio();
 		osmo.bgaudio.loadAudio();
-		osmo.dataaudio  = new osmo.DataAudio();
-		osmo.dataaudio.init();
-		osmo.audiowaveform  = new osmo.AudioWaveform();
-		osmo.audiowaveform.init();
 
 		// INTERACTIONS
 		osmo.pzinteract = new osmo.PanAndZoom();
@@ -984,6 +979,8 @@ osmo.Scroll = class {
 				      osmo.navinteract.loadNav();
 				      osmo.navinteract.initNav();
 				      //
+				      osmo.audiowaveform  = new osmo.AudioWaveform();
+							osmo.audiowaveform.init();
 				      //
 				      osmo.scroll.loaded.HQimage = true;
 							osmo.datasvg.backgroundLayer.sendToBack();

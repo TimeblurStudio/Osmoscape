@@ -57,10 +57,11 @@ osmo.PopupInteraction = class {
 				});
 				//
 				playerinterval = setInterval(function(){
-					if(curr_val == '▶'){
-						clearInterval(playerinterval);
-						playerinterval = null;
-					}
+
+					//if(curr_val == '▶'){
+					//	clearInterval(playerinterval);
+					//	playerinterval = null;
+					//}
 					//
 					let percentage = 100 * $(curr_focus)[0].currentTime / $(curr_focus)[0].duration;
 					let now = percentage.toFixed(2).toString() + '%';
@@ -97,6 +98,16 @@ osmo.PopupInteraction = class {
 			}
 		});
 		//
+		//
+		//
+	  document.getElementById('popup_volslider').oninput = (event) => {
+	    let present = $('#popup_volslider').val();
+	    $('#popup_volslider_inverted').val(100-present);
+	  };
+	  document.getElementById('popup_volslider_inverted').oninput = (event) => {
+	    let present = $('#popup_volslider_inverted').val();
+	    $('#popup_volslider').val(100-present);
+	  };
 		//
 		$('#focused-info').mouseenter(function(){
 			$('#cursor').hide();
