@@ -77,12 +77,12 @@ $.getJSON( dataURL, function( data ) {
 });
 //
 //
-let uploadedLegendFile = [], uploadedMaskFile = [];
+let uploadedLegendFile = [], uploadedMaskFile = [], uploadedAudioFile = [];
 let maskFiles = [], legendFiles = [];
 //
 //
 //
-function readSvg(file, type, number) {
+function readSvg(file, type, number, path) {
 	console.log('readSvg for : ' + type + '-' + number);
 	//
   const reader = new FileReader();
@@ -104,7 +104,9 @@ function readSvg(file, type, number) {
 			 content: reader.result,
 			 exists: false,
 			 sha: null,
-			 updated: false
+			 updated: false,
+			 type: type,
+			 path: path
 		 };
 		 publishFiles.push(pF);
 		 //
@@ -118,6 +120,44 @@ function readSvg(file, type, number) {
   //
 }
 //
+function readAudio(file, type, number, path){
+	console.log('readAudio for : ' + type + '-' + number);
+	//
+  const reader = new FileReader();
+  //
+  try
+  {
+		reader.readAsText(file);
+  }
+  catch(err) {console.log(err.message);}
+  //
+  //
+	// attach event, that will be fired, when read is end
+	reader.addEventListener("loadend", function() {
+	   $('#status').text('Applying ' + type + '...');
+		 $('#status').show();
+		 //
+		 let pF = {
+			 fileName: file.name,
+			 content: reader.result,
+			 exists: false,
+			 sha: null,
+			 updated: false,
+			 type: type,
+			 path: path
+		 };
+		 publishFiles.push(pF);
+		 //
+	   // reader.result contains the contents of blob as a typed array
+	   // we insert content of file in DOM here
+	   //if(type == 'mask')
+	   //	maskLoad(reader.result, number);
+	   //if(type == 'legend')
+	   //	legendLoad(reader.result, number);
+	});
+  //
+}
+//
 //
 //
 function initFileLoader(){
@@ -125,6 +165,7 @@ function initFileLoader(){
 	//
 	$('#currentLegend').hide();
 	$('#currentMask').hide();
+	$('#currentAudio').hide();
 	//
 	$('#currentLegend .cancel').click(function(){
 		console.log('Cancel clicked!');
@@ -154,6 +195,18 @@ function initFileLoader(){
 		ms = null;
 		//
 	});
+	$('#currentAudio .cancel').click(function(){
+		console.log('Cancel clicked!');
+		$('#currentAudio .filename').text('');
+		$('#currentAudio').hide();
+		$('#newAudio').show();
+		//
+		let value = parseInt($("#data-id").val());
+		console.log('Removing audio - ' + value);
+		//
+		// Fix ME!!
+		//
+	});
 	//
 	$("#data-id").change(function(){
 		let value = $("#data-id").val();
@@ -165,8 +218,10 @@ function initFileLoader(){
 			$('#newMask').show();
 			$('#currentLegend .filename').text('');
 			$('#currentMask .filename').text('');
+			$('#currentAudio .filename').text('');
 			$('#currentLegend').hide();
 			$('#currentMask').hide();
+			$('#currentAudio').hide();
 			//
 			$('#load-btn').text('Load');
 			//
@@ -176,17 +231,29 @@ function initFileLoader(){
 			//
 			$('#newLegend').hide();
 			$('#newMask').hide();
+			$('#newAudio').hide();
 			$('#currentLegend').show();
 			$('#currentMask').show();
+			$('#currentAudio').show();
 			//
 			$('#load-btn').text('Update');
 			//
 			$('#data-title').val(datasets[value].title);
 			$('#data-desc').val(datasets[value].desc);
 			let legendFName = datasets[value].legendpath.substring(datasets[value].legendpath.lastIndexOf('/')+1);
+			let legendFPath = 'https://raw.githubusercontent.com/TimeblurStudio/Osmoscape/master/assets/data/legends/'+encodeURI(legendFName);
 			$('#currentLegend .filename').text(legendFName);
+			$('#currentLegend .filename').attr("href", legendFPath);
 			let maskFName = datasets[value].maskpath.substring(datasets[value].maskpath.lastIndexOf('/')+1);
+			let maskFPath = 'https://raw.githubusercontent.com/TimeblurStudio/Osmoscape/master/assets/data/legends/'+encodeURI(maskFName);
 			$('#currentMask .filename').text(maskFName);
+			$('#currentMask .filename').attr("href", maskFPath);
+			let audioFName = datasets[value].audiofile.substring(datasets[value].audiofile.lastIndexOf('/')+1);
+			let audioFPath = 'https://raw.githubusercontent.com/TimeblurStudio/Osmoscape/master/assets/audio/loops/'+encodeURI(audioFName);
+			$('#currentAudio .filename').text(audioFName);
+			$('#currentAudio .filename').attr("href", audioFPath);
+			//
+			//
 		}
 		//
     $('#clear-btn').show();
@@ -196,6 +263,7 @@ function initFileLoader(){
 	//
 	const legendFileSelector = document.getElementById('legend-selector');
 	const maskFileSelector = document.getElementById('mask-selector');
+	const audioFileSelector = document.getElementById('audio-selector');
 	//
   legendFileSelector.addEventListener('change', (event) => {
     const fileList = event.target.files;
@@ -211,31 +279,51 @@ function initFileLoader(){
     //
     $('#clear-btn').show();
   });
+  audioFileSelector.addEventListener('change', (event) => {
+    const fileList = event.target.files;
+    console.log(fileList);
+    uploadedAudioFile = fileList;
+    //
+    $('#clear-btn').show();
+  });
   //
   // LOAD BUTTON
   $('#load-btn').click(function(){
 		//
-  	let prefilled = false;
+  	let prefilledsvg = false;
   	let error = false;
   	let errorMessage = '';
   	//
   	//console.log(uploadedLegendFile.length);
   	//console.log(uploadedMaskFile.length);
   	//
-  	if(uploadedLegendFile.length === 1 && uploadedMaskFile.length === 1 ){
+  	if(uploadedLegendFile.length === 1 || uploadedMaskFile.length === 1 || uploadedAudioFile.length === 1 ){
   		console.log('Both files present');
   		//
-  		if (uploadedLegendFile[0].type && uploadedLegendFile[0].type.indexOf('image/svg+xml') === -1) {
-	  		error = true;
-	  		errorMessage += 'File is not a svg image - found ' + uploadedLegendFile[0].type;
-		    console.log(errorMessage);
-		  }
-		  if (uploadedMaskFile[0].type && uploadedMaskFile[0].type.indexOf('image/svg+xml') === -1) {
-	  		error = true;
-	  		errorMessage += 'File is not a svg image - found ' + uploadedMaskFile[0].type;
-		    console.log(errorMessage);
-		  }
-		  if($('#data-id').val() == ''){
+  		//
+  		if(uploadedLegendFile.length === 1){
+  			if (uploadedLegendFile[0].type && uploadedLegendFile[0].type.indexOf('image/svg+xml') === -1) {
+		  		error = true;
+		  		errorMessage += 'File is not a svg image - found ' + uploadedLegendFile[0].type;
+			    console.log(errorMessage);
+			  }
+  		}
+  		if(uploadedMaskFile.length === 1){
+  			if (uploadedMaskFile[0].type && uploadedMaskFile[0].type.indexOf('image/svg+xml') === -1) {
+		  		error = true;
+		  		errorMessage += 'File is not a svg image - found ' + uploadedMaskFile[0].type;
+			    console.log(errorMessage);
+			  }
+  		}
+  		if(uploadedAudioFile.length === 1){
+  			if (uploadedAudioFile[0].type && uploadedAudioFile[0].type.indexOf('audio/mpeg') === -1) {
+		  		error = true;
+		  		errorMessage += 'File is not a mp3 audio - found ' + uploadedAudioFile[0].type;
+			    console.log(errorMessage);
+			  }
+  		}
+  		//
+  		if($('#data-id').val() == ''){
 	  		error = true;
 	  		errorMessage += 'Error: Data id not filled\n';
 	  	}
@@ -247,15 +335,16 @@ function initFileLoader(){
 	  		error = true;
 	  		errorMessage += 'Error: Description not filled\n';
 	  	}
-  	}else if (($('#currentMask .filename').text() != '') && ($('#currentLegend .filename').text() != '')){
+	  	//
+  	}else if (($('#currentMask .filename').text() != '') && ($('#currentLegend .filename').text() != '') && ($('#currentAudio .filename').text() != '')){
   		//
-  		console.log('Both files were present beforehand');
-  		prefilled = true;
+  		console.log('All three files were present beforehand');
+  		prefilledsvg = true;
   		//
   	}
   	else{
   		error = true;
-  		errorMessage += 'ERROR: No files\n';
+  		errorMessage += 'ERROR: Missing files\n';
   	}
   	//
   	// Now load
@@ -263,31 +352,38 @@ function initFileLoader(){
   		$('#pub').prop('disabled', false);
   		//
 			let index = $('#data-id').val();
-			let path = '../../assets/data/legends/';
-			let lpf = prefilled?$('#currentLegend .filename').text():uploadedLegendFile[0].name;
-			let mpf = prefilled?$('#currentMask .filename').text():uploadedMaskFile[0].name;
-
+			let svgpath = '../../assets/data/legends/';
+			let audiopath = '../../assets/audio/loops/';
+			let lpf = (uploadedLegendFile.length === 0)?$('#currentLegend .filename').text():uploadedLegendFile[0].name;
+			let mpf = (uploadedMaskFile.length === 0)?$('#currentMask .filename').text():uploadedMaskFile[0].name;
+			let mpa = (uploadedAudioFile.length === 0)?$('#currentAudio .filename').text():uploadedAudioFile[0].name;
+			//
+			if(($('#currentMask .filename').text() != '') && ($('#currentLegend .filename').text() != ''))
+  			prefilledsvg = true;
 			//
 			datasets[index] = {
 				id: index,
 				title: $('#data-title').val(),
 				desc: $('#data-desc').val(),
-				legendpath: path + lpf,
-				maskpath: path + mpf
+				legendpath: svgpath + lpf,
+				maskpath: svgpath + mpf,
+				audiofile: audiopath + mpa
 			};
 			//
-			if(!prefilled){
+			if(!prefilledsvg){
 				//
-				readSvg(uploadedMaskFile[0], 'mask', index);
-				readSvg(uploadedLegendFile[0], 'legend', index);
+				readSvg(uploadedMaskFile[0], 'mask', index, svgpath);
+				readSvg(uploadedLegendFile[0], 'legend', index, svgpath);
 				//
-				//
-	    	//$('#clear-btn').hide();
-	    	//setTimeout(clearAll, 1500);
-		  	//
 		  	$('#currentMask .filename').text(uploadedMaskFile[0]);
 		  	$('#currentLegend .filename').text(uploadedLegendFile[0]);
 			}
+
+			if((uploadedAudioFile.length === 1)){
+				readAudio(uploadedAudioFile[0], 'audio', index, audiopath);
+				$('#currentAudio .filename').text(uploadedAudioFile[0]);
+			}
+
 			//
 			toggleModal();
 	    window.notyf.success('Added');
@@ -346,6 +442,7 @@ function initFileLoader(){
   			let pF = publishFiles[i];
   			//
   			let filename = pF.fileName;
+  			let type = pF.type;
   			//content: pF.content;
 				//exists: false,
 				//sha: null,
@@ -354,8 +451,12 @@ function initFileLoader(){
   			let geturl = '';
   			if(i == 0 )
   				geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/'+encodeURIComponent(filename)+'?ref=gh-pages';
-  			else
-  				geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/legends/'+encodeURIComponent(filename)+'?ref=gh-pages';
+  			else{
+  				if(type == 'audio')
+  					geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/audio/loops/'+encodeURIComponent(filename)+'?ref=gh-pages';
+  				else
+  					geturl = 'https://api.github.com/repos/TimeblurStudio/Osmoscape/contents/assets/data/legends/'+encodeURIComponent(filename)+'?ref=gh-pages';
+  			}
   			//
 	  		let getpromise = new Promise((resolve, reject) => {
 	  			//
@@ -487,8 +588,6 @@ function uploadReFile(i){
 	console.log(databody);
 	//
 	//
-	//
-	//
 	$.ajax({
 	    type: 'PUT',
 	    headers: { "Authorization": 'Bearer ' + $('#pub-token').val() },
@@ -510,13 +609,7 @@ function uploadReFile(i){
 	    		}, 1000);
 	    	}
 				else{
-					/*
-					if(uploadBranch == 'master'){
-						uploadBranch = 'gh-pages';
-						requestsIndex = 0;
-						uploadReFile(requestsIndex);
-					}else{
-					*/
+					//
 					console.log('Completed all requests!');
 					//
 		  		window.notyf.success('Completed publishing!');
@@ -531,7 +624,6 @@ function uploadReFile(i){
 						console.log('Completed');
 						window.location.href = window.location.href.replace( /[\?#].*|$/, "?commit="+commitid);
 					}, 2500);
-					/*}*/
 				}
 	    },
 	    error : function(error){
@@ -545,7 +637,6 @@ function uploadReFile(i){
 	    contentType: "application/json",
 	    dataType: 'json'
 	});
-	//
 	//
 }
 
@@ -568,6 +659,7 @@ function clearAll(){
 	//
 	$('#currentLegend .cancel').click();
 	$('#currentMask .cancel').click();
+	$('#currentAudio .cancel').click();
 	//
 	$('#load-btn').text('Load');
 }

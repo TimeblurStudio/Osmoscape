@@ -84,7 +84,7 @@
                     <input type="file" id="legend-selector" accept="image/svg+xml" class="btn btn-ultra-light">
                 </div>
                 <div style="display: inline;" id="currentLegend">
-                    <span class="filename">this is current legend...</span><span class="cancel" style="margin: 5px;">✖️</span>
+                    <a href="#" target="_blank" class="filename">this is current legend...</a><span class="cancel" style="margin: 5px;">✖️</span>
                     <br>
                 </div>
             </span>
@@ -95,7 +95,18 @@
                     <input type="file" id="mask-selector" accept="image/svg+xml" class="btn btn-ultra-light">
                 </div>
                 <div style="display: inline;" id="currentMask">
-                    <span class="filename">this is current legend...</span><span class="cancel"  style="margin: 5px;">✖️</span>
+                    <a href="#" target="_blank" class="filename">this is current mask...</a><span class="cancel"  style="margin: 5px;">✖️</span>
+                    <br>
+                </div>
+            </span>
+            <br>
+            <span style="margin: 5px;">Audio:
+                <div class="button-wrap" id="newAudio" style="display:inline;margin-left: 12px;">
+                    <label class ="new-button" for="audio-selector"> Select file </label>
+                    <input type="file" id="audio-selector" accept=".mp3,audio/*" class="btn btn-ultra-light">
+                </div>
+                <div style="display: inline;" id="currentAudio">
+                    <a href="#" type="audio/mpeg" target="_blank" class="filename">this is current audio...</a><span class="cancel"  style="margin: 5px;">✖️</span>
                     <br>
                 </div>
             </span>
