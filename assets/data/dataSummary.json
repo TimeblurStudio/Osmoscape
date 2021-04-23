@@ -6,6 +6,7 @@
     "legendpath": "../../assets/data/legends/0_human_dna_legend-01-Simplified.svg",
     "maskpath": "../../assets/data/legends/0_human_dna_mask-01-Simplified.svg",
     "order": "front",
+    "audiofile":"../../assets/audio/loops/0.mp3",
     "popdimensions": [
       {
         "x": 408.8699999999999,
@@ -21,6 +22,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/1 Water in space_legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/1 Water in space_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/1.mp3",
     "popdimensions": [
       {
         "x": 662.3799999999999,
@@ -36,6 +38,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/4 Water access vs GDP-legend_01-01.svg",
     "maskpath": "../../assets/data/legends/4 Water access vs GDP_mask-01-01.svg",
+    "audiofile":"../../assets/audio/loops/4.mp3",
     "popdimensions": [
       {
         "x": 1037.9650000000001,
@@ -51,6 +54,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/5 Industrial Agriculture Linking_legend-01.svg",
     "maskpath": "../../assets/data/legends/5 Industrial Agriculture Linking_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/5.mp3",
     "popdimensions": [
       {
         "x": 1630.3199999999997,
@@ -66,6 +70,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/6.mp3",
     "order": "front",
     "popdimensions": [
       {
@@ -172,6 +177,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/7 Co2 Emission through the years_legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/7.mp3",
     "popdimensions": [
       {
         "x": 1514.3800000000047,
@@ -187,6 +193,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/08_global sea surface temp-legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/8.mp3",
     "popdimensions": [
       {
         "x": 1532.1900000000005,
@@ -202,6 +209,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend.svg",
     "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg",
+    "audiofile":"../../assets/audio/loops/9.mp3",
     "order": "front",
     "popdimensions": [
       {
@@ -218,6 +226,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/11 Rain pH and Co2-01.svg",
     "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/11.mp3",
     "popdimensions": [
       {
         "x": 2727.5900000000006,
@@ -233,6 +242,7 @@
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 legend.svg",
     "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg",
+    "audiofile":"../../assets/audio/loops/12.mp3",
     "order": "front"
   },
   "13": {
@@ -241,6 +251,7 @@
     "desc": "13 lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/13 Subsaharan_legend_revised-01-updated.svg",
     "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/13.mp3",
     "popdimensions": [
       {
         "x": 2679.1400000000053,
@@ -256,6 +267,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/14.mp3",
     "popdimensions": [
       {
         "x": 3467.415000000002,
@@ -271,6 +283,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/15 Black carbon annual data_legend-01.svg",
     "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/15.mp3",
     "popdimensions": [
       {
         "x": 3550.7750000000015,
@@ -286,6 +299,7 @@
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
     "legendpath": "../../assets/data/legends/16 glacier data_legend - Simplified.svg",
     "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg",
+    "audiofile":"../../assets/audio/loops/16.mp3",
     "popdimensions": [
       {
         "x": 4304.635000000003,
@@ -301,6 +315,7 @@
     "desc": "Lorem Ipsum",
     "legendpath": "../../assets/data/legends/17 Aral sea river dynamics_legend-01.svg",
     "maskpath": "../../assets/data/legends/17 Aral sea river dynamics_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/17.mp3",
     "popdimensions": [
       {
         "x": 4936.110000000002,
@@ -316,6 +331,7 @@
     "desc": "19 lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_legend-01.svg",
     "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/19.mp3",
     "popdimensions": [
       {
         "x": 5526.585000000028,
@@ -331,6 +347,7 @@
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_legend-01.svg",
     "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/20.mp3",
     "popdimensions": [
       {
         "x": 7291.470000000012,
@@ -346,6 +363,7 @@
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/21 Cotton production_legend-01.svg",
     "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/21.mp3",
     "popdimensions": [
       {
         "x": 5569.352386451121,
@@ -360,7 +378,8 @@
     "title": "marathwada rainfall",
     "desc": "Lorem Ipsum",
     "legendpath": "../../assets/data/legends/23 Marathawada drought Groundwater_legend-01-01.svg",
-    "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg"
+    "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/23.mp3"
   },
   "24": {
     "id": "24",
@@ -368,6 +387,7 @@
     "desc": "24 lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/24 Marathwada Rainfall_legend-01-simplified.svg",
     "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg",
+    "audiofile":"../../assets/audio/loops/24.mp3",
     "order": "back",
     "popdimensions": [
       {
@@ -383,7 +403,8 @@
     "title": "25 lorem ipsum",
     "desc": "25 lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/25  Droughts in India_legend-01.svg",
-    "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg"
+    "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/25.mp3"
   },
   "28": {
     "id": "28",
@@ -391,6 +412,7 @@
     "desc": "lorem ipsum",
     "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01-Simplified.svg",
+    "audiofile":"../../assets/audio/loops/28.mp3",
     "popdimensions": [
       {
         "x": 7237.355000000012,
@@ -406,6 +428,7 @@
     "desc": "29 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/29 Thermal Utilities India_legends-01.svg",
     "maskpath": "../../assets/data/legends/29 Thermal Utilities India_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/29.mp3",
     "order": "front",
     "popdimensions": [
       {
@@ -422,6 +445,7 @@
     "desc": "30_River interlinking",
     "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
     "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/30.mp3",
     "order": "front",
     "popdimensions": [
       {
@@ -438,6 +462,7 @@
     "desc": "32 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/32 Drying cities_Bangalore_legend-01.svg",
     "maskpath": "../../assets/data/legends/32 Drying cities_Bangalore_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/32.mp3",
     "popdimensions": [
       {
         "x": 7829.155000000019,
@@ -453,6 +478,7 @@
     "desc": "33 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/33_Radon_in_Bangalore_legend-01.svg",
     "maskpath": "../../assets/data/legends/33_Radon_in_Bangalore_mask-01-Simplified.svg",
+    "audiofile":"../../assets/audio/loops/33.mp3",
     "order": "front",
     "popdimensions": [
       {
@@ -469,6 +495,7 @@
     "desc": "35 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/35 Cola Cola Water Usage_legend-01.svg",
     "maskpath": "../../assets/data/legends/35 Cola Cola Water Usage_mask-01-wOffset.svg",
+    "audiofile":"../../assets/audio/loops/35.mp3",
     "popdimensions": [
       {
         "x": 7624.155000000019,
@@ -484,6 +511,7 @@
     "desc": "36_Rhine_river_temperature",
     "legendpath": "../../assets/data/legends/36 Rhine River temp_legend-01.svg",
     "maskpath": "../../assets/data/legends/36 Rhine River temp_mask-01-wOffset.svg",
+    "audiofile":"../../assets/audio/loops/36.mp3",
     "popdimensions": [
       {
         "x": 7936.155000000019,
@@ -499,6 +527,7 @@
     "desc": "38 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/38 Chaohu Eutrophication_legend-01.svg",
     "maskpath": "../../assets/data/legends/38 Chaohu Eutrophication_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/38.mp3",
     "popdimensions": [
       {
         "x": 7896.155000000019,
@@ -514,6 +543,7 @@
     "desc": "40 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend-01.svg",
     "maskpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/40.mp3",
     "popdimensions": [
       {
         "x": 8150.155000000019,
@@ -529,6 +559,7 @@
     "desc": "41 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium-01.svg",
     "maskpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/41.mp3",
     "popdimensions": [
       {
         "x": 8220.155000000019,
@@ -543,7 +574,8 @@
     "title": "42 Lorem Ipsum",
     "desc": "42 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/45a_legend-01.svg",
-    "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg"
+    "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg",
+    "audiofile":"../../assets/audio/loops/45.mp3"
   },
   "43": {
     "id": "43",
@@ -551,6 +583,7 @@
     "desc": "43 Guiyu PDBE in sediment",
     "legendpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/43.mp3",
     "popdimensions": [
       {
         "x": 8083.155000000019,
@@ -566,6 +599,7 @@
     "desc": "44 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_legend-01.svg",
     "maskpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_mask-01-01-wOffset.svg",
+    "audiofile":"../../assets/audio/loops/44.mp3",
     "popdimensions": [
       {
         "x": 8247.405000000012,
@@ -581,6 +615,7 @@
     "desc": "45 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/45b_legend-01.svg",
     "maskpath": "../../assets/data/legends/45b_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/45.mp3",
     "popdimensions": [
       {
         "x": 8325.405000000012,
@@ -596,6 +631,7 @@
     "desc": "46 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/46_legend-01.svg",
     "maskpath": "../../assets/data/legends/46_mask-01-Simplified.svg",
+    "audiofile":"../../assets/audio/loops/46.mp3",
     "order": "front",
     "popdimensions": [
       {
@@ -612,6 +648,7 @@
     "desc": "50 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/50 Antibiotic resistance in India_legend-01-simplified.svg",
     "maskpath": "../../assets/data/legends/50 Antibiotic resistance in India_mask-01-simplified.svg",
+    "audiofile":"../../assets/audio/loops/50.mp3",
     "popdimensions": [
       {
         "x": 8651.029999999984,
@@ -627,6 +664,7 @@
     "desc": "52 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_legend-01.svg",
     "maskpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/52.mp3",
     "popdimensions": [
       {
         "x": 8606.344999999988,
@@ -642,6 +680,7 @@
     "desc": "53 Bottled water consumption Layer 3 Print",
     "legendpath": "../../assets/data/legends/53 Bottled water consumption_legend-01.svg",
     "maskpath": "../../assets/data/legends/53 Bottled water consumption_mask-01-Simplified.svg",
+    "audiofile":"../../assets/audio/loops/53.mp3",
     "order": "back",
     "popdimensions": [
       {
@@ -658,6 +697,7 @@
     "desc": "54 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/54_ Platic bottled water_legend-01.svg",
     "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01-simplified.svg",
+    "audiofile":"../../assets/audio/loops/54.mp3",
     "order": "front",
     "popdimensions": [
       {
@@ -681,6 +721,7 @@
     "desc": "58 Area of hypoxia in Gulf of mexico",
     "legendpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_legend-01.svg",
     "maskpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_mask-01.svg",
+    "audiofile":"../../assets/audio/loops/58.mp3",
     "popdimensions": [
       {
         "x": 9299.819999999998,
@@ -696,6 +737,7 @@
     "desc": "60 Lorem ipsum dolor sit",
     "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_legend-01-Simplified2.svg",
     "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg",
+    "audiofile":"../../assets/audio/loops/60.mp3",
     "order": "back",
     "popdimensions": [
       {
@@ -712,6 +754,7 @@
     "desc": "63 Sound Pollution",
     "legendpath": "../../assets/data/legends/63 Sound Pollution_legend-01.svg",
     "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01-01.svg",
+    "audiofile":"../../assets/audio/loops/63.mp3",
     "popdimensions": [
       {
         "x": 9447.944999999976,
@@ -743,6 +786,7 @@
     "desc": "lp",
     "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified.svg",
     "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
+    "audiofile":"../../assets/audio/loops/-1.mp3",
     "order": "back",
     "popdimensions": [
       {
@@ -758,13 +802,15 @@
     "title": "48_class 1 cities _sewage",
     "desc": "48_class 1 cities _sewage",
     "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg"
+    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg",
+    "audiofile":"../../assets/audio/loops/48.mp3"
   },
   "48b": {
     "id": "48b",
     "title": "48_class 1b cities _sewage",
     "desc": "48_class 1b cities _sewage",
     "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg"
+    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg",
+    "audiofile":"../../assets/audio/loops/48.mp3"
   }
 }
