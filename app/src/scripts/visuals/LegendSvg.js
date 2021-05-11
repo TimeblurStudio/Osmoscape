@@ -117,13 +117,21 @@ osmo.LegendSvg = class {
 	      let count = this.popupBBoxes[id]['dimensions'].length;
 				console.log('boxes: ' + count);
 				//
+				let s = osmo.scroll.paperHeight/osmo.datasvg.mainScroll.height;
+		    let rs = (osmo.scroll.paperHeight/osmo.scroll.refPopupSize.height);
+				console.log('paper scale ratio: ' + rs);
+				//
 				for(let i=0; i < count; i++){
-					let s = osmo.scroll.paperHeight/osmo.datasvg.mainScroll.height;
-		      //
+				  //
 					let _x = parseInt(this.popupBBoxes[id]['dimensions'][i].x) + (osmo.scroll.paperWidth*3/4);
 					let _y = parseInt(this.popupBBoxes[id]['dimensions'][i].y);
 					let _width = parseInt(this.popupBBoxes[id]['dimensions'][i].width);
 					let _height = parseInt(this.popupBBoxes[id]['dimensions'][i].height);
+					//
+					_x *= rs; _x += (paperWidth*3/4);
+					_y *= rs;
+					_width *= rs;
+					_height *= rs;
 					//
 					let p1 = new this.PAPER.Point(_x, _y);
 					let p2 = new this.PAPER.Point(_x+_width, _y+_height);
@@ -269,8 +277,8 @@ osmo.LegendSvg = class {
 				mask.position.x = (osmo.scroll.paperWidth*3/4) + (mask.bounds.width/2) + (osmo.datasvg.mainScroll.width*s - mask.bounds.width);
 				//
 				self.maskLayer.addChild(mask);
-				//
 				resolve('m'+num);
+				//
 			});
 			//
 		});

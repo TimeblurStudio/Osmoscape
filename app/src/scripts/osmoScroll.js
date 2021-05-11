@@ -55,6 +55,7 @@ osmo.Scroll = class {
 		this.splashWidth;
 		this.loaded = {	'HQimage' : false,	'svgdata': false	};
 		this.Volume_db = { min : -12,  max: 6 };
+		this.refPopupSize = { width: 1440.0,	height: 821.0	};
 		//
 		this.hitPopupMode = 'hovering';
 		this.prevBoundsCenter = null;
