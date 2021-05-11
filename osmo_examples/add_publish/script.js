@@ -31,6 +31,10 @@ let hitPopupMode = 'hovering';//'hovering', 'focused'
 let bboxTool = null;
 let currentFocus = null;
 let popupBBoxes = {};
+let refPopupSize = {
+	width: 1440.0,
+	height: 821.0
+};
 let commitversion = '';
 //
 //
@@ -853,13 +857,14 @@ function initSelect(){
 				this.box.selected = true;
 				//
 				let s = paperHeight/mainScroll.height;
+				let rs = (paperHeight/refPopupSize.height);
 				//
 				popupBBoxes[currentFocus]['paths'].push(this.box);
 				popupBBoxes[currentFocus]['dimensions'].push({
-					x : this.box.bounds.x - (paperWidth*3/4),
-					y : this.box.bounds.y,
-					width : this.box.bounds.width,
-					height : this.box.bounds.height
+					x : (this.box.bounds.x - (paperWidth*3/4))/rs,
+					y : this.box.bounds.y/rs,
+					width : this.box.bounds.width/rs,
+					height : this.box.bounds.height/rs
 				});
 				//
 				//
@@ -1061,13 +1066,21 @@ function loadDatasets(){
 	      let count = popupBBoxes[id]['dimensions'].length;
 				console.log('boxes: ' + count);
 				//
+				let s = paperHeight/mainScroll.height;
+				let rs = (paperHeight/refPopupSize.height);
+				console.log('paper scale ratio: ' + rs);
+	      //
 				for(let i=0; i < count; i++){
-					let s = paperHeight/mainScroll.height;
-		      //
-					let _x = parseInt(popupBBoxes[id]['dimensions'][i].x) + (paperWidth*3/4);
+					//
+					let _x = parseInt(popupBBoxes[id]['dimensions'][i].x);
 					let _y = parseInt(popupBBoxes[id]['dimensions'][i].y);
 					let _width = parseInt(popupBBoxes[id]['dimensions'][i].width);
 					let _height = parseInt(popupBBoxes[id]['dimensions'][i].height);
+					//
+					_x *= rs; _x += (paperWidth*3/4);
+					_y *= rs;
+					_width *= rs;
+					_height *= rs;
 					//
 					let p1 = new paper.Point(_x, _y);
 					let p2 = new paper.Point(_x+_width, _y+_height);
