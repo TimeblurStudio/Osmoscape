@@ -123,12 +123,12 @@ osmo.LegendSvg = class {
 				//
 				for(let i=0; i < count; i++){
 				  //
-					let _x = parseInt(this.popupBBoxes[id]['dimensions'][i].x) + (osmo.scroll.paperWidth*3/4);
+					let _x = parseInt(this.popupBBoxes[id]['dimensions'][i].x);
 					let _y = parseInt(this.popupBBoxes[id]['dimensions'][i].y);
 					let _width = parseInt(this.popupBBoxes[id]['dimensions'][i].width);
 					let _height = parseInt(this.popupBBoxes[id]['dimensions'][i].height);
 					//
-					_x *= rs; _x += (paperWidth*3/4);
+					_x *= rs; _x += (osmo.scroll.paperWidth*3/4);
 					_y *= rs;
 					_width *= rs;
 					_height *= rs;
