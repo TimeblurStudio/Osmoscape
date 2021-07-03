@@ -107,7 +107,7 @@
     "id": "9",
     "title": "Bay of Bengal & Arabian Sea SST",
     "desc": "Ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas ex elit, et cursus tellus eleifend quis. Morbi id purus feugiat tortor suscipit fermentum gravida id lacus.",
-    "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend.svg",
+    "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend - Simplified.svg",
     "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg",
     "audiofile": "../../assets/audio/loops/9.mp3",
     "order": "front",
@@ -132,7 +132,7 @@
     "id": "12",
     "title": "lorem ipsum",
     "desc": "lorem ipsum",
-    "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 legend.svg",
+    "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg",
     "audiofile": "../../assets/audio/loops/12.mp3",
     "order": "front"

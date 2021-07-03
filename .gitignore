@@ -5,3 +5,4 @@ bower_components/
 .tmp/
 build/
 dist/
+.DS_Store
