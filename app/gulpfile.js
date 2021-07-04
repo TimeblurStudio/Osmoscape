@@ -158,7 +158,7 @@ function scriptsdev() {
     .pipe(dest(browserifyjs.outdir))
     .pipe(server.reload({stream: true}));
 }
-
+//.pipe(stripDebug())
 
 
 //

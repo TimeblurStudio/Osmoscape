@@ -144,6 +144,7 @@ osmo.LegendSvg = class {
 				}
 				//
 				this.maskLayer.visible = false;
+				// Turn off all visuals
 	    }
 	    //
 	    //
@@ -275,6 +276,7 @@ osmo.LegendSvg = class {
 				mask.scale(lms);
 				mask.position = self.PAPER.view.center;
 				mask.position.x = (osmo.scroll.paperWidth*3/4) + (mask.bounds.width/2) + (osmo.datasvg.mainScroll.width*s - mask.bounds.width);
+				mask.visible = false;
 				//
 				self.maskLayer.addChild(mask);
 				resolve('m'+num);

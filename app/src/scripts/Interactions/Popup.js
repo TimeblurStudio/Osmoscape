@@ -264,6 +264,7 @@ osmo.PopupInteraction = class {
 		let lg;
 		//
 		let hitResult = legendsvg.maskLayer.hitTest(pt, osmo.scroll.maskHitOptions);
+		/*
 		if(hitResult != null){
 			//
 			legendsvg.legendLayer.visible = true;
@@ -324,7 +325,6 @@ osmo.PopupInteraction = class {
 					$('#focused_waveform_state').show();
 				else
 					$('#focused_waveform_state').hide();
-				//
 				if(legendsvg.popupBBoxes.hasOwnProperty(this.currentFocus)){
 					let count = legendsvg.popupBBoxes[this.currentFocus]['paths'].length;
 					for(let i=0; i < count; i++){
@@ -348,7 +348,6 @@ osmo.PopupInteraction = class {
 					this.PAPER.view.zoom = osmo.pzinteract.changeZoom(this.PAPER.view.zoom, -1, zoomFac, false);
 					//
 				}
-				//
 			}
 			//
 			//
@@ -405,7 +404,7 @@ osmo.PopupInteraction = class {
 				//
 			};
 		}
-		//
+		*/
 		//
 	}
 
