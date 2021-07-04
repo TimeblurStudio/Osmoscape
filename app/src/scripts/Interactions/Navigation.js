@@ -99,6 +99,7 @@ osmo.NavigationInteraction = class {
 	initNav(){
 		console.log('Initializing navigation');
 
+		let self = this;
 		$('.jump').click(function(el){
 			console.log(el);
 			//
@@ -142,7 +143,7 @@ osmo.NavigationInteraction = class {
 			for(let i=0; i < 7; i++)
 	  		osmo.bgaudio.baseTracks['base'+(i+1)].stop();
 	  	//
-			setTimeout(function(){
+	  	setTimeout(function(){
 				console.log('Completed scroll for - ' + chap_id);
 				console.log('Changing base track...');
 	    	osmo.bgaudio.currentTrack = 'base' + chap_id;
@@ -150,6 +151,7 @@ osmo.NavigationInteraction = class {
 	    	console.log('Now playing : ' + osmo.bgaudio.currentTrack);
 	    	osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].start();
 				//
+				osmo.pzinteract.enableMaskInteractions();
 			},dur);
 			//
 			console.log(chap_id + ' clicked -- scroll to: ' + locX);
@@ -166,22 +168,24 @@ osmo.NavigationInteraction = class {
 		//
 	}
 
+	/**
+	 * ------------------------------------------------
+	 * updateBasetrack
+	 * ------------------------------------------------
+	 */
 	updateBasetrack(){
-		// check inactivity
-		clearTimeout($.data(this, 'scrollTimer'));
-    $.data(this, 'scrollTimer', setTimeout(function() {
-        //
-        if(this.currentNavLoc != -1 && (this.BGAUDIO.currentTrack != ('base'+this.currentNavLoc))){
-        	console.log('Changing base track - Haven\'t scrolled in 250ms!');
-        	this.BGAUDIO.currentTrack = 'base' + this.currentNavLoc;
-        	//
-        	for(let i=0; i < 7; i++)
-        		this.BGAUDIO.baseTracks['base'+(i+1)].stop();
-        	//
-        	console.log('Now playing : ' + this.BGAUDIO.currentTrack);
-        	this.BGAUDIO.baseTracks[this.BGAUDIO.currentTrack].start();
-        }
-    }.bind(this), 250));
+		//
+    if(this.currentNavLoc != -1 && (this.BGAUDIO.currentTrack != ('base'+this.currentNavLoc))){
+    	console.log('Changing base track - Haven\'t scrolled in 250ms!');
+    	this.BGAUDIO.currentTrack = 'base' + this.currentNavLoc;
+    	//
+    	for(let i=0; i < 7; i++)
+    		this.BGAUDIO.baseTracks['base'+(i+1)].stop();
+    	//
+    	console.log('Now playing : ' + this.BGAUDIO.currentTrack);
+    	this.BGAUDIO.baseTracks[this.BGAUDIO.currentTrack].start();
+    	//
+    }
 	}
 
 	/**
@@ -214,14 +218,14 @@ osmo.NavigationInteraction = class {
 						let id = parseInt(ele.attr('data-id'));
 						if(ele.hasClass('selected') ){
 							ele.removeClass('selected');
-							ele.find('img')[0].src = ele.find('img')[0].src.replace('_selected','_default');
+							ele[0].firstChild.src = ele[0].firstChild.src.replace('_selected','_default');
 						}
 						if(id == navLoc){
 							console.log('Updated - ' + navLoc);
 							this.currentNavLoc = navLoc;
 							ele.addClass('selected');
 							//
-							ele.find('img')[0].src = ele.find('img')[0].src.replace('_default','_selected');
+							ele[0].firstChild.src = ele[0].firstChild.src.replace('_default','_selected');
 						}
 					}
 				}

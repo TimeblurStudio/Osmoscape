@@ -39,21 +39,6 @@ osmo.LegendInteraction = class {
 		//
 		if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata){
 			if(osmo.scroll.hitPopupMode != 'focused'){
-				legendsvg.maskLayer.visible = true;
-
-				Object.keys(legendsvg.popupBBoxes).forEach(function(key) {
-					//
-					let xMin = osmo.scroll.PAPER.view.center.x - osmo.scroll.paperWidth/2.0;
-					let xMax = osmo.scroll.PAPER.view.center.x + osmo.scroll.paperWidth/2.0;
-					//
-					//
-					if(legendsvg.popupBBoxes[key]['mask'].bounds.rightCenter.x > xMin && legendsvg.popupBBoxes[key]['mask'].bounds.leftCenter.x < xMax)
-						legendsvg.popupBBoxes[key]['mask'].visible = true;
-					//
-				});
-
-				//maskLayer.fillColor = 'black';
-				//maskLayer.opacity = 0.5;
 				this.hitMaskEffect(event.point, 'hover');
 			}
 		}
@@ -92,12 +77,21 @@ osmo.LegendInteraction = class {
 		let dur = 800;
 		let lg;
 		// Fix ME!!
-		// 1. Wait atleast 4s before you start faading
+		// 1. Wait atleast 4s before you start fading
 		// 2. Switching from one dataset to another does not fix the cursor i.e. it's both loading and click mode
 		//
-		let hitResult = legendsvg.maskLayer.hitTest(pt, osmo.scroll.maskHitOptions);
+		// APPROACH 1:
+		//let hitResult = legendsvg.maskLayer.hitTest(pt, osmo.scroll.maskHitOptions);// <- Slow method
+		// APPROACH 2
+		//NOW TEST WHICH MASK INTERSECTS & ALSO DEAL WITH OVERLAPPING MASKS
+		let hitResult = null;
+		Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
+			if(hitResult == null)
+				if(osmo.legendsvg.popupBBoxes[key]['mask'].visible)
+					hitResult = osmo.legendsvg.popupBBoxes[key]['mask'].hitTest(pt, osmo.scroll.maskHitOptions);
+		});
 		if(hitResult != null){
-			//console.log('hit: ' + this.prevHitResultName + ' ' + hitResult.item.data.legendName);
+			console.log('hit: ' + this.prevHitResultName + ' ' + hitResult.item.data.legendName);
 			if(this.prevHitResultName == hitResult.item.data.legendName)
 				return;
 			//
@@ -232,6 +226,7 @@ osmo.LegendInteraction = class {
 		}else{
 			this.prevHitResultName = null;
 		}
+		//
 	}
 
 };

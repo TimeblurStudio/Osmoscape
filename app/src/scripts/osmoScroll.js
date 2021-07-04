@@ -53,6 +53,7 @@ osmo.Scroll = class {
 		this.paperHeight;
 		this.paperWidth;
 		this.splashWidth;
+		this.mouseLoc;
 		this.loaded = {	'HQimage' : false,	'svgdata': false	};
 		this.Volume_db = { min : -12,  max: 6 };
 		this.refPopupSize = { width: 1440.0,	height: 821.0	};
@@ -127,6 +128,7 @@ osmo.Scroll = class {
 		//
 		// Custom Mouse follow
 		document.addEventListener('mousemove', function(e) {
+				osmo.scroll.mouseLoc = new osmo.scroll.PAPER.Point(e.pageX, e.pageY);
 		    let mouseX = e.pageX;
 		    let mouseY = e.pageY;
 		    //if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata)
@@ -167,36 +169,24 @@ osmo.Scroll = class {
 
 		//
 		// Update on paper events
-		//
+
 		paper.view.onFrame = function(event) {
-			//osmo.mstars.update(event);
+			//
 		};
 
 		paper.view.onMouseMove = function(event) {
-			//osmo.mstars.mouseMoved(event);
-			//
-			if(!osmo.navinteract.isOnDiv){
+			if(!osmo.navinteract.isOnDiv)
 				osmo.legendinteract.mouseMoved(event);
-			}
 		};
 
 		paper.view.onMouseDown = function(event) {
-			//osmo.mstars.mouseMoved(event);
 			if(!osmo.navinteract.isOnDiv)
 				osmo.popupinteract.mouseClicked(event);
 		};
 
 		paper.view.onMouseUp = function(event) {
-			//osmo.mstars.mouseMoved(event);
-			//if(!osmo.navinteract.isOnDiv)
-			//	osmo.popupinteract.mouseClicked(event);
-			if(!osmo.navinteract.isOnDiv){
+			if(!osmo.navinteract.isOnDiv)
 				osmo.popupinteract.mouseUp(event);
-			}
-		};
-
-		paper.view.onKeyDown = function(event) {
-			//osmo.mstars.keyDown(event);
 		};
 		//
 		//
