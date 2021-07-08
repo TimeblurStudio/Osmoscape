@@ -77,6 +77,7 @@ osmo.LegendSvg = class {
 	    console.log('Loading data for : ' + id);
 	    //
 	    let mpath = this.datasets[id].maskpath;
+	    let title = this.datasets[id].title;
 	    /*
 	    if(window.debug){
 	      let pieces = mpath.split('/');
@@ -90,8 +91,8 @@ osmo.LegendSvg = class {
 	    if(morder != 'front' && morder != 'back')
 	    	morder = null;
 	    //
-	    let maskpromise = this.maskLoad(mpath, id, morder);
-	    let legendpromise = this.legendLoad(this.datasets[id].legendpath, id);
+	    let maskpromise = this.maskLoad(title, mpath, id, morder);
+	    let legendpromise = this.legendLoad(title, this.datasets[id].legendpath, id);
 	    //
 	    if(early){
 	    	this.earlySVGDataPromises.push(maskpromise);
@@ -191,6 +192,7 @@ osmo.LegendSvg = class {
 		//
 		Promise.all(this.earlySVGDataPromises).then((values) => {
 			console.log('Processing early datasets...');
+			$('#percentage').html('Processing datasets...');
 			setTimeout(function(){
 				console.log('Loaded all datasets');
 			  osmo.scroll.loaded.svgdata = true;
@@ -234,7 +236,7 @@ osmo.LegendSvg = class {
 	 * maskLoad
 	 * ------------------------------------------------
 	 */
-	maskLoad(svgxml, num, order = null){
+	maskLoad(title, svgxml, num, order = null){
 		let self = this;
 		//
 		console.log('maskLoad called');
@@ -251,6 +253,7 @@ osmo.LegendSvg = class {
 				//
 				//
 				//
+				mask.data.titleName = title;
 				mask.data.legendName = 'legend-'+num;
 				mask.data.maskName = 'mask-' + num;
 				mask.name = 'mask-' + num;
@@ -262,7 +265,7 @@ osmo.LegendSvg = class {
 					mask.bringToFront();
 				//
 				if(mask.children != undefined)
-					self.updateChildLegend(mask.children, mask.data.legendName);
+					self.updateChildLegend(mask.children, mask.data.legendName, mask.data.titleName);
 				//
 				//
 				let s = osmo.scroll.paperHeight/osmo.datasvg.mainScroll.height;
@@ -294,7 +297,7 @@ osmo.LegendSvg = class {
 	 * legendLoad
 	 * ------------------------------------------------
 	 */
-	legendLoad(svgxml, num){
+	legendLoad(title, svgxml, num){
 		let self = this;
 		//
 		const lpromise = new Promise((resolve, reject) => {
@@ -341,12 +344,13 @@ osmo.LegendSvg = class {
 	 * updateChildLegend
 	 * ------------------------------------------------
 	 */
-	updateChildLegend(ch, d){
+	updateChildLegend(ch, d, t){
 		for(let i=0; i < ch.length; i++){
 			let child = ch[i];
 			child.data.legendName = d;
+			child.data.titleName = t;
 			if(child.children != undefined)
-				this.updateChildLegend(child.children, d);
+				this.updateChildLegend(child.children, d, t);
 		}
 	}
 

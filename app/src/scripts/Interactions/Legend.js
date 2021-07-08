@@ -90,15 +90,14 @@ osmo.LegendInteraction = class {
 				if(osmo.legendsvg.popupBBoxes[key]['mask'].visible)
 					hitResult = osmo.legendsvg.popupBBoxes[key]['mask'].hitTest(pt, osmo.scroll.maskHitOptions);
 		});
+		//
+		if(ctype == 'scrolling')
+			hitResult = null;
+		//
 		if(hitResult != null){
 			console.log('hit: ' + this.prevHitResultName + ' ' + hitResult.item.data.legendName);
 			if(this.prevHitResultName == hitResult.item.data.legendName)
 				return;
-			//
-			if(!legendsvg.legendLayer.visible)
-				legendsvg.legendLayer.visible = true;
-			lg = this.PAPER.project.getItem({name: hitResult.item.data.legendName});
-			if(lg == null)	return;
 			//
 			if(ctype == 'hover'){
 				//
@@ -114,7 +113,10 @@ osmo.LegendInteraction = class {
 					$('.cursor-pointer').css('border', 'none');
 					$('.cursor-loading').show();
 					$('.cursor-pointer-dot').hide();
-					$('.cursor-txt').hide();
+					//$('.cursor-txt').hide();
+					console.log(hitResult.item.data);
+					$('.cursor-txt').html('<span style="background: rgba(0,0,0,0.45); margin: -100%; padding: 2px 2px;">'+hitResult.item.data.titleName+'</span>');
+					$('.cursor-txt').show();
 					this.reset_animation('cursor-clc', 'cursor-loading-circle');
 					this.reset_animation('cursor-cl', 'cursor-loading');
 					//
@@ -129,6 +131,17 @@ osmo.LegendInteraction = class {
 						$('.cursor-txt').html('Click to open');
 						$('.cursor-txt').show();
 						//
+						// Disable rest of the masks until the dark background fades out!
+						Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
+							let thismask = osmo.legendsvg.popupBBoxes[key]['mask'];
+							if(thismask.data.legendName == hitResult.item.data.legendName){
+								console.log('Not disabling - ' + thismask.data.legendName);
+								osmo.legendsvg.popupBBoxes[key]['mask'].visible = true;
+							}else
+								osmo.legendsvg.popupBBoxes[key]['mask'].visible = false;
+							//
+						});
+						//
 					},8000);//
 				}
 				//
@@ -142,8 +155,16 @@ osmo.LegendInteraction = class {
 			toOpacity = 1.0;
 			toColor =  new this.PAPER.Color('#b5ced5');
 			//
-			if(!legendsvg.legendLayer.visible)
+			if(legendsvg.legendLayer.visible){
 				legendsvg.legendLayer.visible = false;
+				for(let i=0; i<legendsvg.legendLayer.children.length; i++){
+					let child = legendsvg.legendLayer.children[i];
+					if(child.visible)
+						child.visible = false;
+				}
+				osmo.legendsvg.maskLayer.visible = false;
+				osmo.pzinteract.enableMaskInteractions();
+			}
 			if(this.cursorLoading != null)
 				clearTimeout(this.cursorLoading);
 			this.cursorLoading = null;
@@ -153,13 +174,7 @@ osmo.LegendInteraction = class {
 			$('.cursor-loading-full').hide();
 			$('.cursor-pointer-dot').hide();
 			$('.cursor-txt').hide();
-
 			//
-			for(let i=0; i<legendsvg.legendLayer.children.length; i++){
-				let child = legendsvg.legendLayer.children[i];
-				if(child.visible)
-					child.visible = false;
-			}
 			//
 		}
 		//
@@ -187,11 +202,12 @@ osmo.LegendInteraction = class {
 				//
 				//Tween
 				setTimeout(function(){tweening = false;}, dur*1.2);
-				osmo.datasvg.backgroundTweenItem.tween(
+				let bgtween = osmo.datasvg.backgroundTweenItem.tween(
 				    { val: 1.0 },
 				    { val: 0.0 },
 				    { easing: 'easeInOutQuad', duration: dur }
-				).onUpdate = function(event) {
+				);
+				bgtween.onUpdate = function(event) {
 					tweening = true;
 					//
 					let currentVal = osmo.datasvg.backgroundTweenItem.val;
@@ -202,19 +218,30 @@ osmo.LegendInteraction = class {
 					//
 					osmo.datasvg.backgroundLayer.opacity = toOpacity + (fromOpacity - toOpacity) * currentVal;
 					$('body').css('background-color',  lerpedColor.toCSS(true));
+				};
+				bgtween.then(function() {
+					console.log('Completed tween');
 					//
-					if(typeof lg !== 'undefined'){
-						if(!lg.visible && currentVal == 0){
-							for(let i=0; i<legendsvg.legendLayer.children.length; i++){
-								let child = legendsvg.legendLayer.children[i];
-								if(child.visible)
-									child.visible = false;
+					if(hitResult != null){
+						if(!legendsvg.legendLayer.visible)
+							legendsvg.legendLayer.visible = true;
+						lg = self.PAPER.project.getItem({name: hitResult.item.data.legendName});
+						//if(lg == null)	return;
+						//
+						if(typeof lg !== 'undefined'){
+							if(!lg.visible){
+								for(let i=0; i<legendsvg.legendLayer.children.length; i++){
+									let child = legendsvg.legendLayer.children[i];
+									if(child.visible)
+										child.visible = false;
+								}
+								lg.visible = true;
 							}
-							lg.visible = true;
 						}
+						//
 					}
 					//
-				};
+				});
 				//
 			}, timeout);
 		}

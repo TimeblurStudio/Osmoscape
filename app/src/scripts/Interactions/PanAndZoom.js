@@ -99,7 +99,7 @@ osmo.PanAndZoom = class {
 	    clearTimeout($.data(this, 'scrollTimerLong'));
 	    $.data(this, 'scrollTimerLong', setTimeout(function() {
 	    	osmo.pzinteract.enableMaskInteractions();
-	    }, 4000));
+	    }, 1500));
 			//
 			let et;
 			if(!window.isMobile){
@@ -113,16 +113,9 @@ osmo.PanAndZoom = class {
 			//
 			// Code below makes scrolling experince way smooth
 			if(osmo.scroll.hitPopupMode != 'focused'){
-				if(osmo.legendsvg.maskLayer.visible){
+				osmo.legendinteract.hitMaskEffect(new osmo.scroll.PAPER.Point(0,0), 'scrolling');
+				if(osmo.legendsvg.maskLayer.visible)
 					osmo.legendsvg.maskLayer.visible = false;
-					osmo.legendinteract.hitMaskEffect(new osmo.scroll.PAPER.Point(0,0), 'scrolling');
-				}
-				/*
-				Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
-					osmo.legendsvg.popupBBoxes[key]['mask'].visible = false;
-				});
-				*/
-
 			}
 			//
 			//
@@ -207,7 +200,7 @@ osmo.PanAndZoom = class {
 	enableMaskInteractions(){
 		if(osmo.legendsvg.maskLayer.visible == false){
   		osmo.legendsvg.maskLayer.visible = true;
-			console.log('Enabled mask after 4000ms');
+			console.log('Enabled mask after 1500ms');
 			//
 			// Just enable legends in view
 			let xMin = osmo.scroll.PAPER.view.center.x - osmo.scroll.paperWidth/2.0;

@@ -20,7 +20,8 @@ window.onload = function() {
   osmo.scroll.init();
 
   // Meter to keep track of FPS
-  window.meter = new window.FPSMeter({ theme: 'transparent', graph: 1, history: 16 });
+  window.FPSMeter.theme.transparent.container.transform = 'scale(0.75)';
+  window.meter = new window.FPSMeter({ margin: '-8px -16px', theme: 'transparent', graph: 1, history: 16 });
 
   //
 	//

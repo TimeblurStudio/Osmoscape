@@ -264,7 +264,6 @@ osmo.PopupInteraction = class {
 		let lg;
 		//
 		let hitResult = legendsvg.maskLayer.hitTest(pt, osmo.scroll.maskHitOptions);
-		/*
 		if(hitResult != null){
 			//
 			legendsvg.legendLayer.visible = true;
@@ -404,7 +403,6 @@ osmo.PopupInteraction = class {
 				//
 			};
 		}
-		*/
 		//
 	}
 
