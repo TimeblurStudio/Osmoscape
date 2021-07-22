@@ -1,7 +1,7 @@
 
 Sounds = function (callback){
     this.callback = callback;
-let files = ["./audio/-1.mp3",
+	let files = ["./audio/-1.mp3",
 							"./audio/0.mp3",
 							"./audio/1.mp3",
 							"./audio/10.mp3",
