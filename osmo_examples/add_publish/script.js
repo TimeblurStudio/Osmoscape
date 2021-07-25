@@ -6,6 +6,16 @@ let loaded = {
 	"svgdata": false
 }
 //
+let chapter_names = {
+	"1": "Water in Space, Basic Chemistry, Structure of Water",
+	"2": "Water and Planet, Population",
+	"3": "Water and Atmospheric systems, Impact of co2",
+	"4": "Water and Glacier",
+	"5": "Water and Industrial agriculture, Infrastructure",
+	"6": "Water and River",
+	"7": "Water and Ocean",
+};
+//
 let paperHeight, paperWidth;
 let scrollMousePos, scrollPosition;
 let scrollWidth, scrollHeight;
@@ -240,6 +250,7 @@ function initFileLoader(){
 			$('#currentMask').show();
 			$('#currentAudio').show();
 			//
+			$('#chapters-select').val(datasets[value].ch);
 			$('#load-btn').text('Update');
 			//
 			$('#data-title').val(datasets[value].title);
@@ -365,14 +376,23 @@ function initFileLoader(){
 			if(($('#currentMask .filename').text() != '') && ($('#currentLegend .filename').text() != ''))
   			prefilledsvg = true;
 			//
+			let current_order = datasets[index].order;
+			let current_popdimensions = datasets[index].popdimensions;
 			datasets[index] = {
+				ch: $('#chapters-select').val(),
 				id: index,
 				title: $('#data-title').val(),
 				desc: $('#data-desc').val(),
 				legendpath: svgpath + lpf,
 				maskpath: svgpath + mpf,
+				order: current_order,
+				popdimensions: current_popdimensions,
 				audiofile: audiopath + mpa
 			};
+			if(datasets[index].order == null || datasets[index].order == undefined)
+				delete datasets[index].order;
+			if(datasets[index].popdimensions == null || datasets[index].popdimensions == undefined)
+				delete datasets[index].popdimensions;
 			//
 			if(!prefilledsvg){
 				//
@@ -719,6 +739,13 @@ function init(){
 		}
 		//
 		//
+	};
+
+	//
+	paper.view.onKeyDown = function(event) {
+		if(event.key == 'n') {
+			$('#new').click();
+		}
 	};
 	//
 	//
@@ -1420,7 +1447,9 @@ function initModal(start_opned){
 		$('#Publishing').hide();
 		$('#newDataset').show();
 		//
-		toggleModal();
+		if(!isModalOpen)
+			toggleModal();
+		//
 	});
 	//
 	//
