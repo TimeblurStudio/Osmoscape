@@ -169,7 +169,6 @@ osmo.Scroll = class {
 
 		//
 		// Update on paper events
-
 		paper.view.onFrame = function(event) {
 			window.meter.tick();
 		};

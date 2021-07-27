@@ -314,7 +314,7 @@ osmo.PopupInteraction = class {
 				//
 				//
 				$('#focused-heading').text(legendsvg.datasets[this.currentFocus].title);
-				$('#focused-description').text(legendsvg.datasets[this.currentFocus].desc);
+				$('#focused-description').html(legendsvg.datasets[this.currentFocus].desc + '<br><br><br><br><br><br><br><br><br><br><br>');
 				//
 				$('#focused-cta').show();
 				$('#focused-info').show();
