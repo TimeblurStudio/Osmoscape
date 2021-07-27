@@ -249,6 +249,21 @@ body {
   margin: 5px;
 }
 
+#focused-description {
+  min-height: 100px;
+  max-height: 300px;
+  overflow: scroll;
+}
+
+#focused-description-overlay {
+  position: relative;
+  min-height: 100px;
+  max-height: 100px;
+  margin-top: -120px;
+  background: -webkit-gradient(linear, left bottom, left top, from(#24292b), color-stop(10%, #24292b), to(rgba(36, 41, 43, 0))) !important;
+  background: linear-gradient(0deg, #24292b 0%, #24292b 10%, rgba(36, 41, 43, 0) 100%) !important;
+}
+
 #focused-info {
   position: fixed;
   bottom: 0;
@@ -276,7 +291,7 @@ body {
 }
 
 .focused-content {
-  padding: 100px 40px;
+  padding: 60px 40px;
   color: #f8f9fa;
   font-size: 21px;
 }
