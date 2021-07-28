@@ -817,7 +817,7 @@ osmo.Scroll = class {
 	  */
 	  //
 	  // APPROACH 2
-	  this.load_fetch_retry('assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH.png', 3, 'High', 'HQscroll');
+	  this.load_fetch_retry('assets/images/SCROLL_cs6_ver23_APP_final_300ppi-HIGH-or8.png', 3, 'High', 'HQscroll');
 	  //
 	  //
 	}
@@ -866,7 +866,7 @@ osmo.Scroll = class {
 	  */
 	  //
 	  // APPROACH 2
-		this.load_fetch_retry('assets/images/SCROLL_cs6_ver23_APP_final_600ppi-RETINA.png', 3, 'Retina', 'RQscroll');
+		this.load_fetch_retry('assets/images/SCROLL_cs6_ver23_APP_final_600ppi-RETINA-or8.png', 3, 'Retina', 'RQscroll');
 	  //
 	}
 
@@ -911,7 +911,7 @@ osmo.Scroll = class {
 	  */
 	  //
 	  // APPROACH 2
-	  this.load_fetch_retry('assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW.png', 3, 'Mobile', 'MQscroll');
+	  this.load_fetch_retry('assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW-or8.png', 3, 'Mobile', 'MQscroll');
 	  //
 	}
 
