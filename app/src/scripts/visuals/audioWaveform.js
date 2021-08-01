@@ -11,14 +11,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	AudioWaveform
+ * class:	audioWaveform
  * desc:
  * ------------------------------------------------
  */
-osmo.AudioWaveform = class {
+osmo.audioWaveform = class {
 
 	constructor(){
-		console.log('osmo.AudioWaveform - constructor');
+		console.log('osmo.audioWaveform - constructor');
 
 		// ----------------
 		// Lib
@@ -31,7 +31,7 @@ osmo.AudioWaveform = class {
 	}
 
 	init(){
-		console.log('osmo.AudioWaveform - init');
+		console.log('osmo.audioWaveform - init');
 		let self = this;
 		//
 		fetch('assets/audio/allwaveforms.json')
