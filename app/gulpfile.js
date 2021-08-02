@@ -39,6 +39,10 @@ const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
 const isDev = !isProd && !isTest;
 
+
+// eslint config
+let eslint_config = JSON.parse(fs.readFileSync('./.eslintrc.json'));
+
 // version for app
 var pack = JSON.parse(fs.readFileSync('./package.json'));
 var versionConfig = {
@@ -61,6 +65,7 @@ var commitConfig = {
     'to': ['html', 'css', 'js']
   }
 };
+
 
 
 /**
@@ -225,7 +230,7 @@ const lintBase = (files, options) => {
     .pipe($.if(!server.active, $.eslint.failAfterError()));
 }
 function lint() {
-  return lintBase('src/scripts/**/*.js', { fix: true })
+  return lintBase('src/scripts/**/*.js', { fix: true, configFile: '.eslintrc.json'})
     .pipe(dest('src/scripts'));
 };
 function lintTest() {
@@ -380,9 +385,9 @@ function startDistServer() {
 
 let serve;
 if (isDev) {
-  serve = series(clean, parallel(styles, scriptsdev, modernizr, fonts, libs), startAppServer);
+  serve = series(clean, parallel(lint, styles, scriptsdev, modernizr, fonts, libs), startAppServer);
 } else if (isTest) {
-  serve = series(clean, scriptsdev, startTestServer);
+  serve = series(clean, lint, scriptsdev, startTestServer);
 } else if (isProd) {
   serve = series(clean, build, startDistServer);
 }

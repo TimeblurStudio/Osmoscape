@@ -1,9 +1,12 @@
 /*global osmo:true $:true*/
 
-
-/*
-	*ADD AUTHOUR AND LISCENSE*
-*/
+/**
+ * ------------------------------------------------
+ * AUTHOR: Mike Cj (mikecj184)
+ * Copyright 2020 - 2021 Timeblur
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
 
 'use strict';
 export default class {}
@@ -11,14 +14,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	LegendInteraction
+ * class:  legendInteraction
  * desc:
  * ------------------------------------------------
  */
-osmo.LegendInteraction = class {
+osmo.legendInteraction = class {
 
 	constructor(){
-		console.log('osmo.LegendInteraction - constructor');
+		console.log('osmo.legendInteraction - constructor');
 		//
 		this.PAPER = osmo.scroll.PAPER;
 		this.LEGENDSVG = osmo.legendsvg;
@@ -30,10 +33,10 @@ osmo.LegendInteraction = class {
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * mouseMoved
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * mouseMoved
+   * ------------------------------------------------
+   */
 	mouseMoved(event){
 		let legendsvg = this.LEGENDSVG;
 		//
@@ -46,16 +49,16 @@ osmo.LegendInteraction = class {
 	}
 
 	reset_animation(_id, _class) {
-	  /*
-	  var el = document.getElementById(_id);
-	  console.log(el);
-	  el.style.animation = 'none';
-	  el.offsetHeight; // trigger reflow
-	  el.style.animation = null;
-	  */
-	  //
-	  let $target = $('#'+_id);
-    $target.removeClass(_class);
+		/*
+    var el = document.getElementById(_id);
+    console.log(el);
+    el.style.animation = 'none';
+    el.offsetHeight; // trigger reflow
+    el.style.animation = null;
+    */
+		//
+		let $target = $('#'+_id);
+		$target.removeClass(_class);
 		setTimeout( function(){
 			$target.addClass(_class);
 		},100);
@@ -63,10 +66,10 @@ osmo.LegendInteraction = class {
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * hitMaskEffect
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * hitMaskEffect
+   * ------------------------------------------------
+   */
 	hitMaskEffect(pt, ctype){
 		let legendsvg = this.LEGENDSVG;
 		//
@@ -203,9 +206,9 @@ osmo.LegendInteraction = class {
 				//Tween
 				setTimeout(function(){tweening = false;}, dur*1.2);
 				let bgtween = osmo.datasvg.backgroundTweenItem.tween(
-				    { val: 1.0 },
-				    { val: 0.0 },
-				    { easing: 'easeInOutQuad', duration: dur }
+					{ val: 1.0 },
+					{ val: 0.0 },
+					{ easing: 'easeInOutQuad', duration: dur }
 				);
 				bgtween.onUpdate = function(event) {
 					tweening = true;
@@ -226,7 +229,7 @@ osmo.LegendInteraction = class {
 						if(!legendsvg.legendLayer.visible)
 							legendsvg.legendLayer.visible = true;
 						lg = self.PAPER.project.getItem({name: hitResult.item.data.legendName});
-						//if(lg == null)	return;
+						//if(lg == null)  return;
 						//
 						if(typeof lg !== 'undefined'){
 							if(!lg.visible){

@@ -1,3 +1,10 @@
+/**
+ * ------------------------------------------------
+ * AUTHOR:  Ashish Lijhara (ashish@hyperreality.in)
+ * Copyright 2019 Hyper Reality Studio
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
 
 Sounds = function (callback){
     this.callback = callback;

@@ -1,9 +1,12 @@
 /*global osmo:true $:true*/
 
-
-/*
-	*ADD AUTHOUR AND LISCENSE*
-*/
+/**
+ * ------------------------------------------------
+ * AUTHOR: Mike Cj (mikecj184)
+ * Copyright 2020 - 2021 Timeblur
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
 
 'use strict';
 export default class {}
@@ -11,14 +14,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	PopupInteraction
+ * class:  popupInteraction
  * desc:
  * ------------------------------------------------
  */
-osmo.PopupInteraction = class {
+osmo.popupInteraction = class {
 
 	constructor(){
-		console.log('osmo.PopupInteraction - constructor');
+		console.log('osmo.popupInteraction - constructor');
 		//
 		this.PAPER = osmo.scroll.PAPER;
 		this.LEGENDSVG = osmo.legendsvg;
@@ -53,14 +56,14 @@ osmo.PopupInteraction = class {
 						console.log(val);
 						$(curr_focus)[0].volume = val;
 						//console.log( 'Currently @ ' + this.property );
-			    }
+					}
 				});
 				//
 				playerinterval = setInterval(function(){
 
 					//if(curr_val == '▶'){
-					//	clearInterval(playerinterval);
-					//	playerinterval = null;
+					//  clearInterval(playerinterval);
+					//  playerinterval = null;
 					//}
 					//
 					let percentage = 100 * $(curr_focus)[0].currentTime / $(curr_focus)[0].duration;
@@ -78,7 +81,7 @@ osmo.PopupInteraction = class {
 							step: function(val) {
 								console.log(val);
 								$(curr_focus)[0].volume = val;
-					    }
+							}
 						});
 						//
 						setTimeout(function(){
@@ -100,14 +103,14 @@ osmo.PopupInteraction = class {
 		//
 		//
 		//
-	  document.getElementById('popup_volslider').oninput = (event) => {
-	    let present = $('#popup_volslider').val();
-	    $('#popup_volslider_inverted').val(100-present);
-	  };
-	  document.getElementById('popup_volslider_inverted').oninput = (event) => {
-	    let present = $('#popup_volslider_inverted').val();
-	    $('#popup_volslider').val(100-present);
-	  };
+		document.getElementById('popup_volslider').oninput = (event) => {
+			let present = $('#popup_volslider').val();
+			$('#popup_volslider_inverted').val(100-present);
+		};
+		document.getElementById('popup_volslider_inverted').oninput = (event) => {
+			let present = $('#popup_volslider_inverted').val();
+			$('#popup_volslider').val(100-present);
+		};
 		//
 		$('#focused-info').mouseenter(function(){
 			$('#cursor').hide();
@@ -181,19 +184,19 @@ osmo.PopupInteraction = class {
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * mouseClicked
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * mouseClicked
+   * ------------------------------------------------
+   */
 	mouseClicked(event){
 		let legendsvg = this.LEGENDSVG;
 		$('.nav').hide();
 		/*
-		if(document.body.style.cursor == 'zoom-in'){
-			console.log('Zoom-in at this place');
-			this.PAPER.view.zoom = osmo.pzinteract.changeZoom(this.PAPER.view.zoom, -1, 1.015, false);
-		}
-		*/
+    if(document.body.style.cursor == 'zoom-in'){
+      console.log('Zoom-in at this place');
+      this.PAPER.view.zoom = osmo.pzinteract.changeZoom(this.PAPER.view.zoom, -1, 1.015, false);
+    }
+    */
 		if(this.dragMode){
 			this.isDragging = true;
 			$('#cursor').hide();
@@ -210,10 +213,10 @@ osmo.PopupInteraction = class {
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * mouseMoved
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * mouseMoved
+   * ------------------------------------------------
+   */
 	mouseMoved(deltaValX, deltaValY){
 		//
 		if(this.dragMode && this.isDragging){
@@ -233,16 +236,16 @@ osmo.PopupInteraction = class {
 	}
 
 	reset_animation(_id, _class) {
-	  /*
-	  var el = document.getElementById(_id);
-	  console.log(el);
-	  el.style.animation = 'none';
-	  el.offsetHeight; // trigger reflow
-	  el.style.animation = null;
-	  */
-	  //
-	  let $target = $('#'+_id);
-    $target.removeClass(_class);
+		/*
+    var el = document.getElementById(_id);
+    console.log(el);
+    el.style.animation = 'none';
+    el.offsetHeight; // trigger reflow
+    el.style.animation = null;
+    */
+		//
+		let $target = $('#'+_id);
+		$target.removeClass(_class);
 		setTimeout( function(){
 			$target.addClass(_class);
 		},100);
@@ -250,10 +253,10 @@ osmo.PopupInteraction = class {
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * hitMaskEffect
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * hitMaskEffect
+   * ------------------------------------------------
+   */
 	hitMaskEffect(pt, ctype){
 		let legendsvg = this.LEGENDSVG;
 		//
@@ -268,7 +271,7 @@ osmo.PopupInteraction = class {
 			//
 			legendsvg.legendLayer.visible = true;
 			lg = this.PAPER.project.getItem({name: hitResult.item.data.legendName});
-			if(lg == null)	return;
+			if(lg == null)  return;
 			//
 			if(ctype == 'click'){
 				$('#focused-info').animate({ right:'0px'}, 1200);
@@ -376,9 +379,9 @@ osmo.PopupInteraction = class {
 		if(!tweening){
 			setTimeout(function(){tweening = false;}, dur*1.2);
 			osmo.datasvg.backgroundTweenItem.tween(
-			    { val: 1.0 },
-			    { val: 0.0 },
-			    { easing: 'easeInOutQuad', duration: dur }
+				{ val: 1.0 },
+				{ val: 0.0 },
+				{ easing: 'easeInOutQuad', duration: dur }
 			).onUpdate = function(event) {
 				tweening = true;
 				//

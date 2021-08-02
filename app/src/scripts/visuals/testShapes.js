@@ -1,9 +1,12 @@
 /*global osmo:true $:true*/
 
-
-/*
-	*ADD AUTHOUR AND LISCENSE*
-*/
+/**
+ * ------------------------------------------------
+ * AUTHOR: Mike Cj (mikecj184)
+ * Copyright 2020 - 2021 Timeblur
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
 
 'use strict';
 export default class {}
@@ -11,7 +14,7 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	testShapes
+ * class:  testShapes
  * desc:
  * ------------------------------------------------
  */
@@ -33,10 +36,10 @@ osmo.testShapes = class {
 
 
 	/**
-	 * ------------------------------------------------
-	 * Initalize stars
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * Initalize stars
+   * ------------------------------------------------
+   */
 	init(){
 		console.log('osmo.testShapes - initStars');
 		//
@@ -58,26 +61,26 @@ osmo.testShapes = class {
 
 
 	/**
-	 * ------------------------------------------------
-	 * addBackground
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * addBackground
+   * ------------------------------------------------
+   */
 	addBackground(){
 		//
 		var rect = new this.PAPER.Path.Rectangle({
-		    point: [0, 0],
-		    size: [this.PAPER.view.size.width, this.PAPER.view.size.height],
-		    strokeColor: '#222',
-		    fillColor: '#222'
+			point: [0, 0],
+			size: [this.PAPER.view.size.width, this.PAPER.view.size.height],
+			strokeColor: '#222',
+			fillColor: '#222'
 		});
 		rect.sendToBack();
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * createLines - Add '+' shape at the center
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * createLines - Add '+' shape at the center
+   * ------------------------------------------------
+   */
 	createGrid(){
 		// NOTE
 		// - Grid doesn't appear in Android devices, Problem with pixel ratio? OR works only on Apple devices!?
@@ -117,10 +120,10 @@ osmo.testShapes = class {
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * lineStyle - Thick and Thin lines
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * lineStyle - Thick and Thin lines
+   * ------------------------------------------------
+   */
 	lineStyle(coord){
 		let settings = {
 			Color : 'rgba(255,255,255,0.5)',
@@ -146,10 +149,10 @@ osmo.testShapes = class {
 
 
 	/**
-	 * ------------------------------------------------
-	 * Random shapes inside grid
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * Random shapes inside grid
+   * ------------------------------------------------
+   */
 	newRandomShapes(){
 		let settings = {
 			Size : new this.PAPER.Size(120, 120),

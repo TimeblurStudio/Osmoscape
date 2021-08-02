@@ -1,6 +1,6 @@
 {
-  "version": "0.8.5",
-  "commit": "b60c1eb",
+  "version": "0.8.6",
+  "commit": "bb79a10",
   "description": "Webapp for Osmoscape",
   "main": "index.js",
   "author": "Mike Cj <mike@timeblur.io>",
@@ -75,22 +75,5 @@
     "> 1%",
     "last 2 versions",
     "Firefox ESR"
-  ],
-  "eslintConfig": {
-    "parserOptions": {
-      "sourceType": "module"
-    },
-    "env": {
-      "es6": true,
-      "node": true,
-      "browser": true,
-      "jquery": true
-    },
-    "rules": {
-      "quotes": [
-        2,
-        "single"
-      ]
-    }
-  }
+  ]
 }

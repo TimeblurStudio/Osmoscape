@@ -1,9 +1,12 @@
 /*global osmo:true $:true*/
 
-
-/*
-	*ADD AUTHOUR AND LISCENSE*
-*/
+/**
+ * ------------------------------------------------
+ * AUTHOR: Mike Cj (mikecj184)
+ * Copyright 2020 - 2021 Timeblur
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
 
 'use strict';
 export default class {}
@@ -11,7 +14,7 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:	movingStars
+ * class:  movingStars
  * desc:
  * ------------------------------------------------
  */
@@ -40,10 +43,10 @@ osmo.movingStars = class {
 
 
 	/**
-	 * ------------------------------------------------
-	 * Initalize stars
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * Initalize stars
+   * ------------------------------------------------
+   */
 	init(){
 		console.log('osmo.movingStars - initStars');
 
@@ -82,10 +85,10 @@ osmo.movingStars = class {
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * Frame updated
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * Frame updated
+   * ------------------------------------------------
+   */
 	update(event){
 		// Frame updates will be added here
 		this.position = this.position.add((this.mousePos.subtract(this.position)).divide(10));
@@ -94,25 +97,25 @@ osmo.movingStars = class {
 	}
 
 	/**
-	 * ------------------------------------------------
-	 * mouse and keypad interactions
-	 * ------------------------------------------------
-	 */
+   * ------------------------------------------------
+   * mouse and keypad interactions
+   * ------------------------------------------------
+   */
 	mouseMoved(event){
 		this.mousePos = event.point;
 	}
 
 	keyDown(event){
 		if (event.key == 'space')
-				this.PAPER.project.activeLayer.selected = !this.PAPER.project.activeLayer.selected;
+			this.PAPER.project.activeLayer.selected = !this.PAPER.project.activeLayer.selected;
 	}
 
 
 	/*
-	 * ------------------------------------------------
-	 * Move Stars
-	 * ------------------------------------------------
-	*/
+   * ------------------------------------------------
+   * Move Stars
+   * ------------------------------------------------
+  */
 	moveStars(sPos) {
 		var vector = sPos;
 		// Run through the active layer's children list and change
@@ -146,7 +149,7 @@ osmo.movingStars = class {
 			}
 
 			if (position.y < -itemBounds.height - 5) {
-				position.y = viewBounds.height
+				position.y = viewBounds.height;
 			}
 		}
 

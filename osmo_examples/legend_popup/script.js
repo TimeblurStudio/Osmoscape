@@ -3,6 +3,13 @@
 // https://codebeautify.org/image-to-base64-converter
 // https://onlinepngtools.com/change-png-color
 
+/**
+ * ------------------------------------------------
+ * AUTHOR:  Mike Cj (mikecj184)
+ * Copyright 2020 - 2021 Timeblur
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
 
 let loaded = {
 	"HQimage" : false,
