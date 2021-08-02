@@ -1,7 +1,14 @@
+/**
+ * ------------------------------------------------
+ * AUTHOR:  Ashish Lijhara (ashish@hyperreality.in)
+ * Copyright 2019 Hyper Reality Studio
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
 
 Sounds = function (callback){
     this.callback = callback;
-	let files = ["./audio/-1.mp3",
+let files = ["./audio/-1.mp3",
 							"./audio/0.mp3",
 							"./audio/1.mp3",
 							"./audio/10.mp3",

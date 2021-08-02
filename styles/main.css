@@ -419,10 +419,6 @@ body {
   color: #b97941;
 }
 
-#quality-choice-best {
-  font-weight: 300;
-}
-
 /* head, html and body */
 html, body {
   height: 100%;
@@ -447,7 +443,6 @@ a {
 
 a,
 a:visited {
-  /*letter-spacing: 1px;*/
   text-decoration: none;
   color: #f6f7d9;
 }
@@ -455,6 +450,7 @@ a:visited {
 a:hover {
   text-decoration: underline;
   color: #b97941;
+  font-weight: 400;
 }
 
 a:active {
@@ -472,6 +468,7 @@ a.invert {
 
 a.invert:hover {
   color: #7d9398;
+  font-weight: 400;
 }
 
 a.invert:active {

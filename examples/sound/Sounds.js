@@ -1,4 +1,14 @@
 
+/**
+ * ------------------------------------------------
+ * AUTHOR:  Ashish Lijhara (ashish@hyperreality.in)
+ * Copyright 2019 Hyper Reality Studio
+ * MODIFIED: Mike Cj (mikecj184)
+ * Copyright 2020 - 2021 Timeblur
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
+
 // Sounds function
 Sounds = function (callback){
     this.callback = callback;
