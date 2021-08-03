@@ -5,16 +5,17 @@ let Point=function(x,y){
 
 let CollTest=function(x,y){
   //
-  for(let i=Object.keys(dataPicks).length - 1; i >= 0; i--){
-    let dp = dataPicks[i];
-    let index = i + 1;
-    //
-    if((x > dataPickedPositions[dp].x)
-        && (y > dataPickedPositions[dp].y)
-        && (x < dataPickedPositions[dp].x + $("#drag-"+index).width())
-        && (y < dataPickedPositions[dp].y + $("#drag-"+index).height())
-      ){    return dp;  }
-  }
+	for (const dp in dataPicks) {
+		if(dataPicks[dp] && (x > dataPickedPositions[dp].x)
+			&& (y > dataPickedPositions[dp].y)
+			&& (x < dataPickedPositions[dp].x + $("#drag-"+dp).width())
+			&& (y < dataPickedPositions[dp].y + $("#drag-"+dp).height())
+		){    return dp;  }
+	}
+  // for(let dp=Object.keys(dataPicks).length - 1; i >= 0; i--){
+  //   //
+    
+  // }
   //
   return 0;
 }
@@ -211,17 +212,19 @@ Molecule = function(x,y, buff, bufNum){
         }
         //
         if(v.includes(true)){
-            for(let i=0; i < Object.keys(dataPicks).length; i++){
-                let dp = dataPicks[i];
-                let index = i + 1;
-                interact("#drag-"+index).draggable(false);
-            }
+					interact('.wave-drag').draggable(false);
+            // for(let i=0; i < Object.keys(dataPicks).length; i++){
+            //     let dp = dataPicks[i];
+            //     let index = i + 1;
+            //     interact("#drag-"+index).draggable(false);
+            // }
         }else{
-            for(let i=0; i < Object.keys(dataPicks).length; i++){
-                let dp = dataPicks[i];
-                let index = i + 1;
-                interact("#drag-"+index).draggable(true);
-            }
+					interact('.wave-drag').draggable(true);
+            // for(let i=0; i < Object.keys(dataPicks).length; i++){
+            //     let dp = dataPicks[i];
+            //     let index = i + 1;
+            //     interact("#drag-"+index).draggable(true);
+            // }
         }
 
     }
@@ -240,17 +243,22 @@ Molecule = function(x,y, buff, bufNum){
                 this.bufNum = tempbuf;
             //
             //
-            for(let i=0; i < Object.keys(dataPicks).length; i++){
-                let dp = dataPicks[i];
-                let index = i + 1;
-                interact("#drag-"+index).draggable(false);
-            }
+						interact('.wave-drag').draggable(false);
+						// for(const dp in dataPicks){
+						// 	interact("#drag-"+dp).draggable(false);
+						// }
+            // for(let i=0; i < Object.keys(dataPicks).length; i++){
+            //     let dp = dataPicks[i];
+            //     let index = i + 1;
+            //     interact("#drag-"+index).draggable(false);
+            // }
         }else{
-            for(let i=0; i < Object.keys(dataPicks).length; i++){
-                let dp = dataPicks[i];
-                let index = i + 1;
-                interact("#drag-"+index).draggable(true);
-            }
+					interact('.wave-drag').draggable(true);
+            // for(let i=0; i < Object.keys(dataPicks).length; i++){
+            //     let dp = dataPicks[i];
+            //     let index = i + 1;
+            //     interact("#drag-"+index).draggable(true);
+            // }
         }
     }
 
