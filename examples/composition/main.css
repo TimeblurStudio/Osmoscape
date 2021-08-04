@@ -50,3 +50,46 @@ body{
   bottom: 0;
   left: 15px;
 }
+
+#status {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 9;
+	background: #b5ced5;
+	width: 100%;
+	margin: 0;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.waveforms {
+	padding: 10px;
+}
+
+.select-waveforms {
+	padding: 5px;
+	border: none;
+	background: white;
+	cursor: pointer;
+	outline: none;
+}
+.selected-waveforms {
+	margin-top: 20px;
+	display: flex;
+}
+.waveform-item {
+	padding: 8px 16px;
+	background: white;
+	border-radius: 9999px;
+	font-size: 14px;
+	margin-left: 10px;
+}
+.wave-delete {
+	margin-left: 20px;
+	color: red;
+	font-weight: 700;
+	cursor: pointer;
+}
