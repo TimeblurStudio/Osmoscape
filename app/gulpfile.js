@@ -307,7 +307,6 @@ function measureSize() {
 }
 
 const commitAllExamples = parallel(
-  commitadd,
   commitanim,
   commitcomp,
   commitleg,

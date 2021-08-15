@@ -11,7 +11,7 @@
     <script src="Molecule.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/waveform-data@3.3.4/dist/waveform-data.js"></script>>
+    <script src="https://cdn.jsdelivr.net/npm/waveform-data@3.3.4/dist/waveform-data.js"></script>
 
     <link rel="stylesheet" href="main.css">
 
@@ -26,16 +26,8 @@
        */
 
       var allWaveformData = {};
-      let dataPicks = {
-        '0':'1',
-        '1':'5',
-        '2':'4'
-      };
-      let dataPickedPositions = {
-        "1" : { "x": "0", "y": "0" },
-        "5" : { "x": "0", "y": "0" },
-        "4" : { "x": "0", "y": "0" },
-      };
+      const dataPicks = {};
+      const dataPickedPositions = {};
       //
       //
       var indexedDBavailable = true;
@@ -252,10 +244,10 @@
               $('#'+event.currentTarget.id).remove();
             }
             //
-            let datindex = dataPicks[parseInt(event.currentTarget.id.replace('drag-', '')) - 1];
-            //
-            dataPickedPositions[datindex].x = parseFloat(event.currentTarget.getAttribute('data-x'));
-            dataPickedPositions[datindex].y = parseFloat(event.currentTarget.getAttribute('data-y'));
+						let { wave } = event.currentTarget.dataset;
+						wave = parseInt(wave, 10);
+            dataPickedPositions[wave].x = parseFloat(event.currentTarget.getAttribute('data-x'));
+            dataPickedPositions[wave].y = parseFloat(event.currentTarget.getAttribute('data-y'));
             //
           }
         }
@@ -307,14 +299,14 @@
         return height - ((amplitude + offset) * height) / range;
       }
 
-      //
-      for(let i=1; i <= 3; i++){
-        index = i-1;
-        //
-        interact('#drag-'+i)
-          .draggable(draggableOptions)
-          .resizable(resizableOptions);
-      }
+      // commenting by default draggable
+      // for(let i=1; i <= 3; i++){
+      //   index = i-1;
+      //   //
+      //   interact('#drag-'+i)
+      //     .draggable(draggableOptions)
+      //     .resizable(resizableOptions);
+      // }
       //
 
 
@@ -338,63 +330,119 @@
       window.dragMoveListener = dragMoveListener;
 
       //
-      //
-      //
+      // Adding interactivity to waveform
+			function interactivity() {
+				interact('.wave-drag')
+          .draggable(draggableOptions)
+          .resizable(resizableOptions);
+			}
+
+      // Adding WaveForms for an index
+			function addWaveForms (dp) {
+				const status = dataPicks[dp];
+				if (!status) {
+					return;
+				}
+
+				// let index = i+1;
+				//
+				//
+				const waveform = WaveformData.create(allWaveformData[dp]);
+				//
+				console.log(`Waveform ${dp} has ${waveform.channels} channels`);
+				console.log(`Waveform ${dp} has length ${waveform.length} points`);
+
+				const canvasElement = document.createElement('div');
+				canvasElement.setAttribute('id', 'drag-'+dp);
+				canvasElement.setAttribute('data-wave', dp);
+				canvasElement.setAttribute('class', 'draggable wave-drag');
+				// Adding Canvas Element
+				const canvas = document.createElement('canvas');
+				canvas.setAttribute('id', dp+'_waveform');
+				canvas.width = '100%';
+				canvas.height = '100%';
+				canvasElement.appendChild(canvas);
+
+				// Adding waveform Indicator
+				const html = document.createElement('p');
+				html.innerHTML = 'Dataset: '+dp;
+        canvasElement.append(html);
+
+				$('.canvas-container').append(canvasElement);
+				//
+				canvas.width = $("#drag-"+dp).width();
+				canvas.height = scaleY(1.0, 800);
+				$("#drag-"+dp).height(canvas.height);
+				console.log(canvas.width + ' ' + canvas.height);
+				//
+				var maxLeft = $(window).width() - $("#drag-"+dp).width();
+				var maxTop = $(window).height() - $("#drag-"+dp).height();
+				var leftPos = Math.floor(Math.random() * (maxLeft + 1))
+				var topPos = Math.floor(Math.random() * (maxTop + 1))
+				//
+				dataPickedPositions[dp].x = leftPos;
+				dataPickedPositions[dp].y = topPos;
+				$("#drag-"+dp).css({ transform: 'translate('+leftPos+'px, '+topPos+'px)' });
+				$("#drag-"+dp).attr('data-x', leftPos);
+				$("#drag-"+dp).attr('data-y', topPos);
+				//
+				const ctx = canvas.getContext('2d');
+				ctx.beginPath();
+				const channel = waveform.channel(0);
+				// Loop forwards, drawing the upper half of the waveform
+				for (let x = 0; x < waveform.length; x++) {
+					const val = channel.max_sample(x);
+					ctx.lineTo(x + 0.5, scaleY(val*8, canvas.height));
+				}
+				// Loop backwards, drawing the lower half of the waveform
+				for (let x = waveform.length - 1; x >= 0; x--) {
+					const val = channel.min_sample(x);
+					ctx.lineTo(x + 0.5, scaleY(val*8, canvas.height));
+				}
+				ctx.closePath();
+				ctx.stroke();
+				ctx.fill();
+			}
+
+			function addNewWaveform(event) {
+				const wave = event.target.value;
+				dataPicks[wave] = true;
+				dataPickedPositions[wave] = { x: 0, y: 0 };
+				addWaveForms(wave);
+				updateWaveFormsSelection();
+				$('.draggable').show();
+			}
+
+			function deleteWaveform (event) {
+				let { delWave } = event.target.dataset;
+				delWave = parseInt(delWave, 10);
+        if ($('#drag-'+delWave).length !== 0) {
+					$('#drag-'+delWave).remove();
+				}
+
+				dataPicks[delWave] = false;
+				updateWaveFormsSelection();
+			}
+			$(document).on('change', '.select-waveforms', addNewWaveform);
+			$(document).on('click', '.wave-delete', deleteWaveform);
+			function updateWaveFormsSelection() {
+				$('.select-waveforms').html('<option>Select a Waveform</option>'+allwaveforms.filter(i => !dataPicks[i]).map(i => ('<option value="'+i+'">Waveform : '+i+'</option>')));
+				$('.selected-waveforms').html(Object.keys(dataPicks).filter(i => dataPicks[i]).map(i => ('<div class="waveform-item"><span>Waveform : '+i+'</span><span class="wave-delete" data-del-wave="'+i+'">X</span></div>')))
+			}
       fetch('../../assets/audio/allwaveforms.json')
         .then(response => response.json())
         .then(function(json){
           //
           allWaveformData = json;
-          //
-          for(let i=0; i < Object.keys(dataPicks).length; i++){
-            let dp = dataPicks[i];
-            let index = i+1;
-            //
-            //
-            const waveform = WaveformData.create(allWaveformData[dp]);
-            //
-            console.log(`Waveform ${dp} has ${waveform.channels} channels`);
-            console.log(`Waveform ${dp} has length ${waveform.length} points`);
-            //
-            const canvas = document.getElementById(index+'_waveform');
-            //
-            canvas.width = $("#drag-"+index).width();
-            canvas.height = scaleY(1.0, 800);
-            $("#drag-"+index).height(canvas.height);
-            console.log(canvas.width + ' ' + canvas.height);
-            //
-            var maxLeft = $(window).width() - $("#drag-"+index).width();
-            var maxTop = $(window).height() - $("#drag-"+index).height();
-            var leftPos = Math.floor(Math.random() * (maxLeft + 1))
-            var topPos = Math.floor(Math.random() * (maxTop + 1))
-            //
-            dataPickedPositions[dp].x = leftPos;
-            dataPickedPositions[dp].y = topPos;
-            $("#drag-"+index).css({ transform: 'translate('+leftPos+'px, '+topPos+'px)' });
-            $("#drag-"+index).attr('data-x', leftPos);
-            $("#drag-"+index).attr('data-y', topPos);
-            //
-            const ctx = canvas.getContext('2d');
-            ctx.beginPath();
-            const channel = waveform.channel(0);
-            // Loop forwards, drawing the upper half of the waveform
-            for (let x = 0; x < waveform.length; x++) {
-              const val = channel.max_sample(x);
-              ctx.lineTo(x + 0.5, scaleY(val*8, canvas.height));
-            }
-            // Loop backwards, drawing the lower half of the waveform
-            for (let x = waveform.length - 1; x >= 0; x--) {
-              const val = channel.min_sample(x);
-              ctx.lineTo(x + 0.5, scaleY(val*8, canvas.height));
-            }
-            ctx.closePath();
-            ctx.stroke();
-            ctx.fill();
-            //
-            //
+					allwaveforms = Object.keys(allWaveformData);
+					updateWaveFormsSelection();
+          // Adding Existing WaveForms
+          for(const i in dataPicks){
+            addWaveForms(i);
           }
-          //
-          $('.draggable').show();
+
+					interactivity();
+					$('.draggable').show();
         });
       //
       //
@@ -403,23 +451,29 @@
     </script>
   </head>
   <body>
-    <p id="status" style="display: inline;">Loading...</p>
-    <div id="drag-1" class="draggable">
-      <canvas width="100%" height="100%" id="1_waveform"></canvas>
-    </div>
-    <div id="drag-2" class="draggable">
-      <canvas width="100%" height="100%" id="2_waveform"></canvas>
-    </div>
-    <div id="drag-3" class="draggable">
-      <canvas width="100%" height="100%" id="3_waveform"></canvas>
-    </div>
+    <p id="status">Loading...</p>
+		<div class="waveforms">
+			<select class="select-waveforms"></select>
+			<div class="selected-waveforms"></div>
+		</div>
+		<div class="canvas-container">
+			<!-- <div id="drag-1" class="draggable">
+				<canvas width="100%" height="100%" id="1_waveform"></canvas>
+			</div>
+			<div id="drag-2" class="draggable">
+				<canvas width="100%" height="100%" id="2_waveform"></canvas>
+			</div>
+			<div id="drag-3" class="draggable">
+				<canvas width="100%" height="100%" id="3_waveform"></canvas>
+			</div> -->
+		</div>
 
 
 
     <!--<img id="bg" src="main_svg.svg" width="16374px" height="1028px" />-->
     <!--?xml version="1.0" encoding="utf-8"?-->
     <!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-    <script>
+    <!-- <script>
       //
       for(let i=1; i <= 3; i++){
         index = i-1;
@@ -429,7 +483,7 @@
         //
       }
       //
-    </script>
+    </script> -->
   </body>
 
 </html>
