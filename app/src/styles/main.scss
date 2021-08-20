@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 body {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -677,7 +679,7 @@ svg, path {
   }
   6% {
     opacity: 1;
-    transform: scale(0.9) translateY($posTrackball/4);
+    transform: scale(0.9) translateY(math.div($posTrackball, 4));
   }
   14% {
     opacity: 0;
@@ -697,7 +699,7 @@ svg, path {
   }
   36% {
     opacity: 1;
-    transform: scale(0.9) translateY($posTrackball/4);
+    transform: scale(0.9) translateY(math.div($posTrackball, 4));
   }
   44% {
     opacity: 0;
@@ -717,7 +719,7 @@ svg, path {
   }
   66% {
     opacity: 1;
-    transform: scale(0.9) translateY($posTrackball/4);
+    transform: scale(0.9) translateY(math.div($posTrackball, 4));
   }
   74% {
     opacity: 0;

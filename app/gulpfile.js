@@ -1,13 +1,13 @@
 // https://www.npmjs.com/package/gulp-remove-logging
 // generated on 2020-06-27 using generator-webapp 4.0.0-8
 
-/*
-  *ADD AUTHOUR AND LISCENSE*
-
-      !!Fix ME!!
-      - Update change log on publish either on github or on the page
-
-*/
+/**
+ * ------------------------------------------------
+ * AUTHOR: Mike Cj (mikecj184)
+ * Copyright 2020 - 2021 Timeblur
+ * This code is licensed under MIT license (see LICENSE file for more details)
+ * ------------------------------------------------
+ */
 
 const { src, dest, watch, series, parallel, lastRun } = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
@@ -26,8 +26,10 @@ const cssnano = require('cssnano');
 const { argv } = require('yargs');
 const ghdeploy = require('gh-pages');
 const stripDebug = require('gulp-strip-debug');
-var execSync = require('child_process').execSync;
-var uglify = require('gulp-uglify');
+const sass = require('gulp-sass')(require('sass'));
+const execSync = require('child_process').execSync;
+const uglify = require('gulp-uglify');
+
 
 const $ = gulpLoadPlugins();
 const server = browserSync.create();
@@ -128,11 +130,11 @@ function styles() {
     sourcemaps: !isProd,
   })
     .pipe($.plumber())
-    .pipe($.sass.sync({
+    .pipe(sass.sync({
       outputStyle: 'expanded',
       precision: 10,
       includePaths: ['.', 'node_modules/']
-    }).on('error', $.sass.logError))
+    }).on('error', sass.logError))
     .pipe($.postcss([
       autoprefixer()
     ]))

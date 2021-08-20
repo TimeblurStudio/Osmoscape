@@ -1,6 +1,6 @@
 {
-  "version": "0.8.7",
-  "commit": "94abd08",
+  "version": "0.8.8",
+  "commit": "f8ae872",
   "description": "Webapp for Osmoscape",
   "main": "index.js",
   "author": "Mike Cj <mike@timeblur.io>",
@@ -60,6 +60,7 @@
     "gulp-useref": "^3.1.6",
     "mkdirp": "^0.5.1",
     "mocha": "^6.2.3",
+    "sass": "^1.38.0",
     "yargs": "13.2.4"
   },
   "scripts": {
