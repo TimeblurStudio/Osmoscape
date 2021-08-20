@@ -1,7 +1,6 @@
 // https://www.npmjs.com/package/gulp-remove-logging
 // generated on 2020-06-27 using generator-webapp 4.0.0-8
 
-
 /*
   *ADD AUTHOUR AND LISCENSE*
 
@@ -72,7 +71,7 @@ var commitConfig = {
  * Push build to gh-pages
  */
 function newDeploy() {
-  return ghdeploy.publish('dist')
+  return ghdeploy.publish('dist', function(err) {console.log('gh-pages publish');console.log(err);})
 };
 
 function copyAssets(){
@@ -81,17 +80,21 @@ function copyAssets(){
 }
 //
 //
+function copyDash(){
+  return src('../dash/**/*')
+            .pipe(dest('dist/dash/'));
+}
+//
+function commitDash(){
+  return src('../dash/add_publish/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/dash/add_publish/'));
+}
 //
 //
 function copyAllExamples(){
   return src('../osmo_examples/**/*')
             .pipe(dest('dist/examples/'));
-}
-//
-function commitadd(){
-  return src('../osmo_examples/add_publish/index.html')
-            .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/add_publish/'));
 }
 function commitanim(){
   return src('../osmo_examples/animation/index.html')
@@ -394,4 +397,4 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
-exports.dep = series(clean, copyAssets, copyAllExamples, commitAllExamples, build, newDeploy);
+exports.dep = series(clean, copyAssets, copyDash, commitDash, copyAllExamples, commitAllExamples, build, newDeploy);
