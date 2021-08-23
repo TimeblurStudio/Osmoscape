@@ -488,6 +488,17 @@ h2 {
   font-size: 24px;
 }
 
+
+canvas {
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
+svg {
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+
 canvas[resize] {
   width: 100%;
   height: 100%;

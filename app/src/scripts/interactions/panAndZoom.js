@@ -251,12 +251,10 @@ osmo.panAndZoom = class {
     osmo.pzinteract.isCompletedDetecting = true;
     osmo.pzinteract.isTrackpadDetected = isTrackpad;
     //
-    if(osmo.pzinteract.isCompletedDetecting){
-      $('#scrollm').hide();
-      //
-      document.removeEventListener('wheel', detectTrackPad, false);
-      document.removeEventListener('DOMMouseScroll', detectTrackPad, false);
-    }
+    $('#scrollm').hide();
+    //
+    document.removeEventListener('wheel', osmo.pzinteract.detectTrackPad, false);
+    document.removeEventListener('DOMMouseScroll', osmo.pzinteract.detectTrackPad, false);
   }
 
 
@@ -267,8 +265,8 @@ osmo.panAndZoom = class {
    */
   detectMouseType(){
     if(!window.isMobile){
-      document.addEventListener('wheel', this.detectTrackPad, false);
-      document.addEventListener('DOMMouseScroll', this.detectTrackPad, false);
+      document.addEventListener('wheel', osmo.pzinteract.detectTrackPad, false);
+      document.addEventListener('DOMMouseScroll', osmo.pzinteract.detectTrackPad, false);
     }else{
       this.isCompletedDetecting = true;
       this.isTrackpadDetected = true;

@@ -113,6 +113,12 @@ osmo.navigationInteraction = class {
       console.log(chap_id);
       console.log(locX);
       console.log(w);
+      // Code below makes scrolling experince way smooth
+      if(osmo.scroll.hitPopupMode != 'focused'){
+        osmo.legendinteract.hitMaskEffect(new osmo.scroll.PAPER.Point(0,0), 'scrolling');
+        if(osmo.legendsvg.maskLayer.visible)
+          osmo.legendsvg.maskLayer.visible = false;
+      }
       //
       if(w > osmo.scroll.paperWidth)
         locX += (osmo.scroll.paperWidth/2);
