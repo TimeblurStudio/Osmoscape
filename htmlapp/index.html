@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-title" content="Osmoscape PWA" />
+        <meta name="description" content="Osmoscape PWA" />
+        <meta name="theme-color" content="white" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <script src="Tone.js"></script>
+        <script src="p5.js"></script>
+        <script src="p5.svg.js"></script>
+        <script src="rainbow.js"></script>
+        <script src="Atom.js"></script>
+        <script src="Molecule.js"></script>
+        <script src="Point.js"></script>
+        <script src="Rect.js"></script>
+        <!--<script src="Tone.js"></script>-->
+        <script src="RectHelper.js"></script>
+        <script src="Icon.js"></script>
+        <script src="AudioCollTest.js"></script>
+        
+        <script>
+          var indexedDBavailable = true;
+          window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || 
+          window.msIndexedDB;
+          
+          window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || 
+          window.msIDBTransaction;
+          window.IDBKeyRange = window.IDBKeyRange || 
+          window.webkitIDBKeyRange || window.msIDBKeyRange
+          
+          if (!window.indexedDB) {
+            indexedDBavailable = false;
+          }
+
+          
+
+            
+          var xhttp = new XMLHttpRequest();
+            if (window.XMLHttpRequest) {
+              // code for modern browsers
+              xhttp = new XMLHttpRequest();
+              } else {
+              // code for old IE browsers
+              xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+              }
+            xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              var temp_response = this.responseText+document.getElementsByTagName("body")[0].innerHTML;
+              document.getElementsByTagName("body")[0].innerHTML = temp_response;
+              ;
+              InitColl();
+              
+            }
+          };
+          xhttp.open("GET", "svginner.svg", true);
+          xhttp.send();
+
+          
+            var svg, path;
+            let x=0, y=0;
+            let prevX=0, prevY=0;
+            //const svgWidth = 19704, svgHeight = 1299;
+            //const svgWidth = 12915.4857, svgHeight = 851.4624;
+            const svgWidth = 2436, svgHeight = 162.5;
+            var scaleBy=8;
+            var prevMouseX = 0, prevMouseY = 0;
+            var canvas;
+            var mobile = (navigator.userAgent.match(/Android/i) 
+                || navigator.userAgent.match(/webOS/i) 
+                || navigator.userAgent.match(/iPhone/i)  
+                || navigator.userAgent.match(/iPad/i)  
+                || navigator.userAgent.match(/iPod/i) 
+                || navigator.userAgent.match(/BlackBerry/i) 
+                || navigator.userAgent.match(/Windows Phone/i));
+                var mols=[];
+                
+                let files = [
+                  "./audio/-1.mp3",
+                  "./audio/0.mp3",
+                  "./audio/1.mp3",
+                  "./audio/4.mp3",
+                  "./audio/5.mp3",
+                  "./audio/6.mp3",
+                  "./audio/7.mp3",
+                  "./audio/8.mp3",
+                  "./audio/9.mp3",
+                  "./audio/10.mp3",
+                  "./audio/11.mp3",
+                  "./audio/12.mp3",
+                  "./audio/13.mp3",
+                  "./audio/14.mp3",
+                  "./audio/15.mp3",
+                  "./audio/16.mp3",
+                  "./audio/17.mp3",
+                  "./audio/19.mp3",
+                  "./audio/20.mp3",
+                  "./audio/21.mp3",
+                  "./audio/23.mp3",
+                  "./audio/24.mp3",
+                  "./audio/25.mp3",
+                  "./audio/28.mp3",
+                  "./audio/29.mp3",
+                  "./audio/30.mp3",
+                  "./audio/32.mp3",
+                  "./audio/33.mp3",
+                  "./audio/35.mp3",
+                  "./audio/36.mp3",
+                  "./audio/37.mp3",
+                  "./audio/38.mp3",
+                  "./audio/40.mp3",
+                  "./audio/41.mp3",
+                  "./audio/43.mp3",
+                  "./audio/44.mp3",
+                  "./audio/45.mp3",
+                  "./audio/46.mp3",
+                  "./audio/48.mp3",
+                  "./audio/50.mp3",
+                  "./audio/52.mp3",
+                  "./audio/53.mp3",
+                  "./audio/54.mp3",
+                  "./audio/58.mp3",
+                  "./audio/60.mp3",
+                  "./audio/62.mp3",
+                  "./audio/63.mp3",
+                  "./audio/Baseline1.mp3",
+                  "./audio/Baseline2.mp3",
+                  "./audio/Baseline3.mp3",
+                  "./audio/Baseline4.mp3",
+                  "./audio/Baseline5.mp3",
+                  "./audio/Baseline6.mp3",
+                  "./audio/Baseline7.mp3"
+                ];
+var tapTimeout;
+//var rectHelper = new RectHelper();
+var buffers = new Tone.Buffers(files,{
+        "onload":soundsLoaded,
+      });
+    function getBaseline(num){
+      return (files.length-1)-(7-num);
+    }
+
+    function soundsLoaded(){
+      console.log("loaded");
+      addMolecule(250,250);
+    }
+        /*function preload() {
+            //svg = loadSVG('main.svg');
+        }*/
+    function addMolecule(X,Y){
+      var mol = new Molecule(X,Y, buffers,getBaseline(1));
+      mol.calcProps();
+      mols.push(mol);
+    }
+var pg;
+var drag = [];
+var autoScroll = false;
+var iconSVGs=[];
+var icons = [];
+        function preload(){
+          iconSVGs.push(loadSVG('ic1.svg'));
+          iconSVGs.push(loadSVG('ic2.svg'));
+          iconSVGs.push(loadSVG('ic3.svg'));
+          iconSVGs.push(loadSVG('ic4.svg'));
+          iconSVGs.push(loadSVG('ic5.svg'));
+          iconSVGs.push(loadSVG('ic6.svg'));
+          iconSVGs.push(loadSVG('ic7.svg'));
+        }
+
+        function setup() {
+          //document.getElementById('bg').style.width = 19704;
+          //document.getElementById('bg').style.height = window.innerHeight;
+          canvas = createCanvas(window.innerWidth, window.innerHeight, SVG);
+          pg = createGraphics(svgWidth, svgHeight, SVG);
+          icons.push(new Icon(new Rect(20,10,15,15), iconSVGs[0], new Point(0,0)));
+          icons.push(new Icon(new Rect(40,10,15,15), iconSVGs[1], new Point(1537,0)));
+          icons.push(new Icon(new Rect(60,10,15,15), iconSVGs[2], new Point(2674,0)));
+          icons.push(new Icon(new Rect(80,10,15,15), iconSVGs[3], new Point(6816,0)));
+          icons.push(new Icon(new Rect(100,10,15,15), iconSVGs[4], new Point(9473,0)));
+          icons.push(new Icon(new Rect(120,10,15,15), iconSVGs[5], new Point(10176,0)));
+          icons.push(new Icon(new Rect(140,10,15,15), iconSVGs[6], new Point(11782,0)));
+      //frameRate(30);
+            //pixelDensity(1);
+            //createCanvas(svgWidth,svgHeight, SVG);
+            //image(svg,x,y,svgWidth,svgHeight,x,y,200, 200);
+            
+            //devicePixelScaling(false);
+            //paths = svg.query('path');
+            /*canvas = document.getElementById('defaultCanvas');
+            if (!mobile) { 
+                    console.log('Nien');
+                        }
+                    else{
+                  canvas.addEventListener('touchstart', function(e){
+                    mousePressed(e);
+                    console.log("CUR:"+e.touches.item(0).clientX, e.touches.item(0).clientY);
+                  });
+                  canvas.addEventListener('touchmove', function(e){
+                    mouseDragged(e);
+                    console.log("MOV:"+e.touches.item(0).clientX, e.touches.item(0).clientY);
+                  });
+                    }*/
+            //console.log(paths);
+            //document.getElementsByTagName('body')[0].addEventListener('mousemove', onMouseUpdate, false);
+            document.addEventListener('contextmenu', event => event.preventDefault());
+        }
+
+        function draw() {
+          if(canvas!==undefined)
+          //noLoop();
+          //background(svg);
+          //noloop();
+          clear();
+          pg.clear();
+          //noFill();
+          //image(svg, x, y, svgWidth, svgHeight);
+          //image(pg,0,0,svgWidth, svgHeight, x,y,windowWidth,windowHeight);
+          //pg.clear();
+          //pg.brginDraw();
+
+          pg.scale(1/scaleBy,1/scaleBy);
+          scale(scaleBy,scaleBy);
+          if(mols!==undefined){
+            for(let mol of mols)
+              mol.render(pg);
+          }
+          //console.log(autoScroll);
+          if(autoScroll){
+            if((mouseX)>((windowWidth)-0.08*windowWidth))
+              window.scrollBy(5, 0);
+            else if((mouseX)<(0.08*windowWidth))
+              window.scrollBy(-5, 0);
+
+            if((mouseY)>(windowHeight-0.08*windowHeight))
+              window.scrollBy(0, 5);
+            else if((mouseY)<(0.08*windowHeight))
+              window.scrollBy(0, -5);
+          }
+          //rectHelper.draw(pg);
+          //pg.endDraw();
+          
+          image(pg, -window.pageXOffset/8,-window.pageYOffset/8, svgWidth, svgHeight, window.pageXOffset, window.pageYOffset, width, height);
+          
+          scale(1/2,1/2);
+          for(ic of icons)
+            ic.render();
+          
+          
+          //console.log(windowWidth, windowHeight);
+        }
+
+        function mousePressed(event){//touchStarted(){
+          //rectHelper.mousePressed();
+          //console.log(window.pageXOffset+mouseX);
+          if (Tone.context.state !== 'running') 
+          {
+            Tone.context.resume();
+          }
+          drag = [];
+          for(let mol of mols)
+          {
+            drag.push(mol.clicked(new Point(window.pageXOffset+mouseX, window.pageYOffset+mouseY)));
+          }
+          
+          if(drag.includes(true)){
+            autoScroll = true;
+            //event.preventDefault();
+            document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+          }
+          else{
+              drag = [];
+              for(ic of icons)
+                drag.push(ic.mousePressed())
+              if(!drag.includes(true))
+              {
+              prevMouseX = mouseX;
+              prevMouseY = mouseY;
+              tapTimeout = setTimeout(function() {
+                if(prevMouseX==mouseX && prevMouseY==mouseY)
+                  addMolecule(window.pageXOffset+mouseX, window.pageYOffset+mouseY);
+            }, 1000);
+            }
+          }
+          //mols.push(new Molecule(mouseX, mouseY));
+          //console.log("CUR:"+mouseX, mouseY);
+        }
+
+        
+        function mouseDragged(event){//touchMoved(){
+          clearTimeout(tapTimeout);
+          //rectHelper.mouseDragged();
+          //let deltaX = 0; 
+          //let deltaY = 0; 
+          /*if(mobile){
+            deltaX = mouseX-evt.touches.item(0).clientX;
+            deltaY = mouseY-evt.touches.item(0).clientY;
+            prevMouseX = evt.touches.item(0).clientX;
+            prevMouseY = evt.touches.item(0).clientY;
+          }
+          else{*/
+            /*let deltaX = mouseX-prevMouseX;
+            let deltaY = mouseY-prevMouseY;
+            prevMouseX = mouseX;
+            prevMouseY = mouseY;
+          //}
+          x+=deltaX;
+          if(x>0)
+            x=0;
+          else if(Math.abs(x)+windowWidth>svgWidth && Math.sign(deltaX)==-1)
+            x = -(svgWidth-windowWidth);
+          
+          
+          y+=deltaY;
+          if(y>0)
+            y=0;
+          else if(Math.abs(y)+windowWidth>svgHeight && Math.sign(deltaY)==-1)
+            y = -(svgHeight-windowHeight);
+            
+            console.log(x);*/
+
+            //event.preventDefault();
+            //drag=[];
+            if(autoScroll)
+              for(let mol of mols){
+                mol.dragged(new Point(window.pageXOffset+mouseX, window.pageYOffset+mouseY));
+              }
+            /*else{
+              document.getElementsByTagName('body')[0].style.overflow = 'auto';
+              window.scrollBy(pmouseX-mouseX,pmouseY-mouseY);
+              document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+            }*/
+            //console.log();
+            /*var b = drag.includes(true);
+            
+            if(b){
+              //event.preventDefault();
+              document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+            }*/
+            /*else{
+              window.scrollBy(mouseX-prevMouseX, mouseY-prevMouseY);
+              prevMouseX = mouseX;
+              prevMouseY = mouseY;              
+            }*/
+            //prevX = event.clientX;
+            //prevY = event.clientY;
+        }
+        function mouseReleased(){
+          
+          for(let mol of mols){
+                mol.mReleased();
+              }
+          autoScroll = false;
+          document.getElementsByTagName('body')[0].style.overflow = 'auto';
+          clearTimeout(tapTimeout);
+        }
+
+        function windowResized() {
+          resizeCanvas(window.innerWidth, window.innerHeight);
+
+        }
+
+        /*function touchStarted(event){
+          prevMouseX = event.touches.item(0).clientX;
+          console.log("prev:"+prevMouseX);
+        }
+
+        function touchMoved(event){
+          let deltaX = event.touchs.item(0).x-prevMouseX;
+          x+=deltaX;
+          //if(x<0)
+            //x=0;
+          //else if((x+windowWidth)>svgWidth/2 && Math.sign(deltaX)==-1)
+            //x = (svgWidth)-(windowWidth/2);
+          prevMouseX = event.x;
+          console.log("IM:"+event);
+        }*/
+        
+
+      
+        </script>
+<style>
+  body{
+    margin-top: 0px;
+    overflow: auto;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome, Opera and Firefox */
+    
+  }
+  #defaultCanvas{
+    position:fixed !important;
+    top:0;
+    left:0;
+    margin-left: -12px;
+    height:100%;
+    width: 100%;
+  }
+  #bg{
+    position:absolute;
+    top:0;
+    left:0;
+    margin-left: -12px;
+  }
+</style>
+
+    </head>
+    <body>
+        <!--<img id="bg" src="main_svg.svg" width="16374px" height="1028px" />-->
+        <!--?xml version="1.0" encoding="utf-8"?-->
+<!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+  <script src="js/main.js"></script>
+</body>
+
+</html>

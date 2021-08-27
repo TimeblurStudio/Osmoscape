@@ -1,0 +1,9 @@
+{
+    "short_name": "Osmoscape",
+    "name": "Osmoscape PWA",
+    "language":"en-US",
+    "start_url": "/index.html",
+    "background_color": "white",
+    "display": "standalone",
+    "theme_color": "white"
+  }
