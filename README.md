@@ -12,11 +12,13 @@ This project is open-source and, we plan for it to be accessible on most devices
 # Use git
 $ git clone https://github.com/TimeblurStudio/Osmoscape.git
 
+# Change Location
+$ cd app
+
 # Install it
 $ npm install
 
 # Run it
-$ cd app
 $ npm run start
 
 # New example
