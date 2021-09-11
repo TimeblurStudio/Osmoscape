@@ -15,12 +15,15 @@ let maxZoom = 2;
 //
 let scrollType = '300ppi-HIGH';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 let mainScroll;
-//let exploreGroup;
+let mainApp;
+let mainStage;
+let exploreGroup;
 //
 let allTracksCount = 0;
 let currentTrack;
 let introTrack;
 let baseTracks = {};
+//
 //
 let backgroundLayer;
 let navLayer;
@@ -55,13 +58,7 @@ function start(){
 	//
 	started = true;
 	$('#start-btn').hide();
-	/*
-	exploreGroup.tween(
-	    { opacity: 0 },
-	    { opacity: 1 },
-	    1500
-	);
-	*/
+	//
 }
 
 //
@@ -73,13 +70,14 @@ function start(){
 function init(){
 	console.log('init called');
 	$('#status').text('Started');
-	//
-	PIXI.utils.skipHello();
+
 	// Setup PIXI canvas
 	let canvas = document.getElementById('main-scroll-canvas');
 	pixiWidth = canvas.offsetWidth;
 	pixiHeight = canvas.offsetHeight;
+
 	//Create a Pixi Application
+	PIXI.utils.skipHello();
 	let app = new PIXI.Application({
 	    width: pixiWidth,
 	    height: pixiHeight,
@@ -89,12 +87,14 @@ function init(){
 	    view: canvas
 	  }
 	);
-	window.app = app;
-	//pixi.setup(canvas);
+	mainApp = app;
+	mainStage = mainApp.stage = new PIXI.display.Stage();
 
 
-	backgroundLayer = new pixi_display.Layer();
-	navLayer = new pixi_display.Layer();
+	//
+	backgroundLayer = new PIXI.display.Layer();
+	navLayer = new PIXI.display.Layer();
+	mainStage.addChild(backgroundLayer, navLayer);
 
 	// INTERACTIONS
 	initPanZoom();
@@ -104,11 +104,6 @@ function init(){
 	loadHQ();
 
 	/*
-
-
-	//
-	pixi.project.activeLayer = navLayer;
-
 	// Draw PIXI
 	pixi.view.draw();
 	*/
@@ -175,9 +170,8 @@ function loadHQ(){
 	  	console.log('Loaded HQ image');
 	    //
 	    initSVGscroll(HQpath);
-	    //initSplash(800);
-	    //splashWidth: 800px
-			//
+	    initSplash(800);
+	    //
 			//loadNav();
 			//initNav();
 			//
@@ -309,69 +303,95 @@ function initSVGscroll(_url){
 	scrollWidth = scroll_01.width*s*2;
 	scrollHeight = pixiHeight;
 	//
-	//backgroundLayer.addChild(mainScroll);
 	//
 	//Add the scroll to the stage
-  window.app.stage.addChild(scroll_01);
-	window.app.stage.addChild(scroll_02);
+  backgroundLayer.addChild(scroll_01);
+	backgroundLayer.addChild(scroll_02);
 	//
 }
 
-/*
+
 function initSplash(_width){
 	//
 	// SPLASH
 	//
-	let raster = new pixi.Raster('splash');
-	// Scale the raster
-	let s = _width/raster.width;
-	raster.scale(s);
-	// Move the raster to the center of the view
-	raster.position = pixi.view.center;
-	raster.position.y -= 20;
+	let splashURL = '../../assets/images/OsmoSplash.png';
+  PIXI.Loader.shared
+		  .add(splashURL)
+		  .load(function(){
+		  	console.log('Loaded sprite');
+		  	//Create the sprite
+				let splashSprite = new PIXI.Sprite(PIXI.Loader.shared.resources[splashURL].texture);
+			  backgroundLayer.addChild(splashSprite);
+			  //
+			  // Scale the raster
+				let s = _width/splashSprite.width;
+				splashSprite.scale.set(s, s);
+				//
+				splashSprite.anchor.x = 0.5;
+				splashSprite.anchor.y = 0.5;
+				// Move the raster to the center of the view
+				splashSprite.x = pixiWidth/2;
+			  splashSprite.y = pixiHeight/2;
+			  //
+			  // START BUTTON
+				$('#start-btn').css('position', 'fixed');
+				$('#start-btn').css('left', splashSprite.x - $('#start-btn').outerWidth()/2);//;
+				$('#start-btn').css('top', splashSprite.y + splashSprite.height*0.65);//);
 
-	// START BUTTON
-	$('#start-btn').css('position', 'fixed');
-	$('#start-btn').css('left', raster.position.x - $('#start-btn').outerWidth()/2);//;
-	$('#start-btn').css('top', raster.position.y + raster.height*s*0.65);//);
+				//
+				// SCROLL TEXT & ARROW
+				//
+				const style = new PIXI.TextStyle({
+				    fontFamily: 'Roboto',
+				    fontSize: window.isMobile?12:18,
+				    fill: '#b97941'
+				});
+				let text = new PIXI.Text(window.isMobile?'Hold & Scroll to explore':'Scroll to explore',style);
+				let textLoc = new PIXI.Point(splashSprite.x - splashSprite.width/3 + 15, splashSprite.y + splashSprite.height*0.4);
+				text.x = textLoc.x;
+				text.y = textLoc.y;
+				//
+				let start = new PIXI.Point(textLoc.x + text.width + 10, textLoc.y+12);
+				let end = new PIXI.Point((splashSprite.width - text.width)/2, 0);
+				let line = new PIXI.Graphics();
+				line.position.set(start.x, start.y);
+				line.lineStyle(1, 0xb97941)
+			       .moveTo(0, 0)
+			       .lineTo(end.x, end.y);
+				let size = window.isMobile?4:8;
+				let triangle = createTriangle(start.x+end.x, start.y+end.y+(size/2), size, 0xb97941);
+				triangle.rotation = -Math.PI/2;
+				//
+				backgroundLayer.addChild(text);
+				backgroundLayer.addChild(line);
+				backgroundLayer.addChild(triangle);
+				//
+		  });
 
-	//
-	// SCROLL TEXT
-	//
-	exploreGroup = new pixi.Group();
-	//
-	let textLoc = new pixi.Point(raster.position.x - raster.width*s/3, raster.position.y + raster.height*s*0.65);
-	let text = new pixi.PointText(textLoc);
-	text.justification = 'left';
-	text.fillColor = '#b97941';
-	text.fontFamily = 'Roboto';
-	text.fontSize = window.isMobile?'12px':'18px';
-	text.content = window.isMobile?'Hold & Scroll to explore':'Scroll to explore';
-	let textWidth = text.bounds.width;
-
-	//
-	// SCROLL ARROW
-	//
-	let start = new pixi.Point(textLoc.x + textWidth + 10, textLoc.y - 5);
-	let end = new pixi.Point(start.x+(raster.width*s/2)-textWidth, start.y);
-	let line = new pixi.Path();
-	line.strokeColor = '#b97941';
-	line.moveTo(start);
-	line.lineTo(end);
-	let size = window.isMobile?4:8;
-	var triangle = new pixi.Path.RegularPolygon(new pixi.Point(end.x, end.y+(size/4)), 3, size);
-	triangle.rotate(90);
-	triangle.fillColor = '#b97941';
-	//
-	exploreGroup.addChild(text);
-	exploreGroup.addChild(line);
-	exploreGroup.addChild(triangle);
-	exploreGroup.opacity = 0;
-	//
-	backgroundLayer.addChild(raster);
-	backgroundLayer.addChild(exploreGroup);
 }
-*/
+
+
+function createTriangle(xPos, yPos, _scale, _color) {
+  var _triangle = new PIXI.Graphics();
+  //
+  _triangle.x = xPos;
+  _triangle.y = yPos;
+  //
+  var triangleWidth = _scale,
+      triangleHeight = triangleWidth,
+      triangleHalfway = triangleWidth/2;
+  // draw _triangle
+  _triangle.beginFill(_color, 1);
+  _triangle.lineStyle(0, _color, 1);
+  _triangle.moveTo(triangleWidth, 0);
+  _triangle.lineTo(triangleHalfway, triangleHeight);
+  _triangle.lineTo(0, 0);
+  _triangle.lineTo(triangleHalfway, 0);
+  _triangle.endFill();
+  //
+  return _triangle;
+}
 
 
 /**
@@ -415,13 +435,13 @@ function initPanZoom(){
 		//
 		//
 		//
-		let fac = 1.005/(app.stage.scale.x*app.stage.scale.y);
+		let fac = 1.005/(mainStage.scale.x*mainStage.scale.y);
 		//
 		let deltaValX, deltaValY;
 		deltaValX = et.deltaY;
 		deltaValY = et.deltaY;
 		//
-		window.app.stage.position = changeCenter(window.app.stage.position, deltaValX, 0, fac);
+		mainStage.position = changeCenter(mainStage.position, deltaValX, 0, fac);
 		//navTweenItem.position = pixi.view.center;
 		//
 	});
