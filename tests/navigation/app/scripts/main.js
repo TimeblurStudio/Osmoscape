@@ -7,6 +7,12 @@
  */
 //
 //
+import * as PIXI from 'pixi.js'
+import * as Tone from 'tone'
+import { SVGScene } from '@pixi-essentials/svg';
+//
+window.PIXI = PIXI
+require('pixi-layers')
 //
 let started = false;
 //
@@ -16,11 +22,13 @@ let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
 //
-let scrollType = '300ppi-HIGH';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
+let scrollType = '150ppi-HIGH';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 let mainScroll;
 let mainApp;
 let mainStage;
+let navChapters;
 let mainScrollScale;
+let navScale;
 let exploreGroup;
 //
 let allTracksCount = 0;
@@ -65,7 +73,7 @@ function start(){
 	//
 }
 
-//
+
 /**
  * ------------------------------------------------
  * Main Init
@@ -74,6 +82,9 @@ function start(){
 function init(){
 	console.log('init called');
 	$('#status').text('Started');
+	$('#start-btn').on('click', function(){
+		start();
+	});
 
 	// Setup PIXI canvas
 	let canvas = document.getElementById('main-scroll-canvas');
@@ -86,7 +97,7 @@ function init(){
 	    width: pixiWidth,
 	    height: pixiHeight,
 	    antialias: true,
-	    transparent: true,
+	    backgroundAlpha: 0,
 	    resolution: 1,
 	    view: canvas
 	  }
@@ -207,34 +218,36 @@ function initNav(){
 	console.log('Initializing navigation');
 	$('.jump').click(function(el){
 		let chap_id = parseInt($(el.target.parentElement).attr('data-id'));
-		let locX = 0;
-		/*
-		let locX = pixi.project.getItem({name: 'nav-ch'+chap_id}).bounds.left;
-		let w = pixi.project.getItem({name: 'nav-ch'+chap_id}).bounds.width;
+		let current_chapter = $.grep($(navChapters), function(e){ return e.id == 'nav-ch'+chap_id; });
+		let locX = -1*parseFloat($(current_chapter).attr('x'))*navScale;
+		let w = parseFloat($(current_chapter).attr('width'))*navScale;
 		//
 		if(w > pixiWidth)
-			locX += (pixiWidth/2);
+			locX -= (pixiWidth/2);
 		else
-			locX += w/2;
+			locX -= w/2;
+		//
 		//
 		let dur = 2000;
-		let diff = Math.abs(locX - pixi.view.center.x);
+		let diff = Math.abs(locX - mainStage.position.x);
 		if(diff < pixiWidth ){
 			let ratio = diff/pixiWidth;
 			dur = parseInt(2000 * ratio);
 			if(dur < 350)
 				dur = 350;
 		}
-		//
+		console.log(diff + ' ' + dur);
+		mainStage.position = new PIXI.Point(locX, mainStage.position.y);
+		/*
 		navTweenItem.tween(
-		    { position: pixi.view.center },
-		    { position: new pixi.Point(locX, pixi.view.center.y) },
+		    { position: mainStage.position },
+		    { position: new pixi.Point(locX, mainStage.position.y) },
 		    {
 		    	easing: 'easeInOutQuad',
 		    	duration: dur
 		    }
 		).onUpdate = function(event) {
-			pixi.view.center = navTweenItem.position;
+			mainStage.position = navTweenItem.position;
 			//
 			hitNavEffect();
 			//
@@ -243,17 +256,16 @@ function initNav(){
 		// Stop all tracks and start target track
 		for(let i=0; i < 7; i++)
   		baseTracks['base'+(i+1)].stop();
-  	/*
-		setTimeout(function(){
+  	setTimeout(function(){
 			console.log('Completed scroll for - ' + chap_id);
-			console.log("Changing base track...");
+			console.log('Changing base track...');
     	currentTrack = 'base' + chap_id;
     	//
     	console.log('Now playing : ' + currentTrack);
     	baseTracks[currentTrack].start();
 			//
 		},dur);
-		*/
+		//
 		console.log(chap_id + ' clicked -- scroll to: ' + locX);
 		//console.log('duration: ' + dur);
 	});
@@ -274,7 +286,7 @@ function initNav(){
 			locX += w/2;
 		//
 		let dur = 2000;
-		let diff = Math.abs(locX - pixi.view.center.x);
+		let diff = Math.abs(locX - mainStage.position.x);
 		if(diff < pixiWidth ){
 			let ratio = diff/pixiWidth;
 			dur = parseInt(2000 * ratio);
@@ -283,14 +295,14 @@ function initNav(){
 		}
 		//
 		navTweenItem.tween(
-		    { position: pixi.view.center },
-		    { position: new pixi.Point(locX, pixi.view.center.y) },
+		    { position: mainStage.position },
+		    { position: new pixi.Point(locX, mainStage.position.y) },
 		    {
 		    	easing: 'easeInOutQuad',
 		    	duration: dur
 		    }
 		).onUpdate = function(event) {
-			pixi.view.center = navTweenItem.position;
+			mainStage.position = navTweenItem.position;
 			//
 			hitNavEffect();
 			//
@@ -314,10 +326,10 @@ function initNav(){
 		console.log('duration: ' + dur);
 	});
 	//
-	navTweenItem = new pixi.Shape.Circle(pixi.view.center, 30);
+	navTweenItem = new pixi.Shape.Circle(mainStage.position, 30);
 	navTweenItem.fill = '#222';
 	navTweenItem.stroke = 'none';
-	navTweenItem.position = pixi.view.center;
+	navTweenItem.position = mainStage.position;
 	//
 	//console.log(navTweenItem);
 }
@@ -327,27 +339,26 @@ function loadNav(){
 	console.log('Loading nav sections');
 	//
 	let navPath = './assets/data/ChapterNavigation.svg';
+
+	$.get(navPath, function( data ) {
+		let svgEl = data.documentElement;
+		let navScene = new SVGScene(svgEl);
+		//
+		navChapters = navScene.content.children[4].children;
+		//
+		let lms = pixiHeight/navScene.height;//mask-scale
+		console.log('Navigation SCALE: ' + lms);
+		navScale = lms;
+		//
+		navScene.scale.set(lms, lms);
+	  navScene.x = (pixiWidth*mainScrollScale*3/4);//Change the sprite's position
+	  navScene.alpha = 0.3;
+		//
+		navLayer.addChild(navScene);
+		//
+		$('.nav').fadeIn()
+  });
 	//
-	let navTexture = new PIXI.Texture.from(navPath);
-	let navSprite = new PIXI.Sprite(navTexture);
-	//
-	let lms = 1;//pixiHeight/navSprite.height;//mask-scale
-	console.log('Navigation SCALE: ' + lms);
-	navSprite.scale.set(lms, lms);
-  navSprite.x = (pixiWidth*mainScrollScale*3/4);//Change the sprite's position
-  navSprite.alpha = 0.03;
-	//
-	navLayer.addChild(navSprite);
-	//
-	/*
-	const blob = new Blob([navPath], {type: 'image/svg+xml'});
-	const url = URL.createObjectURL(blob);
-	const svgResourceTest = new PIXI.resources.SVGResource(navPath);
-	svgResourceTest._load.then(function(res){
-		console.log('Loaded');
-	});
-	console.log(svgResourceTest);
-	*/
 }
 
 function initSVGscroll(_url){
@@ -434,7 +445,7 @@ function initSplash(_width){
 				backgroundLayer.addChild(triangle);
 				//
 		  });
-
+	//
 }
 
 
@@ -476,7 +487,7 @@ function initPanZoom(){
     $.data(this, 'scrollTimer', setTimeout(function() {
         //
         if(currentNavLoc != -1 && (currentTrack != ('base'+currentNavLoc))){
-        	console.log("Changing base track - Haven't scrolled in 250ms!");
+        	console.log('Changing base track - Haven\'t scrolled in 250ms!');
         	currentTrack = 'base' + currentNavLoc;
         	//
         	for(let i=0; i < 7; i++)
@@ -508,7 +519,7 @@ function initPanZoom(){
 		deltaValY = et.deltaY;
 		//
 		mainStage.position = changeCenter(mainStage.position, deltaValX, 0, fac);
-		//navTweenItem.position = pixi.view.center;
+		//navTweenItem.position = mainStage.position;
 		//
 	});
 }
@@ -518,9 +529,10 @@ function initPanZoom(){
  * hitNavEffect
  * ------------------------------------------------
  */
+/*
 function hitNavEffect(){
 	//
-	var hitResult = navLayer.hitTest(pixi.view.center, navHitOptions);
+	var hitResult = navLayer.hitTest(mainStage.position, navHitOptions);
 	if(hitResult != null){
 		let name = hitResult.item.name;
 		//
@@ -540,14 +552,14 @@ function hitNavEffect(){
 					let id = parseInt(ele.attr('data-id'));
 					if(ele.hasClass('selected') ){
 						ele.removeClass('selected');
-						ele.find('img')[0].src = ele.find('img')[0].src.replace("_selected","_default");
+						ele.find('img')[0].src = ele.find('img')[0].src.replace('_selected','_default');
 					}
 					if(id == navLoc){
 						console.log('Updated - ' + navLoc);
 						currentNavLoc = navLoc;
 						ele.addClass('selected');
 						//
-						ele.find('img')[0].src = ele.find('img')[0].src.replace("_default","_selected");
+						ele.find('img')[0].src = ele.find('img')[0].src.replace('_default','_selected');
 					}
 				}
 			}
@@ -566,14 +578,9 @@ function hitNavEffect(){
 				currentTrack = 'intro';
 			}
 		}
-		/*
-		if(name.includes('outro')){
-			$('.nav').fadeOut();
-			currentNavLoc = -1;
-		}
-		*/
 	}
 }
+*/
 
 /**
  * ------------------------------------------------
