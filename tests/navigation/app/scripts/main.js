@@ -8,25 +8,27 @@
 //
 //
 import * as PIXI from 'pixi.js'
+import '@pixi/math-extras'
 import * as Tone from 'tone'
-import { SVGScene } from '@pixi-essentials/svg';
-//
+import { TweenMax, Power4 } from 'gsap'
+import { SVGScene } from '@pixi-essentials/svg'
 window.PIXI = PIXI
 require('pixi-layers')
 //
-let started = false;
 //
 let pixiHeight, pixiWidth;
 let scrollMousePos, scrollPosition;
 let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
+let started = false;
 //
-let scrollType = '150ppi-HIGH';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
+let scrollType = '150ppi-LOW';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 let mainScroll;
 let mainApp;
 let mainStage;
 let navChapters;
+let navScrolledUpdate = true;
 let mainScrollScale;
 let navScale;
 let exploreGroup;
@@ -117,11 +119,6 @@ function init(){
 	//
 	loadAudio();
 	loadHQ();
-
-	/*
-	// Draw PIXI
-	pixi.view.draw();
-	*/
 }
 
 
@@ -214,8 +211,14 @@ function loadHQ(){
 	  });
 }
 
+/**
+ * ------------------------------------------------
+ * Initialize navigation
+ * ------------------------------------------------
+ */
 function initNav(){
 	console.log('Initializing navigation');
+	//
 	$('.jump').click(function(el){
 		let chap_id = parseInt($(el.target.parentElement).attr('data-id'));
 		let current_chapter = $.grep($(navChapters), function(e){ return e.id == 'nav-ch'+chap_id; });
@@ -236,23 +239,32 @@ function initNav(){
 			if(dur < 350)
 				dur = 350;
 		}
-		console.log(diff + ' ' + dur);
-		mainStage.position = new PIXI.Point(locX, mainStage.position.y);
-		/*
-		navTweenItem.tween(
-		    { position: mainStage.position },
-		    { position: new pixi.Point(locX, mainStage.position.y) },
-		    {
-		    	easing: 'easeInOutQuad',
-		    	duration: dur
-		    }
-		).onUpdate = function(event) {
-			mainStage.position = navTweenItem.position;
-			//
-			hitNavEffect();
-			//
-		};
-		*/
+		//
+		TweenMax.to(mainStage.position, dur/1000, {
+			x: locX,
+			ease: Power4.easeInOut
+		})
+		//
+		//
+		let elements = $('.jump');
+		let navLoc = chap_id;
+		for(let i=0; i < elements.length; i++){
+			let ele = $(elements[i]);
+			let id = parseInt(ele.attr('data-id'));
+			if(ele.hasClass('selected') ){
+				ele.removeClass('selected');
+				ele.find('img')[0].src = ele.find('img')[0].src.replace('_selected','_default');
+			}
+			if(id == navLoc){
+				console.log('Updated - ' + navLoc);
+				currentNavLoc = navLoc;
+				ele.addClass('selected');
+				//
+				ele.find('img')[0].src = ele.find('img')[0].src.replace('_default','_selected');
+			}
+		}
+		//
+
 		// Stop all tracks and start target track
 		for(let i=0; i < 7; i++)
   		baseTracks['base'+(i+1)].stop();
@@ -265,76 +277,18 @@ function initNav(){
     	baseTracks[currentTrack].start();
 			//
 		},dur);
-		//
 		console.log(chap_id + ' clicked -- scroll to: ' + locX);
-		//console.log('duration: ' + dur);
+		//
 	});
 	//
 }
 
-/*
-function initNav(){
-	console.log('Initializing navigation');
-	$('.jump').click(function(el){
-		let chap_id = parseInt($(el.target.parentElement).attr('data-id'));
-		let locX = pixi.project.getItem({name: 'nav-ch'+chap_id}).bounds.left;
-		let w = pixi.project.getItem({name: 'nav-ch'+chap_id}).bounds.width;
-		//
-		if(w > pixiWidth)
-			locX += (pixiWidth/2);
-		else
-			locX += w/2;
-		//
-		let dur = 2000;
-		let diff = Math.abs(locX - mainStage.position.x);
-		if(diff < pixiWidth ){
-			let ratio = diff/pixiWidth;
-			dur = parseInt(2000 * ratio);
-			if(dur < 350)
-				dur = 350;
-		}
-		//
-		navTweenItem.tween(
-		    { position: mainStage.position },
-		    { position: new pixi.Point(locX, mainStage.position.y) },
-		    {
-		    	easing: 'easeInOutQuad',
-		    	duration: dur
-		    }
-		).onUpdate = function(event) {
-			mainStage.position = navTweenItem.position;
-			//
-			hitNavEffect();
-			//
-		};
-		//
-		// Stop all tracks and start target track
-		for(let i=0; i < 7; i++)
-  		baseTracks['base'+(i+1)].stop();
-  	//
-		setTimeout(function(){
-			console.log('Completed scroll for - ' + chap_id);
-			console.log("Changing base track...");
-    	currentTrack = 'base' + chap_id;
-    	//
-    	console.log('Now playing : ' + currentTrack);
-    	baseTracks[currentTrack].start();
-			//
-		},dur);
-		//
-		console.log(chap_id + ' clicked -- scroll to: ' + locX);
-		console.log('duration: ' + dur);
-	});
-	//
-	navTweenItem = new pixi.Shape.Circle(mainStage.position, 30);
-	navTweenItem.fill = '#222';
-	navTweenItem.stroke = 'none';
-	navTweenItem.position = mainStage.position;
-	//
-	//console.log(navTweenItem);
-}
-*/
 
+/**
+ * ------------------------------------------------
+ * Load navigation layer
+ * ------------------------------------------------
+ */
 function loadNav(){
 	console.log('Loading nav sections');
 	//
@@ -352,15 +306,83 @@ function loadNav(){
 		//
 		navScene.scale.set(lms, lms);
 	  navScene.x = (pixiWidth*mainScrollScale*3/4);//Change the sprite's position
-	  navScene.alpha = 0.3;
+	  navScene.alpha = 0;
 		//
-		navLayer.addChild(navScene);
+		//navLayer.addChild(navScene); // hitTest not required So, no need to add it to layer
 		//
-		$('.nav').fadeIn()
   });
 	//
 }
 
+/**
+ * ------------------------------------------------
+ * scrollNavEffect
+ * ------------------------------------------------
+ */
+
+function scrollNavEffect(){
+	for(let i=0; i < navChapters.length-1; i++){
+		let this_locX = parseFloat($(navChapters[i]).attr('x'))*navScale;
+		let next_locX = parseFloat($(navChapters[i+1]).attr('x'))*navScale;
+		//
+		if(Math.abs(mainStage.position.x) >  this_locX && Math.abs(mainStage.position.x) < next_locX){
+			let name = navChapters[i].id
+			//
+			if(name.includes('nav-ch')){
+				if(currentNavLoc == -1){
+					$('.nav').fadeIn();
+					//
+					introTrack.stop();
+					currentTrack = 'none';
+				}
+				let navLoc = parseInt(name.replace('nav-ch', ''));
+				if(currentNavLoc != navLoc){
+					console.log('currentNavLoc not same - ' + currentNavLoc + ' '  + navLoc);
+					let elements = $('.jump');
+					for(let i=0; i < elements.length; i++){
+						let ele = $(elements[i]);
+						let id = parseInt(ele.attr('data-id'));
+						if(ele.hasClass('selected') ){
+							ele.removeClass('selected');
+							ele.find('img')[0].src = ele.find('img')[0].src.replace('_selected','_default');
+						}
+						if(id == navLoc){
+							console.log('Updated - ' + navLoc);
+							currentNavLoc = navLoc;
+							ele.addClass('selected');
+							//
+							ele.find('img')[0].src = ele.find('img')[0].src.replace('_default','_selected');
+						}
+					}
+				}
+			}
+			//
+			if(name.includes('intro')){
+				$('.nav').fadeOut();
+				currentNavLoc = -1;
+				//
+				if(currentTrack != 'intro'){
+					//
+					for(let i=0; i < 7; i++)
+						baseTracks['base'+(i+1)].stop();
+	        //
+					introTrack.start();
+					currentTrack = 'intro';
+				}
+			}
+			//
+		}
+		//
+	}
+	navScrolledUpdate = true;
+}
+
+
+/**
+ * ------------------------------------------------
+ * Initialize scroll image(background layer)
+ * ------------------------------------------------
+ */
 function initSVGscroll(_url){
 	//
 	//Create the sprite
@@ -387,7 +409,11 @@ function initSVGscroll(_url){
 	//
 }
 
-
+/**
+ * ------------------------------------------------
+ * Initialize splash image (background layer)
+ * ------------------------------------------------
+ */
 function initSplash(_width){
 	//
 	// SPLASH
@@ -480,9 +506,11 @@ function initPanZoom(){
 	console.log('Initializing pan and zoom interactions');
 	// Main scrolling functionality
 	$('#main-scroll-canvas').on('mousewheel', function(event) {
-		if(!started)
-			return;
-		// check inactivity
+		//
+		if(!started) return; // Wait for start button press
+		//
+		// Check inactivity and then change baseTracks
+		//
 		clearTimeout($.data(this, 'scrollTimer'));
     $.data(this, 'scrollTimer', setTimeout(function() {
         //
@@ -497,7 +525,8 @@ function initPanZoom(){
         	baseTracks[currentTrack].start();
         }
     }, 250));
-
+    //
+		// Prevent multiple events
 		//
 		let et;
 		et = event.originalEvent;
@@ -508,79 +537,22 @@ function initPanZoom(){
 		//
 		//
 		//
-		//hitNavEffect();
+		if(navScrolledUpdate){
+			navScrolledUpdate = false;
+			setTimeout(function(){	scrollNavEffect();	},150);
+		}
 		//
-		//
+		// Change mainStage position with scroll
 		//
 		let fac = 1.005/(mainStage.scale.x*mainStage.scale.y);
-		//
 		let deltaValX, deltaValY;
 		deltaValX = et.deltaY;
 		deltaValY = et.deltaY;
-		//
 		mainStage.position = changeCenter(mainStage.position, deltaValX, 0, fac);
-		//navTweenItem.position = mainStage.position;
+		//
 		//
 	});
 }
-
-/**
- * ------------------------------------------------
- * hitNavEffect
- * ------------------------------------------------
- */
-/*
-function hitNavEffect(){
-	//
-	var hitResult = navLayer.hitTest(mainStage.position, navHitOptions);
-	if(hitResult != null){
-		let name = hitResult.item.name;
-		//
-		if(name.includes('nav-ch')){
-			if(currentNavLoc == -1){
-				$('.nav').fadeIn();
-				//
-				introTrack.stop();
-				currentTrack = 'none';
-			}
-			let navLoc = parseInt(name.replace('nav-ch', ''));
-			if(currentNavLoc != navLoc){
-				//console.log('Not same - ' + currentNavLoc + ' '  + navLoc);
-				let elements = $('.jump');
-				for(let i=0; i < elements.length; i++){
-					let ele = $(elements[i]);
-					let id = parseInt(ele.attr('data-id'));
-					if(ele.hasClass('selected') ){
-						ele.removeClass('selected');
-						ele.find('img')[0].src = ele.find('img')[0].src.replace('_selected','_default');
-					}
-					if(id == navLoc){
-						console.log('Updated - ' + navLoc);
-						currentNavLoc = navLoc;
-						ele.addClass('selected');
-						//
-						ele.find('img')[0].src = ele.find('img')[0].src.replace('_default','_selected');
-					}
-				}
-			}
-		}
-		//
-		if(name.includes('intro')){
-			$('.nav').fadeOut();
-			currentNavLoc = -1;
-			//
-			if(currentTrack != 'intro'){
-				//
-				for(let i=0; i < 7; i++)
-					baseTracks['base'+(i+1)].stop();
-        //
-				introTrack.start();
-				currentTrack = 'intro';
-			}
-		}
-	}
-}
-*/
 
 /**
  * ------------------------------------------------
@@ -590,15 +562,15 @@ function hitNavEffect(){
 function changeCenter(oldCenter, deltaX, deltaY, factor){
   //
   let offset = new PIXI.Point(deltaX, -deltaY);
-  offset = new PIXI.Point(offset.x*factor, -offset.y*factor);
-  oldCenter = new PIXI.Point(oldCenter.x+offset.x, -oldCenter.y+offset.y);
+  offset.multiplyScalar(factor, offset);
+  oldCenter.add(offset, oldCenter);
+  //
+  if(oldCenter.x > 0)
+  	oldCenter.x  = 0;
+  if(oldCenter.x < -1*(scrollWidth + 2*(pixiWidth + pixiWidth*mainScrollScale*3/4)))
+  	oldCenter.x  = -1*(scrollWidth + 2*(pixiWidth + pixiWidth*mainScrollScale*3/4));
+  //
   /*
-  if(oldCenter.x < pixiWidth/2)
-  	oldCenter.x  = pixiWidth/2;
-  if(oldCenter.x > (scrollWidth + pixiWidth/2))
-  	oldCenter.x  = (scrollWidth + pixiWidth/2);
-  //
-  //
 	if((oldCenter.y*window.app.stage.scale.x - pixiHeight/2) <= 0 && deltaY > 0)
   	oldCenter.y = pixiHeight/(2*window.app.stage.scale.x);
   if(oldCenter.y*window.app.stage.scale.x > (-pixiHeight/2 + pixiHeight*window.app.stage.scale.x) && deltaY < 0)
