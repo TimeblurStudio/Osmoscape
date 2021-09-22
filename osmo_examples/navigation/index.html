@@ -14,6 +14,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.32/Tone.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fpsmeter/0.3.1/fpsmeter.min.js" integrity="sha512-60sOFuolHKjKWm4IcltFrnIvq2slKdPjz1i9WzZMzLDaYSUuwhvxg4Ku/eBnFejYJBuHce9hSvcngBSK9pEV1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- stylesheet Links -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -24,7 +25,16 @@
     <!--[if IE]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <p id="status"></p>
+    <p id="status" style="left: 80px; top: -7px;"></p>
+    <div id="performance-stats" style="padding: 5px 5px; font-size: 14px; bottom: 0; position: absolute; background: azure;">
+      <table>
+        <tr style="text-align: left;">
+          <th>Event</th>
+          <th>Elapsed(in ms)</th>
+          <th>Framerate</th>
+        </tr>
+      </table>
+    </div>
     <img id="splash" src="../../assets/images/OsmoSplash.png" alt="Splash image" height="1" style="display: none;">
 
     <? Scroll Images ?>

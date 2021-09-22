@@ -598,6 +598,11 @@ function initPanZoom(){
 		event.preventDefault();
 		//
 		if(navScrolledUpdate){
+			//
+			let scrolling_id = Date.now();
+			if(performance_test)
+				$('#performance-stats table').append('<tr> <td>Start scrolling '+scrolling_id+'</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+			//
 			navScrolledUpdate = false;
 			setTimeout(function(){	scrollNavEffect();	},150);
 			//
@@ -614,12 +619,20 @@ function initPanZoom(){
 	        		baseTracks['base'+(i+1)].stop();
 	        	//
 	        	console.log('Now playing : ' + currentTrack);
-	        	baseTracks[currentTrack].start();
+	        	//
+	        	if(performance_test)
+							$('#performance-stats table').append('<tr> <td>Baselnie change '+scrolling_id+'</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+						//
+						baseTracks[currentTrack].start();
 	        }
 	    }, 250));
 	    //
 			$('#status').text('Scrolling...');
 			$('#status').show();
+			//
+			//
+			if(performance_test)
+				$('#performance-stats table').append('<tr> <td>End scrolling '+scrolling_id+'</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 			//
 			//
 		}
@@ -637,7 +650,7 @@ function initPanZoom(){
 	//
 	if(performance_test)
 		$('#performance-stats table').append('<tr> <td>Init pan-zoom</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
-
+	//
 }
 
 /**
