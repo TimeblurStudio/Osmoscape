@@ -42,7 +42,7 @@ let baseTracks = {};
 let backgroundLayer;
 let navLayer;
 //
-let performance_test = true;
+let performance_test = false;
 //
 //
 // Meter to keep track of FPS
