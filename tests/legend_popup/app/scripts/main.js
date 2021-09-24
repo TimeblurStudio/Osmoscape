@@ -15,6 +15,10 @@ import { SVGScene } from '@pixi-essentials/svg'
 window.PIXI = PIXI
 require('pixi-layers')
 //
+let loaded = {
+	'HQimage' : false,
+	'svgdata': false
+}
 //
 let pixiHeight, pixiWidth;
 let scrollMousePos, scrollPosition;
@@ -41,8 +45,29 @@ let baseTracks = {};
 //
 let backgroundLayer;
 let navLayer;
+let legendLayer;
+let maskLayer;
+//
+let hitPopupMode = 'hovering';//'hovering', 'focused'
+let prevBoundsCenter = null;
+let prevZoom = null;
+let currentFocus = null;
+let popupBBoxes = {};
+let refPopupSize = {
+	width: 1440.0,
+	height: 821.0
+};
+//
+let datasets = {};
+let mergedMasks = {};
+let mergedLegends = {};
+let uploadedLegendFile = [], uploadedMaskFile = [];
+let maskFiles = [], legendFiles = [];
+let earlySVGDataPromises = [], allSVGDataPromises = [];
+//
 //
 let performance_test = false;
+let commitversion = '';
 //
 //
 // Meter to keep track of FPS
@@ -120,12 +145,49 @@ function start(){
 function init(){
 	console.log('init called');
 	//
+	commitversion = $('#commitid').text();
+	console.log('commit version: ' + commitversion);
+	//
+	//
 	$('#status').text('Started');
 	$('#start-btn').on('click', function(){
 		if(performance_test)
 			$('#performance-stats table').append('<tr> <td>Start clicked</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 		start();
 	});
+	//
+	//
+	let dataURL = './assets/data/dataSummary.json' + '?v=' + commitversion;
+	console.log('dataURL: ' + dataURL);
+	$.getJSON(dataURL, function( data ) {
+	  console.log('Loaded datasets summary');
+	  //
+	  let dataWaitInterval = setInterval(function(){
+      if(mainScroll != null && !$.isEmptyObject(mergedMasks) && !$.isEmptyObject(mergedLegends)){
+        clearInterval(dataWaitInterval);
+        datasets = data;
+        loadDatasets();
+      }
+    },1000);
+	  //
+	});
+	//
+	//
+  let masksURL = './assets/data/mergedMasks.json' + '?v=' + commitversion;
+  console.log('mergedMasksURL: ' + masksURL);
+  $.getJSON(masksURL, function( data ) {
+    mergedMasks = data;
+    console.log('Loaded mask files');
+  });
+  //
+  //
+  let legendsURL = './assets/data/mergedLegends.json' + '?v=' + commitversion;
+  console.log('mergedLegendURL: ' + legendsURL);
+  $.getJSON(legendsURL, function( data ) {
+    mergedLegends = data;
+    console.log('Loaded legend files');
+  });
+
 
 	// Setup PIXI canvas
 	let canvas = document.getElementById('main-scroll-canvas');
@@ -165,6 +227,269 @@ function init(){
 	loadAudio();
 	loadHQ();
 }
+
+
+//
+function loadDatasets(){
+	//
+	for (let id in datasets)
+		loadDataset(id, true);
+	//
+	//
+	Promise.all(earlySVGDataPromises).then((values) => {
+		console.log('Processing early datasets...');
+		$('#status').text('Processing early datasets...');
+		setTimeout(function(){
+			//
+			//correctMaskOrder();
+			//
+			console.log('Loaded all datasets');
+		  loaded.svgdata = true;
+	  	//
+	  	if(loaded.HQimage){
+	  		$('#status').text('Loaded');
+	  		setInterval(function(){	$('#status').hide();	},2000);
+	  	}
+	  	else
+	  		$('#status').text('Still loading HQ scroll image...');
+	  	//
+		}, 4000);
+	});
+	//
+}
+
+function loadDataset(id, early=true){
+	if (datasets.hasOwnProperty(id)) {
+      console.log('Loading data for : ' + id);
+      //
+      let mpath = datasets[id].maskpath;
+      if(window.debug){
+	      let pieces = mpath.split('/');
+	      let fname = pieces[pieces.length-1];
+	      pieces[pieces.length-1] = 'Debug';
+	      pieces.push(fname);
+	      mpath = pieces.join('/');
+	    }
+
+	    let morder = datasets[id].order;
+	    if(morder != 'front' && morder != 'back')
+	    	morder = null;
+	    //
+      let maskpromise = maskLoad(mpath, id, morder);
+      let legendpromise = legendLoad(datasets[id].legendpath, id);
+      //
+      if(early){
+      	earlySVGDataPromises.push(maskpromise);
+      	earlySVGDataPromises.push(legendpromise);
+      }else{
+      	allSVGDataPromises.push(maskpromise);
+	      allSVGDataPromises.push(legendpromise);
+      }
+      //
+			//
+      if(datasets[id].hasOwnProperty('popdimensions')){
+      	console.log('Loading dimensions for : ' + id);
+      	//
+      	let dim = datasets[id].popdimensions;
+      	popupBBoxes[id] = {
+      		mask: null,
+      		legend: null,
+	      	paths: [],
+	      	rects: [],
+	      	dimensions: dim
+	      };
+	      //
+	      //
+	      let count = popupBBoxes[id]['dimensions'].length;
+				console.log('boxes: ' + count);
+				/*
+				let s = paperHeight/mainScroll.height;
+		    let rs = (paperHeight/refPopupSize.height);
+				console.log('paper scale ratio: ' + rs);
+				//
+				for(let i=0; i < count; i++){
+					//
+					let _x = parseInt(popupBBoxes[id]['dimensions'][i].x);
+					let _y = parseInt(popupBBoxes[id]['dimensions'][i].y);
+					let _width = parseInt(popupBBoxes[id]['dimensions'][i].width);
+					let _height = parseInt(popupBBoxes[id]['dimensions'][i].height);
+					//
+					_x *= rs; _x += (paperWidth*3/4);
+					_y *= rs;
+					_width *= rs;
+					_height *= rs;
+					//
+					let p1 = new paper.Point(_x, _y);
+					let p2 = new paper.Point(_x+_width, _y+_height);
+					let rectPath = newPopRect(p1,p2);
+					legendLayer.addChild(rectPath);
+					//
+					let arec = new paper.Rectangle(p1,p2);
+					let aprec = new paper.Path.Rectangle(arec);
+					//
+					popupBBoxes[id]['paths'].push(rectPath);
+					popupBBoxes[id]['paths'][i].visible = false;
+					popupBBoxes[id]['rects'].push(aprec);
+					//console.log(popupBBoxes[id]['paths'][i]);
+				}
+				//
+				maskLayer.visible = false;
+				*/
+      }
+      //
+      //
+	}
+}
+
+/*
+function correctMaskOrder(){
+		// bring some masks to front and others back
+		for(let i=0; i<maskLayer.children.length; i++){
+			let child = maskLayer.children[i];
+			//
+			let order = child.data.order;
+			//
+			if(order == 'back')
+				child.sendToBack();
+			if(order == 'front')
+				child.bringToFront();
+			//
+			//
+		}
+}
+
+
+function newPopRect(p1, p2) {
+	// Create pixel perfect dotted rectable for drag selections.
+	var half = new paper.Point(0.5 / paper.view.zoom, 0.5 / paper.view.zoom);
+	var start = p1.add(half);
+	var end = p2.add(half);
+	var rect = new paper.CompoundPath();
+	rect.moveTo(start);
+	rect.lineTo(new paper.Point(start.x, end.y));
+	rect.lineTo(end);
+	rect.moveTo(start);
+	rect.lineTo(new paper.Point(end.x, start.y));
+	rect.lineTo(end);
+	rect.strokeColor = '#009DEC';
+	rect.strokeWidth = 1.0 / paper.view.zoom;
+	rect.dashOffset = 0.5 / paper.view.zoom;
+	rect.dashArray = [1.0 / paper.view.zoom, 1.0 / paper.view.zoom];
+	rect.data.guide = true;
+	rect.selected = false;
+	return rect;
+};
+*/
+
+
+//
+//
+//
+function maskLoad(svgxml, num, order = null){
+	//
+	const mpromise = new Promise((resolve, reject) => {
+		resolve('m'+num);
+		/*
+		paper.project.importSVG(svgxml, function(item){
+			console.log('Loaded '+num+' mask');
+			if(window.debug)
+				$('#status').text('Loaded '+num+' mask-debug');
+			else
+				$('#status').text('Loaded '+num+' mask');
+			//
+			let mask = item;
+			maskFiles.push(mask);
+
+			//console.log(num + '-mask');
+			//console.log(mask);
+			//console.log(popupBBoxes[num]);
+			if(popupBBoxes[num] != undefined){
+				popupBBoxes[num]['mask'] = mask;
+			}
+			//
+			//
+			//
+			mask.data.legendName = 'legend-'+num;
+			mask.data.maskName = 'mask-' + num;
+			mask.name = 'mask-' + num;
+			mask.data.order = order;
+			//
+			if(order == 'back')
+				mask.sendToBack();
+			if(order == 'front')
+				mask.bringToFront();
+			//
+			if(mask.children != undefined)
+				updateChildLegend(mask.children, mask.data.legendName);
+			//
+			//
+			let s = paperHeight/mainScroll.height;
+			let lms = paperHeight/mask.bounds.height;//mask-scale
+			console.log('MAIN SCALE: ' + s);
+			console.log('MASK SCALE: ' + lms);
+			//
+			mask.scale(lms);
+			mask.position = paper.view.center;
+			mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
+			//
+			maskLayer.addChild(mask);
+			//
+			resolve('m'+num);
+		});
+		*/
+	});
+	//
+	//
+	return mpromise;
+}
+
+
+//
+//
+//
+function legendLoad(svgxml, num){
+
+	const lpromise = new Promise((resolve, reject) => {
+		resolve('l'+num);
+		/*
+		paper.project.importSVG(svgxml, function(item){
+			console.log('Loaded '+num+' legend');
+			$('#status').text('Loaded '+num+' legend');
+
+			//
+			let legend = item;
+			legendFiles.push(legend);
+			//console.log(num + '-legend');
+			//console.log(legend);
+			//console.log(popupBBoxes[num]);
+			if(popupBBoxes[num] != undefined){
+				popupBBoxes[num]['legend'] = legend;
+			}
+			//
+			//
+			legend.name = 'legend-'+num;
+			legend.visible = false;
+			//
+			//
+			let s = paperHeight/mainScroll.height;
+			let lms = paperHeight/legend.bounds.height;//mask-scale
+			console.log('LEGEND SCALE: ' + lms);
+			//
+			legend.scale(lms);
+			legend.position = paper.view.center;
+			legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
+			//
+			legendLayer.addChild(legend);
+			//
+			resolve('l'+num);
+		});
+		*/
+	});
+	//
+	return lpromise;
+}
+//
+
 
 
 function loadAudio(){
@@ -243,6 +568,7 @@ function loadHQ(){
 			loadNav();
 			initNav();
 			//
+			loaded.HQimage = true;
 			if(performance_test)
 				$('#performance-stats table').append('<tr> <td>Background Layer ready</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 			if(allTracksCount == 8){
@@ -258,8 +584,8 @@ function loadHQ(){
 	  	}else{
 	  		$('#start-btn').hide();
 	  		let waitTillTracksLoad = setInterval(function(){
-	  			console.log('Total tracks loaded = ' + allTracksCount);
-	  			if(allTracksCount == 8){
+	  			if(allTracksCount == 8 && loaded.HQimage && loaded.svgdata){
+	  				console.log('Total tracks loaded = ' + allTracksCount);
 	  				//
 	  				clearInterval(waitTillTracksLoad);
 	  				$('#status').text('Loaded');
@@ -477,6 +803,10 @@ function initSVGscroll(_url){
 	//Add the scroll to the stage
   backgroundLayer.addChild(scroll_01);
 	backgroundLayer.addChild(scroll_02);
+	mainScroll = {
+		'part1': scroll_01,
+		'part2' : scroll_02
+	};
 	//
 	if(performance_test)
 		$('#performance-stats table').append('<tr> <td>Init 150ppi-images</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
