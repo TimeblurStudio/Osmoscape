@@ -12,9 +12,11 @@ import '@pixi/math-extras'
 import * as Tone from 'tone'
 import { TweenMax, Power4 } from 'gsap'
 import { SVGScene } from '@pixi-essentials/svg'
+import { SVG } from 'pixi-svg';
 window.PIXI = PIXI
 require('pixi-layers')
 //
+window.debug = true;
 let loaded = {
 	'HQimage' : false,
 	'svgdata': false
@@ -69,6 +71,7 @@ let earlySVGDataPromises = [], allSVGDataPromises = [];
 let performance_test = false;
 let commitversion = '';
 //
+window.maskFiles = maskFiles;
 //
 // Meter to keep track of FPS
 window.FPSMeter.theme.transparent.container.transform = 'scale(0.75)';
@@ -215,7 +218,8 @@ function init(){
 	//
 	backgroundLayer = new PIXI.display.Layer();
 	navLayer = new PIXI.display.Layer();
-	mainStage.addChild(backgroundLayer, navLayer);
+	maskLayer = new PIXI.display.Layer();
+	mainStage.addChild(backgroundLayer, navLayer, maskLayer);
 	//
 	if(performance_test)
 		$('#performance-stats table').append('<tr> <td>Pixi setup</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
@@ -261,8 +265,13 @@ function loadDatasets(){
 function loadDataset(id, early=true){
 	if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
+      let maskdata = mergedMasks[id];
+      let legenddata = mergedLegends[id];
       //
       let mpath = datasets[id].maskpath;
+      let lpath = datasets[id].legendpath;
+      let title = datasets[id].title;
+      //
       if(window.debug){
 	      let pieces = mpath.split('/');
 	      let fname = pieces[pieces.length-1];
@@ -270,13 +279,13 @@ function loadDataset(id, early=true){
 	      pieces.push(fname);
 	      mpath = pieces.join('/');
 	    }
-
+	    //
 	    let morder = datasets[id].order;
 	    if(morder != 'front' && morder != 'back')
 	    	morder = null;
 	    //
-      let maskpromise = maskLoad(mpath, id, morder);
-      let legendpromise = legendLoad(datasets[id].legendpath, id);
+      let maskpromise = maskLoad(title, maskdata, mpath, id, morder);
+      let legendpromise = legendLoad(title, legenddata, id);
       //
       if(early){
       	earlySVGDataPromises.push(maskpromise);
@@ -303,8 +312,8 @@ function loadDataset(id, early=true){
 	      let count = popupBBoxes[id]['dimensions'].length;
 				console.log('boxes: ' + count);
 				/*
-				let s = paperHeight/mainScroll.height;
-		    let rs = (paperHeight/refPopupSize.height);
+				let s = pixiHeight/mainScroll.height;
+		    let rs = (pixiHeight/refPopupSize.height);
 				console.log('paper scale ratio: ' + rs);
 				//
 				for(let i=0; i < count; i++){
@@ -381,73 +390,83 @@ function newPopRect(p1, p2) {
 };
 */
 
-
 //
 //
 //
-function maskLoad(svgxml, num, order = null){
+function maskLoad(title, svgxml, svgpath, num, order = null){
 	//
 	const mpromise = new Promise((resolve, reject) => {
-		resolve('m'+num);
-		/*
-		paper.project.importSVG(svgxml, function(item){
-			console.log('Loaded '+num+' mask');
-			if(window.debug)
-				$('#status').text('Loaded '+num+' mask-debug');
-			else
-				$('#status').text('Loaded '+num+' mask');
-			//
-			let mask = item;
-			maskFiles.push(mask);
-
-			//console.log(num + '-mask');
-			//console.log(mask);
-			//console.log(popupBBoxes[num]);
-			if(popupBBoxes[num] != undefined){
-				popupBBoxes[num]['mask'] = mask;
+		let maskTexture = PIXI.Texture.from(svgpath);
+		let maskLoaded = false;
+		maskTexture.on('update', () => {
+			if(!maskLoaded){
+				let mask = new PIXI.Sprite(maskTexture);
+				maskFiles.push(mask);
+				//
+				console.log('Loaded '+num+' mask');
+				if(window.debug)
+					$('#status').text('Loaded '+num+' mask-debug');
+				else
+					$('#status').text('Loaded '+num+' mask');
+				//
+				//
+				if(popupBBoxes[num] != undefined)
+					popupBBoxes[num]['mask'] = mask;
+				//
+				//
+				//
+				if(mask.data == undefined)
+					mask.data = {};
+				mask.data.legendName = 'legend-'+num;
+				mask.data.maskName = 'mask-' + num;
+				mask.name = 'mask-' + num;
+				mask.data.order = order;
+				//
+				//if(order == 'back')
+				//	mask.sendToBack();
+				//if(order == 'front')
+				//	mask.bringToFront();
+				//
+				//if(mask.children != undefined)
+				//	updateChildLegend(mask.children, mask.data.legendName);
+				//
+				//
+				let s = mainScrollScale;
+				let lms = pixiHeight/maskTexture.height;//mask-scale
+				console.log('MAIN SCALE: ' + s);
+				console.log('MASK SCALE: ' + lms);
+				//
+				let offset = 630;
+				mask.scale.set(lms, lms);
+				mask.x = offset ;//+ (pixiWidth*3/4);//Change the sprite's position
+			  //mask.alpha = 0;
+				//
+			  maskLayer.addChild(mask);
 			}
-			//
-			//
-			//
-			mask.data.legendName = 'legend-'+num;
-			mask.data.maskName = 'mask-' + num;
-			mask.name = 'mask-' + num;
-			mask.data.order = order;
-			//
-			if(order == 'back')
-				mask.sendToBack();
-			if(order == 'front')
-				mask.bringToFront();
-			//
-			if(mask.children != undefined)
-				updateChildLegend(mask.children, mask.data.legendName);
-			//
-			//
-			let s = paperHeight/mainScroll.height;
-			let lms = paperHeight/mask.bounds.height;//mask-scale
-			console.log('MAIN SCALE: ' + s);
-			console.log('MASK SCALE: ' + lms);
-			//
-			mask.scale(lms);
-			mask.position = paper.view.center;
-			mask.position.x = (paperWidth*3/4) + (mask.bounds.width/2) + (mainScroll.width*s - mask.bounds.width);
-			//
-			maskLayer.addChild(mask);
-			//
-			resolve('m'+num);
+			maskLoaded = true;
 		});
-		*/
+
+		//
+		resolve('m'+num);
+		//
 	});
 	//
 	//
 	return mpromise;
 }
 
+function measureSVG(svg) {
+	const viewBox = svg.getAttribute('viewBox').split(' ');
+	const width = parseInt(viewBox[2]);
+	const height = parseInt(viewBox[3]);
+	svg.dataset.width = width;
+	svg.dataset.height = height;
+}
 
 //
 //
 //
-function legendLoad(svgxml, num){
+function legendLoad(title, svgxml, num){
 
 	const lpromise = new Promise((resolve, reject) => {
 		resolve('l'+num);
@@ -471,8 +490,8 @@ function legendLoad(svgxml, num){
 			legend.visible = false;
 			//
 			//
-			let s = paperHeight/mainScroll.height;
-			let lms = paperHeight/legend.bounds.height;//mask-scale
+			let s = pixiHeight/mainScroll.height;
+			let lms = pixiHeight/legend.bounds.height;//mask-scale
 			console.log('LEGEND SCALE: ' + lms);
 			//
 			legend.scale(lms);
@@ -793,7 +812,7 @@ function initSVGscroll(_url){
 	scroll_01.scale.set(s, s);
 	scroll_02.scale.set(s, s);
 	//Change the sprite's position
-  scroll_01.x = (pixiWidth*s*3/4);// + (scroll_01.width*s/2);
+  //scroll_01.x = (pixiWidth*s*3/4);// + (scroll_01.width*s/2);
 	scroll_02.x = scroll_01.x + scroll_01.width;
 	//
 	scrollWidth = scroll_01.width*s*2;
