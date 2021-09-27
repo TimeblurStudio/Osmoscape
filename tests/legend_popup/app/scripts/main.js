@@ -12,7 +12,7 @@ import '@pixi/math-extras'
 import * as Tone from 'tone'
 import { TweenMax, Power4 } from 'gsap'
 import { SVGScene } from '@pixi-essentials/svg'
-import { SVG } from 'pixi-svg';
+import { Cull } from '@pixi-essentials/cull'
 window.PIXI = PIXI
 require('pixi-layers')
 //
@@ -208,11 +208,29 @@ function init(){
 	    view: canvas
 	  }
 	);
+	const cull = new Cull({ recursive: true, toggle: 'renderable' });
+	//
 	mainApp = app;
 	mainStage = mainApp.stage = new PIXI.display.Stage();
 	//
 	mainApp.ticker.add(function(delta) {
 		window.meter.tick();
+		//obtain the position of the mouse on the stage
+    let mousePosition = app.renderer.plugins.interaction.mouse.global;
+
+    let hit;
+    if (hit = app.renderer.plugins.interaction.hitTest(mousePosition)) {
+        // hit
+        console.log(hit);
+    }
+    //
+	});
+	// Cull the entire scene graph, starting from the stage
+	cull.add(mainStage);
+	// "prerender" is fired right before the renderer draws the scene
+	mainApp.renderer.on('prerender', () => {
+	    // Cull out all objects that don't intersect with the screen
+	    cull.cull(mainApp.renderer.screen);
 	});
 
 	//
@@ -395,59 +413,160 @@ function newPopRect(p1, p2) {
 //
 function maskLoad(title, svgxml, svgpath, num, order = null){
 	//
+	let skipLoad = false;
 	const mpromise = new Promise((resolve, reject) => {
-		let maskTexture = PIXI.Texture.from(svgpath);
-		let maskLoaded = false;
-		maskTexture.on('update', () => {
-			if(!maskLoaded){
-				let mask = new PIXI.Sprite(maskTexture);
-				maskFiles.push(mask);
-				//
-				console.log('Loaded '+num+' mask');
-				if(window.debug)
-					$('#status').text('Loaded '+num+' mask-debug');
-				else
-					$('#status').text('Loaded '+num+' mask');
-				//
-				//
-				if(popupBBoxes[num] != undefined)
-					popupBBoxes[num]['mask'] = mask;
-				//
-				//
-				//
-				if(mask.data == undefined)
-					mask.data = {};
-				mask.data.legendName = 'legend-'+num;
-				mask.data.maskName = 'mask-' + num;
-				mask.name = 'mask-' + num;
-				mask.data.order = order;
-				//
-				//if(order == 'back')
-				//	mask.sendToBack();
-				//if(order == 'front')
-				//	mask.bringToFront();
-				//
-				//if(mask.children != undefined)
-				//	updateChildLegend(mask.children, mask.data.legendName);
-				//
-				//
-				let s = mainScrollScale;
-				let lms = pixiHeight/maskTexture.height;//mask-scale
-				console.log('MAIN SCALE: ' + s);
-				console.log('MASK SCALE: ' + lms);
-				//
-				let offset = 630;
-				mask.scale.set(lms, lms);
-				mask.x = offset ;//+ (pixiWidth*3/4);//Change the sprite's position
-			  //mask.alpha = 0;
-				//
-			  maskLayer.addChild(mask);
-			}
-			maskLoaded = true;
-		});
-
 		//
-		resolve('m'+num);
+		//
+		if(skipLoad)
+			resolve('m'+num);
+		else{
+			//
+			let svgDOM = new DOMParser().parseFromString(svgxml, 'image/svg+xml');
+			let svgEl = svgDOM.documentElement;
+			let mask = new SVGScene(svgEl);
+			maskFiles.push(mask);
+			//
+			console.log('Loaded '+num+' mask');
+			if(window.debug)
+				$('#status').text('Loaded '+num+' mask-debug');
+			else
+				$('#status').text('Loaded '+num+' mask');
+			//
+			//
+			//
+			//
+			if(mask.data == undefined)
+				mask.data = {};
+			mask.data.legendName = 'legend-'+num;
+			mask.data.maskName = 'mask-' + num;
+			mask.name = 'mask-' + num;
+			mask.data.order = order;
+			//
+			//if(order == 'back')
+			//	mask.sendToBack();
+			//if(order == 'front')
+			//	mask.bringToFront();
+			//
+			//if(mask.children != undefined)
+			//	updateChildLegend(mask.children, mask.data.legendName);
+			//
+			//
+			let s = mainScrollScale;
+			let lms = pixiHeight/mask.height;//mask-scale
+			console.log('MAIN SCALE: ' + s);
+			console.log('MASK SCALE: ' + lms);
+			//
+			//
+			let offset = 625 + (pixiWidth*s*3/4);
+			mask.scale.set(lms, lms);
+			mask.x = offset ;//+ (pixiWidth*3/4);//Change the sprite's position
+		  //mask.alpha = 0.3;
+		  mask.interactive = true;
+			mask.buttonMode = true;
+			//
+			mask._pointerDown = false;
+			mask._pointerDragging = false;
+			//mask._pointerPosition = new Point();
+			mask._pointerMoveTarget = null;
+			mask.on('mousedown', function(){
+				console.log('mask mousedown');
+			}, this);
+			mask.on('mouseup',  function(){
+				console.log('mask mouseup');
+			}, this);
+			mask.on('mouseupoutside',  function(){
+				console.log('mask mouseupoutside');
+			}, this);
+			mask.on('click', function(){
+				console.log('mask click');
+			});
+			mask.on('mouseenter', function(){
+				console.log('mask mouseenter');
+			});
+			mask.on('added', function(){
+				console.log('mask added');
+			});
+			/*
+			maskLayer.on('pointerdown', function(){
+				console.log('Clicked on - ' +num);
+			});
+			*/
+			if(popupBBoxes[num] != undefined){
+				popupBBoxes[num]['mask'] = mask;
+				//
+				let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
+				let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
+				let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
+				let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
+				// Add a hit area..
+				mask.hitArea = new PIXI.Rectangle(_x, _y, _width, _height);
+				//
+				mask.click = function (e) {
+					console.log(this, e);
+					console.log(num);
+				}
+
+			}
+			//
+		  maskLayer.addChild(mask);
+			//
+			//
+			/*
+			// APPROACH - A //
+			let maskTexture = PIXI.Texture.from(svgpath);
+			let maskLoaded = false;
+			maskTexture.on('update', () => {
+				if(!maskLoaded){
+					let mask = new PIXI.Sprite(maskTexture);
+					maskFiles.push(mask);
+					//
+					console.log('Loaded '+num+' mask');
+					if(window.debug)
+						$('#status').text('Loaded '+num+' mask-debug');
+					else
+						$('#status').text('Loaded '+num+' mask');
+					//
+					//
+					if(popupBBoxes[num] != undefined)
+						popupBBoxes[num]['mask'] = mask;
+					//
+					//
+					//
+					if(mask.data == undefined)
+						mask.data = {};
+					mask.data.legendName = 'legend-'+num;
+					mask.data.maskName = 'mask-' + num;
+					mask.name = 'mask-' + num;
+					mask.data.order = order;
+					//
+					//if(order == 'back')
+					//	mask.sendToBack();
+					//if(order == 'front')
+					//	mask.bringToFront();
+					//
+					//if(mask.children != undefined)
+					//	updateChildLegend(mask.children, mask.data.legendName);
+					//
+					//
+					let s = mainScrollScale;
+					let lms = pixiHeight/maskTexture.height;//mask-scale
+					console.log('MAIN SCALE: ' + s);
+					console.log('MASK SCALE: ' + lms);
+					//
+					let offset = 630;
+					mask.scale.set(lms, lms);
+					mask.x = offset ;//+ (pixiWidth*3/4);//Change the sprite's position
+				  //mask.alpha = 0;
+					//
+				  maskLayer.addChild(mask);
+				}
+				maskLoaded = true;
+			});
+			*/
+			resolve('m'+num);
+			//
+		}
+		//
 		//
 	});
 	//
@@ -634,6 +753,9 @@ function initNav(){
 	console.log('Initializing navigation');
 	//
 	$('.jump').click(function(el){
+		if(maskLayer.visible)
+			maskLayer.visible = false;
+		//
 		//
 		let chap_id = parseInt($(el.currentTarget).attr('data-id'));
 		let current_chapter = $.grep($(navChapters), function(e){ return e.id == 'nav-ch'+chap_id; });
@@ -685,6 +807,8 @@ function initNav(){
   		baseTracks['base'+(i+1)].stop();
   	setTimeout(function(){
 			console.log('Completed scroll for - ' + chap_id);
+			maskLayer.visible = true;
+			//
 			console.log('Changing base track...');
     	currentTrack = 'base' + chap_id;
     	//
@@ -812,13 +936,18 @@ function initSVGscroll(_url){
 	scroll_01.scale.set(s, s);
 	scroll_02.scale.set(s, s);
 	//Change the sprite's position
-  //scroll_01.x = (pixiWidth*s*3/4);// + (scroll_01.width*s/2);
+  scroll_01.x = (pixiWidth*s*3/4);// + (scroll_01.width*s/2);
 	scroll_02.x = scroll_01.x + scroll_01.width;
 	//
 	scrollWidth = scroll_01.width*s*2;
 	scrollHeight = pixiHeight;
-	//
-	//
+	/*
+	scroll_01.interactive = true;
+	scroll_01.buttonMode = true;
+	scroll_01.on('pointerdown', function(){
+		console.log('Clicked on scroll_01')
+	});
+	*/
 	//Add the scroll to the stage
   backgroundLayer.addChild(scroll_01);
 	backgroundLayer.addChild(scroll_02);
@@ -946,6 +1075,9 @@ function initPanZoom(){
 		et = event.originalEvent;
 		event.preventDefault();
 		//
+		if(maskLayer.visible)
+			maskLayer.visible = false;
+		//
 		if(navScrolledUpdate){
 			//
 			let scrolling_id = Date.now();
@@ -959,6 +1091,8 @@ function initPanZoom(){
 			//
 			clearTimeout($.data(this, 'scrollTimer'));
 	    $.data(this, 'scrollTimer', setTimeout(function() {
+	        //
+	        maskLayer.visible = true;
 	        //
 	        if(currentNavLoc != -1 && (currentTrack != ('base'+currentNavLoc))){
 	        	console.log('Changing base track - Haven\'t scrolled in 250ms!');

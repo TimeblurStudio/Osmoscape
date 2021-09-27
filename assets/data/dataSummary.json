@@ -1,22 +1,4 @@
 {
-  "0": {
-    "ch": "ch1",
-    "id": "0",
-    "title": "Human DNA",
-    "desc": "Deoxyribonucleic acid (DNA), which contains survival instructions necessary for most life and reproduction, depends on water for its structure. This paired chain of billions of nucleotides relies on the presence of polar water molecules around it to maintain its familiar double helix form. Water ensures that our genetic information is packed tightly together, only to be released for metabolic processes.  As with DNA, water enables the folding process in proteins, attracting and repelling different parts of the linear chain of amino acids to form all proteins. The sound is represented by a sound evoking typing, the pitch and rhythm of which are both determined by a human genetic sequence. In unison with a synthesized interpretation of human chromosome 1, manipulated.",
-    "legendpath": "../../assets/data/legends/0_human_dna_legend-01-Simplified.svg",
-    "maskpath": "../../assets/data/legends/0_human_dna_mask-01-Simplified.svg",
-    "order": "front",
-    "popdimensions": [
-      {
-        "x": 408.8699999999999,
-        "y": 277.5,
-        "width": 883,
-        "height": 503
-      }
-    ],
-    "audiofile": "../../assets/audio/loops/0.mp3"
-  },
   "1": {
     "ch": "ch1",
     "id": "1",
@@ -100,15 +82,6 @@
       }
     ],
     "audiofile": "../../assets/audio/loops/7.mp3"
-  },
-  "8": {
-    "ch": "ch3",
-    "id": "8",
-    "title": "Global sea surface temperature",
-    "desc": "The sea surface temperature is a measure of the energy of the molecules at the ocean surface, that is, the water temperature of the ocean surface. Measuring this helps in understanding the interaction between the sea surface and the layers of atmosphere above it, as it is this interaction that regulates the climate. A global study using satellite data and historical records to show that global sea surface temperatures have shown a steady rise between 1850 and 2018. The increase has been seen after the 1900s, which is the beginning of the industrial era. The ocean is a massive sink of carbon dioxide, which means that it absorbs the carbon dioxide from various sources as well as the heat radiated back to the earth from the greenhouse gases. The sound is represented by recordings of boiling water combined with field recordings of a coral reef.",
-    "legendpath": "../../assets/data/legends/08_global sea surface temp-legend-01 - Simplified.svg",
-    "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg",
-    "audiofile": "../../assets/audio/loops/8.mp3"
   },
   "9": {
     "ch": "ch3",
@@ -614,24 +587,6 @@
     ],
     "audiofile": "../../assets/audio/loops/53.mp3"
   },
-  "54": {
-    "ch": "ch6",
-    "id": "54",
-    "title": "Plastic bottled water",
-    "desc": "A study by researchers at the State University of New York in 2018 tested bottled water samples for the presence of microplastic. It involved 11 bottled water brands (Aqua, Aquafina, Bisleri, Dasani, E-Pura, Evian, Gerolsteiner, Minalba, Nestle Pure Life, San Pellegrino, and Wahaha) across nine countries [China, USA, Brazil, India, Indonesia, Mexico, Lebanon, Germany, and Thailand] countries. The data was then analyzed for the presence of microplastics and it was found that 93% of the samples tested had some form of microplastic contamination. The sound is represented by a recording of plastic water bottles which leave traces of microscopic plastics in water.",
-    "legendpath": "../../assets/data/legends/54_ Platic bottled water_legend-01.svg",
-    "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01-simplified.svg",
-    "order": "front",
-    "popdimensions": [
-      {
-        "x": 9879.752386451104,
-        "y": 453.5,
-        "width": 961,
-        "height": 353
-      }
-    ],
-    "audiofile": "../../assets/audio/loops/54.mp3"
-  },
   "55": {
     "ch": "ch6",
     "id": "55",
@@ -692,42 +647,6 @@
       }
     ],
     "audiofile": "../../assets/audio/loops/63.mp3"
-  },
-  "64": {
-    "ch": "ch7",
-    "id": "64",
-    "title": "Plankton",
-    "desc": "64 description",
-    "legendpath": "../../assets/data/legends/64_plankton_legend-01.svg",
-    "maskpath": "../../assets/data/legends/64_plankton_mask-01.svg",
-    "order": "front",
-    "popdimensions": [
-      {
-        "x": 10874.752386451117,
-        "y": 60.5,
-        "width": 774,
-        "height": 717
-      }
-    ],
-    "audiofile": "../../assets/audio/loops/63.mp3"
-  },
-  "-1": {
-    "ch": "ch1",
-    "id": "-1",
-    "title": "Water structure",
-    "desc": "Water bends, gyrates, vibrates, elongates, shortens, pulls and pushes. Nearly impossible to pin down, the structure of the water molecule has been hotly debated for decades. And structure is everything; it dictates the physics, therefore the chemistry, therefore the biology, therefore life as we know it. A molecule of water, the smallest unit it can be broken down to, has two atoms of hydrogen and one of oxygen. It is the way the oxygen and hydrogen atoms interact that makes water unique. The sound is represented by a synthesized representation of water. Two synthesizers, one representing Oxygen and one Hydrogen, play a series of notes derived from the number of electrons in the shell of each element (1 for O and 2,6 for H). ",
-    "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified.svg",
-    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
-    "order": "back",
-    "popdimensions": [
-      {
-        "x": 332.8699999999999,
-        "y": 343.5,
-        "width": 1277,
-        "height": 470
-      }
-    ],
-    "audiofile": "../../assets/audio/loops/-1.mp3"
   },
   "48a": {
     "id": "48a",
