@@ -9,12 +9,12 @@
  */
 
 let chapter_names = {
-  'ch1': '1. Water in space', 
-  'ch2': '2. Water and Planet', 
-  'ch3': '3. Water and Atmospheric systems', 
-  'ch4': '4. Water and Glacier', 
-  'ch5': '5. Water and Industrial agriculture', 
-  'ch6': '6. Water and River', 
+  'ch1': '1. Water in space',
+  'ch2': '2. Water and Planet',
+  'ch3': '3. Water and Atmospheric systems',
+  'ch4': '4. Water and Glacier',
+  'ch5': '5. Water and Industrial agriculture',
+  'ch6': '6. Water and River',
   'ch7': '7. Water and Ocean'
 };
 
@@ -237,7 +237,7 @@ osmo.navigationInteraction = class {
             let id = parseInt(ele.attr('data-id'));
             if(ele.hasClass('selected') ){
               ele.removeClass('selected');
-              ele[0].firsthild.src = ele[0].firstChild.src.replace('_selected','_default');
+              ele[0].firstChild.src = ele[0].firstChild.src.replace('_selected','_default');
             }
             if(id == navLoc){
               console.log('Updated - ' + navLoc);
@@ -251,7 +251,7 @@ osmo.navigationInteraction = class {
               }
               this.currentNavLoc = navLoc;
               ele.addClass('selected');
-        
+
               ele[0].firstChild.src = ele[0].firstChild.src.replace('_default','_selected');
             }
           }
