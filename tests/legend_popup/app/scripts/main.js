@@ -70,6 +70,7 @@ let performance_test = false;
 let commitversion = '';
 //
 window.maskFiles = maskFiles;
+window.popupBBoxes = popupBBoxes;
 //
 // Meter to keep track of FPS
 window.FPSMeter.theme.transparent.container.transform = 'scale(0.75)';
@@ -271,41 +272,17 @@ function init(){
 			if(legendFiles[i].visible)
 				legendFiles[i].visible = false;
 		//
-		/*
-		let fac = 1.005/(mainStage.scale.x*mainStage.scale.y);
-		let currentCenter = paper.view.center;
+		let fac = 1;//1.005/(mainStage.scale.x*mainStage.scale.y);
 		let newCenter = prevBoundsCenter;
 		let zoomFac = prevZoom;
-		*/
-		//let zoomFac = 1;
-		/*
-		if(popupBBoxes.hasOwnProperty(currentFocus)){
-			//
-			let count = popupBBoxes[currentFocus]['paths'].length;
-			console.log(count);
-			for(let i=0; i < count; i++){
-				popupBBoxes[currentFocus]['paths'][i].selected = false;
-				popupBBoxes[currentFocus]['paths'][i].visible = false;
-				console.log(popupBBoxes[currentFocus]['paths'][i]);
-			}
-			//
-			//zoomFac = fac * 0.85 * paperWidth / (1.0 * popupBBoxes[currentFocus]['paths'][0].bounds.width);
-			console.log('Decide zoom');
-			console.log(zoomFac);
-		}
-		*/
-		/*
+		let deltaValX = newCenter.x - mainStage.position.x;
+		let deltaValY = -(newCenter.y - mainStage.position.y);
+		//
+		//mainStage.scale.x = mainStage.scale.y = changeZoom(mainStage.scale.x, -1, zoomFac, false);
+		mainStage.position = changeCenter(mainStage.position, deltaValX, deltaValY, fac);
+		//
 		currentFocus = null;
 		hitPopupMode = 'hovering';
-		//mousePos = new paper.Point(0,0);
-		//hitMaskEffect(mousePos, 'exit');
-		//
-		let deltaValX = newCenter.x - currentCenter.x;
-		let deltaValY = newCenter.y - currentCenter.y;
-		//
-		mainStage.scale.x = mainStage.scale.y = changeZoom(mainStage.scale.x, 1, zoomFac, false);
-		mainStage.position = changeCenter(mainStage.position, deltaValX, deltaValY, fac);
-		*/
 	});
 	//
 }
@@ -378,39 +355,13 @@ function loadDataset(id, early=true){
 	      let count = popupBBoxes[id]['dimensions'].length;
 				console.log('boxes: ' + count);
 				//
-				/*
-				let s = pixiHeight/mainScroll.height;
+				let s = mainScrollScale;
 		    let rs = (pixiHeight/refPopupSize.height);
-				console.log('paper scale ratio: ' + rs);
+				console.log('pixi scale ratio: ' + rs);
 				//
-				for(let i=0; i < count; i++){
-					//
-					let _x = parseInt(popupBBoxes[id]['dimensions'][i].x);
-					let _y = parseInt(popupBBoxes[id]['dimensions'][i].y);
-					let _width = parseInt(popupBBoxes[id]['dimensions'][i].width);
-					let _height = parseInt(popupBBoxes[id]['dimensions'][i].height);
-					//
-					_x *= rs; _x += (paperWidth*3/4);
-					_y *= rs;
-					_width *= rs;
-					_height *= rs;
-					//
-					let p1 = new paper.Point(_x, _y);
-					let p2 = new paper.Point(_x+_width, _y+_height);
-					let rectPath = newPopRect(p1,p2);
-					legendContainer.addChild(rectPath);
-					//
-					let arec = new paper.Rectangle(p1,p2);
-					let aprec = new paper.Path.Rectangle(arec);
-					//
-					popupBBoxes[id]['paths'].push(rectPath);
-					popupBBoxes[id]['paths'][i].visible = false;
-					popupBBoxes[id]['rects'].push(aprec);
-					//console.log(popupBBoxes[id]['paths'][i]);
-				}
 				//
 				maskContainer.visible = false;
-				*/
+				//
       }
       //
 	    //
@@ -805,11 +756,11 @@ function loadHQ(){
 								//
 								let graphics = new PIXI.Graphics();
 								//graphics.beginFill(0xFFFF00);
-								// set the line style to have a width of 5 and set the color to red
 								graphics.lineStyle(1, 0xFF0000);
-								// draw a rectangle
 								graphics.drawRect(_x, _y, _width, _height);
+								//
 								maskContainer.addChild(graphics);
+								popupBBoxes[num]['paths'].push(graphics);
 								//
 							}
 							//
@@ -863,31 +814,32 @@ function showLegend(index, number){
 	let legend = legendFiles[index];
 	legend.visible = true;
 	//
-	/*
+	//
 	if(popupBBoxes.hasOwnProperty(currentFocus)){
+		/*
 		let count = popupBBoxes[currentFocus]['paths'].length;
 		for(let i=0; i < count; i++){
 			popupBBoxes[currentFocus]['paths'][i].visible = false;// true to show rect box
 			popupBBoxes[currentFocus]['paths'][i].selected = false;
 		}
-		//
+		*/
 		// Zoom into selected area!
-		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
-		let currentViewCenter = paper.view.bounds.center;
-		let newViewCenter = popupBBoxes[currentFocus]['paths'][0].bounds.center;
-		let zoomFac = fac * 0.5 * paperWidth / (1.0 * popupBBoxes[currentFocus]['paths'][0].bounds.width);
-		let deltaValX = newViewCenter.x - currentViewCenter.x + 250.0/zoomFac;
-		let deltaValY = -(newViewCenter.y - currentViewCenter.y);
+		let fac = 1;//1.005/(mainStage.scale.x*mainStage.scale.y);
+		var path_bounds = popupBBoxes[currentFocus]['paths'][0].getBounds();
+		var newViewCenter = new PIXI.Point(path_bounds.x + path_bounds.width / 2, path_bounds.y + path_bounds.height / 2);
+		let zoomFac = fac * 0.5 * pixiWidth / (1.0 * path_bounds.width);
+		let deltaValX = newViewCenter.x/2;
+		let deltaValY = -newViewCenter.y/2;
 		//
-		prevBoundsCenter = new paper.Point(paper.view.center.x, paper.view.center.y);
-		paper.view.center = changeCenter(paper.view.center, deltaValX, deltaValY, fac, false);
-		//
+		prevBoundsCenter = new PIXI.Point(mainStage.position.x, mainStage.position.y);
+		mainStage.position = changeCenter(mainStage.position, deltaValX, deltaValY, fac, false);
 		//
 		prevZoom = zoomFac;
-		paper.view.zoom = changeZoom(paper.view.zoom, -1, zoomFac, false);
+		//mainStage.scale.x = mainStage.scale.y = changeZoom(mainStage.scale.x, -1, zoomFac, false);
+		//
 	}
 	//
-	*/
+	//
 	$('body').css('background-color',  '#6d7c80'); //
 }
 
@@ -1232,8 +1184,10 @@ function initPanZoom(){
 			if(performance_test)
 				$('#performance-stats table').append('<tr> <td>Start scrolling '+scrolling_id+'</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 			//
-			navScrolledUpdate = false;
-			setTimeout(function(){	scrollNavEffect();	},150);
+			if(hitPopupMode != 'focused'){
+				navScrolledUpdate = false;
+				setTimeout(function(){	scrollNavEffect();	},150);
+			}
 			//
 			// Check inactivity and then change baseTracks
 			//
@@ -1246,8 +1200,8 @@ function initPanZoom(){
 
 						Object.keys(popupBBoxes).forEach(function(key) {
 							/*
-							let xMin = paper.view.center.x - paperWidth/2.0;
-							let xMax = paper.view.center.x + paperWidth/2.0;
+							let xMin = paper.view.center.x - pixiWidth/2.0;
+							let xMax = paper.view.center.x + pixiWidth/2.0;
 							//
 							//
 							if(popupBBoxes[key]['mask'].bounds.rightCenter.x > xMin && popupBBoxes[key]['mask'].bounds.leftCenter.x < xMax)
