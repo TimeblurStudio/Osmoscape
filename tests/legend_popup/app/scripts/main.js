@@ -114,7 +114,7 @@ function start(){
 	if(performance_test){
 		$('#performance-stats table').append('<tr> <td>Started</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 		$('.nav').show();
-		let nav_children = $('.nav').children()
+		let nav_children = $('.nav').children();
 		//
 		let _clicks = 0;
 		let max_clicks = 10;
@@ -227,8 +227,14 @@ function init(){
 
 	backgroundContainer = new PIXI.Container();
 	navContainer = new PIXI.Container();
+	legendContainer = new PIXI.Container();
 	maskContainer = new PIXI.Container();
-	mainStage.addChild(backgroundContainer, navContainer, maskContainer);
+	//
+	navContainer.visible = false;
+	legendContainer.visible = false;
+	//
+	mainStage.addChild(backgroundContainer, navContainer, legendContainer, maskContainer);
+	//
 
 	//
 	//
@@ -241,6 +247,67 @@ function init(){
 	//
 	loadAudio();
 	loadHQ();
+
+
+	//
+	//
+	//
+	//
+	$('#popcancel').click(function(){
+		$('#focused-cta').hide();
+		//
+		$('#focused-info').animate({ right:'-500px'}, 600);
+		//$('#focused-info').hide();
+		$('.nav').show();
+		$('body').css('background-color',  '#b5ced5');
+		//
+		document.body.style.cursor = 'default';
+		//
+		//
+		backgroundContainer.visible = true;
+		maskContainer.visible = true;
+		legendContainer.visible = false;
+		for(let i=0; i<legendFiles; i++)
+			if(legendFiles[i].visible)
+				legendFiles[i].visible = false;
+		//
+		/*
+		let fac = 1.005/(mainStage.scale.x*mainStage.scale.y);
+		let currentCenter = paper.view.center;
+		let newCenter = prevBoundsCenter;
+		let zoomFac = prevZoom;
+		*/
+		//let zoomFac = 1;
+		/*
+		if(popupBBoxes.hasOwnProperty(currentFocus)){
+			//
+			let count = popupBBoxes[currentFocus]['paths'].length;
+			console.log(count);
+			for(let i=0; i < count; i++){
+				popupBBoxes[currentFocus]['paths'][i].selected = false;
+				popupBBoxes[currentFocus]['paths'][i].visible = false;
+				console.log(popupBBoxes[currentFocus]['paths'][i]);
+			}
+			//
+			//zoomFac = fac * 0.85 * paperWidth / (1.0 * popupBBoxes[currentFocus]['paths'][0].bounds.width);
+			console.log('Decide zoom');
+			console.log(zoomFac);
+		}
+		*/
+		/*
+		currentFocus = null;
+		hitPopupMode = 'hovering';
+		//mousePos = new paper.Point(0,0);
+		//hitMaskEffect(mousePos, 'exit');
+		//
+		let deltaValX = newCenter.x - currentCenter.x;
+		let deltaValY = newCenter.y - currentCenter.y;
+		//
+		mainStage.scale.x = mainStage.scale.y = changeZoom(mainStage.scale.x, 1, zoomFac, false);
+		mainStage.position = changeCenter(mainStage.position, deltaValX, deltaValY, fac);
+		*/
+	});
+	//
 }
 
 
@@ -348,7 +415,7 @@ function loadDataset(id, early=true){
       //
 	    //
       let maskpromise = maskLoad(title, maskdata, mpath, id, morder);
-      let legendpromise = legendLoad(title, legenddata, id);
+      let legendpromise = legendLoad(title, legenddata, lpath, id);
       //
       if(early){
       	earlySVGDataPromises.push(maskpromise);
@@ -536,6 +603,70 @@ function maskLoad(title, svgxml, svgpath, num, order = null){
 	return mpromise;
 }
 
+//
+//
+//
+function legendLoad(title, svgxml, svgpath, num){
+
+	let skipLoad = false;
+	const lpromise = new Promise((resolve, reject) => {
+		if(skipLoad)
+			resolve('m'+num);
+		else{
+			//
+			// APPROACH - A //
+			let legendTexture = PIXI.Texture.from(svgpath);
+			let legendLoaded = false;
+			legendTexture.on('update', () => {
+				if(!legendLoaded){
+					let legend = new PIXI.Sprite(legendTexture);
+					legendFiles.push(legend);
+					//
+					console.log('Loaded '+num+' legend');
+					$('#status').text('Loaded '+num+' legend');
+					//
+					console.log('Loaded '+num+' legend');
+					$('#status').text('Loaded '+num+' legend');
+					//
+					//
+					if(popupBBoxes[num] != undefined)
+						popupBBoxes[num]['legend'] = legend;
+					//
+					//
+					//
+					if(legend.data == undefined)
+						legend.data = {};
+					legend.data.legendName = 'legend-'+num;
+					legend.data.maskName = 'mask-' + num;
+					legend.name = 'legend-' + num;
+					legend.visible = false;
+					//
+					//
+					//
+					//
+					let s = mainScrollScale;
+					let lms = pixiHeight/legendTexture.height;
+					console.log('MAIN SCALE: ' + s);
+					console.log('LEGEND SCALE: ' + lms);
+					//
+					let offset = 200;
+					legend.scale.set(lms, lms);
+					legend.x = offset + (pixiWidth*3/4);
+				  //
+				  legendContainer.addChild(legend);
+				  resolve('l'+num);
+				}
+				legendLoaded = true;
+			});
+			//
+		}
+	});
+	//
+	return lpromise;
+}
+//
+
+
 function measureSVG(svg) {
 	const viewBox = svg.getAttribute('viewBox').split(' ');
 	const width = parseInt(viewBox[2]);
@@ -543,52 +674,6 @@ function measureSVG(svg) {
 	svg.dataset.width = width;
 	svg.dataset.height = height;
 }
-
-//
-//
-//
-function legendLoad(title, svgxml, num){
-
-	const lpromise = new Promise((resolve, reject) => {
-		resolve('l'+num);
-		/*
-		paper.project.importSVG(svgxml, function(item){
-			console.log('Loaded '+num+' legend');
-			$('#status').text('Loaded '+num+' legend');
-
-			//
-			let legend = item;
-			legendFiles.push(legend);
-			//console.log(num + '-legend');
-			//console.log(legend);
-			//console.log(popupBBoxes[num]);
-			if(popupBBoxes[num] != undefined){
-				popupBBoxes[num]['legend'] = legend;
-			}
-			//
-			//
-			legend.name = 'legend-'+num;
-			legend.visible = false;
-			//
-			//
-			let s = pixiHeight/mainScroll.height;
-			let lms = pixiHeight/legend.bounds.height;//mask-scale
-			console.log('LEGEND SCALE: ' + lms);
-			//
-			legend.scale(lms);
-			legend.position = paper.view.center;
-			legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
-			//
-			legendContainer.addChild(legend);
-			//
-			resolve('l'+num);
-		});
-		*/
-	});
-	//
-	return lpromise;
-}
-//
 
 
 
@@ -712,7 +797,10 @@ function loadHQ(){
 								console.log(num + ': ' + _x + ' ' + _y + ' ' + _width + ' ' + _height )
 								maskFiles[i].hitArea = new PIXI.Rectangle(_x - 625 - offset, _y, _width/maskFiles[i].scale.x, _height/maskFiles[i].scale.y);
 								maskFiles[i].on('pointerdown', function(){
+								  //
 								  console.log('Clicked inside hitArea for mask-'+num);
+								  showLegend(i, num);
+								  //
 								});
 								//
 								let graphics = new PIXI.Graphics();
@@ -746,6 +834,61 @@ function loadHQ(){
 	  	//backgroundContainer.sendToBack();
 			//
 	  });
+}
+
+function showLegend(index, number){
+	console.log('Opening legend ' + number);
+	//
+	$('#status').text('Showing: legend-' + number);
+	$('#status').show();
+	//
+	$('#focused-info').animate({ right:'0px'}, 1200);
+	$('.nav').hide();
+	//
+	hitPopupMode = 'focused';
+	maskContainer.visible = false;
+	backgroundContainer.visible = false;
+	legendContainer.visible = true;
+	//
+	currentFocus = number;
+	console.log('Focused on: ' + currentFocus );
+	//
+	//
+	$('#focused-heading').text(datasets[currentFocus].title);
+	$('#focused-description').text(datasets[currentFocus].desc);
+	//
+	$('#focused-cta').show();
+	$('#focused-info').show();
+	//
+	let legend = legendFiles[index];
+	legend.visible = true;
+	//
+	/*
+	if(popupBBoxes.hasOwnProperty(currentFocus)){
+		let count = popupBBoxes[currentFocus]['paths'].length;
+		for(let i=0; i < count; i++){
+			popupBBoxes[currentFocus]['paths'][i].visible = false;// true to show rect box
+			popupBBoxes[currentFocus]['paths'][i].selected = false;
+		}
+		//
+		// Zoom into selected area!
+		let fac = 1.005/(paper.view.zoom*paper.view.zoom);
+		let currentViewCenter = paper.view.bounds.center;
+		let newViewCenter = popupBBoxes[currentFocus]['paths'][0].bounds.center;
+		let zoomFac = fac * 0.5 * paperWidth / (1.0 * popupBBoxes[currentFocus]['paths'][0].bounds.width);
+		let deltaValX = newViewCenter.x - currentViewCenter.x + 250.0/zoomFac;
+		let deltaValY = -(newViewCenter.y - currentViewCenter.y);
+		//
+		prevBoundsCenter = new paper.Point(paper.view.center.x, paper.view.center.y);
+		paper.view.center = changeCenter(paper.view.center, deltaValX, deltaValY, fac, false);
+		//
+		//
+		prevZoom = zoomFac;
+		paper.view.zoom = changeZoom(paper.view.zoom, -1, zoomFac, false);
+	}
+	//
+	*/
+	$('body').css('background-color',  '#6d7c80'); //
 }
 
 /**
@@ -1096,8 +1239,26 @@ function initPanZoom(){
 			//
 			clearTimeout($.data(this, 'scrollTimer'));
 	    $.data(this, 'scrollTimer', setTimeout(function() {
-	        //
-	        maskContainer.visible = true;
+
+	    		//
+	    		if(hitPopupMode != 'focused'){
+						maskContainer.visible = true;
+
+						Object.keys(popupBBoxes).forEach(function(key) {
+							/*
+							let xMin = paper.view.center.x - paperWidth/2.0;
+							let xMax = paper.view.center.x + paperWidth/2.0;
+							//
+							//
+							if(popupBBoxes[key]['mask'].bounds.rightCenter.x > xMin && popupBBoxes[key]['mask'].bounds.leftCenter.x < xMax)
+								popupBBoxes[key]['mask'].visible = true;
+							*/
+						});
+						//
+						//hitMaskEffect(event.point, 'hover');
+						//
+
+	        }
 	        //
 	        if(currentNavLoc != -1 && (currentTrack != ('base'+currentNavLoc))){
 	        	console.log('Changing base track - Haven\'t scrolled in 250ms!');

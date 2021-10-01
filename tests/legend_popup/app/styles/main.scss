@@ -32,6 +32,56 @@ canvas[resize] {
 }
 
 
+#focused-info{
+  position: fixed;
+  bottom: 0;
+  right: -500px;
+  width: 500px;
+  height: 100%;
+  background-color: #6d7c80;
+  cursor: default;
+}
+
+.focused-content {
+  padding: 100px 40px;
+  color: #f8f9fa;
+  font-size: 21px;
+}
+
+.focused-content a {
+  color: #f8f9fa !important;
+}
+
+#focused-cta{
+  position: fixed;
+  bottom: 50px;
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.btn-ultra-light{
+  color: #212529;
+  background-color: #f8f9fa33;
+  border-color: #f8f9fa;
+}
+
+.btn-round-bright{
+  color: #212529 !important;
+  background-color: #f8f9fa !important;
+  border-color: #f8f9fa !important;
+  border-radius: 32px !important;
+  width: 64px !important;
+  cursor: pointer;
+}
+
+
+.btn-light{
+  color: #212529;
+  background-color: #f8f9fa;
+  border-color: #a8a9aa;
+}
+
 
 .btn-filled{
   cursor: pointer;
