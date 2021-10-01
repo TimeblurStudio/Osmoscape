@@ -15,7 +15,7 @@
         "height": 503
       }
     ],
-    "audiofile": "../../assets/audio/loops/0.mp3"
+    "audiofile": "../../assets/audio/loops/0 rev2.mp3"
   },
   "1": {
     "ch": "ch1",
@@ -38,7 +38,7 @@
         "height": 492
       }
     ],
-    "audiofile": "../../assets/audio/loops/1.mp3"
+    "audiofile": "../../assets/audio/loops/1 rev1.mp3"
   },
   "4": {
     "ch": "ch2",
@@ -72,7 +72,7 @@
         "height": 418
       }
     ],
-    "audiofile": "../../assets/audio/loops/5.mp3"
+    "audiofile": "../../assets/audio/loops/5 rev1.mp3"
   },
   "6": {
     "ch": "ch2",
@@ -82,7 +82,7 @@
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
     "order": "front",
-    "audiofile": "../../assets/audio/loops/6.mp3"
+    "audiofile": "../../assets/audio/loops/6 rev1.mp3"
   },
   "7": {
     "ch": "ch3",
@@ -99,7 +99,7 @@
         "height": 563
       }
     ],
-    "audiofile": "../../assets/audio/loops/7.mp3"
+    "audiofile": "../../assets/audio/loops/7 rev1.mp3"
   },
   "8": {
     "ch": "ch3",
@@ -126,7 +126,7 @@
         "height": 618
       }
     ],
-    "audiofile": "../../assets/audio/loops/9.mp3"
+    "audiofile": "../../assets/audio/loops/9 rev1.mp3"
   },
   "11": {
     "ch": "ch3",
@@ -273,7 +273,7 @@
         "height": 760
       }
     ],
-    "audiofile": "../../assets/audio/loops/21.mp3"
+    "audiofile": "../../assets/audio/loops/21 rev1.mp3"
   },
   "23": {
     "ch": "ch5",
@@ -282,7 +282,7 @@
     "desc": "Marathwada has traditionally been known to be a drought-prone region in the Indian state of Maharashtra in west India, with a low groundwater supply. 74 percent of the land in Marathwada is under agricultural use.The area has basaltic rock with low water holding capacity. The amount of rainfall received, the topography of the land and the type of rocks all determine the availability of groundwater in a region. A study by the government of Maharashtra draws comparison of the change in groundwater levels in eight different districts of Marathwada from 2012 to 2015. All districts show a varying degree of decline in groundwater level. The sound is a field recording of a farmer picking rocks from their barren soil, combined with a recording of a creaking cupboard, and re-sampled to evoke the cracking of desiccated farmland.",
     "legendpath": "../../assets/data/legends/23 Marathawada drought Groundwater_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg",
-    "audiofile": "../../assets/audio/loops/23.mp3"
+    "audiofile": "../../assets/audio/loops/23 v2.mp3"
   },
   "24": {
     "ch": "ch5",
@@ -309,7 +309,7 @@
     "desc": "A case study talks about the impact of droughts in various parts of India and delves into its social and economic implications. It analyses drought patterns in India for almost a century from 1877-1979. India faced its most severe drought in 1877 where about 28 percent of the area was affected by severe rainfall deficiency. Records state that almost five million people died because of the 1876-77 famine. India didn’t have any severe droughts between the years 1941 and 1968 with small areas being affected by severe drought in the years that followed up to 1979. The sound is represented by a recording of the arrival of a water tanker in Maharashtra, sampled and manipulated to sound like a diesel engine as heard from inside a water tank.",
     "legendpath": "../../assets/data/legends/25  Droughts in India_legend-01.svg",
     "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg",
-    "audiofile": "../../assets/audio/loops/25.mp3"
+    "audiofile": "../../assets/audio/loops/25 rev1.mp3"
   },
   "28": {
     "ch": "ch5",
@@ -397,7 +397,7 @@
         "height": 394
       }
     ],
-    "audiofile": "../../assets/audio/loops/33.mp3"
+    "audiofile": "../../assets/audio/loops/33 rev1.mp3"
   },
   "35": {
     "ch": "ch5",
@@ -465,7 +465,7 @@
         "height": 196
       }
     ],
-    "audiofile": "../../assets/audio/loops/40.mp3"
+    "audiofile": "../../assets/audio/loops/40 Rev1.mp3"
   },
   "41": {
     "ch": "ch6",

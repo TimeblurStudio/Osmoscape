@@ -1,6 +1,6 @@
 {
-  "version": "0.8.10",
-  "commit": "e7d3692",
+  "version": "0.8.12",
+  "commit": "20a6809",
   "description": "Webapp for Osmoscape",
   "main": "index.js",
   "author": "Mike Cj <mike@timeblur.io>",
