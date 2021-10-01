@@ -1,9 +1,13 @@
-// generated on 2021-10-01 using generator-webapp 4.0.0-8
+// generated on 2021-09-11 using generator-webapp 4.0.0-8
 const { src, dest, watch, series, parallel, lastRun } = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const browserSync = require('browser-sync');
 const del = require('del');
 const autoprefixer = require('autoprefixer');
+const browserify = require('browserify');
+const babel = require('babelify');
+const vinylsource = require('vinyl-source-stream');
+const vinylbuffer = require('vinyl-buffer');
 const cssnano = require('cssnano');
 const { argv } = require('yargs');
 
@@ -36,14 +40,21 @@ function styles() {
 };
 
 function scripts() {
-  return src('app/scripts/**/*.js', {
-    sourcemaps: !isProd,
-  })
-    .pipe($.plumber())
-    .pipe($.babel())
-    .pipe(dest('.tmp/scripts', {
-      sourcemaps: !isProd ? '.' : false,
-    }))
+  var browserifyjs = {
+    in: './app/scripts/main.js',
+    outdir: !isProd ? '.tmp/scripts' : 'dist/scripts',
+    out: 'main.js',
+    jsOpts: { debug: false }
+  };
+
+  return browserify(browserifyjs.jsOpts)
+    .transform(babel, { presets: ['@babel/preset-env']})
+    .require(browserifyjs.in, { entry: true })
+    .bundle()
+    .on('error', function(err){ console.log(err.stack); })
+    .pipe(vinylsource(browserifyjs.out))
+    .pipe(vinylbuffer())
+    .pipe(dest(browserifyjs.outdir))
     .pipe(server.reload({stream: true}));
 };
 
@@ -81,6 +92,14 @@ function html() {
     .pipe(dest('dist'));
 }
 
+function assets(){
+  return src('app/assets/**/*').pipe($.if(!isProd, dest('.tmp/assets'), dest('dist/assets')));
+}
+
+//
+// CURRENTLY, Manually optimizing image using pngquant
+// pngquant --quality 70-80 --speed 1 --nofs [image-name]
+//
 function images() {
   return src('app/images/**/*', { since: lastRun(images) })
     .pipe($.imagemin())
@@ -116,6 +135,7 @@ const build = series(
     lint,
     series(parallel(styles, scripts), html),
     images,
+    assets,
     fonts,
     extras
   ),
@@ -179,7 +199,7 @@ function startDistServer() {
 
 let serve;
 if (isDev) {
-  serve = series(clean, parallel(styles, scripts, fonts), startAppServer);
+  serve = series(clean, parallel(styles, scripts, fonts, assets), startAppServer);
 } else if (isTest) {
   serve = series(clean, scripts, startTestServer);
 } else if (isProd) {
