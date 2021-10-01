@@ -14,7 +14,6 @@ import { TweenMax, Power4 } from 'gsap'
 import { SVGScene } from '@pixi-essentials/svg'
 import { Cull } from '@pixi-essentials/cull'
 window.PIXI = PIXI
-require('pixi-layers')
 //
 window.debug = true;
 let loaded = {
@@ -44,11 +43,10 @@ let currentTrack;
 let introTrack;
 let baseTracks = {};
 //
-//
-let backgroundLayer;
-let navLayer;
-let legendLayer;
-let maskLayer;
+let backgroundContainer;
+let navContainer;
+let legendContainer;
+let maskContainer;
 //
 let hitPopupMode = 'hovering';//'hovering', 'focused'
 let prevBoundsCenter = null;
@@ -211,18 +209,12 @@ function init(){
 	const cull = new Cull({ recursive: true, toggle: 'renderable' });
 	//
 	mainApp = app;
-	mainStage = mainApp.stage = new PIXI.display.Stage();
+	mainStage = mainApp.stage;
 	//
 	mainApp.ticker.add(function(delta) {
 		window.meter.tick();
 		//obtain the position of the mouse on the stage
-    let mousePosition = app.renderer.plugins.interaction.mouse.global;
-
-    let hit;
-    if (hit = app.renderer.plugins.interaction.hitTest(mousePosition)) {
-        // hit
-        console.log(hit);
-    }
+    //let mousePosition = app.renderer.plugins.interaction.mouse.global;
     //
 	});
 	// Cull the entire scene graph, starting from the stage
@@ -233,11 +225,12 @@ function init(){
 	    cull.cull(mainApp.renderer.screen);
 	});
 
+	backgroundContainer = new PIXI.Container();
+	navContainer = new PIXI.Container();
+	maskContainer = new PIXI.Container();
+	mainStage.addChild(backgroundContainer, navContainer, maskContainer);
+
 	//
-	backgroundLayer = new PIXI.display.Layer();
-	navLayer = new PIXI.display.Layer();
-	maskLayer = new PIXI.display.Layer();
-	mainStage.addChild(backgroundLayer, navLayer, maskLayer);
 	//
 	if(performance_test)
 		$('#performance-stats table').append('<tr> <td>Pixi setup</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
@@ -301,18 +294,6 @@ function loadDataset(id, early=true){
 	    let morder = datasets[id].order;
 	    if(morder != 'front' && morder != 'back')
 	    	morder = null;
-	    //
-      let maskpromise = maskLoad(title, maskdata, mpath, id, morder);
-      let legendpromise = legendLoad(title, legenddata, id);
-      //
-      if(early){
-      	earlySVGDataPromises.push(maskpromise);
-      	earlySVGDataPromises.push(legendpromise);
-      }else{
-      	allSVGDataPromises.push(maskpromise);
-	      allSVGDataPromises.push(legendpromise);
-      }
-      //
 			//
       if(datasets[id].hasOwnProperty('popdimensions')){
       	console.log('Loading dimensions for : ' + id);
@@ -329,6 +310,7 @@ function loadDataset(id, early=true){
 	      //
 	      let count = popupBBoxes[id]['dimensions'].length;
 				console.log('boxes: ' + count);
+				//
 				/*
 				let s = pixiHeight/mainScroll.height;
 		    let rs = (pixiHeight/refPopupSize.height);
@@ -349,7 +331,7 @@ function loadDataset(id, early=true){
 					let p1 = new paper.Point(_x, _y);
 					let p2 = new paper.Point(_x+_width, _y+_height);
 					let rectPath = newPopRect(p1,p2);
-					legendLayer.addChild(rectPath);
+					legendContainer.addChild(rectPath);
 					//
 					let arec = new paper.Rectangle(p1,p2);
 					let aprec = new paper.Path.Rectangle(arec);
@@ -360,8 +342,20 @@ function loadDataset(id, early=true){
 					//console.log(popupBBoxes[id]['paths'][i]);
 				}
 				//
-				maskLayer.visible = false;
+				maskContainer.visible = false;
 				*/
+      }
+      //
+	    //
+      let maskpromise = maskLoad(title, maskdata, mpath, id, morder);
+      let legendpromise = legendLoad(title, legenddata, id);
+      //
+      if(early){
+      	earlySVGDataPromises.push(maskpromise);
+      	earlySVGDataPromises.push(legendpromise);
+      }else{
+      	allSVGDataPromises.push(maskpromise);
+	      allSVGDataPromises.push(legendpromise);
       }
       //
       //
@@ -371,8 +365,8 @@ function loadDataset(id, early=true){
 /*
 function correctMaskOrder(){
 		// bring some masks to front and others back
-		for(let i=0; i<maskLayer.children.length; i++){
-			let child = maskLayer.children[i];
+		for(let i=0; i<maskContainer.children.length; i++){
+			let child = maskContainer.children[i];
 			//
 			let order = child.data.order;
 			//
@@ -424,9 +418,18 @@ function maskLoad(title, svgxml, svgpath, num, order = null){
 			let svgDOM = new DOMParser().parseFromString(svgxml, 'image/svg+xml');
 			let svgEl = svgDOM.documentElement;
 			let mask = new SVGScene(svgEl);
-			maskFiles.push(mask);
+			//
+			//
+			//
+			maskContainer.addChild(mask);
+			//
+			//
 			//
 			console.log('Loaded '+num+' mask');
+			//
+			//
+			maskFiles.push(mask);
+			//
 			if(window.debug)
 				$('#status').text('Loaded '+num+' mask-debug');
 			else
@@ -434,11 +437,11 @@ function maskLoad(title, svgxml, svgpath, num, order = null){
 			//
 			//
 			//
-			//
-			if(mask.data == undefined)
-				mask.data = {};
+
+			if(mask.data == undefined)	mask.data = {};
 			mask.data.legendName = 'legend-'+num;
 			mask.data.maskName = 'mask-' + num;
+			mask.data.id = num;
 			mask.name = 'mask-' + num;
 			mask.data.order = order;
 			//
@@ -459,56 +462,12 @@ function maskLoad(title, svgxml, svgpath, num, order = null){
 			//
 			let offset = 625 + (pixiWidth*s*3/4);
 			mask.scale.set(lms, lms);
-			mask.x = offset ;//+ (pixiWidth*3/4);//Change the sprite's position
+			mask.x = offset;//+ (pixiWidth*3/4);//Change the sprite's position
 		  //mask.alpha = 0.3;
-		  mask.interactive = true;
-			mask.buttonMode = true;
-			//
-			mask._pointerDown = false;
-			mask._pointerDragging = false;
-			//mask._pointerPosition = new Point();
-			mask._pointerMoveTarget = null;
-			mask.on('mousedown', function(){
-				console.log('mask mousedown');
-			}, this);
-			mask.on('mouseup',  function(){
-				console.log('mask mouseup');
-			}, this);
-			mask.on('mouseupoutside',  function(){
-				console.log('mask mouseupoutside');
-			}, this);
-			mask.on('click', function(){
-				console.log('mask click');
-			});
-			mask.on('mouseenter', function(){
-				console.log('mask mouseenter');
-			});
-			mask.on('added', function(){
-				console.log('mask added');
-			});
-			/*
-			maskLayer.on('pointerdown', function(){
-				console.log('Clicked on - ' +num);
-			});
-			*/
-			if(popupBBoxes[num] != undefined){
+		  //
+		  if(popupBBoxes[num] != undefined){
 				popupBBoxes[num]['mask'] = mask;
-				//
-				let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
-				let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
-				let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
-				let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
-				// Add a hit area..
-				mask.hitArea = new PIXI.Rectangle(_x, _y, _width, _height);
-				//
-				mask.click = function (e) {
-					console.log(this, e);
-					console.log(num);
-				}
-
 			}
-			//
-		  maskLayer.addChild(mask);
 			//
 			//
 			/*
@@ -558,12 +517,15 @@ function maskLoad(title, svgxml, svgpath, num, order = null){
 					mask.x = offset ;//+ (pixiWidth*3/4);//Change the sprite's position
 				  //mask.alpha = 0;
 					//
-				  maskLayer.addChild(mask);
+				  mainStage.addChild(mask);
 				}
 				maskLoaded = true;
 			});
 			*/
 			resolve('m'+num);
+
+
+			//
 			//
 		}
 		//
@@ -617,7 +579,7 @@ function legendLoad(title, svgxml, num){
 			legend.position = paper.view.center;
 			legend.position.x = (paperWidth*3/4) + (legend.bounds.width/2) + (mainScroll.width*s - legend.bounds.width);
 			//
-			legendLayer.addChild(legend);
+			legendContainer.addChild(legend);
 			//
 			resolve('l'+num);
 		});
@@ -720,9 +682,51 @@ function loadHQ(){
 	  		}
 				setInterval(function(){	$('#status').hide();	}, 2000);
 	  	}else{
+	  		//
 	  		$('#start-btn').hide();
 	  		let waitTillTracksLoad = setInterval(function(){
 	  			if(allTracksCount == 8 && loaded.HQimage && loaded.svgdata){
+	  				let rs = (pixiHeight/refPopupSize.height);
+						console.log('paper scale ratio: ' + rs);
+
+	  				//
+	  				for(let i=0; i < maskFiles.length; i++){
+	  					let num = maskFiles[i].data.id;
+	  					//
+							if(popupBBoxes[num] != undefined){
+								let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
+								let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
+								let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
+								let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
+								//
+								//
+								let offset = (pixiWidth*mainScrollScale*3/4);
+								_x *= rs; _x += offset;
+								_y *= rs;
+								_width *= rs;
+								_height *= rs;
+								//
+								maskFiles[i].interactive = true;
+								maskFiles[i].buttonMode = true;
+								//
+								console.log(num + ': ' + _x + ' ' + _y + ' ' + _width + ' ' + _height )
+								maskFiles[i].hitArea = new PIXI.Rectangle(_x - 625 - offset, _y, _width/maskFiles[i].scale.x, _height/maskFiles[i].scale.y);
+								maskFiles[i].on('pointerdown', function(){
+								  console.log('Clicked inside hitArea for mask-'+num);
+								});
+								//
+								let graphics = new PIXI.Graphics();
+								//graphics.beginFill(0xFFFF00);
+								// set the line style to have a width of 5 and set the color to red
+								graphics.lineStyle(1, 0xFF0000);
+								// draw a rectangle
+								graphics.drawRect(_x, _y, _width, _height);
+								maskContainer.addChild(graphics);
+								//
+							}
+							//
+	  				}
+	  				//
 	  				console.log('Total tracks loaded = ' + allTracksCount);
 	  				//
 	  				clearInterval(waitTillTracksLoad);
@@ -739,7 +743,7 @@ function loadHQ(){
 		  	},2000);
 	  	}
 	  	//
-	  	//backgroundLayer.sendToBack();
+	  	//backgroundContainer.sendToBack();
 			//
 	  });
 }
@@ -753,8 +757,8 @@ function initNav(){
 	console.log('Initializing navigation');
 	//
 	$('.jump').click(function(el){
-		if(maskLayer.visible)
-			maskLayer.visible = false;
+		if(maskContainer.visible)
+			maskContainer.visible = false;
 		//
 		//
 		let chap_id = parseInt($(el.currentTarget).attr('data-id'));
@@ -807,7 +811,7 @@ function initNav(){
   		baseTracks['base'+(i+1)].stop();
   	setTimeout(function(){
 			console.log('Completed scroll for - ' + chap_id);
-			maskLayer.visible = true;
+			maskContainer.visible = true;
 			//
 			console.log('Changing base track...');
     	currentTrack = 'base' + chap_id;
@@ -847,7 +851,7 @@ function loadNav(){
 	  navScene.x = (pixiWidth*mainScrollScale*3/4);//Change the sprite's position
 	  navScene.alpha = 0;
 		//
-		//navLayer.addChild(navScene); // hitTest not required So, no need to add it to layer
+		//navContainer.addChild(navScene); // hitTest not required So, no need to add it to layer
 		if(performance_test)
 			$('#performance-stats table').append('<tr> <td>Loaded nav</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 		//
@@ -948,9 +952,10 @@ function initSVGscroll(_url){
 		console.log('Clicked on scroll_01')
 	});
 	*/
+	window.scroll_01 = scroll_01;
 	//Add the scroll to the stage
-  backgroundLayer.addChild(scroll_01);
-	backgroundLayer.addChild(scroll_02);
+  backgroundContainer.addChild(scroll_01);
+	backgroundContainer.addChild(scroll_02);
 	mainScroll = {
 		'part1': scroll_01,
 		'part2' : scroll_02
@@ -982,7 +987,7 @@ function initSplash(_width){
 					$('#performance-stats table').append('<tr> <td>Loaded splash</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 		  	//Create the sprite
 				let splashSprite = new PIXI.Sprite(PIXI.Loader.shared.resources[splashURL].texture);
-			  backgroundLayer.addChild(splashSprite);
+			  backgroundContainer.addChild(splashSprite);
 			  //
 			  // Scale the raster
 				let s = _width/splashSprite.width;
@@ -1023,9 +1028,9 @@ function initSplash(_width){
 				let triangle = createTriangle(start.x+end.x, start.y+end.y+(size/2), size, 0xb97941);
 				triangle.rotation = -Math.PI/2;
 				//
-				backgroundLayer.addChild(text);
-				backgroundLayer.addChild(line);
-				backgroundLayer.addChild(triangle);
+				backgroundContainer.addChild(text);
+				backgroundContainer.addChild(line);
+				backgroundContainer.addChild(triangle);
 				//
 				if(performance_test)
 					$('#performance-stats table').append('<tr> <td>Splash ready</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
@@ -1075,8 +1080,8 @@ function initPanZoom(){
 		et = event.originalEvent;
 		event.preventDefault();
 		//
-		if(maskLayer.visible)
-			maskLayer.visible = false;
+		if(maskContainer.visible)
+			maskContainer.visible = false;
 		//
 		if(navScrolledUpdate){
 			//
@@ -1092,7 +1097,7 @@ function initPanZoom(){
 			clearTimeout($.data(this, 'scrollTimer'));
 	    $.data(this, 'scrollTimer', setTimeout(function() {
 	        //
-	        maskLayer.visible = true;
+	        maskContainer.visible = true;
 	        //
 	        if(currentNavLoc != -1 && (currentTrack != ('base'+currentNavLoc))){
 	        	console.log('Changing base track - Haven\'t scrolled in 250ms!');
