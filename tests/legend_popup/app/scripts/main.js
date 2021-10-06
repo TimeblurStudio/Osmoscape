@@ -59,17 +59,16 @@ let refPopupSize = {
 };
 //
 let datasets = {};
-let mergedMasks = {};
 let mergedLegends = {};
-let uploadedLegendFile = [], uploadedMaskFile = [];
-let maskFiles = [], legendFiles = [];
+let uploadedLegendFile = [];
+let maskAreas = [], legendFiles = [];
 let earlySVGDataPromises = [], allSVGDataPromises = [];
 //
 //
 let performance_test = false;
 let commitversion = '';
 //
-window.maskFiles = maskFiles;
+window.maskAreas = maskAreas;
 window.legendFiles = legendFiles;
 window.popupBBoxes = popupBBoxes;
 //
@@ -166,7 +165,7 @@ function init(){
 	  console.log('Loaded datasets summary');
 	  //
 	  let dataWaitInterval = setInterval(function(){
-      if(mainScroll != null && !$.isEmptyObject(mergedMasks) && !$.isEmptyObject(mergedLegends)){
+      if(mainScroll != null && !$.isEmptyObject(mergedLegends)){
         clearInterval(dataWaitInterval);
         datasets = data;
         loadDatasets();
@@ -176,13 +175,6 @@ function init(){
 	});
 	//
 	//
-  let masksURL = './assets/data/mergedMasks.json' + '?v=' + commitversion;
-  console.log('mergedMasksURL: ' + masksURL);
-  $.getJSON(masksURL, function( data ) {
-    mergedMasks = data;
-    console.log('Loaded mask files');
-  });
-  //
   //
   let legendsURL = './assets/data/mergedLegends.json' + '?v=' + commitversion;
   console.log('mergedLegendURL: ' + legendsURL);
@@ -321,20 +313,11 @@ function loadDatasets(){
 function loadDataset(id, early=true){
 	if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
-      let maskdata = mergedMasks[id];
       let legenddata = mergedLegends[id];
       //
-      let mpath = datasets[id].maskpath;
       let lpath = datasets[id].legendpath;
       let title = datasets[id].title;
       //
-      if(window.debug){
-	      let pieces = mpath.split('/');
-	      let fname = pieces[pieces.length-1];
-	      pieces[pieces.length-1] = 'Debug';
-	      pieces.push(fname);
-	      mpath = pieces.join('/');
-	    }
 	    //
 	    let morder = datasets[id].order;
 	    if(morder != 'front' && morder != 'back')
@@ -366,7 +349,7 @@ function loadDataset(id, early=true){
       }
       //
 	    //
-      let maskpromise = maskLoad(title, maskdata, mpath, id, morder);
+      let maskpromise = maskLoad(title, id, morder);
       let legendpromise = legendLoad(title, legenddata, lpath, id);
       //
       if(early){
@@ -424,7 +407,7 @@ function newPopRect(p1, p2) {
 //
 //
 //
-function maskLoad(title, svgxml, svgpath, num, order = null){
+function maskLoad(title, num, order = null){
 	//
 	let skipLoad = false;
 	const mpromise = new Promise((resolve, reject) => {
@@ -433,21 +416,7 @@ function maskLoad(title, svgxml, svgpath, num, order = null){
 		if(skipLoad)
 			resolve('m'+num);
 		else{
-			//
-			let svgDOM = new DOMParser().parseFromString(svgxml, 'image/svg+xml');
-			let svgEl = svgDOM.documentElement;
-			let mask = new SVGScene(svgEl);
-			//
-			//
-			//
-			maskContainer.addChild(mask);
-			//
-			//
-			//
 			console.log('Loaded '+num+' mask');
-			//
-			//
-			maskFiles.push(mask);
 			//
 			if(window.debug)
 				$('#status').text('Loaded '+num+' mask-debug');
@@ -456,94 +425,61 @@ function maskLoad(title, svgxml, svgpath, num, order = null){
 			//
 			//
 			//
-
-			if(mask.data == undefined)	mask.data = {};
-			mask.data.legendName = 'legend-'+num;
-			mask.data.maskName = 'mask-' + num;
-			mask.data.id = num;
-			mask.name = 'mask-' + num;
-			mask.data.order = order;
-			//
-			//if(order == 'back')
-			//	mask.sendToBack();
-			//if(order == 'front')
-			//	mask.bringToFront();
-			//
-			//if(mask.children != undefined)
-			//	updateChildLegend(mask.children, mask.data.legendName);
 			//
 			//
-			let s = mainScrollScale;
-			let lms = pixiHeight/mask.height;//mask-scale
-			console.log('MAIN SCALE: ' + s);
-			console.log('MASK SCALE: ' + lms);
 			//
-			//
-			let offset = 625 + (pixiWidth*s*3/4);
-			mask.scale.set(lms, lms);
-			mask.x = offset;//+ (pixiWidth*3/4);//Change the sprite's position
-		  //mask.alpha = 0.3;
-		  //
 		  if(popupBBoxes[num] != undefined){
+				//
+				let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
+				let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
+				let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
+				let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
+				//
+				//
+				let graphics = new PIXI.Graphics();
+				graphics.beginFill(0xFFFF00);
+				graphics.lineStyle(1, 0xFF0000);
+				graphics.alpha = 0.5;
+				graphics.drawRect(_x, _y, _width, _height);
+				popupBBoxes[num]['paths'].push(graphics);
+				//
+				let mask = graphics;
+				maskAreas.push(mask);
+				//
+				if(mask.data == undefined)	mask.data = {};
+				mask.data.legendName = 'legend-'+num;
+				mask.data.maskName = 'mask-' + num;
+				mask.data.id = num;
+				mask.name = 'mask-' + num;
+				mask.data.order = order;
+				//
+				//if(order == 'back')
+				//	mask.sendToBack();
+				//if(order == 'front')
+				//	mask.bringToFront();
+				//
+				mask.x = (pixiWidth*mainScrollScale*3/4);
+				//
+				mask.interactive = true;
+				mask.buttonMode = true;
+				mask.on('pointerdown', function(){
+				  //
+				  console.log('Clicked inside hitArea for mask-'+num);
+				  showLegend(num);
+				  //
+				});
+				// CHANGE THIS TO HITAREA-SHAPES
+				/*
+				mask.hitArea = new PIXI.Rectangle(_x - offset, _y, _width/maskAreas[i].scale.x, _height/maskAreas[i].scale.y);
+				*/
+				//
+				//
 				popupBBoxes[num]['mask'] = mask;
+				maskContainer.addChild(mask);
+				//
 			}
 			//
-			//
-			/*
-			// APPROACH - A //
-			let maskTexture = PIXI.Texture.from(svgpath);
-			let maskLoaded = false;
-			maskTexture.on('update', () => {
-				if(!maskLoaded){
-					let mask = new PIXI.Sprite(maskTexture);
-					maskFiles.push(mask);
-					//
-					console.log('Loaded '+num+' mask');
-					if(window.debug)
-						$('#status').text('Loaded '+num+' mask-debug');
-					else
-						$('#status').text('Loaded '+num+' mask');
-					//
-					//
-					if(popupBBoxes[num] != undefined)
-						popupBBoxes[num]['mask'] = mask;
-					//
-					//
-					//
-					if(mask.data == undefined)
-						mask.data = {};
-					mask.data.legendName = 'legend-'+num;
-					mask.data.maskName = 'mask-' + num;
-					mask.name = 'mask-' + num;
-					mask.data.order = order;
-					//
-					//if(order == 'back')
-					//	mask.sendToBack();
-					//if(order == 'front')
-					//	mask.bringToFront();
-					//
-					//if(mask.children != undefined)
-					//	updateChildLegend(mask.children, mask.data.legendName);
-					//
-					//
-					let s = mainScrollScale;
-					let lms = pixiHeight/maskTexture.height;//mask-scale
-					console.log('MAIN SCALE: ' + s);
-					console.log('MASK SCALE: ' + lms);
-					//
-					let offset = 630;
-					mask.scale.set(lms, lms);
-					mask.x = offset ;//+ (pixiWidth*3/4);//Change the sprite's position
-				  //mask.alpha = 0;
-					//
-				  mainStage.addChild(mask);
-				}
-				maskLoaded = true;
-			});
-			*/
 			resolve('m'+num);
-
-
 			//
 			//
 		}
@@ -723,50 +659,6 @@ function loadHQ(){
 	  		$('#start-btn').hide();
 	  		let waitTillTracksLoad = setInterval(function(){
 	  			if(allTracksCount == 8 && loaded.HQimage && loaded.svgdata){
-	  				let rs = (pixiHeight/refPopupSize.height);
-						console.log('paper scale ratio: ' + rs);
-
-	  				//
-	  				for(let i=0; i < maskFiles.length; i++){
-	  					let num = maskFiles[i].data.id;
-	  					//
-							if(popupBBoxes[num] != undefined){
-								let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
-								let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
-								let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
-								let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
-								//
-								//
-								let offset = (pixiWidth*mainScrollScale*3/4);
-								_x *= rs; _x += offset;
-								_y *= rs;
-								_width *= rs;
-								_height *= rs;
-								//
-								maskFiles[i].interactive = true;
-								maskFiles[i].buttonMode = true;
-								//
-								console.log(num + ': ' + _x + ' ' + _y + ' ' + _width + ' ' + _height )
-								maskFiles[i].hitArea = new PIXI.Rectangle(_x - 625 - offset, _y, _width/maskFiles[i].scale.x, _height/maskFiles[i].scale.y);
-								maskFiles[i].on('pointerdown', function(){
-								  //
-								  console.log('Clicked inside hitArea for mask-'+num);
-								  showLegend(i, num);
-								  //
-								});
-								//
-								let graphics = new PIXI.Graphics();
-								//graphics.beginFill(0xFFFF00);
-								graphics.lineStyle(1, 0xFF0000);
-								graphics.drawRect(_x, _y, _width, _height);
-								//
-								maskContainer.addChild(graphics);
-								popupBBoxes[num]['paths'].push(graphics);
-								//
-							}
-							//
-	  				}
-	  				//
 	  				console.log('Total tracks loaded = ' + allTracksCount);
 	  				//
 	  				clearInterval(waitTillTracksLoad);
@@ -788,7 +680,7 @@ function loadHQ(){
 	  });
 }
 
-function showLegend(index, number){
+function showLegend(number){
 	console.log('Opening legend ' + number);
 	//
 	$('#status').text('Showing: legend-' + number);
