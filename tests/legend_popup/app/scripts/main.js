@@ -278,6 +278,10 @@ function init(){
 		hitPopupMode = 'hovering';
 	});
 	//
+
+	$(window).on('resize', function(){
+		window.location.reload(true);
+	});
 }
 
 
@@ -429,17 +433,22 @@ function maskLoad(title, num, order = null){
 			//
 			//
 		  if(popupBBoxes[num] != undefined){
+				let rs = (pixiHeight/refPopupSize.height);
 				//
 				let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
 				let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
 				let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
 				let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
 				//
+				_x *= rs;
+				_y *= rs;
+				_width *= rs;
+				_height *= rs;
 				//
 				let graphics = new PIXI.Graphics();
 				graphics.beginFill(0xFFFF00);
 				graphics.lineStyle(1, 0xFF0000);
-				graphics.alpha = 0.5;
+				graphics.alpha = 0;
 				graphics.drawRect(_x, _y, _width, _height);
 				popupBBoxes[num]['paths'].push(graphics);
 				//
@@ -468,6 +477,29 @@ function maskLoad(title, num, order = null){
 				  showLegend(num);
 				  //
 				});
+				mask.on('pointerover', function(){
+					//
+					mainScroll['part1'].alpha = 0.1;
+				  console.log('Hover on mask-'+num);
+				  //
+				  legendContainer.visible = true;
+					for(let i=0; i<legendFiles.length; i++)
+						if(legendFiles[i].visible)
+							legendFiles[i].visible = false;
+				  //
+				  popupBBoxes[num].legend.visible = true;
+				});
+        mask.on('pointerout', function(){
+        	//
+					mainScroll['part1'].alpha = 1;
+				  console.log('Hover out of mask-'+num);
+        	//
+        	legendContainer.visible = false;
+					for(let i=0; i<legendFiles.length; i++)
+						if(legendFiles[i].visible)
+							legendFiles[i].visible = false;
+				  //
+        });
 				// CHANGE THIS TO HITAREA-SHAPES
 				/*
 				mask.hitArea = new PIXI.Rectangle(_x - offset, _y, _width/maskAreas[i].scale.x, _height/maskAreas[i].scale.y);
@@ -537,9 +569,9 @@ function legendLoad(title, svgxml, svgpath, num){
 					console.log('MAIN SCALE: ' + s);
 					console.log('LEGEND SCALE: ' + lms);
 					//
-					let offset = 200;
+					let offset = 1028;
 					legend.scale.set(lms, lms);
-					legend.x = offset + (pixiWidth*3/4);
+					legend.x = offset*s + (pixiWidth*s*3/4);
 				  //
 				  legendContainer.addChild(legend);
 				  resolve('l'+num);
@@ -1091,7 +1123,6 @@ function initPanZoom(){
 	    		//
 	    		if(hitPopupMode != 'focused'){
 						maskContainer.visible = true;
-
 						Object.keys(popupBBoxes).forEach(function(key) {
 							/*
 							let xMin = paper.view.center.x - pixiWidth/2.0;
