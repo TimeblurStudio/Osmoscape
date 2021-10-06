@@ -70,6 +70,7 @@ let performance_test = false;
 let commitversion = '';
 //
 window.maskFiles = maskFiles;
+window.legendFiles = legendFiles;
 window.popupBBoxes = popupBBoxes;
 //
 // Meter to keep track of FPS
@@ -268,7 +269,7 @@ function init(){
 		backgroundContainer.visible = true;
 		maskContainer.visible = true;
 		legendContainer.visible = false;
-		for(let i=0; i<legendFiles; i++)
+		for(let i=0; i<legendFiles.length; i++)
 			if(legendFiles[i].visible)
 				legendFiles[i].visible = false;
 		//
