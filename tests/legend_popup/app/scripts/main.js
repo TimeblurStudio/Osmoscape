@@ -811,11 +811,12 @@ function showLegend(index, number){
 	$('#focused-cta').show();
 	$('#focused-info').show();
 	//
-	let legend = legendFiles[index];
-	legend.visible = true;
-	//
-	//
 	if(popupBBoxes.hasOwnProperty(currentFocus)){
+		//
+		let legend = popupBBoxes[currentFocus].legend;
+		legend.visible = true;
+		//
+		//
 		/*
 		let count = popupBBoxes[currentFocus]['paths'].length;
 		for(let i=0; i < count; i++){
