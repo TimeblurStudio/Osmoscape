@@ -433,13 +433,13 @@ function maskLoad(title, num, order = null){
 			//
 			//
 		  if(popupBBoxes[num] != undefined){
-				let rs = (pixiHeight/refPopupSize.height);
 				//
 				let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
 				let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
 				let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
 				let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
 				//
+				let rs = (pixiHeight/refPopupSize.height);
 				_x *= rs;
 				_y *= rs;
 				_width *= rs;
@@ -479,8 +479,9 @@ function maskLoad(title, num, order = null){
 				});
 				mask.on('pointerover', function(){
 					//
-					mainScroll['part1'].alpha = 0.1;
-				  console.log('Hover on mask-'+num);
+					console.log('Hover on mask-'+num);
+				  mainScroll['part1'].alpha = 0.1;
+				  mainScroll['part2'].alpha = 0.1;
 				  //
 				  legendContainer.visible = true;
 					for(let i=0; i<legendFiles.length; i++)
@@ -491,9 +492,10 @@ function maskLoad(title, num, order = null){
 				});
         mask.on('pointerout', function(){
         	//
-					mainScroll['part1'].alpha = 1;
-				  console.log('Hover out of mask-'+num);
-        	//
+					console.log('Hover out of mask-'+num);
+        	mainScroll['part1'].alpha = 1;
+        	mainScroll['part2'].alpha = 1;
+				  //
         	legendContainer.visible = false;
 					for(let i=0; i<legendFiles.length; i++)
 						if(legendFiles[i].visible)
@@ -751,11 +753,24 @@ function showLegend(number){
 		*/
 		// Zoom into selected area!
 		let fac = 1;//1.005/(mainStage.scale.x*mainStage.scale.y);
-		var path_bounds = popupBBoxes[currentFocus]['paths'][0].getBounds();
-		var newViewCenter = new PIXI.Point(path_bounds.x + path_bounds.width / 2, path_bounds.y + path_bounds.height / 2);
-		let zoomFac = fac * 0.5 * pixiWidth / (1.0 * path_bounds.width);
-		let deltaValX = newViewCenter.x/2;
-		let deltaValY = -newViewCenter.y/2;
+		//
+		let _x = parseInt(popupBBoxes[currentFocus]['dimensions'][0].x);
+		let _y = parseInt(popupBBoxes[currentFocus]['dimensions'][0].y);
+		let _width = parseInt(popupBBoxes[currentFocus]['dimensions'][0].width);
+		let _height = parseInt(popupBBoxes[currentFocus]['dimensions'][0].height);
+		//
+		let rs = (pixiHeight/refPopupSize.height);
+		_x *= rs; _x -= (pixiWidth*mainScrollScale*3/4);
+		_y *= rs;
+		_width *= rs;
+		_height *= rs;
+		//
+		var newViewCenter = new PIXI.Point(_x, _y);
+		let zoomFac = fac * 0.5 * pixiWidth / (1.0 * _width);
+		let deltaValX = newViewCenter.x;
+		let deltaValY = 0;//-newViewCenter.y;
+		//
+		console.log(deltaValX);
 		//
 		prevBoundsCenter = new PIXI.Point(mainStage.position.x, mainStage.position.y);
 		mainStage.position = changeCenter(mainStage.position, deltaValX, deltaValY, fac, false);
@@ -1101,8 +1116,17 @@ function initPanZoom(){
 		et = event.originalEvent;
 		event.preventDefault();
 		//
-		if(maskContainer.visible)
+		if(maskContainer.visible){
+			mainScroll['part1'].alpha = 1;
+      mainScroll['part2'].alpha = 1;
 			maskContainer.visible = false;
+			//
+		  legendContainer.visible = true;
+			for(let i=0; i<legendFiles.length; i++)
+				if(legendFiles[i].visible)
+					legendFiles[i].visible = false;
+		 	//
+		}
 		//
 		if(navScrolledUpdate){
 			//
