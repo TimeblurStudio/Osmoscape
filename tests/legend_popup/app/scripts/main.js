@@ -13,6 +13,7 @@ import * as Tone from 'tone'
 import { TweenMax, Power4 } from 'gsap'
 import { SVGScene } from '@pixi-essentials/svg'
 import { Cull } from '@pixi-essentials/cull'
+import HitAreaShapes from 'hitarea-shapes'
 window.PIXI = PIXI
 //
 window.debug = true;
@@ -322,7 +323,6 @@ function loadDataset(id, early=true){
       let lpath = datasets[id].legendpath;
       let title = datasets[id].title;
       //
-	    //
 	    let morder = datasets[id].order;
 	    if(morder != 'front' && morder != 'back')
 	    	morder = null;
@@ -336,7 +336,8 @@ function loadDataset(id, early=true){
       		legend: null,
 	      	paths: [],
 	      	rects: [],
-	      	dimensions: dim
+	      	dimensions: dim,
+	      	polygons: datasets[id].physics
 	      };
 	      //
 	      //
@@ -428,12 +429,10 @@ function maskLoad(title, num, order = null){
 				$('#status').text('Loaded '+num+' mask');
 			//
 			//
-			//
-			//
-			//
-			//
-		  if(popupBBoxes[num] != undefined){
-				//
+			if(popupBBoxes[num] != undefined){
+		  	//
+		  	popupBBoxes[num]['mask'] = mask;
+		  	//
 				let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
 				let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
 				let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
@@ -469,8 +468,16 @@ function maskLoad(title, num, order = null){
 				//
 				mask.x = (pixiWidth*mainScrollScale*3/4);
 				//
-				mask.interactive = true;
+	  		mask.interactive = true;
 				mask.buttonMode = true;
+				if(popupBBoxes[num].polygons != null){
+					let polygons = popupBBoxes[num].polygons;
+					console.log(polygons);
+		  		const hitAreaShapes = new HitAreaShapes(polygons);
+		  		//
+		  		mask.hitArea = hitAreaShapes;
+		  	}
+				//
 				mask.on('pointerdown', function(){
 				  //
 				  console.log('Clicked inside hitArea for mask-'+num);
@@ -502,14 +509,14 @@ function maskLoad(title, num, order = null){
 							legendFiles[i].visible = false;
 				  //
         });
+				//
+				popupBBoxes[num]['mask'] = mask;
+				maskContainer.addChild(mask);
+				//
 				// CHANGE THIS TO HITAREA-SHAPES
 				/*
 				mask.hitArea = new PIXI.Rectangle(_x - offset, _y, _width/maskAreas[i].scale.x, _height/maskAreas[i].scale.y);
 				*/
-				//
-				//
-				popupBBoxes[num]['mask'] = mask;
-				maskContainer.addChild(mask);
 				//
 			}
 			//

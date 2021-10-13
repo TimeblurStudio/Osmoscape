@@ -9,6 +9,7 @@
     "@pixi/math-extras": "^6.1.3",
     "bootstrap": "^4.3.1",
     "gsap": "^3.7.1",
+    "hitarea-shapes": "^1.1.1",
     "jquery": "^3.6.0",
     "modernizr": "^3.7.1",
     "pixi-layers": "^0.3.1",
