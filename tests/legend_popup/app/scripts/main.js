@@ -259,7 +259,7 @@ function init(){
 	$('#popcancel').click(function(){
 		$('#focused-cta').hide();
 		//
-		$('#focused-info').animate({ right:'-500px'}, 600);
+		$('#focused-info').animate({ left:'-500px'}, 600);
 		//$('#focused-info').hide();
 		$('.nav').show();
 		$('body').css('background-color',  '#b5ced5');
@@ -560,10 +560,11 @@ function legendLoad(title, svgxml, svgpath, num){
 		else{
 			//
 			// APPROACH - A //
-			let legendTexture = PIXI.Texture.from(svgpath);
+			let legendTexture = PIXI.Texture.from(svgpath, {resolution: 8.0});
 			let legendLoaded = false;
 			legendTexture.on('update', () => {
 				if(!legendLoaded){
+					//
 					let legend = new PIXI.Sprite(legendTexture);
 					legendFiles.push(legend);
 					//
@@ -743,7 +744,7 @@ function showLegend(number){
 	$('#status').text('Showing: legend-' + number);
 	$('#status').show();
 	//
-	$('#focused-info').animate({ right:'0px'}, 1200);
+	$('#focused-info').animate({ left:'0px'}, 1200);
 	$('.nav').hide();
 	//
 	hitPopupMode = 'focused';
@@ -767,40 +768,27 @@ function showLegend(number){
 		legend.visible = true;
 		//
 		//
-		/*
-		let count = popupBBoxes[currentFocus]['paths'].length;
-		for(let i=0; i < count; i++){
-			popupBBoxes[currentFocus]['paths'][i].visible = false;// true to show rect box
-			popupBBoxes[currentFocus]['paths'][i].selected = false;
-		}
-		*/
-		// Zoom into selected area!
-		let fac = 1;//1.005/(mainStage.scale.x*mainStage.scale.y);
-		//
+		// Position into selected area!
 		let _x = parseInt(popupBBoxes[currentFocus]['dimensions'][0].x);
 		let _y = parseInt(popupBBoxes[currentFocus]['dimensions'][0].y);
 		let _width = parseInt(popupBBoxes[currentFocus]['dimensions'][0].width);
 		let _height = parseInt(popupBBoxes[currentFocus]['dimensions'][0].height);
 		//
 		let rs = (pixiHeight/refPopupSize.height);
-		_x *= rs; _x -= (pixiWidth*mainScrollScale*3/4);
+		_x *= rs;// _x += (pixiWidth*mainScrollScale*3/4);
 		_y *= rs;
 		_width *= rs;
 		_height *= rs;
 		//
-		var newViewCenter = new PIXI.Point(_x, _y);
-		let zoomFac = fac * 0.5 * pixiWidth / (1.0 * _width);
-		let deltaValX = newViewCenter.x;
-		let deltaValY = 0;//-newViewCenter.y;
-		//
-		console.log(deltaValX);
-		//
+		var newViewCenter = new PIXI.Point(-1*_x, pixiHeight/2 - _y - _height/2);
 		prevBoundsCenter = new PIXI.Point(mainStage.position.x, mainStage.position.y);
-		mainStage.position = changeCenter(mainStage.position, deltaValX, deltaValY, fac, false);
-		//
+		mainStage.position = newViewCenter;
+		/*
+		// Zoom into selected area!
 		prevZoom = zoomFac;
-		//mainStage.scale.x = mainStage.scale.y = changeZoom(mainStage.scale.x, -1, zoomFac, false);
-		//
+		let zoomFac = fac * 0.5 * pixiWidth / (1.0 * _width);
+		mainStage.scale.x = mainStage.scale.y = changeZoom(prevZoom, -1, zoomFac, false);
+		*/
 	}
 	//
 	//
@@ -1166,7 +1154,7 @@ function initPanZoom(){
 			//
 			clearTimeout($.data(this, 'scrollTimer'));
 	    $.data(this, 'scrollTimer', setTimeout(function() {
-
+	    		console.log(mainStage.position);
 	    		//
 	    		if(hitPopupMode != 'focused'){
 						maskContainer.visible = true;
