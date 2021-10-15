@@ -117,8 +117,7 @@
         function crunch(_id, _fname) {
           console.log(_fname);
           //
-          let p2_json = {};
-          p2_json[_id] = {
+          let p2_json = {
             viewport: null,
             shapes: []
           };
@@ -128,7 +127,7 @@
           if (!viewPort)
               viewPort = svg.getAttribute('x') + ' ' + svg.getAttribute('y')
                           + ' ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height');
-          p2_json[_id].viewport = viewPort;
+          p2_json.viewport = viewPort;
           document.getElementById('viewbox').innerHTML = 'ViewPort: ' + viewPort;
           document.getElementById('svg-result').innerHTML = document.getElementById('svg-original').innerHTML;
           var paths = document.querySelectorAll('#svg-result path');
@@ -145,7 +144,7 @@
 
               cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
               //
-              p2_json[_id].shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
           }
           cssPolygons.push('</ul>');
           document.getElementById('output').innerHTML = cssPolygons.join('');

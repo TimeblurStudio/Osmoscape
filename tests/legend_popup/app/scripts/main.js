@@ -60,7 +60,7 @@ let refPopupSize = {
 };
 //
 let datasets = {};
-let mergedLegends = {};
+let mergedLegends = {}, mergedPolygons = {};
 let uploadedLegendFile = [];
 let maskAreas = [], legendFiles = [];
 let earlySVGDataPromises = [], allSVGDataPromises = [];
@@ -166,7 +166,7 @@ function init(){
 	  console.log('Loaded datasets summary');
 	  //
 	  let dataWaitInterval = setInterval(function(){
-      if(mainScroll != null && !$.isEmptyObject(mergedLegends)){
+      if(mainScroll != null && !$.isEmptyObject(mergedLegends) && !$.isEmptyObject(mergedPolygons)){
         clearInterval(dataWaitInterval);
         datasets = data;
         loadDatasets();
@@ -182,6 +182,14 @@ function init(){
   $.getJSON(legendsURL, function( data ) {
     mergedLegends = data;
     console.log('Loaded legend files');
+  });
+
+  //
+  let polygonsURL = './assets/data/mergedPolygons.json' + '?v=' + commitversion;
+  console.log('mergedPolygonsURL: ' + polygonsURL);
+  $.getJSON(polygonsURL, function( data ) {
+    mergedPolygons = data;
+    console.log('Loaded polgon files');
   });
 
 
@@ -319,6 +327,7 @@ function loadDataset(id, early=true){
 	if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       let legenddata = mergedLegends[id];
+      let polygondata = JSON.parse(mergedPolygons[id]);
       //
       let lpath = datasets[id].legendpath;
       let title = datasets[id].title;
@@ -354,7 +363,7 @@ function loadDataset(id, early=true){
       }
       //
 	    //
-      let maskpromise = maskLoad(title, id, morder);
+      let maskpromise = maskLoad(title, polygondata, id, morder);
       let legendpromise = legendLoad(title, legenddata, lpath, id);
       //
       if(early){
@@ -412,7 +421,7 @@ function newPopRect(p1, p2) {
 //
 //
 //
-function maskLoad(title, num, order = null){
+function maskLoad(title, polygons, num, order = null){
 	//
 	let skipLoad = false;
 	const mpromise = new Promise((resolve, reject) => {
@@ -431,8 +440,6 @@ function maskLoad(title, num, order = null){
 			//
 			if(popupBBoxes[num] != undefined){
 		  	//
-		  	popupBBoxes[num]['mask'] = mask;
-		  	//
 				let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
 				let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
 				let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
@@ -445,11 +452,17 @@ function maskLoad(title, num, order = null){
 				_height *= rs;
 				//
 				let graphics = new PIXI.Graphics();
-				graphics.beginFill(0xFFFF00);
+				graphics.beginFill(0xFFA500);
 				graphics.lineStyle(1, 0xFF0000);
-				graphics.alpha = 0;
-				graphics.drawRect(_x, _y, _width, _height);
+				graphics.alpha = 0.2;
+				//graphics.drawRect(_x, _y, _width, _height);
+				if(polygons.shapes != undefined){
+					for (let s of polygons.shapes){
+	          graphics.drawPolygon(s.shape);
+	        }
+				}
 				popupBBoxes[num]['paths'].push(graphics);
+
 				//
 				let mask = graphics;
 				maskAreas.push(mask);
@@ -466,18 +479,20 @@ function maskLoad(title, num, order = null){
 				//if(order == 'front')
 				//	mask.bringToFront();
 				//
-				mask.x = (pixiWidth*mainScrollScale*3/4);
+				//mask.x = (pixiWidth*mainScrollScale*3/4);
+				let maskScale = 1;
+				if(polygons.viewport){
+					let maskHeight = polygons.viewport.split(' ')[3];
+					maskScale = pixiHeight/maskHeight;
+				}
 				//
+				let offset = 1028;
+				mask.scale.set(maskScale, maskScale);
+				mask.x = offset*mainScrollScale + (pixiWidth*mainScrollScale*3/4);
+			  //
+			  //
 	  		mask.interactive = true;
 				mask.buttonMode = true;
-				if(popupBBoxes[num].polygons != null){
-					let polygons = popupBBoxes[num].polygons;
-					console.log(polygons);
-		  		const hitAreaShapes = new HitAreaShapes(polygons);
-		  		//
-		  		mask.hitArea = hitAreaShapes;
-		  	}
-				//
 				mask.on('pointerdown', function(){
 				  //
 				  console.log('Clicked inside hitArea for mask-'+num);
@@ -489,6 +504,10 @@ function maskLoad(title, num, order = null){
 					console.log('Hover on mask-'+num);
 				  mainScroll['part1'].alpha = 0.1;
 				  mainScroll['part2'].alpha = 0.1;
+				  //
+				  for(let i=0; i<maskAreas.length; i++)
+				  	maskAreas[i].alpha = 0;
+				  mask.alpha = 0.2;
 				  //
 				  legendContainer.visible = true;
 					for(let i=0; i<legendFiles.length; i++)
@@ -502,6 +521,8 @@ function maskLoad(title, num, order = null){
 					console.log('Hover out of mask-'+num);
         	mainScroll['part1'].alpha = 1;
         	mainScroll['part2'].alpha = 1;
+        	for(let i=0; i<maskAreas.length; i++)
+				  	maskAreas[i].alpha = 0.2;
 				  //
         	legendContainer.visible = false;
 					for(let i=0; i<legendFiles.length; i++)
@@ -512,11 +533,6 @@ function maskLoad(title, num, order = null){
 				//
 				popupBBoxes[num]['mask'] = mask;
 				maskContainer.addChild(mask);
-				//
-				// CHANGE THIS TO HITAREA-SHAPES
-				/*
-				mask.hitArea = new PIXI.Rectangle(_x - offset, _y, _width/maskAreas[i].scale.x, _height/maskAreas[i].scale.y);
-				*/
 				//
 			}
 			//
