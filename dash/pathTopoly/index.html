@@ -130,6 +130,7 @@
           p2_json.viewport = viewPort;
           document.getElementById('viewbox').innerHTML = 'ViewPort: ' + viewPort;
           document.getElementById('svg-result').innerHTML = document.getElementById('svg-original').innerHTML;
+          //
           var paths = document.querySelectorAll('#svg-result path');
           var cssPolygons = ['<ul>'];
           for (var i = 0; i < paths.length; i++) {
@@ -146,6 +147,46 @@
               //
               p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
           }
+          //
+          var polygons = document.querySelectorAll('#svg-result polygon');
+          for (var i = 0; i < polygons.length; i++) {
+              var poly = polygons[i];
+              let points = [];
+              for(j=0;j<poly.points.length;j++){
+                points.push(poly.points[j].x);
+                points.push(poly.points[j].y);
+              }
+              var polygonSVGPoints = pointCommandsToSVGPoints(points);
+
+              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              polygon.setAttributeNS(null, 'fill', '#cecece');
+              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
+              poly.parentNode.replaceChild(polygon, poly);
+
+              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
+              //
+              p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+          }
+          //
+          var rectangles = document.querySelectorAll('#svg-result rect');
+          for (var i = 0; i < rectangles.length; i++) {
+              var rect = rectangles[i];
+              let points = [];
+              points.push(parseFloat(rect.getAttribute('x')));
+              points.push(parseFloat(rect.getAttribute('y')));
+              points.push(parseFloat(rect.getAttribute('x')) + parseFloat(rect.getAttribute('width')));
+              points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
+              var polygonSVGPoints = pointCommandsToSVGPoints(points);
+
+              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              polygon.setAttributeNS(null, 'fill', '#cecece');
+              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
+              rect.parentNode.replaceChild(polygon, rect);
+
+              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
+              p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+          }
+          //
           cssPolygons.push('</ul>');
           document.getElementById('output').innerHTML = cssPolygons.join('');
           //
