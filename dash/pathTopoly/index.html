@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.11/paper-full.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/notyf@3.9.0/notyf.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- stylesheet Links -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" >
@@ -114,8 +115,7 @@
             }
             return result;
         }
-        function crunch(_id, _fname) {
-          console.log(_fname);
+        function crunch(_download, _fname) {
           //
           let p2_json = {
             viewport: null,
@@ -149,7 +149,8 @@
           cssPolygons.push('</ul>');
           document.getElementById('output').innerHTML = cssPolygons.join('');
           //
-          download(JSON.stringify(p2_json), _fname+'.json', 'text/plain');
+          if(_download)
+            download(JSON.stringify(p2_json), _fname+'.json', 'text/plain');
           //
         }
         function download(content, fileName, contentType) {
@@ -162,44 +163,74 @@
         window.onload = function() {
             //
             //
-            let dataURL = './assets/data/dataSummary.json';
-            let allSVGDataPromises = [];
-            console.log('dataURL: ' + dataURL);
-            $.getJSON(dataURL, function( data ) {
-              console.log('Loaded datasets summary');
-              //
-              let datasets = data;
-              for (let id in datasets){
-                let mpath = datasets[id].maskpath;
+            swal("Do you want to batch convert all the polygons?", {
+              buttons: [true, "Do it!"],
+              timer: 10000
+            }).then((value) => {
+              if(value){
+                $('#my-gui-container').hide();
                 //
-                window.debug = true;
-                if(window.debug){
-                  let pieces = mpath.split('/');
-                  let fname = pieces[pieces.length-1];
-                  pieces[pieces.length-1] = 'Debug';
-                  pieces.push(fname);
-                  mpath = pieces.join('/');
-                }
-                //
-                setTimeout(function(){
-                  fetch(mpath)
-                    .then(r => r.text())
-                    .then(text => {
-                        //
-                        let result = text;
-                        // some programs add extra markup at the beginning, we remove that here
-                        result = result.replace(/^[\s\S]*(<svg)/i, "$1");
-                        document.getElementById('svg-original').innerHTML = result;
-                        crunch(id, mpath.substring(mpath.lastIndexOf('/')+1));
-                        //
-                        //
-                    })
-                    .catch(console.error.bind(console));
-                },1000*id)
-                //
+                let dataURL = './assets/data/dataSummary.json';
+                let allSVGDataPromises = [];
+                console.log('dataURL: ' + dataURL);
+                $.getJSON(dataURL, function( data ) {
+                  console.log('Loaded datasets summary');
+                  //
+                  let datasets = data;
+                  for (let id in datasets){
+                    let mpath = datasets[id].maskpath;
+                    //
+                    window.debug = true;
+                    if(window.debug){
+                      let pieces = mpath.split('/');
+                      let fname = pieces[pieces.length-1];
+                      pieces[pieces.length-1] = 'Debug';
+                      pieces.push(fname);
+                      mpath = pieces.join('/');
+                    }
+                    //
+                    setTimeout(function(){
+                      fetch(mpath)
+                        .then(r => r.text())
+                        .then(text => {
+                            //
+                            let result = text;
+                            // some programs add extra markup at the beginning, we remove that here
+                            result = result.replace(/^[\s\S]*(<svg)/i, "$1");
+                            document.getElementById('svg-original').innerHTML = result;
+                            crunch(true, mpath.substring(mpath.lastIndexOf('/')+1));
+                            //
+                            //
+                        })
+                        .catch(console.error.bind(console));
+                    },1000*id)
+                    //
+                  }
+                  //
+                },1000);
+              }else{
+                var picker = document.getElementById("files");
+                picker.addEventListener('change', function(evt) {
+                    var files = evt.target.files;
+                    if (files.length < 1)
+                        return;
+                    var f = files[0];
+                    if (f.type != 'image/svg+xml')
+                        return;
+                    var reader = new FileReader();
+                    reader.onload = (function(theFile) {
+                        return function(e) {
+                            var result = e.target.result;
+                            // some programs add extra markup at the beginning, we remove that here
+                            result = result.replace(/^[\s\S]*(<svg)/i, "$1");
+                            document.getElementById('svg-original').innerHTML = result;
+                            crunch(false);
+                        };
+                    })(f);
+                    reader.readAsText(f);
+                }, false);
               }
-              //
-            },1000);
+            });;
             //
             //
         }
@@ -208,12 +239,13 @@
         <div class='row'>
             <div class='span8'>
                 <h1>Path to Polygon Converter</h1>
-                <p class='lead'>Use this to convert entire bath of svg paths into polygons suitable for use as P2 Collision Shapes.</p>
+                <p class='lead'>Use this to convert single (or) entire batch of svg paths into polygons suitable for use as P2 Collision Shapes.</p>
+            </div>
+            <div class='span4' id="my-gui-container">
+                <input id="files" type="file" name="files[]" />
             </div>
         </div>
     </header>
-    <output id="viewbox"></output>
-    <output id="output"></output>
     <figure>
         <figcaption>Input Preview (with Paths)</figcaption>
         <div id="svg-original">
@@ -224,5 +256,7 @@
     <div id="svg-result">
     </div>
     </figure>
+    <output id="viewbox"></output>
+    <output id="output"></output>
   </body>
 
