@@ -8,6 +8,7 @@ const browserify = require('browserify');
 const babel = require('babelify');
 const vinylsource = require('vinyl-source-stream');
 const vinylbuffer = require('vinyl-buffer');
+const replace = require('gulp-replace');
 const cssnano = require('cssnano');
 const { argv } = require('yargs');
 
@@ -33,9 +34,7 @@ function styles() {
     .pipe($.postcss([
       autoprefixer()
     ]))
-    .pipe(dest('.tmp/styles', {
-      sourcemaps: !isProd,
-    }))
+    .pipe(dest(!isProd ? '.tmp/styles' : 'dist/styles'))
     .pipe(server.reload({stream: true}));
 };
 
@@ -93,7 +92,29 @@ function html() {
 }
 
 function assets(){
-  return src('app/assets/**/*').pipe($.if(!isProd, dest('.tmp/assets'), dest('dist/assets')));
+  if(!isProd){
+    return src('app/assets/**/*').pipe(dest('.tmp/assets'));
+  }
+}
+
+function assetsReplaceScript(){
+  let assetPathReplace = {
+    'value': '../../../../assets/',
+    'replaces' : ['./assets/']
+  };
+  return src(['./dist/scripts/main.js'])
+      .pipe(replace(assetPathReplace.replaces, assetPathReplace.value))
+      .pipe(dest('./dist/scripts/'));
+}
+
+function assetsReplaceIndex(){
+  let assetPathReplace = {
+    'value': '../../../../assets/',
+    'replaces' : ['./assets/']
+  };
+  return src(['./dist/index.html'])
+        .pipe(replace(assetPathReplace.replaces, assetPathReplace.value))
+        .pipe(dest('./dist/'));
 }
 
 //
@@ -131,14 +152,12 @@ function measureSize() {
 
 const build = series(
   clean,
-  parallel(
-    lint,
-    series(parallel(styles, scripts), html),
-    images,
-    assets,
-    fonts,
-    extras
-  ),
+  lint,
+  series(parallel(styles, scripts), html),
+  assetsReplaceScript,
+  assetsReplaceIndex,
+  fonts,
+  extras,
   measureSize
 );
 

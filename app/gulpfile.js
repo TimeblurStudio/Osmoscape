@@ -29,6 +29,8 @@ const stripDebug = require('gulp-strip-debug');
 const sass = require('gulp-sass')(require('sass'));
 const execSync = require('child_process').execSync;
 const uglify = require('gulp-uglify');
+const shell = require('gulp-shell');
+const merge = require('merge-stream');
 
 
 const $ = gulpLoadPlugins();
@@ -94,9 +96,28 @@ function commitDash(){
 }
 //
 //
+
 function copyAllExamples(){
-  return src('../osmo_examples/**/*')
-            .pipe(dest('dist/examples/'));
+  let tasks = [];
+  tasks.push(src(['../osmo_examples/**/*', '!../osmo_examples/pixi', '!../osmo_examples/pixi/**'])
+                  .pipe(dest('dist/examples/')));
+  tasks.push(src(['../osmo_examples/pixi/legend_popup/dist/**/*'])
+                  .pipe(dest('dist/examples/pixi/legend_popup/')));
+  tasks.push(src(['../osmo_examples/pixi/legend_popup_sound/dist/**/*'])
+                  .pipe(dest('dist/examples/pixi/legend_popup_sound/')));
+  tasks.push(src(['../osmo_examples/pixi/navigation/dist/**/*'])
+                  .pipe(dest('dist/examples/pixi/navigation/')));
+  return merge(tasks);
+}
+function cleanExamplesSrc(){
+  return del([
+    // here we use a globbing pattern to match everything inside the `mobile` folder
+    'dist/examples/pixi/**/*',
+    // we don't want to clean this file though so we negate the pattern
+    '!dist/examples/pixi/legend_popup/dist',
+    '!dist/examples/pixi/legend_popup/dist',
+    '!dist/examples/pixi/legend_popup/dist',
+  ]);
 }
 function commitanim(){
   return src('../osmo_examples/animation/index.html')
@@ -109,19 +130,19 @@ function commitcomp(){
             .pipe(dest('dist/examples/composition/'));
 }
 function commitleg(){
-  return src('../osmo_examples/legend_popup/index.html')
+  return src('../osmo_examples/paper/legend_popup/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/legend_popup/'));
+            .pipe(dest('dist/examples/paper/legend_popup/'));
 }
 function commitnav(){
-  return src('../osmo_examples/navigation/index.html')
+  return src('../osmo_examples/paper/navigation/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/navigation/'));
+            .pipe(dest('dist/examples/paper/navigation/'));
 }
 function commitsou(){
-  return src('../osmo_examples/sound/index.html')
+  return src('../osmo_examples/paper/sound/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/sound/'));
+            .pipe(dest('dist/examples/paper/sound/'));
 }
 //
 //
@@ -399,4 +420,17 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
-exports.dep = series(clean, copyAssets, copyDash, commitDash, copyAllExamples, commitAllExamples, build, newDeploy);
+exports.deploy = series(
+  clean, copyAssets, copyDash, commitDash,
+  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
+  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_sound/']),
+  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
+  copyAllExamples, commitAllExamples, build, newDeploy);
+exports.serveDeploy = series(
+  clean, copyAssets, copyDash, commitDash,
+  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
+  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_sound/']),
+  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
+  copyAllExamples, commitAllExamples, build,
+  shell.task(['serve ./dist/ -p 8080'])
+);

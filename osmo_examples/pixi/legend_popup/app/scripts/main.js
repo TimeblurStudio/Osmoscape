@@ -73,6 +73,9 @@ window.maskAreas = maskAreas;
 window.legendFiles = legendFiles;
 window.popupBBoxes = popupBBoxes;
 //
+window.earlySVGDataPromises = earlySVGDataPromises;
+window.allSVGDataPromises = allSVGDataPromises;
+//
 // Meter to keep track of FPS
 window.FPSMeter.theme.transparent.container.transform = 'scale(0.75)';
 window.meter = new window.FPSMeter({ margin: '-8px -16px', theme: 'transparent', graph: 1, history: 16 });
@@ -552,15 +555,20 @@ function maskLoad(title, polygons, num, order = null){
 //
 //
 function legendLoad(title, svgxml, svgpath, num){
-
+	//
 	let skipLoad = false;
 	const lpromise = new Promise((resolve, reject) => {
 		if(skipLoad)
 			resolve('m'+num);
 		else{
 			//
-			// APPROACH - A //
-			let legendTexture = PIXI.Texture.from(svgpath, {resolution: 8.0});
+			//
+			var parser = new DOMParser();
+			var doc = parser.parseFromString(svgxml, 'image/svg+xml');
+			let s = new XMLSerializer().serializeToString(doc);
+			var svgEncoded = 'data:image/svg+xml;base64,' + window.btoa(s);
+			let resource = new PIXI.SVGResource (svgEncoded, {scale: 1.5});
+			let legendTexture = PIXI.Texture.from(resource, {resolution: 8.0});
 			let legendLoaded = false;
 			legendTexture.on('update', () => {
 				if(!legendLoaded){
@@ -728,8 +736,9 @@ function loadHQ(){
 		  				$('#performance-stats table').append('<tr> <td>-----</td> <td>-----</td> <td>-----</td></tr>');
 		  			}
 						setInterval(function(){	$('#status').hide();	}, 2000);
-	  			}else
-	  				console.log('Waiting for allTracks to complete loading');
+	  			}else{
+	  				console.log('Waiting for data to complete loading -- allTracks: ' + allTracksCount + ' HQimage: ' + loaded.HQimage + ' SVGdata: ' + loaded.svgdata );
+	  			}
 		  	},2000);
 	  	}
 	  	//

@@ -98,7 +98,7 @@ function init(){
 	//
 
 	//
-	let dataURL = "../../assets/data/dataSummary.json" + "?v=" + commitversion;
+	let dataURL = "../../../assets/data/dataSummary.json" + "?v=" + commitversion;
 	console.log('dataURL: ' + dataURL);
 	$.getJSON(dataURL, function( data ) {
 	  console.log('Loaded datasets summary');
@@ -410,7 +410,7 @@ function loadHQ(){
 		//
 		backgroundLayer.sendToBack();
   };
-  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
+  downloadingImage.src = '../../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }
 
 function initNav(){
@@ -478,7 +478,7 @@ function loadNav(){
 	console.log('Loading nav sections');
 	//
 	//
-	let navPath = '../../assets/data/ChapterNavigation.svg';
+	let navPath = '../../../assets/data/ChapterNavigation.svg';
 	paper.project.importSVG(navPath, function(item){
 		console.log('Loaded Navigation');
 		let navigationFile = item;

@@ -151,7 +151,7 @@ function init(){
 function loadAudio(){
 	$('#status').text('Loading audio');
 	//
-	let base_path = '../../assets/audio/tracks/Baseline_'
+	let base_path = '../../../assets/audio/tracks/Baseline_'
 	let urls = {};
 	// Load base tracks
 	for(let i=0; i < 7; i++){
@@ -178,7 +178,7 @@ function loadAudio(){
 	//
 	// the intro player
 	introTrack = new Tone.Player({
-		url: "../../assets/audio/loops/-1.mp3",
+		url: "../../../assets/audio/loops/-1.mp3",
 		loop: true,
 		loopStart: 0,
 		loopEnd: 20,
@@ -256,7 +256,7 @@ function loadHQ(){
   	//
   	backgroundLayer.sendToBack();
   };
-  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
+  downloadingImage.src = '../../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }
 
 function initNav(){
@@ -324,7 +324,7 @@ function loadNav(){
 	console.log('Loading nav sections');
 	//
 	//
-	let navPath = '../../assets/data/ChapterNavigation.svg';
+	let navPath = '../../../assets/data/ChapterNavigation.svg';
 	paper.project.importSVG(navPath, function(item){
 		console.log('Loaded Navigation');
 		let navigationFile = item;
