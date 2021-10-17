@@ -7,6 +7,7 @@ const fs = require('fs');
 let datasets = null;
 let mergedMasks = {};
 let mergedLegends = {};
+let mergedPolygons = {};
 
 
 //
@@ -28,15 +29,25 @@ function mergeData(){
       console.log('Merging data for : ' + id);
       let mpath = datasets[id].maskpath;
       let lpath = datasets[id].legendpath;
+      let ppath = datasets[id].maskpath.replace("/legends/", "/polygons/")  + '.json';
       //
       let mask_data = fs.readFileSync(mpath, {encoding:'utf8', flag:'r'});
 			let legend_data = fs.readFileSync(lpath, {encoding:'utf8', flag:'r'});
+      let poly_data = "{}";
+      try{
+        poly_data = fs.readFileSync(ppath, {encoding:'utf8', flag:'r'});
+      }catch(e){
+        console.log('Couldn\'t find file: ' + ppath);
+      }
       //
       mergedMasks[id] = mask_data;
       mergedLegends[id] = legend_data;
+      mergedPolygons[id] = poly_data;
       //
   	}
   }
+  //
+  //
   //
   console.log('Saving mergedMasks');
   let masksURL = "../../assets/data/mergedMasks.json";
@@ -46,6 +57,9 @@ function mergeData(){
   let legendsURL = "../../assets/data/mergedLegends.json";
   fs.writeFileSync(legendsURL, JSON.stringify(mergedLegends), {encoding:'utf8'});
   //
+  console.log('Saving mergedPolygons');
+  let polygonsURL = "../../assets/data/mergedPolygons.json";
+  fs.writeFileSync(polygonsURL, JSON.stringify(mergedPolygons), {encoding:'utf8'});
   //
 }
 

@@ -27,6 +27,20 @@ let navLayer;
 //
 //
 //
+let performance_test = true;
+//
+//
+// Meter to keep track of FPS
+window.FPSMeter.theme.transparent.container.transform = 'scale(0.75)';
+window.meter = new window.FPSMeter({ margin: '-8px -16px', theme: 'transparent', graph: 1, history: 16 });
+//
+let t0 = null;
+if(performance_test){
+	t0 = performance.now();
+	$('#performance-stats table').append('<tr> <td>Started</td> <td>'+Math.round(t0-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+}else{
+	$('#performance-stats').hide();
+}
 //
 console.log('Initializing');
 init();
@@ -47,6 +61,8 @@ let navTweenItem;
 //
 //
 function start(){
+	if(performance_test)
+			$('#performance-stats table').append('<tr> <td>Start clicked</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 	console.log('Starting the audio context');
 	Tone.start();
 	//
@@ -61,6 +77,31 @@ function start(){
 	    { opacity: 1 },
 	    1500
 	);
+	//
+	if(performance_test){
+		$('#performance-stats table').append('<tr> <td>Started</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+		$('.nav').show();
+		let nav_children = $('.nav').children()
+		//
+		let _clicks = 0;
+		let max_clicks = 10;
+		let randomNavClicks = setInterval(function(){
+			//
+			let choosen_index = Math.floor(Math.random()*nav_children.length);
+			$('#performance-stats table').append('<tr> <td>Clicked on: nav-ch'+choosen_index+'</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+			//
+			$(nav_children[choosen_index]).trigger('click')
+			//
+			if(_clicks > max_clicks){
+				clearInterval(randomNavClicks);
+				$('#performance-stats table').append('<tr> <td>-----</td> <td>-----</td> <td>-----</td></tr>');
+			}
+			_clicks++;
+			//
+		}, 1000)
+		//
+	}
+	//
 }
 
 //
@@ -83,6 +124,9 @@ function init(){
 	backgroundLayer = new paper.Layer();
 	navLayer = new paper.Layer();
 
+	if(performance_test)
+		$('#performance-stats table').append('<tr> <td>Pixi setup</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+
 	// INTERACTIONS
 	initPanZoom();
 
@@ -95,13 +139,19 @@ function init(){
 
 	// Draw PAPER
 	paper.view.draw();
+
+  //
+  // Update on paper events
+  paper.view.onFrame = function(event) {
+    window.meter.tick();
+  };
 }
 
 
 function loadAudio(){
 	$('#status').text('Loading audio');
 	//
-	let base_path = '../../assets/audio/tracks/Baseline_'
+	let base_path = '../../../assets/audio/tracks/Baseline_'
 	let urls = {};
 	// Load base tracks
 	for(let i=0; i < 7; i++){
@@ -116,6 +166,9 @@ function loadAudio(){
 			fadeIn: 1,
 			onload: function(){
 				allTracksCount++;
+				if(performance_test)
+					if(allTracksCount == 8)
+						$('#performance-stats table').append('<tr> <td>Loaded 8 tracks</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 			}
 		}).toDestination();
 		//
@@ -125,13 +178,16 @@ function loadAudio(){
 	//
 	// the intro player
 	introTrack = new Tone.Player({
-		url: "../../assets/audio/loops/-1.mp3",
+		url: "../../../assets/audio/loops/-1.mp3",
 		loop: true,
 		loopStart: 0,
 		loopEnd: 20,
 		fadeOut: 1,
 		onload: function(){
 				allTracksCount++;
+				if(performance_test)
+					if(allTracksCount == 8)
+						$('#performance-stats table').append('<tr> <td>Loaded 8 tracks</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 			}
 	}).toDestination();
 	//
@@ -148,12 +204,18 @@ function loadHQ(){
 	$('#status').text('Loading '+scrollType+' Quality scroll...');
   console.log('loading High Quality Image');
   //
+  if(performance_test)
+			$('#performance-stats table').append('<tr> <td>Started load 150ppi-images</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
   //
   let image = document.getElementById('HQscroll');
   var downloadingImage = new Image();
   downloadingImage.onload = function(){
+		//
   	console.log('Loaded HQ image');
     image.src = this.src;
+    //
+    if(performance_test)
+				$('#performance-stats table').append('<tr> <td>Loaded 150ppi-images</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
     //
     initSVGscroll();
 		initSplash(800);//splashWidth: 800px
@@ -161,9 +223,16 @@ function loadHQ(){
 		loadNav();
 		initNav();
 		//
+		if(performance_test)
+				$('#performance-stats table').append('<tr> <td>Background Layer ready</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+		//
 		if(allTracksCount == 8){
   		$('#status').text('Loaded');
   		$('#status').show();
+		  if(performance_test){
+				$('#performance-stats table').append('<tr> <td>App Ready</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+				$('#performance-stats table').append('<tr> <td>-----</td> <td>-----</td> <td>-----</td></tr>');
+			}
   		setInterval(function(){	$('#status').hide();	}, 2000);
   	}
   	else{
@@ -175,6 +244,10 @@ function loadHQ(){
   				$('#status').text('Loaded');
   				$('#status').show();
   				$('#start-btn').show();
+  				if(performance_test){
+						$('#performance-stats table').append('<tr> <td>App Ready</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+	  				$('#performance-stats table').append('<tr> <td>-----</td> <td>-----</td> <td>-----</td></tr>');
+	  			}
 	  			setInterval(function(){	$('#status').hide();	}, 2000);
   			}else
   				console.log('Waiting for allTracks to complete loading');
@@ -183,13 +256,13 @@ function loadHQ(){
   	//
   	backgroundLayer.sendToBack();
   };
-  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
+  downloadingImage.src = '../../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }
 
 function initNav(){
 	console.log('Initializing navigation');
 	$('.jump').click(function(el){
-		let chap_id = parseInt($(el.target.parentElement).attr('data-id'));
+		let chap_id = parseInt($(el.currentTarget).attr('data-id'));
 		let locX = paper.project.getItem({name: 'nav-ch'+chap_id}).bounds.left;
 		let w = paper.project.getItem({name: 'nav-ch'+chap_id}).bounds.width;
 		//
@@ -251,7 +324,7 @@ function loadNav(){
 	console.log('Loading nav sections');
 	//
 	//
-	let navPath = '../../assets/data/ChapterNavigation.svg';
+	let navPath = '../../../assets/data/ChapterNavigation.svg';
 	paper.project.importSVG(navPath, function(item){
 		console.log('Loaded Navigation');
 		let navigationFile = item;
@@ -266,6 +339,9 @@ function loadNav(){
 		item.opacity = 0.03;
 		//
 		navLayer.addChild(item);
+		//
+		if(performance_test)
+			$('#performance-stats table').append('<tr> <td>Loaded nav</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 	});
 	//
 }
@@ -293,9 +369,14 @@ function initSVGscroll(){
 	scrollHeight = paperHeight;
 	//
 	backgroundLayer.addChild(mainScroll);
+	//
+	if(performance_test)
+		$('#performance-stats table').append('<tr> <td>Init 150ppi-images</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 }
 
 function initSplash(_width){
+	if(performance_test)
+		$('#performance-stats table').append('<tr> <td>Started splash</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 	//
 	// SPLASH
 	//
@@ -347,6 +428,9 @@ function initSplash(_width){
 	//
 	backgroundLayer.addChild(raster);
 	backgroundLayer.addChild(exploreGroup);
+	//
+	if(performance_test)
+		$('#performance-stats table').append('<tr> <td>Splash ready</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 }
 
 
@@ -361,6 +445,9 @@ function initPanZoom(){
 	$('#main-scroll-canvas').on('mousewheel', function(event) {
 		if(!started)
 			return;
+		let scrolling_id = Date.now();
+		if(performance_test)
+			$('#performance-stats table').append('<tr> <td>Start scrolling '+scrolling_id+'</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 		// check inactivity
 		clearTimeout($.data(this, 'scrollTimer'));
     $.data(this, 'scrollTimer', setTimeout(function() {
@@ -373,10 +460,13 @@ function initPanZoom(){
         		baseTracks['base'+(i+1)].stop();
         	//
         	console.log('Now playing : ' + currentTrack);
+        	//
+					if(performance_test)
+						$('#performance-stats table').append('<tr> <td>Baselnie change '+scrolling_id+'</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+					//
         	baseTracks[currentTrack].start();
         }
     }, 250));
-
 		//
 		let et;
 		et = event.originalEvent;
@@ -399,7 +489,14 @@ function initPanZoom(){
 		//
 		paper.view.center = changeCenter(paper.view.center, deltaValX, 0, fac);
 		navTweenItem.position = paper.view.center;
+		//
+		if(performance_test)
+			$('#performance-stats table').append('<tr> <td>End scrolling '+scrolling_id+'</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
+		//
 	});
+	//
+	if(performance_test)
+		$('#performance-stats table').append('<tr> <td>Init pan-zoom</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 }
 
 /**
