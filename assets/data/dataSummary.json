@@ -711,24 +711,6 @@
     ],
     "audiofile": "../../assets/audio/loops/63.mp3"
   },
-  "-1": {
-    "ch": "ch1",
-    "id": "-1",
-    "title": "Water structure",
-    "desc": "Water bends, gyrates, vibrates, elongates, shortens, pulls and pushes. Nearly impossible to pin down, the structure of the water molecule has been hotly debated for decades. And structure is everything; it dictates the physics, therefore the chemistry, therefore the biology, therefore life as we know it. A molecule of water, the smallest unit it can be broken down to, has two atoms of hydrogen and one of oxygen. It is the way the oxygen and hydrogen atoms interact that makes water unique. The sound is represented by a synthesized representation of water. Two synthesizers, one representing Oxygen and one Hydrogen, play a series of notes derived from the number of electrons in the shell of each element (1 for O and 2,6 for H). ",
-    "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified.svg",
-    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
-    "order": "back",
-    "popdimensions": [
-      {
-        "x": 332.8699999999999,
-        "y": 343.5,
-        "width": 1277,
-        "height": 470
-      }
-    ],
-    "audiofile": "../../assets/audio/loops/-1.mp3"
-  },
   "48a": {
     "id": "48a",
     "title": "48_class 1 cities _sewage",
