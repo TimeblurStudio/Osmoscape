@@ -11,6 +11,7 @@ let mergedPolygons = {};
 let mergedSoundAreas = {};
 
 //
+var myArgs = process.argv.slice(2);
 //
 console.log('Starting merge process');
 mergeData();
@@ -60,21 +61,33 @@ function mergeData(){
   //
   //
   //
-  console.log('Saving mergedMasks');
-  let masksURL = "../../assets/data/mergedMasks.json";
-  fs.writeFileSync(masksURL, JSON.stringify(mergedMasks), {encoding:'utf8'});
+  if(!myArgs.includes("!masks")){
+    console.log('Saving mergedMasks');
+    let masksURL = "../../assets/data/mergedMasks.json";
+    fs.writeFileSync(masksURL, JSON.stringify(mergedMasks), {encoding:'utf8'});
+  }else
+    console.log('Skipping mergedMasks');
   //
-  console.log('Saving mergedLegends');
-  let legendsURL = "../../assets/data/mergedLegends.json";
-  fs.writeFileSync(legendsURL, JSON.stringify(mergedLegends), {encoding:'utf8'});
+  if(!myArgs.includes("!legends")){
+    console.log('Saving mergedLegends');
+    let legendsURL = "../../assets/data/mergedLegends.json";
+    fs.writeFileSync(legendsURL, JSON.stringify(mergedLegends), {encoding:'utf8'});
+  } else
+    console.log('Skipping mergedLegends');
   //
-  console.log('Saving mergedPolygons');
-  let polygonsURL = "../../assets/data/mergedPolygons.json";
-  fs.writeFileSync(polygonsURL, JSON.stringify(mergedPolygons), {encoding:'utf8'});
+  if(!myArgs.includes("!polygons")){
+    console.log('Saving mergedPolygons');
+    let polygonsURL = "../../assets/data/mergedPolygons.json";
+    fs.writeFileSync(polygonsURL, JSON.stringify(mergedPolygons), {encoding:'utf8'});
+  }else
+    console.log('Skipping mergedPolygons');
   //
-  console.log('Saving mergedSoundAreas');
-  let soundAreasURL = "../../assets/data/mergedSoundAreas.json";
-  fs.writeFileSync(soundAreasURL, JSON.stringify(mergedSoundAreas), {encoding:'utf8'});
+  if(!myArgs.includes("!soundareas")){
+    console.log('Saving mergedSoundAreas');
+    let soundAreasURL = "../../assets/data/mergedSoundAreas.json";
+    fs.writeFileSync(soundAreasURL, JSON.stringify(mergedSoundAreas), {encoding:'utf8'});
+  }else
+    console.log('Skipping mergedSoundAreas');
   //
 }
 

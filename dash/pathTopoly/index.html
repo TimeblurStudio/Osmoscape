@@ -116,15 +116,18 @@
             return result;
         }
         function crunch(_download, _type, _fname) {
-
           //
           let p2_json = {
             viewport: null,
             shapes: []
           };
           //
-          if(_download && _type == 'sound')
-              p2_json.shapes.push([])
+          if(_download && _type == 'sound'){
+            p2_json = {
+              viewport: null,
+              shapes: {"default": []}
+            };
+          }
           //
           var svg = document.querySelector('#svg-original svg');
           var viewPort = svg.getAttribute('viewBox');
@@ -134,6 +137,7 @@
           p2_json.viewport = viewPort;
           document.getElementById('viewbox').innerHTML = 'ViewPort: ' + viewPort;
           document.getElementById('svg-result').innerHTML = document.getElementById('svg-original').innerHTML;
+          
           //
           var paths = document.querySelectorAll('#svg-result path');
           var cssPolygons = ['<ul>'];
@@ -149,10 +153,10 @@
 
               cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
               //
-              if(type = 'mask')
+              if(_type == 'mask')
                 p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-              if(type = 'sound')
-                p2_json.shapes[0].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                p2_json.shapes['default'].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
           }
           //
           var polygons = document.querySelectorAll('#svg-result polygon');
@@ -172,10 +176,10 @@
 
               cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
               //
-              if(type = 'mask')
+              if(_type == 'mask')
                 p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-              if(type = 'sound')
-                p2_json.shapes[0].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                p2_json.shapes['default'].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
           }
           //
           var rectangles = document.querySelectorAll('#svg-result rect');
@@ -187,17 +191,17 @@
               points.push(parseFloat(rect.getAttribute('x')) + parseFloat(rect.getAttribute('width')));
               points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
               var polygonSVGPoints = pointCommandsToSVGPoints(points);
+          
 
               var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
               polygon.setAttributeNS(null, 'fill', '#cecece');
               polygon.setAttributeNS(null, 'points', polygonSVGPoints);
               rect.parentNode.replaceChild(polygon, rect);
-
               cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
-              if(type = 'mask')
+              if(_type == 'mask')
                 p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-              if(type = 'sound')
-                p2_json.shapes[0].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                p2_json.shapes['default'].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
           }
           //
           cssPolygons.push('</ul>');
@@ -280,6 +284,7 @@
                           mpath = pieces.join('/');
                         }
                         //
+                        console.log(mpath);
                         setTimeout(function(){
                           fetch(mpath)
                             .then(r => r.text())
@@ -342,6 +347,8 @@
             </div>
         </div>
     </header>
+    <output id="viewbox"></output>
+    <output id="output"></output>
     <figure>
         <figcaption>Input Preview (with Paths)</figcaption>
         <div id="svg-original">
@@ -352,7 +359,5 @@
     <div id="svg-result">
     </div>
     </figure>
-    <output id="viewbox"></output>
-    <output id="output"></output>
   </body>
 
