@@ -348,6 +348,7 @@
     "title": "Droughts in India",
     "desc": "A case study talks about the impact of droughts in various parts of India and delves into its social and economic implications. It analyses drought patterns in India for almost a century from 1877-1979. India faced its most severe drought in 1877 where about 28 percent of the area was affected by severe rainfall deficiency. Records state that almost five million people died because of the 1876-77 famine. India didn’t have any severe droughts between the years 1941 and 1968 with small areas being affected by severe drought in the years that followed up to 1979. The sound is represented by a recording of the arrival of a water tanker in Maharashtra, sampled and manipulated to sound like a diesel engine as heard from inside a water tank.",
     "legendpath": "../../assets/data/legends/25  Droughts in India_legend-01.svg",
+    "order": "front",
     "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg",
     "audiofile": "../../assets/audio/loops/25 rev1.mp3"
   },
