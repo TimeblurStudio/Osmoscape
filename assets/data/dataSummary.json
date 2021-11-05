@@ -82,7 +82,15 @@
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
     "order": "front",
-    "audiofile": "../../assets/audio/loops/6 rev1.mp3"
+    "audiofile": "../../assets/audio/loops/6 rev1.mp3",
+    "popdimensions": [
+      {
+        "x": 1335.3590485930454,
+        "y": 115.69097137451172,
+        "width": 977.1429443359375,
+        "height": 636.5017166137695
+      }
+    ]
   },
   "7": {
     "ch": "ch3",
@@ -108,7 +116,15 @@
     "desc": "The sea surface temperature is a measure of the energy of the molecules at the ocean surface, that is, the water temperature of the ocean surface. Measuring this helps in understanding the interaction between the sea surface and the layers of atmosphere above it, as it is this interaction that regulates the climate. A global study using satellite data and historical records to show that global sea surface temperatures have shown a steady rise between 1850 and 2018. The increase has been seen after the 1900s, which is the beginning of the industrial era. The ocean is a massive sink of carbon dioxide, which means that it absorbs the carbon dioxide from various sources as well as the heat radiated back to the earth from the greenhouse gases. The sound is represented by recordings of boiling water combined with field recordings of a coral reef.",
     "legendpath": "../../assets/data/legends/08_global sea surface temp-legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg",
-    "audiofile": "../../assets/audio/loops/8.mp3"
+    "audiofile": "../../assets/audio/loops/8.mp3",
+    "popdimensions": [
+      {
+        "x": 1581.1307652878822,
+        "y": 226.19985961914062,
+        "width": 871.8206787109375,
+        "height": 522.7484436035156
+      }
+    ]
   },
   "9": {
     "ch": "ch3",
@@ -135,7 +151,15 @@
     "desc": "Researchers from Japan looked at the change in rainwater pH from 1800 to 2007 as a result of increasing carbon dioxide in the atmosphere. They studied the historical records of CO2 till 1958 in the atmosphere from the ice cores in Antarctica and more recent data from 1958-2007 came from Mauna Loa, one of the five volcanoes in the US state of Hawaii in the Pacific Ocean. The data reveals that the pH of rainwater has decreased from 5.68 to 5.62 due to Co2 emissions. This is a decrease of 0.06 units. The pH is a logarithmic scale. This means that a drop in pH level by 1 unit means a ten times increase in acidity. If the pH of water reduces from 6.0 to 5.0, it becomes 10 times more acidic. If it reduces to 4.0 from 6.0, it has become 100 times more acidic. The sound is represented by a manipulated field recording of rain in the woods, the rhythm of which intermittently triggers the frequency of the carbon atom.",
     "legendpath": "../../assets/data/legends/11 Rain pH and Co2-01.svg",
     "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
-    "audiofile": "../../assets/audio/loops/11.mp3"
+    "audiofile": "../../assets/audio/loops/11.mp3",
+    "popdimensions": [
+      {
+        "x": 2836.9842242050277,
+        "y": 15.208115577697754,
+        "width": 912.8417968749995,
+        "height": 790.7280416488647
+      }
+    ]
   },
   "12": {
     "ch": "ch3",
@@ -145,7 +169,15 @@
     "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg",
     "order": "front",
-    "audiofile": "../../assets/audio/loops/12.mp3"
+    "audiofile": "../../assets/audio/loops/12.mp3",
+    "popdimensions": [
+      {
+        "x": 3417.578582007888,
+        "y": 33.38845443725586,
+        "width": 1053.1955261230469,
+        "height": 396.799015045166
+      }
+    ]
   },
   "13": {
     "ch": "ch3",
@@ -188,7 +220,15 @@
     "desc": "Researchers at the Institute of Tibetan Plateau Research in China conducted a study of ice cores from five different locations of the Tibetan Plateau, revealing the presence of black soot deposits. Black soot is formed from the incomplete combustion of fossil fuel. It gets transported by wind, mixes with rainwater and snow, and settles on glaciers. This leads to darkening of the surface of the glacier. The glaciers being white, have high albedo. This means they are able to reflect back most of the sunlight without absorbing it. Due to the presence of soot, they absorb sunlight and reduce the reflecting capacity of the glacier.This soot then contributes to the melting of the surface of the glacier. The soot received in the Tibetan glaciers in this study is mostly from Europe and the Middle East in the past. The sound is represented by field recordings of an Indian farmers burning their fields, combined with recordings of a glacier in the Karakoram.",
     "legendpath": "../../assets/data/legends/15 Black carbon annual data_legend-01.svg",
     "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg",
-    "audiofile": "../../assets/audio/loops/15.mp3"
+    "audiofile": "../../assets/audio/loops/15.mp3",
+    "popdimensions": [
+      {
+        "x": 3691.1471329617643,
+        "y": 41.515625,
+        "width": 986.3443603515625,
+        "height": 740.8799438476562
+      }
+    ]
   },
   "16": {
     "ch": "ch4",
