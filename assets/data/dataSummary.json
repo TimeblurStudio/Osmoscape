@@ -530,6 +530,7 @@
     "title": "42 Water and River",
     "desc": "The Ashio mine was a copper mine that has been in existence since the 1600s in Japan.  This dataset records the environmental destruction that unfolded due to a rapid growth in copper mining in the 1870s as the metal became vital to provide for Japan’s breakneck modernization, increasing military strength and expanding industrialization. The data set chronicles Japan’s social struggle with the repercussions of its transformation into a modern industrial state and economy, from 1870s up to World War II and beyond. The Ashio Copper mining conflict is significant in Japanese history, because it was the first issue that created a huge surge of environmental movements. It was the first movement of its kind where peasant farmers were pitted against a powerful corporation, at a time when the nation’s economic growth almost wholly dependent on increasing copper production. The sound is represented by a synthesized pitch centered around 1084.62hz, as a musical representation of the 1084.62 C melting point of copper. Recorded sounds of molten copper are also added.",
     "legendpath": "../../assets/data/legends/45a_legend-01.svg",
+    "order": "front",
     "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg",
     "audiofile": "../../assets/audio/loops/45.mp3"
   },
