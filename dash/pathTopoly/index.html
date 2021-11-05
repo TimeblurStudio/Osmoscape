@@ -57,6 +57,84 @@
             }).join(',');
           }
         }
+        function processPaths(_json, _type, mainid, targetid){
+          console.log('processPaths ' + _json + ' ' + _type + ' ' + mainid + ' ' + targetid);
+          if(_json.shapes[targetid] == undefined)
+            _json.shapes[targetid] = [];
+          //
+          var paths = document.querySelectorAll(mainid+' path');
+          var cssPolygons = ['<ul>'];
+          for (var i = 0; i < paths.length; i++) {
+              var path = paths[i];
+              var points = pathToPoints(path.pathSegList);
+              var polygonSVGPoints = pointCommandsToSVGPoints(points);
+
+              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              polygon.setAttributeNS(null, 'fill', '#cecece');
+              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
+              path.parentNode.replaceChild(polygon, path);
+
+              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
+              //
+              if(_type == 'mask')
+                _json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                _json.shapes[targetid].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              //
+          }
+          //
+          var polygons = document.querySelectorAll(mainid + ' polygon');
+          for (var i = 0; i < polygons.length; i++) {
+              var poly = polygons[i];
+              let points = [];
+              for(j=0;j<poly.points.length;j++){
+                points.push(poly.points[j].x);
+                points.push(poly.points[j].y);
+              }
+              var polygonSVGPoints = pointCommandsToSVGPoints(points);
+
+              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              polygon.setAttributeNS(null, 'fill', '#cecece');
+              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
+              poly.parentNode.replaceChild(polygon, poly);
+
+              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
+              //
+              if(_type == 'mask')
+                _json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                _json.shapes[targetid].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              //
+          }
+          //
+          var rectangles = document.querySelectorAll(mainid + ' rect');
+          for (var i = 0; i < rectangles.length; i++) {
+              var rect = rectangles[i];
+              let points = [];
+              points.push(parseFloat(rect.getAttribute('x')));
+              points.push(parseFloat(rect.getAttribute('y')));
+              points.push(parseFloat(rect.getAttribute('x')) + parseFloat(rect.getAttribute('width')));
+              points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
+              var polygonSVGPoints = pointCommandsToSVGPoints(points);
+          
+
+              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              polygon.setAttributeNS(null, 'fill', '#cecece');
+              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
+              rect.parentNode.replaceChild(polygon, rect);
+              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
+              if(_type == 'mask')
+                _json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                _json.shapes[targetid].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+          }
+          //
+          cssPolygons.push('</ul>');
+          document.getElementById('output').innerHTML = cssPolygons.join('');
+          //
+          return _json;
+        }
+
         function pathToPoints(segments) {
             var count = segments.numberOfItems;
             var result = [], segment, x, y;
@@ -116,6 +194,7 @@
             return result;
         }
         function crunch(_download, _type, _fname) {
+          console.log('Curunching: ' + _type + ' ' + _download + ' ' + _fname);
           //
           let p2_json = {
             viewport: null,
@@ -125,7 +204,7 @@
           if(_download && _type == 'sound'){
             p2_json = {
               viewport: null,
-              shapes: {"default": []}
+              shapes: {}
             };
           }
           //
@@ -137,75 +216,22 @@
           p2_json.viewport = viewPort;
           document.getElementById('viewbox').innerHTML = 'ViewPort: ' + viewPort;
           document.getElementById('svg-result').innerHTML = document.getElementById('svg-original').innerHTML;
-          
           //
-          var paths = document.querySelectorAll('#svg-result path');
-          var cssPolygons = ['<ul>'];
-          for (var i = 0; i < paths.length; i++) {
-              var path = paths[i];
-              var points = pathToPoints(path.pathSegList);
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
-
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-              polygon.setAttributeNS(null, 'fill', '#cecece');
-              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
-              path.parentNode.replaceChild(polygon, path);
-
-              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
-              //
-              if(_type == 'mask')
-                p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-              if(_type == 'sound')
-                p2_json.shapes['default'].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+          let multiple_ = $('#svg-result').find('#multiple');
+          if(multiple_.length != 0){
+            let multiple_masks = multiple_.children();
+            for(let m=0; m < multiple_masks.length; m++){
+              let _mask = multiple_masks[m];
+              let id = $(_mask).attr('id');
+              console.log('processing ' + id);
+              p2_json = processPaths(p2_json, _type, '#'+id, id);
+            }
+          }else{
+            console.log('processing default');
+            p2_json = processPaths(p2_json, _type, '#svg-result', 'default');
           }
           //
-          var polygons = document.querySelectorAll('#svg-result polygon');
-          for (var i = 0; i < polygons.length; i++) {
-              var poly = polygons[i];
-              let points = [];
-              for(j=0;j<poly.points.length;j++){
-                points.push(poly.points[j].x);
-                points.push(poly.points[j].y);
-              }
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
-
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-              polygon.setAttributeNS(null, 'fill', '#cecece');
-              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
-              poly.parentNode.replaceChild(polygon, poly);
-
-              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
-              //
-              if(_type == 'mask')
-                p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-              if(_type == 'sound')
-                p2_json.shapes['default'].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-          }
-          //
-          var rectangles = document.querySelectorAll('#svg-result rect');
-          for (var i = 0; i < rectangles.length; i++) {
-              var rect = rectangles[i];
-              let points = [];
-              points.push(parseFloat(rect.getAttribute('x')));
-              points.push(parseFloat(rect.getAttribute('y')));
-              points.push(parseFloat(rect.getAttribute('x')) + parseFloat(rect.getAttribute('width')));
-              points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
-          
-
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-              polygon.setAttributeNS(null, 'fill', '#cecece');
-              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
-              rect.parentNode.replaceChild(polygon, rect);
-              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
-              if(_type == 'mask')
-                p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-              if(_type == 'sound')
-                p2_json.shapes['default'].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-          }
-          //
-          cssPolygons.push('</ul>');
-          document.getElementById('output').innerHTML = cssPolygons.join('');
+          console.log(p2_json);
           //
           if(_download)
             download(JSON.stringify(p2_json), _fname+'.json', 'text/plain');
@@ -299,6 +325,7 @@
                                 //
                             })
                             .catch((err)=>{
+                                console.log(err);
                                 console.log('Failed to load: ' + id)
                             });
                         },1000*id)
