@@ -81,6 +81,8 @@
     "desc": "This study, conducted by Water Resources Institute, records the baseline water stress in several major river basins across the world. Baseline water stress refers to the ratio between the total water withdrawn for use and the annual available renewable water supplies. It is clear that two variables determine the baseline water stress—water supply availability, and the demand for that water. Water is supplied to the basins in the form of precipitation (snow and rain) or the melting of glaciers. The demand for water is mainly divided into three sectors—the domestic, industrial, and agricultural sectors—with the latter usually having the highest baseline water stress. The study indicates that the demand is higher than the supply. River basins across the globe are being exploited to an unsustainable extent. The sound represents a field recording of the Yongding River, processed with a vocoder.",
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
+    "speciallegend": "../../assets/data/legends/6 Baseline water stress Layer4 Print legend_specialcase.svg",
+    "specialmask": "../../assets/data/legends/6 Baseline water stress Layer4 Print mask_specialcase.svg",
     "order": "front",
     "audiofile": "../../assets/audio/loops/6 rev1.mp3",
     "popdimensions": [
@@ -269,7 +271,7 @@
     "id": "19",
     "title": "Aral sea breast milk analytes",
     "desc": "Rising infant mortality in Kazakhstan and declining practice of breast feeding led to a study of breast milk by researcher Kim Hooper in February 1994. There were concerns about the presence of contaminants in breast milk. 92 first-time mothers with 2-8 week-old infants were chosen for the study.  The samples of milk were taken from seven different sites, chosen to reflect major agricultural, industrial and population centres in Kazakhstan. Other than samples of human breast milk, cow’s milk, fish from the region were also collected and tested for the presence of contaminants such as Organochlorine Pesticides (OC), Polychlorinated biphenyls (PCBs), Hexachlorocyclohexane and its isomers (HCH) and DDT and its metabolites. \nThe study found high levels of a pesticide called Beta-HCH. PCB toxicity was high in one of the sampled sites, Atyaru. Another pesticide DDE showed high levels in rural areas. The study helps in understanding how women and young children were the most affected in this ecological disaster. The brunt of disease and mortality are carried the most by vulnerable sections of the society. The sound is represented by a recording of a baby breastfeeding, manipulated and subtly combined with the sound of a Monsanto advertisement.",
-    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_legend-01.svg",
+    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_vector_legend_updated.svg",
     "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
     "popdimensions": [
       {
@@ -303,7 +305,7 @@
     "id": "21",
     "title": "Cotton production",
     "desc": "Cotton is a water-intensive crop. The top seven cotton producing nations, Brazil, China, India, Pakistan, Turkey, the United States, and Uzbekistan, account for 84% of global cotton production. In this dataset, patterns related to weather and cotton production give a better understanding of the variability of cotton production and the influence it has on global production. The study shows a falling cotton production in 2016-17 when La Nina weather conditions existed. La Nina is an irregularly recurring upwelling of unusually cold water to the ocean surface along the western coast of South America that often occurs and disrupts typical regional and global weather patterns. There are critical questions being raised in the face of the current global climate change and a lack of infrastructure for careful allocation of water. The sound is represented by a recording of cotton fields being irrigated, combined with the sound of water running down a bathtub drain.",
-    "legendpath": "../../assets/data/legends/21 Cotton production_legend-01.svg",
+    "legendpath": "../../assets/data/legends/21 Cotton production by country_legend_updated.svg",
     "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg",
     "popdimensions": [
       {
@@ -495,7 +497,7 @@
     "id": "40",
     "title": "Sukinda mines water sediment analysis for chromium",
     "desc": "Sukinda valley is a town in the Jajpur district in the eastern Indian state of Odisha. The small, unassuming town of Sukinda is world famous. It contains 97% of India’s chromium ore deposits, and has one of the largest open cast chromite ore mines in the world. In the year 2007, the US-based Blacksmith Institute released a report taking a range of parameters to identify the ten most polluted places in the world. Sukinda was one of them. A study by Odisha-based non-profit Environment Protection Group revealed that the percentage of hexavalent chromium (Cr+6) in the rivers is higher than the permissible limit. Approximately 70% of the surface water and 60% of the drinking water contains hexavalent chromium at more than double national and international standards and levels of over 20 times the standard have been recorded. Hexavalent chromium is a known human carcinogen and adversely affects human health. The sound is represented by synthesized mining sounds, manipulated to create additional dusty and sludgy textures, and a repeating tone at 1907Hz (derived from the 1907 C melting point of Chromium).",
-    "legendpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend-01.svg",
+    "legendpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_updated.svg",
     "maskpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg",
     "popdimensions": [
       {
@@ -512,7 +514,7 @@
     "id": "41",
     "title": "Sukinda mines sediment analysis for chromium",
     "desc": "Another case study by Odisha-based non-profit Environment Protection Group showed that the sediment in the soil in Sukinda, the village destroyed by chromium mining, shows more metal content in the post-monsoon period owing to the leaching of metals from the overburden of mining. The pH test reflected the acidic nature of the soil, within a range of 5.5 to 6.3. The sound is represented by a news story of mining protests in Sukinda, fed into a granular synthesizer. Notes are arranged in clusters of 6 and transposed only by intervals of 6 semitones in order to represent hexavalent chromium. The overall effect is evocative of mining. ",
-    "legendpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium-01.svg",
+    "legendpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_legend_updated.svg",
     "maskpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_mask-01.svg",
     "popdimensions": [
       {
@@ -589,7 +591,7 @@
     "id": "46",
     "title": "46 Water and River",
     "desc": "India, home to nine large rivers flowing throughout the country generates a staggering 1.7 million tonnes of faecal waste a day, a large portion of which ends up in these water sources due to inappropriate sewage treatment.  Official records have shown that 78 percent of the sewage generated remains untreated and is disposed of in rivers, groundwater or lakes.  The dataset obtained from central government portals draws a comparison between the total sewage generated in all the states of India and the  treatment capacity of the installed sewage treatment plants across the country. Out of 38000 million litres per day of sewage generated treatment capacity exists for only about 12000 million litres per day. The sound is represented by field recording of India and rhythmic synthesizer pitched and timed corresponding to 62 which is the percentage of untreated daily waste nationally. ",
-    "legendpath": "../../assets/data/legends/46_legend-01.svg",
+    "legendpath": "../../assets/data/legends/46_legend_updated.svg",
     "maskpath": "../../assets/data/legends/46_mask-01-Simplified.svg",
     "order": "front",
     "popdimensions": [
@@ -661,6 +663,8 @@
     "desc": "A study by researchers at the State University of New York in 2018 tested bottled water samples for the presence of microplastic. It involved 11 bottled water brands (Aqua, Aquafina, Bisleri, Dasani, E-Pura, Evian, Gerolsteiner, Minalba, Nestle Pure Life, San Pellegrino, and Wahaha) across nine countries [China, USA, Brazil, India, Indonesia, Mexico, Lebanon, Germany, and Thailand] countries. The data was then analyzed for the presence of microplastics and it was found that 93% of the samples tested had some form of microplastic contamination. The sound is represented by a recording of plastic water bottles which leave traces of microscopic plastics in water.",
     "legendpath": "../../assets/data/legends/54_ Platic bottled water_legend-01.svg",
     "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01-simplified.svg",
+    "speciallegend":"../../assets/data/legends/54_ Platic bottled water_revised_legend_specialcase.svg",
+    "specialmask":"../../assets/data/legends/54_ Platic bottled water_revised_mask_specialcase.svg",
     "order": "front",
     "popdimensions": [
       {

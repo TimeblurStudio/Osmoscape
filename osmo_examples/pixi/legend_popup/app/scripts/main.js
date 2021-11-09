@@ -13,7 +13,6 @@ import * as Tone from 'tone'
 import { TweenMax, Power4 } from 'gsap'
 import { SVGScene } from '@pixi-essentials/svg'
 import { Cull } from '@pixi-essentials/cull'
-import HitAreaShapes from 'hitarea-shapes'
 window.PIXI = PIXI
 //
 window.debug = true;
