@@ -1,30 +1,165 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="AR_x5F_layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-	 y="0px" width="9451.5px" height="623.5px" viewBox="0 0 9451.5 623.5" style="enable-background:new 0 0 9451.5 623.5;"
-	 xml:space="preserve">
-<style type="text/css">
-	.st0{opacity:0.01;}
+
+<svg
+   version="1.1"
+   id="AR_x5F_layer"
+   x="0px"
+   y="0px"
+   width="9451.5px"
+   height="623.5px"
+   viewBox="0 0 9451.5 623.5"
+   style="enable-background:new 0 0 9451.5 623.5;"
+   xml:space="preserve"
+   sodipodi:docname="45a_mask-01-Thick.svg"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs865" /><sodipodi:namedview
+   id="namedview863"
+   pagecolor="#505050"
+   bordercolor="#eeeeee"
+   borderopacity="1"
+   inkscape:pageshadow="0"
+   inkscape:pageopacity="0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="1.2390279"
+   inkscape:cx="5915.5245"
+   inkscape:cy="114.60597"
+   inkscape:window-width="1312"
+   inkscape:window-height="762"
+   inkscape:window-x="0"
+   inkscape:window-y="25"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="g860" />
+<style
+   type="text/css"
+   id="style824">
+	.st0{opacity:0.75;}
 	.st1{fill:none;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
-<g class="st0">
-	<polyline class="st1" points="5831,207 5848.7,214.6 5866.4,214.6 5884.2,211.8 5902,213.9 5919.8,205.1 5935.2,171.3
-		5937.5,167.1 5950.4,139.8 5955.2,129.9 5973,141.9 5990.8,154.7 6008.5,133.1 6026.3,104.3 6039.6,94.1 6044.1,90.9 	"/>
-	<circle class="st1" cx="5830.9" cy="207" r="1"/>
-	<circle class="st1" cx="5848.7" cy="214.6" r="1"/>
-	<circle class="st1" cx="5866.5" cy="214.6" r="1"/>
-	<circle class="st1" cx="5884.2" cy="211.8" r="1"/>
-	<circle class="st1" cx="5902" cy="213.9" r="1"/>
-	<circle class="st1" cx="5919.7" cy="205" r="1"/>
-	<circle class="st1" cx="5935.2" cy="171.4" r="1"/>
-	<circle class="st1" cx="5937.5" cy="167.1" r="1"/>
-	<circle class="st1" cx="5950.5" cy="139.8" r="1"/>
-	<circle class="st1" cx="5955.3" cy="129.9" r="1"/>
-	<circle class="st1" cx="5973" cy="141.9" r="1"/>
-	<circle class="st1" cx="5990.8" cy="154.7" r="1"/>
-	<circle class="st1" cx="6008.5" cy="133.1" r="1"/>
-	<circle class="st1" cx="6026.3" cy="104.4" r="1"/>
-	<circle class="st1" cx="6039.6" cy="94.1" r="1"/>
-	<circle class="st1" cx="6044.1" cy="90.9" r="1"/>
+<g
+   class="st0"
+   id="g860">
+	<polyline
+   class="st1"
+   points="5831,207 5848.7,214.6 5866.4,214.6 5884.2,211.8 5902,213.9 5919.8,205.1 5935.2,171.3    5937.5,167.1 5950.4,139.8 5955.2,129.9 5973,141.9 5990.8,154.7 6008.5,133.1 6026.3,104.3 6039.6,94.1 6044.1,90.9  "
+   id="polyline826"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5830.9"
+   cy="207"
+   r="1"
+   id="circle828"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5848.7"
+   cy="214.6"
+   r="1"
+   id="circle830"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5866.5"
+   cy="214.6"
+   r="1"
+   id="circle832"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5884.2"
+   cy="211.8"
+   r="1"
+   id="circle834"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5902"
+   cy="213.9"
+   r="1"
+   id="circle836"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5919.7"
+   cy="205"
+   r="1"
+   id="circle838"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5935.2"
+   cy="171.4"
+   r="1"
+   id="circle840"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5937.5"
+   cy="167.1"
+   r="1"
+   id="circle842"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5950.5"
+   cy="139.8"
+   r="1"
+   id="circle844"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5955.3"
+   cy="129.9"
+   r="1"
+   id="circle846"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5973"
+   cy="141.9"
+   r="1"
+   id="circle848"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="5990.8"
+   cy="154.7"
+   r="1"
+   id="circle850"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="6008.5"
+   cy="133.1"
+   r="1"
+   id="circle852"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="6026.3"
+   cy="104.4"
+   r="1"
+   id="circle854"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="6039.6"
+   cy="94.1"
+   r="1"
+   id="circle856"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
+	<circle
+   class="st1"
+   cx="6044.1"
+   cy="90.9"
+   r="1"
+   id="circle858"
+   style="stroke:#000000;stroke-opacity:0.08467742" />
 </g>
 </svg>

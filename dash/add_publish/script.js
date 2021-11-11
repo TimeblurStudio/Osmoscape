@@ -1355,7 +1355,7 @@ function hitMaskEffect(pt, ctype){
 			//
 			setTimeout(function(){	initSelect();	}, 300);
 			//
-			currentFocus = parseInt(hitResult.item.data.legendName.replace('legend-', ''));
+			currentFocus = hitResult.item.data.legendName.replace('legend-', '');
 			console.log('Focused on: ' + currentFocus );
 			//
 			if(popupBBoxes.hasOwnProperty(currentFocus)){
@@ -1481,7 +1481,11 @@ function initModal(start_opned){
 		$('#popsave').hide();
 		$('#popcancel').hide();
 		//
+		let key = currentFocus;
 		//
+		console.log(key)
+		console.log(datasets[key])
+		console.log(popupBBoxes)
 		for (let key in popupBBoxes)
 			datasets[key]['popdimensions'] = popupBBoxes[key]['dimensions'];
 		//
