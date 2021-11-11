@@ -32,8 +32,8 @@
   </head>
   <body>
     <script type='text/javascript' src='./js/pathseg.js'></script>
-    <script>
-        var settings = {
+    <script type="module">
+        let settings = {
             divideXBy: 1,
             divideYBy: 1,
             units: '',
@@ -62,14 +62,14 @@
           if(_json.shapes[targetid] == undefined)
             _json.shapes[targetid] = [];
           //
-          var paths = document.querySelectorAll(mainid+' path');
-          var cssPolygons = ['<ul>'];
-          for (var i = 0; i < paths.length; i++) {
-              var path = paths[i];
-              var points = pathToPoints(path.pathSegList);
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
+          let paths = document.querySelectorAll(mainid+' path');
+          let cssPolygons = ['<ul>'];
+          for (let i = 0; i < paths.length; i++) {
+              let path = paths[i];
+              let points = pathToPoints(path.pathSegList);
+              let polygonSVGPoints = pointCommandsToSVGPoints(points);
 
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              let polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
               polygon.setAttributeNS(null, 'fill', '#cecece');
               polygon.setAttributeNS(null, 'points', polygonSVGPoints);
               path.parentNode.replaceChild(polygon, path);
@@ -83,17 +83,17 @@
               //
           }
           //
-          var polygons = document.querySelectorAll(mainid + ' polygon');
-          for (var i = 0; i < polygons.length; i++) {
-              var poly = polygons[i];
+          let polygons = document.querySelectorAll(mainid + ' polygon');
+          for (let i = 0; i < polygons.length; i++) {
+              let poly = polygons[i];
               let points = [];
-              for(j=0;j<poly.points.length;j++){
+              for(let j=0;j<poly.points.length;j++){
                 points.push(poly.points[j].x);
                 points.push(poly.points[j].y);
               }
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
+              let polygonSVGPoints = pointCommandsToSVGPoints(points);
 
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              let polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
               polygon.setAttributeNS(null, 'fill', '#cecece');
               polygon.setAttributeNS(null, 'points', polygonSVGPoints);
               poly.parentNode.replaceChild(polygon, poly);
@@ -107,18 +107,24 @@
               //
           }
           //
-          var rectangles = document.querySelectorAll(mainid + ' rect');
-          for (var i = 0; i < rectangles.length; i++) {
-              var rect = rectangles[i];
+          let rectangles = document.querySelectorAll(mainid + ' rect');
+          for (let i = 0; i < rectangles.length; i++) {
+              let rect = rectangles[i];
               let points = [];
               points.push(parseFloat(rect.getAttribute('x')));
               points.push(parseFloat(rect.getAttribute('y')));
+              points.push(parseFloat(rect.getAttribute('x'))  + parseFloat(rect.getAttribute('width')));
+              points.push(parseFloat(rect.getAttribute('y')));
               points.push(parseFloat(rect.getAttribute('x')) + parseFloat(rect.getAttribute('width')));
               points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
+              points.push(parseFloat(rect.getAttribute('x')));
+              points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
+              points.push(parseFloat(rect.getAttribute('x')));
+              points.push(parseFloat(rect.getAttribute('y')));
+              let polygonSVGPoints = pointCommandsToSVGPoints(points);
           
 
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              let polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
               polygon.setAttributeNS(null, 'fill', '#cecece');
               polygon.setAttributeNS(null, 'points', polygonSVGPoints);
               rect.parentNode.replaceChild(polygon, rect);
@@ -136,9 +142,9 @@
         }
 
         function pathToPoints(segments) {
-            var count = segments.numberOfItems;
-            var result = [], segment, x, y;
-            for (var i = 0; i < count; i++) {
+            let count = segments.numberOfItems;
+            let result = [], segment, x, y;
+            for (let i = 0; i < count; i++) {
                 segment = segments.getItem(i);
                 switch(segment.pathSegType) {
                     case SVGPathSeg.PATHSEG_MOVETO_ABS:
@@ -208,8 +214,8 @@
             };
           }
           //
-          var svg = document.querySelector('#svg-original svg');
-          var viewPort = svg.getAttribute('viewBox');
+          let svg = document.querySelector('#svg-original svg');
+          let viewPort = svg.getAttribute('viewBox');
           if (!viewPort)
               viewPort = svg.getAttribute('x') + ' ' + svg.getAttribute('y')
                           + ' ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height');
@@ -238,8 +244,8 @@
           //
         }
         function download(content, fileName, contentType) {
-            var a = document.createElement("a");
-            var file = new Blob([content], {type: contentType});
+            let a = document.createElement("a");
+            let file = new Blob([content], {type: contentType});
             a.href = URL.createObjectURL(file);
             a.download = fileName;
             a.click();
@@ -262,18 +268,18 @@
                 .then((value2) => {
                   let type = value2;
                   if(type == 'cancel'){
-                    var picker = document.getElementById("files");
+                    let picker = document.getElementById("files");
                     picker.addEventListener('change', function(evt) {
-                        var files = evt.target.files;
+                        let files = evt.target.files;
                         if (files.length < 1)
                             return;
-                        var f = files[0];
+                        let f = files[0];
                         if (f.type != 'image/svg+xml')
                             return;
-                        var reader = new FileReader();
+                        let reader = new FileReader();
                         reader.onload = (function(theFile) {
                             return function(e) {
-                                var result = e.target.result;
+                                let result = e.target.result;
                                 // some programs add extra markup at the beginning, we remove that here
                                 result = result.replace(/^[\s\S]*(<svg)/i, "$1");
                                 document.getElementById('svg-original').innerHTML = result;
@@ -337,18 +343,18 @@
                   }
                 });
               }else{
-                var picker = document.getElementById("files");
+                let picker = document.getElementById("files");
                 picker.addEventListener('change', function(evt) {
-                    var files = evt.target.files;
+                    let files = evt.target.files;
                     if (files.length < 1)
                         return;
-                    var f = files[0];
+                    let f = files[0];
                     if (f.type != 'image/svg+xml')
                         return;
-                    var reader = new FileReader();
+                    let reader = new FileReader();
                     reader.onload = (function(theFile) {
                         return function(e) {
-                            var result = e.target.result;
+                            let result = e.target.result;
                             // some programs add extra markup at the beginning, we remove that here
                             result = result.replace(/^[\s\S]*(<svg)/i, "$1");
                             document.getElementById('svg-original').innerHTML = result;

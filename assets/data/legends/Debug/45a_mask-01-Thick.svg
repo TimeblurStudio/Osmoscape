@@ -1,30 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 23.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="AR_x5F_layer" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-	 y="0px" width="9451.5px" height="623.5px" viewBox="0 0 9451.5 623.5" style="enable-background:new 0 0 9451.5 623.5;"
-	 xml:space="preserve">
-<style type="text/css">
+
+<svg
+   version="1.1"
+   id="AR_x5F_layer"
+   x="0px"
+   y="0px"
+   width="9451.5px"
+   height="623.5px"
+   viewBox="0 0 9451.5 623.5"
+   style="enable-background:new 0 0 9451.5 623.5;"
+   xml:space="preserve"
+   sodipodi:docname="45a_mask-01-Thick.svg"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs833" /><sodipodi:namedview
+   id="namedview831"
+   pagecolor="#505050"
+   bordercolor="#eeeeee"
+   borderopacity="1"
+   inkscape:pageshadow="0"
+   inkscape:pageopacity="0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="0.5029366"
+   inkscape:cx="5800.93"
+   inkscape:cy="75.556243"
+   inkscape:window-width="1312"
+   inkscape:window-height="762"
+   inkscape:window-x="0"
+   inkscape:window-y="25"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="AR_x5F_layer" />
+<style
+   type="text/css"
+   id="style824">
 	.st0{opacity:0.75;}
 	.st1{fill:none;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
-<g class="st0">
-	<polyline class="st1" points="5831,207 5848.7,214.6 5866.4,214.6 5884.2,211.8 5902,213.9 5919.8,205.1 5935.2,171.3 
-		5937.5,167.1 5950.4,139.8 5955.2,129.9 5973,141.9 5990.8,154.7 6008.5,133.1 6026.3,104.3 6039.6,94.1 6044.1,90.9 	"/>
-	<circle class="st1" cx="5830.9" cy="207" r="1"/>
-	<circle class="st1" cx="5848.7" cy="214.6" r="1"/>
-	<circle class="st1" cx="5866.5" cy="214.6" r="1"/>
-	<circle class="st1" cx="5884.2" cy="211.8" r="1"/>
-	<circle class="st1" cx="5902" cy="213.9" r="1"/>
-	<circle class="st1" cx="5919.7" cy="205" r="1"/>
-	<circle class="st1" cx="5935.2" cy="171.4" r="1"/>
-	<circle class="st1" cx="5937.5" cy="167.1" r="1"/>
-	<circle class="st1" cx="5950.5" cy="139.8" r="1"/>
-	<circle class="st1" cx="5955.3" cy="129.9" r="1"/>
-	<circle class="st1" cx="5973" cy="141.9" r="1"/>
-	<circle class="st1" cx="5990.8" cy="154.7" r="1"/>
-	<circle class="st1" cx="6008.5" cy="133.1" r="1"/>
-	<circle class="st1" cx="6026.3" cy="104.4" r="1"/>
-	<circle class="st1" cx="6039.6" cy="94.1" r="1"/>
-	<circle class="st1" cx="6044.1" cy="90.9" r="1"/>
-</g>
+<path
+   style="fill:#000000"
+   d="m 5839.0615,214.95507 c -13.0525,-5.51266 -15.6228,-8.32719 -11.2328,-12.30008 2.5986,-2.3517 4.2585,-2.1129 13.7973,1.98494 8.473,3.63992 8.473,3.63992 22.1735,2.82853 7.5353,-0.44626 19.5505,-0.85332 26.7005,-0.90458 12.267,-0.0879 13.3534,-0.2615 19.2671,-3.07853 6.2671,-2.98535 6.2671,-2.98535 15.3163,-22.48535 4.977,-10.725 13.1819,-27.825 18.2329,-38 8.0027,-16.12102 9.5052,-18.53253 11.6837,-18.75294 1.7877,-0.18087 7.0585,2.87922 18.5,10.74065 8.8,6.04647 16.3107,10.99779 16.6904,11.00293 1.6978,0.023 15.1343,-17.83226 23.2545,-30.90203 7.7593,-12.48875 9.8455,-15.089998 16.069,-20.035578 13.4644,-10.699656 17.2081,-11.951923 19.6578,-6.575456 1.4937,3.278283 0.4432,4.620593 -9.6097,12.279554 -8.3652,6.37309 -9.3624,7.55581 -18.1834,21.56661 C 6009.9855,140.41998 5994.882,159 5991.5648,159 c -1.2465,0 -5.5961,-2.38717 -9.6656,-5.30483 C 5970.204,145.31031 5959.1697,138 5958.2087,138 c -0.7758,0 -16.7015,32.458 -29.5343,60.19334 -4.4849,9.69334 -4.4849,9.69334 -14.8134,14.87641 -10.3285,5.18307 -10.3285,5.18307 -19.8447,4.04695 -7.7866,-0.92962 -11.1522,-0.86489 -18.5163,0.35613 -4.95,0.82074 -13.05,1.48693 -18,1.48042 -8.236,-0.0108 -9.8012,-0.35022 -18.4385,-3.99818 z"
+   id="path953" />
 </svg>
