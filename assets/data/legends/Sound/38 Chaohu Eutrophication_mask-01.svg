@@ -12,13 +12,13 @@
    enable-background="new 0 0 9451.45 623.52"
    xml:space="preserve"
    sodipodi:docname="38 Chaohu Eutrophication_mask-01.svg"
-   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs755" /><sodipodi:namedview
-   id="namedview753"
+   id="defs2431" /><sodipodi:namedview
+   id="namedview2429"
    pagecolor="#505050"
    bordercolor="#eeeeee"
    borderopacity="1"
@@ -26,20 +26,46 @@
    inkscape:pageopacity="0"
    inkscape:pagecheckerboard="0"
    showgrid="false"
-   inkscape:zoom="1.9648562"
-   inkscape:cx="5549.261"
-   inkscape:cy="330.04959"
-   inkscape:window-width="1366"
-   inkscape:window-height="705"
-   inkscape:window-x="-8"
-   inkscape:window-y="-8"
-   inkscape:window-maximized="1"
+   inkscape:zoom="4.9649999"
+   inkscape:cx="5565.4584"
+   inkscape:cy="303.12186"
+   inkscape:window-width="1312"
+   inkscape:window-height="762"
+   inkscape:window-x="0"
+   inkscape:window-y="25"
+   inkscape:window-maximized="0"
    inkscape:current-layer="Baseline" />
+<path
+   style="fill:#000000"
+   d="M 5517.1548,352 H 5517 v -35 -35 h 1 1 v 20.75 20.75 l -0.083,14.45046 L 5518.803,352 Z m 6.0053,0 H 5521 v -35 -35 h 1.5 1.5 v 10.25 10.25 l 0.658,24.75 -0.1048,24.75 z m 4.9758,0 H 5526 v -35 -35 h 1.5 1.5 v 30.36043 30.36043 l -0.037,4.90876 0.01,4.39246 z m 4.8641,0 h -2 v -35 -35 h 1 1 v 29 29 h 1 1 v 6 6 z m 5,0 h -2 v -35 -35 h 1 1 v 31 31 h 1 1 v 4 4 z m 4.607,0 H 5541 V 326.5 301 h 1 1 v 23.91821 23.91822 l 0.041,3.17048 v 0 z m 5.0096,0 H 5546 V 322.5 293 h 1 1 l 0.014,27.25 0.014,27.25 4e-4,4.49609 v 0 l -0.4111,0.004 z m 5,0 H 5551 v -32 -32 h 1 1 l 0.014,29.75 0.014,29.75 0.019,4.51435 v 0 L 5552.6173,352 Z m 4.6334,10e-4 L 5556,352 v -23.2 -23.2 0 l 1.8613,0.001 0.3347,24.14961 0.304,22.25103 -1.25,-10e-4 z M 5562.607,352 H 5561 V 335.5 319 h 1 1 v 14.91821 14.91822 l 0.03,3.14829 v 0 z m 4.143,10e-4 L 5565,352 v -19.94098 -21.16587 l 0.9765,-0.01 1.0376,-0.01 0.9287,0.0545 v 0 l 0.2786,21.82345 0.2786,19.2512 -1.75,-0.001 z"
+   id="path4290"
+   sodipodi:nodetypes="ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" />
 
-<rect
-   style="fill:#000000;fill-opacity:0.429719;stroke-width:1.38881"
-   id="rect1628"
-   width="52.880001"
-   height="70.160004"
-   x="5516.8301"
-   y="282.10001" /></svg>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</svg>

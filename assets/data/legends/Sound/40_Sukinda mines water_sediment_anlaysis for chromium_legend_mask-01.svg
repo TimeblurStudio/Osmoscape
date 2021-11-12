@@ -1,19 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Baseline" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="9451.45px" height="623.52px" viewBox="0 0 9451.45 623.52" enable-background="new 0 0 9451.45 623.52"
-	 xml:space="preserve">
-<g opacity="0.75">
-	<g>
-		<defs>
-			<polyline id="SVGID_1_" points="5721.15,235.03 5731.62,173.84 5742.09,201.65 5752.56,190.53 5763.04,179.4 5763.04,262.84
-				5721.15,262.84 5721.15,235.03 			"/>
-		</defs>
-		<use xlink:href="#SVGID_1_"  overflow="visible"/>
-		<clipPath id="SVGID_2_">
-			<use xlink:href="#SVGID_1_"  overflow="visible"/>
+
+<svg
+   version="1.1"
+   id="Baseline"
+   x="0px"
+   y="0px"
+   width="9451.45px"
+   height="623.52px"
+   viewBox="0 0 9451.45 623.52"
+   enable-background="new 0 0 9451.45 623.52"
+   xml:space="preserve"
+   sodipodi:docname="40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs837">
+	
+
+		
+		
+		
+		<clipPath
+   id="SVGID_2_">
+			<use
+   xlink:href="#SVGID_1_"
+   overflow="visible"
+   id="use827"
+   x="0"
+   y="0"
+   width="100%"
+   height="100%" />
 		</clipPath>
-	</g>
-</g>
+	</defs><sodipodi:namedview
+   id="namedview835"
+   pagecolor="#505050"
+   bordercolor="#eeeeee"
+   borderopacity="1"
+   inkscape:pageshadow="0"
+   inkscape:pageopacity="0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="0.59468382"
+   inkscape:cx="5553.3712"
+   inkscape:cy="240.46392"
+   inkscape:window-width="1312"
+   inkscape:window-height="762"
+   inkscape:window-x="0"
+   inkscape:window-y="25"
+   inkscape:window-maximized="0"
+   inkscape:current-layer="Baseline" />
+<path
+   id="SVGID_1_"
+   style="opacity:0.75"
+   d="M 5731.6191 173.83984 L 5721.1504 235.0293 L 5721.1504 262.83984 L 5763.0391 262.83984 L 5763.0391 179.40039 L 5752.5605 190.5293 L 5742.0898 201.65039 L 5731.6191 173.83984 z " />
 </svg>
