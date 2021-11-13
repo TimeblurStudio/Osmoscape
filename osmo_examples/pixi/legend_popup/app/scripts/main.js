@@ -36,6 +36,7 @@ let navChapters;
 let navScrolledUpdate = true;
 let mainScrollScale;
 let navScale;
+let pixiScale;
 let exploreGroup;
 //
 let allTracksCount = 0;
@@ -172,6 +173,7 @@ function init(){
         clearInterval(dataWaitInterval);
         datasets = data;
         loadDatasets();
+        //
       }
     },1000);
 	  //
@@ -194,20 +196,19 @@ function init(){
     console.log('Loaded polgon files');
   });
 
-
 	// Setup PIXI canvas
 	let canvas = document.getElementById('main-scroll-canvas');
+	pixiScale = 2;
 	pixiWidth = canvas.offsetWidth;
 	pixiHeight = canvas.offsetHeight;
 
 	//Create a Pixi Application
 	PIXI.utils.skipHello();
 	let app = new PIXI.Application({
-	    width: pixiWidth,
-	    height: pixiHeight,
-	    antialias: true,
+	    width: pixiWidth*pixiScale,
+	    height: pixiHeight*pixiScale,
+	    antialias: false,
 	    backgroundAlpha: 0,
-	    resolution: 1,
 	    view: canvas
 	  }
 	);
@@ -215,6 +216,7 @@ function init(){
 	//
 	mainApp = app;
 	mainStage = mainApp.stage;
+	mainStage.scale.set(pixiScale, pixiScale);
 	//
 	mainApp.ticker.add(function(delta) {
 		window.meter.tick();
@@ -276,7 +278,7 @@ function init(){
 			if(legendFiles[i].visible)
 				legendFiles[i].visible = false;
 		//
-		let fac = 1;//1.005/(mainStage.scale.x*mainStage.scale.y);
+		let fac = 1.005;//1.005/(mainStage.scale.x*mainStage.scale.y);
 		let newCenter = prevBoundsCenter;
 		let zoomFac = prevZoom;
 		let deltaValX = newCenter.x - mainStage.position.x;
@@ -488,9 +490,8 @@ function maskLoad(title, polygons, num, order = null){
 					maskScale = pixiHeight/maskHeight;
 				}
 				//
-				let offset = 1028;
 				mask.scale.set(maskScale, maskScale);
-				mask.x = offset*mainScrollScale + (pixiWidth*mainScrollScale*3/4);
+				mask.x = pixiWidth*3/4;
 			  //
 			  //
 	  		mask.interactive = true;
@@ -561,13 +562,77 @@ function legendLoad(title, svgxml, svgpath, num){
 			resolve('m'+num);
 		else{
 			//
+			var svgContainer = document.createElement('div');
+			svgContainer.innerHTML = svgxml;
+			let svgEle = svgContainer.getElementsByTagName('svg')[0];
+			let viewPort = svgEle.getAttribute('viewBox');
+      if (!viewPort)
+        viewPort = svgEle.getAttribute('x') 
+      						 + ' ' + svgEle.getAttribute('y')
+                   + ' ' + svgEle.getAttribute('width') 
+                   + ' ' + svgEle.getAttribute('height');
+      console.log('old viewposrt: ' + viewPort)
+      let currentViewPort_x = viewPort.split(' ')[0];
+      let currentViewPort_y = viewPort.split(' ')[1];
+      let currentViewPort_width = viewPort.split(' ')[2];
+      let currentViewPort_height = viewPort.split(' ')[3];
+      //
+      let newViewPort = viewPort;
+      let newViewPort_x = currentViewPort_x;
+      let newViewPort_y = currentViewPort_y;
+      let newViewPort_width = currentViewPort_width;
+      let newViewPort_height = currentViewPort_height;
+      //
+      let midX = 0;
+      if(popupBBoxes.hasOwnProperty(num)){
+				// Position of selected area!
+				let _x = parseFloat(popupBBoxes[num]['dimensions'][0].x);
+				let _y = parseFloat(popupBBoxes[num]['dimensions'][0].y);
+				let _width = parseFloat(popupBBoxes[num]['dimensions'][0].width);
+				let _height = parseFloat(popupBBoxes[num]['dimensions'][0].height);
+				//
+				let rs = (pixiHeight/refPopupSize.height);
+				_x *= rs; _y *= rs;
+				_width *= rs;
+				_height *= rs;
+				console.log('popupBBoxes: '+ _x + ' ' + _y + ' ' + _width + ' ' + _height)
+				//
+				midX = _x + _width/2;
+				let xRange = 2000;
+				if(_width > xRange)	xRange = _width;	
+				//
+				newViewPort_x = midX - xRange;
+				if(newViewPort_x < 0)	newViewPort_x = 0;
+				//newViewPort_x = 300;
+				newViewPort_width = xRange;
+			}
+			newViewPort = newViewPort_x + ' ' + newViewPort_y + ' '  + newViewPort_width + ' '  + newViewPort_height;
+			//
+			svgEle.removeAttribute('style');
+			svgEle.removeAttribute('x');
+			svgEle.removeAttribute('y');
+			svgEle.removeAttribute('width'); 
+			svgEle.removeAttribute('height');
+			svgEle.removeAttribute('viewBox');
+			//
+			svgEle.setAttribute('x', newViewPort_x + 'px');
+			svgEle.setAttribute('y', newViewPort_y + 'px');
+			svgEle.setAttribute('width', newViewPort_width + 'px');
+			svgEle.setAttribute('height', newViewPort_height + 'px');
+			svgEle.setAttribute('viewBox', newViewPort);
+			console.log('new viewport: ' + newViewPort); 
+			//
+			svgxml = svgEle.outerHTML;
 			//
 			var parser = new DOMParser();
 			var doc = parser.parseFromString(svgxml, 'image/svg+xml');
-			let s = new XMLSerializer().serializeToString(doc);
-			var svgEncoded = 'data:image/svg+xml;base64,' + window.btoa(s);
-			let resource = new PIXI.SVGResource (svgEncoded, {scale: 1.5});
-			let legendTexture = PIXI.Texture.from(resource, {resolution: 8.0});
+			let serialized = new XMLSerializer().serializeToString(doc);
+			var svgEncoded = 'data:image/svg+xml;base64,' + window.btoa(serialized);
+			//
+			//
+			let svgScale = 8.0;
+			let resource = new PIXI.SVGResource (svgEncoded, {scale: svgScale});
+			let legendTexture = PIXI.Texture.from(resource, {resolution: 1.0});
 			let legendLoaded = false;
 			legendTexture.on('update', () => {
 				if(!legendLoaded){
@@ -597,15 +662,12 @@ function legendLoad(title, svgxml, svgpath, num){
 					//
 					//
 					//
-					let s = mainScrollScale;
 					let lms = pixiHeight/legendTexture.height;
-					console.log('MAIN SCALE: ' + s);
 					console.log('LEGEND SCALE: ' + lms);
 					//
-					let offset = 1028;
-					legend.scale.set(lms, lms);
-					legend.x = offset*s + (pixiWidth*s*3/4);
-				  //
+					legend.x = newViewPort_x*lms*svgScale + pixiWidth*3/4;
+				  legend.scale.set(lms, lms);
+					//
 				  legendContainer.addChild(legend);
 				  resolve('l'+num);
 				}
@@ -788,8 +850,8 @@ function showLegend(number){
 		_width *= rs;
 		_height *= rs;
 		//
-		var newViewCenter = new PIXI.Point(-1*_x, pixiHeight/2 - _y - _height/2);
 		prevBoundsCenter = new PIXI.Point(mainStage.position.x, mainStage.position.y);
+		var newViewCenter = new PIXI.Point(-1*_x*pixiScale, pixiHeight/2 - _y - _height/2);
 		mainStage.position = newViewCenter;
 		/*
 		// Zoom into selected area!
@@ -818,8 +880,8 @@ function initNav(){
 		//
 		let chap_id = parseInt($(el.currentTarget).attr('data-id'));
 		let current_chapter = $.grep($(navChapters), function(e){ return e.id == 'nav-ch'+chap_id; });
-		let locX = -1*parseFloat($(current_chapter).attr('x'))*navScale;
-		let w = parseFloat($(current_chapter).attr('width'))*navScale;
+		let locX = -1*parseFloat($(current_chapter).attr('x'))*navScale*pixiScale;
+		let w = parseFloat($(current_chapter).attr('width'))*navScale*pixiScale;
 		//
 		if(w > pixiWidth)
 			locX -= (pixiWidth/2);
@@ -898,13 +960,13 @@ function loadNav(){
 		//
 		navChapters = navScene.content.children[4].children;
 		//
-		let lms = pixiHeight/navScene.height;//mask-scale
+		let lms = pixiHeight/navScene.height;//nav-scale
 		console.log('Navigation SCALE: ' + lms);
 		navScale = lms;
 		//
-		navScene.scale.set(lms, lms);
-	  navScene.x = (pixiWidth*mainScrollScale*3/4);//Change the sprite's position
-	  navScene.alpha = 0;
+		navScene.x = (pixiWidth*3/4);//Change the sprite's position
+	  navScene.scale.set(lms, lms);
+	  navScene.alpha = 1;
 		//
 		//navContainer.addChild(navScene); // hitTest not required So, no need to add it to layer
 		if(performance_test)
@@ -921,8 +983,8 @@ function loadNav(){
  */
 function scrollNavEffect(){
 	for(let i=0; i < navChapters.length-1; i++){
-		let this_locX = parseFloat($(navChapters[i]).attr('x'))*navScale;
-		let next_locX = parseFloat($(navChapters[i+1]).attr('x'))*navScale;
+		let this_locX = parseFloat($(navChapters[i]).attr('x'))*navScale*pixiScale;
+		let next_locX = parseFloat($(navChapters[i+1]).attr('x'))*navScale*pixiScale;
 		//
 		if(Math.abs(mainStage.position.x) >  this_locX && Math.abs(mainStage.position.x) < next_locX){
 			let name = navChapters[i].id
@@ -992,22 +1054,20 @@ function initSVGscroll(_url){
 	let s = pixiHeight/scroll_01.height;
 	mainScrollScale = s;
 	console.log('SCALE: ' + s);
+	//
 	scroll_01.scale.set(s, s);
 	scroll_02.scale.set(s, s);
+	//
+	scrollWidth = scroll_01.width*2;
+	scrollHeight = pixiHeight;
+	//
 	//Change the sprite's position
-  scroll_01.x = (pixiWidth*s*3/4);// + (scroll_01.width*s/2);
+	// NOTE: Offset required since -1 and 0 datasets were added at the end 
+	//       (effectively increasing the canvas width)
+  let offset = 1028;
+	scroll_01.x = -1*offset*mainScrollScale + pixiWidth*3/4;
 	scroll_02.x = scroll_01.x + scroll_01.width;
 	//
-	scrollWidth = scroll_01.width*s*2;
-	scrollHeight = pixiHeight;
-	/*
-	scroll_01.interactive = true;
-	scroll_01.buttonMode = true;
-	scroll_01.on('pointerdown', function(){
-		console.log('Clicked on scroll_01')
-	});
-	*/
-	window.scroll_01 = scroll_01;
 	//Add the scroll to the stage
   backgroundContainer.addChild(scroll_01);
 	backgroundContainer.addChild(scroll_02);
@@ -1056,9 +1116,8 @@ function initSplash(_width){
 			  //
 			  // START BUTTON
 				$('#start-btn').css('position', 'fixed');
-				$('#start-btn').css('left', splashSprite.x - $('#start-btn').outerWidth()/2);//;
-				$('#start-btn').css('top', splashSprite.y + splashSprite.height*0.65);//);
-
+				$('#start-btn').css('left', 'calc(50% - 30px)');
+				$('#start-btn').css('bottom', 'calc(50% - 200px)');
 				//
 				// SCROLL TEXT & ARROW
 				//
@@ -1210,11 +1269,11 @@ function initPanZoom(){
 		//
 		// Change mainStage position with scroll
 		//
-		let fac = 1.005/(mainStage.scale.x*mainStage.scale.y);
+		let fac = 1.005;//(mainStage.scale.x*mainStage.scale.y);
 		let deltaValX, deltaValY;
 		deltaValX = et.deltaY;
 		deltaValY = et.deltaY;
-		mainStage.position = changeCenter(mainStage.position, deltaValX, 0, fac);
+		mainStage.position = changeCenter(mainStage.position, deltaValX, 0, fac*pixiScale);
 		//
 		//
 	});
@@ -1237,9 +1296,10 @@ function changeCenter(oldCenter, deltaX, deltaY, factor){
   //
   if(oldCenter.x > 0)
   	oldCenter.x  = 0;
-  if(oldCenter.x < -1*(scrollWidth + 2*(pixiWidth + pixiWidth*mainScrollScale*3/4)))
-  	oldCenter.x  = -1*(scrollWidth + 2*(pixiWidth + pixiWidth*mainScrollScale*3/4));
+  if(oldCenter.x < -1*(scrollWidth*pixiScale - pixiWidth*3/4))
+  	oldCenter.x  = -1*(scrollWidth*pixiScale - pixiWidth*3/4);
   //
+  console.log(oldCenter.x + ' ' + scrollWidth + ' ' + pixiWidth) 
   /*
 	if((oldCenter.y*window.app.stage.scale.x - pixiHeight/2) <= 0 && deltaY > 0)
   	oldCenter.y = pixiHeight/(2*window.app.stage.scale.x);
