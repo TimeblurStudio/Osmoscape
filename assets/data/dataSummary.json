@@ -81,6 +81,8 @@
     "desc": "This study, conducted by Water Resources Institute, records the baseline water stress in several major river basins across the world. Baseline water stress refers to the ratio between the total water withdrawn for use and the annual available renewable water supplies. It is clear that two variables determine the baseline water stress—water supply availability, and the demand for that water. Water is supplied to the basins in the form of precipitation (snow and rain) or the melting of glaciers. The demand for water is mainly divided into three sectors—the domestic, industrial, and agricultural sectors—with the latter usually having the highest baseline water stress. The study indicates that the demand is higher than the supply. River basins across the globe are being exploited to an unsustainable extent. The sound represents a field recording of the Yongding River, processed with a vocoder.",
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
+    "speciallegend": "../../assets/data/legends/6 Baseline water stress Layer4 Print legend_specialcase.svg",
+    "specialmask": "../../assets/data/legends/6 Baseline water stress Layer4 Print mask_specialcase.svg",
     "order": "front",
     "audiofile": "../../assets/audio/loops/6 rev1.mp3",
     "popdimensions": [
@@ -166,7 +168,7 @@
     "id": "12",
     "title": "Vermont acid rain",
     "desc": "Vermont is a picturesque “green mountain state” in north-eastern USA. It is also one of the first few states to be recognised for being affected by acid rain. Fossil fuel plants in the 1980s which were based in midwest emitted gases such as sulphur dioxide and nitrous oxide. These were carried towards the north east by the wind patterns and mixed with the rainwater, fog and snow there, lowering the pH of water, making it acidic. A long-term monitoring of atmospheric deposition revealed that it was acid rain that caused the decline of several trees, including 300-year-old red spruce trees, and lakes of the green mountain. Similar well documented occurrences of acid rain have happened in other parts of the world, such as Norway, Germany, China and India. The pattern of its occurrence in each region corresponds with the surge of industrialisation in that region.  The sound is represented by a field recording of a Vermont rain storm, re-sampled and processed to add a sizzling and splatting element in order to evoke acid rain.",
-    "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01 - Simplified.svg",
+    "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 Print-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg",
     "order": "front",
     "audiofile": "../../assets/audio/loops/12.mp3",
@@ -269,7 +271,7 @@
     "id": "19",
     "title": "Aral sea breast milk analytes",
     "desc": "Rising infant mortality in Kazakhstan and declining practice of breast feeding led to a study of breast milk by researcher Kim Hooper in February 1994. There were concerns about the presence of contaminants in breast milk. 92 first-time mothers with 2-8 week-old infants were chosen for the study.  The samples of milk were taken from seven different sites, chosen to reflect major agricultural, industrial and population centres in Kazakhstan. Other than samples of human breast milk, cow’s milk, fish from the region were also collected and tested for the presence of contaminants such as Organochlorine Pesticides (OC), Polychlorinated biphenyls (PCBs), Hexachlorocyclohexane and its isomers (HCH) and DDT and its metabolites. \nThe study found high levels of a pesticide called Beta-HCH. PCB toxicity was high in one of the sampled sites, Atyaru. Another pesticide DDE showed high levels in rural areas. The study helps in understanding how women and young children were the most affected in this ecological disaster. The brunt of disease and mortality are carried the most by vulnerable sections of the society. The sound is represented by a recording of a baby breastfeeding, manipulated and subtly combined with the sound of a Monsanto advertisement.",
-    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_legend-01.svg",
+    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_vector_legend_updated.svg",
     "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
     "popdimensions": [
       {
@@ -303,7 +305,7 @@
     "id": "21",
     "title": "Cotton production",
     "desc": "Cotton is a water-intensive crop. The top seven cotton producing nations, Brazil, China, India, Pakistan, Turkey, the United States, and Uzbekistan, account for 84% of global cotton production. In this dataset, patterns related to weather and cotton production give a better understanding of the variability of cotton production and the influence it has on global production. The study shows a falling cotton production in 2016-17 when La Nina weather conditions existed. La Nina is an irregularly recurring upwelling of unusually cold water to the ocean surface along the western coast of South America that often occurs and disrupts typical regional and global weather patterns. There are critical questions being raised in the face of the current global climate change and a lack of infrastructure for careful allocation of water. The sound is represented by a recording of cotton fields being irrigated, combined with the sound of water running down a bathtub drain.",
-    "legendpath": "../../assets/data/legends/21 Cotton production_legend-01.svg",
+    "legendpath": "../../assets/data/legends/21 Cotton production by country_legend_updated.svg",
     "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg",
     "popdimensions": [
       {
@@ -322,6 +324,14 @@
     "desc": "Marathwada has traditionally been known to be a drought-prone region in the Indian state of Maharashtra in west India, with a low groundwater supply. 74 percent of the land in Marathwada is under agricultural use.The area has basaltic rock with low water holding capacity. The amount of rainfall received, the topography of the land and the type of rocks all determine the availability of groundwater in a region. A study by the government of Maharashtra draws comparison of the change in groundwater levels in eight different districts of Marathwada from 2012 to 2015. All districts show a varying degree of decline in groundwater level. The sound is a field recording of a farmer picking rocks from their barren soil, combined with a recording of a creaking cupboard, and re-sampled to evoke the cracking of desiccated farmland.",
     "legendpath": "../../assets/data/legends/23 Marathawada drought Groundwater_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 6893.295459921343,
+        "y": 210.2981719970703,
+        "width": 864.4639892578125,
+        "height": 606.4723968505859
+      }
+    ],
     "audiofile": "../../assets/audio/loops/23 v2.mp3"
   },
   "24": {
@@ -348,8 +358,15 @@
     "title": "Droughts in India",
     "desc": "A case study talks about the impact of droughts in various parts of India and delves into its social and economic implications. It analyses drought patterns in India for almost a century from 1877-1979. India faced its most severe drought in 1877 where about 28 percent of the area was affected by severe rainfall deficiency. Records state that almost five million people died because of the 1876-77 famine. India didn’t have any severe droughts between the years 1941 and 1968 with small areas being affected by severe drought in the years that followed up to 1979. The sound is represented by a recording of the arrival of a water tanker in Maharashtra, sampled and manipulated to sound like a diesel engine as heard from inside a water tank.",
     "legendpath": "../../assets/data/legends/25  Droughts in India_legend-01.svg",
-    "order": "front",
     "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg",
+    "popdimensions": [
+      {
+        "x": 6516.128129482283,
+        "y": 309.6362609863281,
+        "width": 674.9511108398447,
+        "height": 494.7319641113281
+      }
+    ],
     "audiofile": "../../assets/audio/loops/25 rev1.mp3"
   },
   "28": {
@@ -496,7 +513,7 @@
     "id": "40",
     "title": "Sukinda mines water sediment analysis for chromium",
     "desc": "Sukinda valley is a town in the Jajpur district in the eastern Indian state of Odisha. The small, unassuming town of Sukinda is world famous. It contains 97% of India’s chromium ore deposits, and has one of the largest open cast chromite ore mines in the world. In the year 2007, the US-based Blacksmith Institute released a report taking a range of parameters to identify the ten most polluted places in the world. Sukinda was one of them. A study by Odisha-based non-profit Environment Protection Group revealed that the percentage of hexavalent chromium (Cr+6) in the rivers is higher than the permissible limit. Approximately 70% of the surface water and 60% of the drinking water contains hexavalent chromium at more than double national and international standards and levels of over 20 times the standard have been recorded. Hexavalent chromium is a known human carcinogen and adversely affects human health. The sound is represented by synthesized mining sounds, manipulated to create additional dusty and sludgy textures, and a repeating tone at 1907Hz (derived from the 1907 C melting point of Chromium).",
-    "legendpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend-01.svg",
+    "legendpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_updated.svg",
     "maskpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg",
     "popdimensions": [
       {
@@ -513,7 +530,7 @@
     "id": "41",
     "title": "Sukinda mines sediment analysis for chromium",
     "desc": "Another case study by Odisha-based non-profit Environment Protection Group showed that the sediment in the soil in Sukinda, the village destroyed by chromium mining, shows more metal content in the post-monsoon period owing to the leaching of metals from the overburden of mining. The pH test reflected the acidic nature of the soil, within a range of 5.5 to 6.3. The sound is represented by a news story of mining protests in Sukinda, fed into a granular synthesizer. Notes are arranged in clusters of 6 and transposed only by intervals of 6 semitones in order to represent hexavalent chromium. The overall effect is evocative of mining. ",
-    "legendpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium-01.svg",
+    "legendpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_legend_updated.svg",
     "maskpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_mask-01.svg",
     "popdimensions": [
       {
@@ -531,8 +548,15 @@
     "title": "42 Water and River",
     "desc": "The Ashio mine was a copper mine that has been in existence since the 1600s in Japan.  This dataset records the environmental destruction that unfolded due to a rapid growth in copper mining in the 1870s as the metal became vital to provide for Japan’s breakneck modernization, increasing military strength and expanding industrialization. The data set chronicles Japan’s social struggle with the repercussions of its transformation into a modern industrial state and economy, from 1870s up to World War II and beyond. The Ashio Copper mining conflict is significant in Japanese history, because it was the first issue that created a huge surge of environmental movements. It was the first movement of its kind where peasant farmers were pitted against a powerful corporation, at a time when the nation’s economic growth almost wholly dependent on increasing copper production. The sound is represented by a synthesized pitch centered around 1084.62hz, as a musical representation of the 1084.62 C melting point of copper. Recorded sounds of molten copper are also added.",
     "legendpath": "../../assets/data/legends/45a_legend-01.svg",
-    "order": "front",
     "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg",
+    "popdimensions": [
+      {
+        "x": 8245.825118312834,
+        "y": 14.790364265441895,
+        "width": 434.8578338623047,
+        "height": 351.795786857605
+      }
+    ],
     "audiofile": "../../assets/audio/loops/45.mp3"
   },
   "43": {
@@ -591,7 +615,7 @@
     "id": "46",
     "title": "46 Water and River",
     "desc": "India, home to nine large rivers flowing throughout the country generates a staggering 1.7 million tonnes of faecal waste a day, a large portion of which ends up in these water sources due to inappropriate sewage treatment.  Official records have shown that 78 percent of the sewage generated remains untreated and is disposed of in rivers, groundwater or lakes.  The dataset obtained from central government portals draws a comparison between the total sewage generated in all the states of India and the  treatment capacity of the installed sewage treatment plants across the country. Out of 38000 million litres per day of sewage generated treatment capacity exists for only about 12000 million litres per day. The sound is represented by field recording of India and rhythmic synthesizer pitched and timed corresponding to 62 which is the percentage of untreated daily waste nationally. ",
-    "legendpath": "../../assets/data/legends/46_legend-01.svg",
+    "legendpath": "../../assets/data/legends/46_legend_updated.svg",
     "maskpath": "../../assets/data/legends/46_mask-01-Simplified.svg",
     "order": "front",
     "popdimensions": [
@@ -663,6 +687,8 @@
     "desc": "A study by researchers at the State University of New York in 2018 tested bottled water samples for the presence of microplastic. It involved 11 bottled water brands (Aqua, Aquafina, Bisleri, Dasani, E-Pura, Evian, Gerolsteiner, Minalba, Nestle Pure Life, San Pellegrino, and Wahaha) across nine countries [China, USA, Brazil, India, Indonesia, Mexico, Lebanon, Germany, and Thailand] countries. The data was then analyzed for the presence of microplastics and it was found that 93% of the samples tested had some form of microplastic contamination. The sound is represented by a recording of plastic water bottles which leave traces of microscopic plastics in water.",
     "legendpath": "../../assets/data/legends/54_ Platic bottled water_legend-01.svg",
     "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01-simplified.svg",
+    "speciallegend":"../../assets/data/legends/54_ Platic bottled water_revised_legend_specialcase.svg",
+    "specialmask":"../../assets/data/legends/54_ Platic bottled water_revised_mask_specialcase.svg",
     "order": "front",
     "popdimensions": [
       {
@@ -681,7 +707,14 @@
     "desc": "55 description",
     "legendpath": "../../assets/data/legends/55_legend-rasterised.svg",
     "maskpath": "../../assets/data/legends/55_mask-rasterised-01.svg",
-    "audiofile": "../../assets/audio/loops/54.mp3"
+    "popdimensions": [
+      {
+        "x": 8556.202449076196,
+        "y": 484.755615234375,
+        "width": 508.24652099609375,
+        "height": 270.22027587890625
+      }
+    ],"audiofile": "../../assets/audio/loops/54.mp3"
   },
   "58": {
     "ch": "ch7",
@@ -759,6 +792,14 @@
     "desc": "48_class 1 cities _sewage",
     "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
     "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg",
+    "popdimensions": [
+      {
+        "x": 8566.311220114236,
+        "y": 262.5388488769531,
+        "width": 567.1332397460938,
+        "height": 376.7903137207031
+      }
+    ],
     "audiofile": "../../assets/audio/loops/48.mp3"
   },
   "48b": {
@@ -767,6 +808,14 @@
     "desc": "48_class 1b cities _sewage",
     "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
     "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg",
+    "popdimensions": [
+      {
+        "x": 8556.323152487283,
+        "y": 613.5525207519531,
+        "width": 613.5525207519531,
+        "height": 452.4305114746094
+      }
+    ],
     "audiofile": "../../assets/audio/loops/48.mp3"
   }
 }

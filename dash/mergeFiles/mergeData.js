@@ -8,9 +8,10 @@ let datasets = null;
 let mergedMasks = {};
 let mergedLegends = {};
 let mergedPolygons = {};
-
+let mergedSoundAreas = {};
 
 //
+var myArgs = process.argv.slice(2);
 //
 console.log('Starting merge process');
 mergeData();
@@ -27,39 +28,66 @@ function mergeData(){
 	for (let id in datasets) {
 	  if (datasets.hasOwnProperty(id)) {
       console.log('Merging data for : ' + id);
+      let poly_data = "{}";
+      let soundarea_data = "{}";
+      //
       let mpath = datasets[id].maskpath;
       let lpath = datasets[id].legendpath;
       let ppath = datasets[id].maskpath.replace("/legends/", "/polygons/")  + '.json';
+      let spath = datasets[id].maskpath.replace("/legends/", "/sound_areas/")  + '.json';
       //
       let mask_data = fs.readFileSync(mpath, {encoding:'utf8', flag:'r'});
 			let legend_data = fs.readFileSync(lpath, {encoding:'utf8', flag:'r'});
-      let poly_data = "{}";
       try{
         poly_data = fs.readFileSync(ppath, {encoding:'utf8', flag:'r'});
-      }catch(e){
+      }
+      catch(e){
         console.log('Couldn\'t find file: ' + ppath);
+      }
+      try{
+        soundarea_data = fs.readFileSync(spath, {encoding:'utf8', flag:'r'});
+      }
+      catch(e){
+        console.log('Couldn\'t find file: ' + spath);
       }
       //
       mergedMasks[id] = mask_data;
       mergedLegends[id] = legend_data;
       mergedPolygons[id] = poly_data;
+      mergedSoundAreas[id] = soundarea_data;
       //
   	}
   }
   //
   //
   //
-  console.log('Saving mergedMasks');
-  let masksURL = "../../assets/data/mergedMasks.json";
-  fs.writeFileSync(masksURL, JSON.stringify(mergedMasks), {encoding:'utf8'});
+  if(!myArgs.includes("!masks")){
+    console.log('Saving mergedMasks');
+    let masksURL = "../../assets/data/mergedMasks.json";
+    fs.writeFileSync(masksURL, JSON.stringify(mergedMasks), {encoding:'utf8'});
+  }else
+    console.log('Skipping mergedMasks');
   //
-  console.log('Saving mergedLegends');
-  let legendsURL = "../../assets/data/mergedLegends.json";
-  fs.writeFileSync(legendsURL, JSON.stringify(mergedLegends), {encoding:'utf8'});
+  if(!myArgs.includes("!legends")){
+    console.log('Saving mergedLegends');
+    let legendsURL = "../../assets/data/mergedLegends.json";
+    fs.writeFileSync(legendsURL, JSON.stringify(mergedLegends), {encoding:'utf8'});
+  } else
+    console.log('Skipping mergedLegends');
   //
-  console.log('Saving mergedPolygons');
-  let polygonsURL = "../../assets/data/mergedPolygons.json";
-  fs.writeFileSync(polygonsURL, JSON.stringify(mergedPolygons), {encoding:'utf8'});
+  if(!myArgs.includes("!polygons")){
+    console.log('Saving mergedPolygons');
+    let polygonsURL = "../../assets/data/mergedPolygons.json";
+    fs.writeFileSync(polygonsURL, JSON.stringify(mergedPolygons), {encoding:'utf8'});
+  }else
+    console.log('Skipping mergedPolygons');
+  //
+  if(!myArgs.includes("!soundareas")){
+    console.log('Saving mergedSoundAreas');
+    let soundAreasURL = "../../assets/data/mergedSoundAreas.json";
+    fs.writeFileSync(soundAreasURL, JSON.stringify(mergedSoundAreas), {encoding:'utf8'});
+  }else
+    console.log('Skipping mergedSoundAreas');
   //
 }
 

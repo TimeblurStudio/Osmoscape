@@ -32,8 +32,8 @@
   </head>
   <body>
     <script type='text/javascript' src='./js/pathseg.js'></script>
-    <script>
-        var settings = {
+    <script type="module">
+        let settings = {
             divideXBy: 1,
             divideYBy: 1,
             units: '',
@@ -57,10 +57,94 @@
             }).join(',');
           }
         }
+        function processPaths(_json, _type, mainid, targetid){
+          console.log('processPaths ' + _json + ' ' + _type + ' ' + mainid + ' ' + targetid);
+          if(_json.shapes[targetid] == undefined)
+            _json.shapes[targetid] = [];
+          //
+          let paths = document.querySelectorAll(mainid+' path');
+          let cssPolygons = ['<ul>'];
+          for (let i = 0; i < paths.length; i++) {
+              let path = paths[i];
+              let points = pathToPoints(path.pathSegList);
+              let polygonSVGPoints = pointCommandsToSVGPoints(points);
+
+              let polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              polygon.setAttributeNS(null, 'fill', '#cecece');
+              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
+              path.parentNode.replaceChild(polygon, path);
+
+              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
+              //
+              if(_type == 'mask')
+                _json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                _json.shapes[targetid].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              //
+          }
+          //
+          let polygons = document.querySelectorAll(mainid + ' polygon');
+          for (let i = 0; i < polygons.length; i++) {
+              let poly = polygons[i];
+              let points = [];
+              for(let j=0;j<poly.points.length;j++){
+                points.push(poly.points[j].x);
+                points.push(poly.points[j].y);
+              }
+              let polygonSVGPoints = pointCommandsToSVGPoints(points);
+
+              let polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              polygon.setAttributeNS(null, 'fill', '#cecece');
+              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
+              poly.parentNode.replaceChild(polygon, poly);
+
+              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
+              //
+              if(_type == 'mask')
+                _json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                _json.shapes[targetid].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              //
+          }
+          //
+          let rectangles = document.querySelectorAll(mainid + ' rect');
+          for (let i = 0; i < rectangles.length; i++) {
+              let rect = rectangles[i];
+              let points = [];
+              points.push(parseFloat(rect.getAttribute('x')));
+              points.push(parseFloat(rect.getAttribute('y')));
+              points.push(parseFloat(rect.getAttribute('x'))  + parseFloat(rect.getAttribute('width')));
+              points.push(parseFloat(rect.getAttribute('y')));
+              points.push(parseFloat(rect.getAttribute('x')) + parseFloat(rect.getAttribute('width')));
+              points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
+              points.push(parseFloat(rect.getAttribute('x')));
+              points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
+              points.push(parseFloat(rect.getAttribute('x')));
+              points.push(parseFloat(rect.getAttribute('y')));
+              let polygonSVGPoints = pointCommandsToSVGPoints(points);
+          
+
+              let polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+              polygon.setAttributeNS(null, 'fill', '#cecece');
+              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
+              rect.parentNode.replaceChild(polygon, rect);
+              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
+              if(_type == 'mask')
+                _json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+              if(_type == 'sound')
+                _json.shapes[targetid].push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+          }
+          //
+          cssPolygons.push('</ul>');
+          document.getElementById('output').innerHTML = cssPolygons.join('');
+          //
+          return _json;
+        }
+
         function pathToPoints(segments) {
-            var count = segments.numberOfItems;
-            var result = [], segment, x, y;
-            for (var i = 0; i < count; i++) {
+            let count = segments.numberOfItems;
+            let result = [], segment, x, y;
+            for (let i = 0; i < count; i++) {
                 segment = segments.getItem(i);
                 switch(segment.pathSegType) {
                     case SVGPathSeg.PATHSEG_MOVETO_ABS:
@@ -115,15 +199,23 @@
             }
             return result;
         }
-        function crunch(_download, _fname) {
+        function crunch(_download, _type, _fname) {
+          console.log('Curunching: ' + _type + ' ' + _download + ' ' + _fname);
           //
           let p2_json = {
             viewport: null,
             shapes: []
           };
           //
-          var svg = document.querySelector('#svg-original svg');
-          var viewPort = svg.getAttribute('viewBox');
+          if(_download && _type == 'sound'){
+            p2_json = {
+              viewport: null,
+              shapes: {}
+            };
+          }
+          //
+          let svg = document.querySelector('#svg-original svg');
+          let viewPort = svg.getAttribute('viewBox');
           if (!viewPort)
               viewPort = svg.getAttribute('x') + ' ' + svg.getAttribute('y')
                           + ' ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height');
@@ -131,72 +223,29 @@
           document.getElementById('viewbox').innerHTML = 'ViewPort: ' + viewPort;
           document.getElementById('svg-result').innerHTML = document.getElementById('svg-original').innerHTML;
           //
-          var paths = document.querySelectorAll('#svg-result path');
-          var cssPolygons = ['<ul>'];
-          for (var i = 0; i < paths.length; i++) {
-              var path = paths[i];
-              var points = pathToPoints(path.pathSegList);
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
-
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-              polygon.setAttributeNS(null, 'fill', '#cecece');
-              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
-              path.parentNode.replaceChild(polygon, path);
-
-              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
-              //
-              p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
+          let multiple_ = $('#svg-result').find('#multiple');
+          if(multiple_.length != 0){
+            let multiple_masks = multiple_.children();
+            for(let m=0; m < multiple_masks.length; m++){
+              let _mask = multiple_masks[m];
+              let id = $(_mask).attr('id');
+              console.log('processing ' + id);
+              p2_json = processPaths(p2_json, _type, '#'+id, id);
+            }
+          }else{
+            console.log('processing default');
+            p2_json = processPaths(p2_json, _type, '#svg-result', 'default');
           }
           //
-          var polygons = document.querySelectorAll('#svg-result polygon');
-          for (var i = 0; i < polygons.length; i++) {
-              var poly = polygons[i];
-              let points = [];
-              for(j=0;j<poly.points.length;j++){
-                points.push(poly.points[j].x);
-                points.push(poly.points[j].y);
-              }
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
-
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-              polygon.setAttributeNS(null, 'fill', '#cecece');
-              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
-              poly.parentNode.replaceChild(polygon, poly);
-
-              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
-              //
-              p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-          }
-          //
-          var rectangles = document.querySelectorAll('#svg-result rect');
-          for (var i = 0; i < rectangles.length; i++) {
-              var rect = rectangles[i];
-              let points = [];
-              points.push(parseFloat(rect.getAttribute('x')));
-              points.push(parseFloat(rect.getAttribute('y')));
-              points.push(parseFloat(rect.getAttribute('x')) + parseFloat(rect.getAttribute('width')));
-              points.push(parseFloat(rect.getAttribute('y')) + parseFloat(rect.getAttribute('height')));
-              var polygonSVGPoints = pointCommandsToSVGPoints(points);
-
-              var polygon = document.createElementNS('http://www.w3.org/2000/svg','polygon');
-              polygon.setAttributeNS(null, 'fill', '#cecece');
-              polygon.setAttributeNS(null, 'points', polygonSVGPoints);
-              rect.parentNode.replaceChild(polygon, rect);
-
-              cssPolygons.push('<li>', 'polygon(', pointCommandsToCSSPoints(points, settings), ')', '</li>');
-              p2_json.shapes.push({"shape": pointCommandsToCSSPoints(points, settings, false).split(',').map(Number)});
-          }
-          //
-          cssPolygons.push('</ul>');
-          document.getElementById('output').innerHTML = cssPolygons.join('');
+          console.log(p2_json);
           //
           if(_download)
             download(JSON.stringify(p2_json), _fname+'.json', 'text/plain');
           //
         }
         function download(content, fileName, contentType) {
-            var a = document.createElement("a");
-            var file = new Blob([content], {type: contentType});
+            let a = document.createElement("a");
+            let file = new Blob([content], {type: contentType});
             a.href = URL.createObjectURL(file);
             a.download = fileName;
             a.click();
@@ -209,59 +258,103 @@
               timer: 10000
             }).then((value) => {
               if(value){
-                $('#my-gui-container').hide();
-                //
-                let dataURL = './assets/data/dataSummary.json';
-                let allSVGDataPromises = [];
-                console.log('dataURL: ' + dataURL);
-                $.getJSON(dataURL, function( data ) {
-                  console.log('Loaded datasets summary');
-                  //
-                  let datasets = data;
-                  for (let id in datasets){
-                    let mpath = datasets[id].maskpath;
+                swal("Which of the following do you want to convert?", {
+                  buttons: {
+                    cancel: "Cancel",
+                    mask: true,
+                    sound: true,
+                  },
+                })
+                .then((value2) => {
+                  let type = value2;
+                  if(type == 'cancel'){
+                    let picker = document.getElementById("files");
+                    picker.addEventListener('change', function(evt) {
+                        let files = evt.target.files;
+                        if (files.length < 1)
+                            return;
+                        let f = files[0];
+                        if (f.type != 'image/svg+xml')
+                            return;
+                        let reader = new FileReader();
+                        reader.onload = (function(theFile) {
+                            return function(e) {
+                                let result = e.target.result;
+                                // some programs add extra markup at the beginning, we remove that here
+                                result = result.replace(/^[\s\S]*(<svg)/i, "$1");
+                                document.getElementById('svg-original').innerHTML = result;
+                                crunch(false);
+                            };
+                        })(f);
+                        reader.readAsText(f);
+                    }, false);
+                  }else{
                     //
-                    window.debug = true;
-                    if(window.debug){
-                      let pieces = mpath.split('/');
-                      let fname = pieces[pieces.length-1];
-                      pieces[pieces.length-1] = 'Debug';
-                      pieces.push(fname);
-                      mpath = pieces.join('/');
-                    }
+                    $('#my-gui-container').hide();
                     //
-                    setTimeout(function(){
-                      fetch(mpath)
-                        .then(r => r.text())
-                        .then(text => {
-                            //
-                            let result = text;
-                            // some programs add extra markup at the beginning, we remove that here
-                            result = result.replace(/^[\s\S]*(<svg)/i, "$1");
-                            document.getElementById('svg-original').innerHTML = result;
-                            crunch(true, mpath.substring(mpath.lastIndexOf('/')+1));
-                            //
-                            //
-                        })
-                        .catch(console.error.bind(console));
-                    },1000*id)
-                    //
+                    let dataURL = './assets/data/dataSummary.json';
+                    let allSVGDataPromises = [];
+                    $.getJSON(dataURL, function( data ) {
+                      console.log('Loaded datasets summary');
+                      //
+                      let datasets = data;
+                      for (let id in datasets){
+                        let mpath = datasets[id].maskpath;
+                        //
+                        if(type == 'mask'){
+                          let pieces = mpath.split('/');
+                          let fname = pieces[pieces.length-1];
+                          pieces[pieces.length-1] = 'Debug';
+                          pieces.push(fname);
+                          mpath = pieces.join('/');
+                        }
+                        if(type == 'sound'){
+                          let pieces = mpath.split('/');
+                          let fname = pieces[pieces.length-1];
+                          pieces[pieces.length-1] = 'Sound';
+                          pieces.push(fname);
+                          mpath = pieces.join('/');
+                        }
+                        //
+                        console.log(mpath);
+                        setTimeout(function(){
+                          fetch(mpath)
+                            .then(r => r.text())
+                            .then(text => {
+                                //
+                                let result = text;
+                                // some programs add extra markup at the beginning, we remove that here
+                                result = result.replace(/^[\s\S]*(<svg)/i, "$1");
+                                document.getElementById('svg-original').innerHTML = result;
+                                crunch(true, type, mpath.substring(mpath.lastIndexOf('/')+1));
+                                //
+                                //
+                            })
+                            .catch((err)=>{
+                                console.log(err);
+                                console.log('Failed to load: ' + id)
+                            });
+                        },1000*id)
+                        //
+                      }
+                      //
+                    },1000);
+
                   }
-                  //
-                },1000);
+                });
               }else{
-                var picker = document.getElementById("files");
+                let picker = document.getElementById("files");
                 picker.addEventListener('change', function(evt) {
-                    var files = evt.target.files;
+                    let files = evt.target.files;
                     if (files.length < 1)
                         return;
-                    var f = files[0];
+                    let f = files[0];
                     if (f.type != 'image/svg+xml')
                         return;
-                    var reader = new FileReader();
+                    let reader = new FileReader();
                     reader.onload = (function(theFile) {
                         return function(e) {
-                            var result = e.target.result;
+                            let result = e.target.result;
                             // some programs add extra markup at the beginning, we remove that here
                             result = result.replace(/^[\s\S]*(<svg)/i, "$1");
                             document.getElementById('svg-original').innerHTML = result;
@@ -287,6 +380,8 @@
             </div>
         </div>
     </header>
+    <output id="viewbox"></output>
+    <output id="output"></output>
     <figure>
         <figcaption>Input Preview (with Paths)</figcaption>
         <div id="svg-original">
@@ -297,7 +392,5 @@
     <div id="svg-result">
     </div>
     </figure>
-    <output id="viewbox"></output>
-    <output id="output"></output>
   </body>
 
