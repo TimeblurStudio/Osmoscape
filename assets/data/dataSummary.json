@@ -1,7 +1,23 @@
-{
-  "0": {
+{  
+  "0a": {
+    "id": "sha512-kicDo0A",
+    "title": "water structure",
+    "desc": "lp",
+    "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified-new.svg",
+    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
+    "order": "back",
+    "popdimensions": [
+      {
+        "x": 332.8699999999999,
+        "y": 343.5,
+        "width": 1277,
+        "height": 470
+      }
+    ]
+  },
+  "0b": {
     "ch": "ch1",
-    "id": "0",
+    "id": "0b",
     "title": "Human DNA",
     "desc": "Deoxyribonucleic acid (DNA), which contains survival instructions necessary for most life and reproduction, depends on water for its structure. This paired chain of billions of nucleotides relies on the presence of polar water molecules around it to maintain its familiar double helix form. Water ensures that our genetic information is packed tightly together, only to be released for metabolic processes.  As with DNA, water enables the folding process in proteins, attracting and repelling different parts of the linear chain of amino acids to form all proteins. The sound is represented by a sound evoking typing, the pitch and rhythm of which are both determined by a human genetic sequence. In unison with a synthesized interpretation of human chromosome 1, manipulated.",
     "legendpath": "../../assets/data/legends/0_human_dna_legend-01-Simplified.svg",
@@ -271,7 +287,7 @@
     "id": "19",
     "title": "Aral sea breast milk analytes",
     "desc": "Rising infant mortality in Kazakhstan and declining practice of breast feeding led to a study of breast milk by researcher Kim Hooper in February 1994. There were concerns about the presence of contaminants in breast milk. 92 first-time mothers with 2-8 week-old infants were chosen for the study.  The samples of milk were taken from seven different sites, chosen to reflect major agricultural, industrial and population centres in Kazakhstan. Other than samples of human breast milk, cow’s milk, fish from the region were also collected and tested for the presence of contaminants such as Organochlorine Pesticides (OC), Polychlorinated biphenyls (PCBs), Hexachlorocyclohexane and its isomers (HCH) and DDT and its metabolites. \nThe study found high levels of a pesticide called Beta-HCH. PCB toxicity was high in one of the sampled sites, Atyaru. Another pesticide DDE showed high levels in rural areas. The study helps in understanding how women and young children were the most affected in this ecological disaster. The brunt of disease and mortality are carried the most by vulnerable sections of the society. The sound is represented by a recording of a baby breastfeeding, manipulated and subtly combined with the sound of a Monsanto advertisement.",
-    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_vector_legend_updated.svg",
+    "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_legend-01.svg",
     "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
     "popdimensions": [
       {
@@ -738,7 +754,7 @@
     "id": "60",
     "title": "Fukushima PBFT radionuclides",
     "desc": "The Fukushima Daiichi Nuclear Power Plant disaster of 2011 caused a catastrophic chain of events leading to at least 20,000 direct deaths. Hundreds of thousands of people had to be evacuated from their homes. Apart from major health risks, the Fukushima accident caused the contamination of large areas that were, and partly still are used for agricultural purposes. Tests were performed on vegetables and meat to find out the amount of radiocesium, a radioactive isotope of Caesium, and it was discovered that most meat and vegetables were contaminated with the isotopes due to bioaccumulation. Import restrictions were placed on Fukushima. The Pacific Blue Fin Tuna is a favourite amongst fish eaters in the USA. It is a predatory, migratory species of the tuna that travels from the Japanese to California waters. A study was conducted shortly after the disaster to detect the amount of radionuclides in the Pacific Blue Fin Tuna. Studies conducted on 15 migratory Pacific Blue-Fin Tuna Thunnus orientalis caught off the coast of San Diego, California in August 2011 showed that the population was contaminated with Cesium-134 and higher levels of Cesium-137. This attracted intense media coverage and led to widespread public concern over the drift of radioactive contamination all the way from Japan to North America. The sound is represented by thematic notes repeat corresponding to Cs134 and Cs137 which are byproducts of nuclear power plants.",
-    "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_legend-01-Simplified2.svg",
+    "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_updated.svg",
     "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg",
     "order": "back",
     "popdimensions": [

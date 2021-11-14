@@ -27,6 +27,7 @@ let scrollWidth, scrollHeight;
 let mousePos = null;
 let maxZoom = 2;
 let started = false;
+let maskAlpha = 0.05;
 //
 let scrollType = '150ppi-LOW';// 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 let mainScroll;
@@ -60,6 +61,7 @@ let refPopupSize = {
 };
 //
 let datasets = {};
+let loadIndividualFiles = false;
 let mergedLegends = {}, mergedPolygons = {};
 let uploadedLegendFile = [];
 let maskAreas = [], legendFiles = [];
@@ -330,6 +332,11 @@ function loadDatasets(){
 function loadDataset(id, early=true){
 	if (datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
+      //
+      //if(loadIndividualFiles){
+
+      //}
+      //
       let legenddata = mergedLegends[id];
       let polygondata = JSON.parse(mergedPolygons[id]);
       //
@@ -368,7 +375,7 @@ function loadDataset(id, early=true){
       //
 	    //
       let maskpromise = maskLoad(title, polygondata, id, morder);
-      let legendpromise = legendLoad(title, legenddata, lpath, id);
+      let legendpromise = legendLoad(title, legenddata, lpath, id, loadIndividualFiles);
       //
       if(early){
       	earlySVGDataPromises.push(maskpromise);
@@ -458,7 +465,7 @@ function maskLoad(title, polygons, num, order = null){
 				let graphics = new PIXI.Graphics();
 				graphics.beginFill(0xFFA500);
 				graphics.lineStyle(1, 0xFF0000);
-				graphics.alpha = 0.2;
+				graphics.alpha = maskAlpha;
 				//graphics.drawRect(_x, _y, _width, _height);
 				if(polygons.shapes != undefined){
 					for (let s of polygons.shapes){
@@ -510,7 +517,7 @@ function maskLoad(title, polygons, num, order = null){
 				  //
 				  for(let i=0; i<maskAreas.length; i++)
 				  	maskAreas[i].alpha = 0;
-				  mask.alpha = 0.2;
+				  mask.alpha = maskAlpha;
 				  //
 				  legendContainer.visible = true;
 					for(let i=0; i<legendFiles.length; i++)
@@ -525,7 +532,7 @@ function maskLoad(title, polygons, num, order = null){
         	mainScroll['part1'].alpha = 1;
         	mainScroll['part2'].alpha = 1;
         	for(let i=0; i<maskAreas.length; i++)
-				  	maskAreas[i].alpha = 0.2;
+				  	maskAreas[i].alpha = maskAlpha;
 				  //
         	legendContainer.visible = false;
 					for(let i=0; i<legendFiles.length; i++)
@@ -554,133 +561,144 @@ function maskLoad(title, polygons, num, order = null){
 //
 //
 //
-function legendLoad(title, svgxml, svgpath, num){
+function legendLoad(title, svgxml, svgpath, num, frompath){
 	//
-	let skipLoad = false;
 	const lpromise = new Promise((resolve, reject) => {
-		if(skipLoad)
-			resolve('m'+num);
-		else{
+		//
+		let svgScale = 8.0;
+		let newViewPort_x, legendTexture;
+		if(!frompath){
 			//
-			var svgContainer = document.createElement('div');
-			svgContainer.innerHTML = svgxml;
-			let svgEle = svgContainer.getElementsByTagName('svg')[0];
-			let viewPort = svgEle.getAttribute('viewBox');
-      if (!viewPort)
-        viewPort = svgEle.getAttribute('x') 
-      						 + ' ' + svgEle.getAttribute('y')
-                   + ' ' + svgEle.getAttribute('width') 
-                   + ' ' + svgEle.getAttribute('height');
-      console.log('old viewposrt: ' + viewPort)
-      let currentViewPort_x = viewPort.split(' ')[0];
-      let currentViewPort_y = viewPort.split(' ')[1];
-      let currentViewPort_width = viewPort.split(' ')[2];
-      let currentViewPort_height = viewPort.split(' ')[3];
-      //
-      let newViewPort = viewPort;
-      let newViewPort_x = currentViewPort_x;
-      let newViewPort_y = currentViewPort_y;
-      let newViewPort_width = currentViewPort_width;
-      let newViewPort_height = currentViewPort_height;
-      //
-      let midX = 0;
-      if(popupBBoxes.hasOwnProperty(num)){
-				// Position of selected area!
-				let _x = parseFloat(popupBBoxes[num]['dimensions'][0].x);
-				let _y = parseFloat(popupBBoxes[num]['dimensions'][0].y);
-				let _width = parseFloat(popupBBoxes[num]['dimensions'][0].width);
-				let _height = parseFloat(popupBBoxes[num]['dimensions'][0].height);
-				//
-				let rs = (pixiHeight/refPopupSize.height);
-				_x *= rs; _y *= rs;
-				_width *= rs;
-				_height *= rs;
-				console.log('popupBBoxes: '+ _x + ' ' + _y + ' ' + _width + ' ' + _height)
-				//
-				midX = _x + _width/2;
-				let xRange = 2000;
-				if(_width > xRange)	xRange = _width;	
-				//
-				newViewPort_x = midX - xRange;
-				if(newViewPort_x < 0)	newViewPort_x = 0;
-				//newViewPort_x = 300;
-				newViewPort_width = xRange;
-			}
-			newViewPort = newViewPort_x + ' ' + newViewPort_y + ' '  + newViewPort_width + ' '  + newViewPort_height;
-			//
-			svgEle.removeAttribute('style');
-			svgEle.removeAttribute('x');
-			svgEle.removeAttribute('y');
-			svgEle.removeAttribute('width'); 
-			svgEle.removeAttribute('height');
-			svgEle.removeAttribute('viewBox');
-			//
-			svgEle.setAttribute('x', newViewPort_x + 'px');
-			svgEle.setAttribute('y', newViewPort_y + 'px');
-			svgEle.setAttribute('width', newViewPort_width + 'px');
-			svgEle.setAttribute('height', newViewPort_height + 'px');
-			svgEle.setAttribute('viewBox', newViewPort);
-			console.log('new viewport: ' + newViewPort); 
-			//
-			svgxml = svgEle.outerHTML;
+			[svgxml, newViewPort_x] = updateSVGviewbox(svgxml, num);
 			//
 			var parser = new DOMParser();
 			var doc = parser.parseFromString(svgxml, 'image/svg+xml');
 			let serialized = new XMLSerializer().serializeToString(doc);
 			var svgEncoded = 'data:image/svg+xml;base64,' + window.btoa(serialized);
 			//
-			//
-			let svgScale = 8.0;
 			let resource = new PIXI.SVGResource (svgEncoded, {scale: svgScale});
-			let legendTexture = PIXI.Texture.from(resource, {resolution: 1.0});
-			let legendLoaded = false;
-			legendTexture.on('update', () => {
-				if(!legendLoaded){
-					//
-					let legend = new PIXI.Sprite(legendTexture);
-					legendFiles.push(legend);
-					//
-					console.log('Loaded '+num+' legend');
-					$('#status').text('Loaded '+num+' legend');
-					//
-					console.log('Loaded '+num+' legend');
-					$('#status').text('Loaded '+num+' legend');
-					//
-					//
-					if(popupBBoxes[num] != undefined)
-						popupBBoxes[num]['legend'] = legend;
-					//
-					//
-					//
-					if(legend.data == undefined)
-						legend.data = {};
-					legend.data.legendName = 'legend-'+num;
-					legend.data.maskName = 'mask-' + num;
-					legend.name = 'legend-' + num;
-					legend.visible = false;
-					//
-					//
-					//
-					//
-					let lms = pixiHeight/legendTexture.height;
-					console.log('LEGEND SCALE: ' + lms);
-					//
-					legend.x = newViewPort_x*lms*svgScale + pixiWidth*3/4;
-				  legend.scale.set(lms, lms);
-					//
-				  legendContainer.addChild(legend);
-				  resolve('l'+num);
-				}
-				legendLoaded = true;
-			});
+			legendTexture = PIXI.Texture.from(resource, {resolution: 1.0});
 			//
+		}else{
+			legendTexture = PIXI.Texture.from(svgpath, {resolution: 1.0});
 		}
+		let legendLoaded = false;
+		legendTexture.on('update', () => {
+			if(!legendLoaded){
+				//
+				let legend = new PIXI.Sprite(legendTexture);
+				legendFiles.push(legend);
+				//
+				console.log('Loaded '+num+' legend');
+				$('#status').text('Loaded '+num+' legend');
+				//
+				console.log('Loaded '+num+' legend');
+				$('#status').text('Loaded '+num+' legend');
+				//
+				//
+				if(popupBBoxes[num] != undefined)
+					popupBBoxes[num]['legend'] = legend;
+				//
+				//
+				//
+				if(legend.data == undefined)
+					legend.data = {};
+				legend.data.legendName = 'legend-'+num;
+				legend.data.maskName = 'mask-' + num;
+				legend.name = 'legend-' + num;
+				legend.visible = false;
+				//
+				//
+				//
+				//
+				let lms = pixiHeight/legendTexture.height;
+				console.log('LEGEND SCALE: ' + lms);
+				//
+				if(!frompath)
+					legend.x = newViewPort_x*lms*svgScale + pixiWidth*3/4;
+			  else
+			  	legend.x = pixiWidth*3/4;
+			  legend.scale.set(lms, lms);
+				//
+			  legendContainer.addChild(legend);
+			  resolve('l'+num);
+			}
+			legendLoaded = true;
+		});
+		//
 	});
 	//
 	return lpromise;
 }
 //
 
+
+function updateSVGviewbox(svgxml, num){
+	//
+	var svgContainer = document.createElement('div');
+	svgContainer.innerHTML = svgxml;
+	let svgEle = svgContainer.getElementsByTagName('svg')[0];
+	let viewPort = svgEle.getAttribute('viewBox');
+  if (!viewPort)
+    viewPort = svgEle.getAttribute('x') 
+  						 + ' ' + svgEle.getAttribute('y')
+               + ' ' + svgEle.getAttribute('width') 
+               + ' ' + svgEle.getAttribute('height');
+  console.log(num + ' old viewport: ' + viewPort)
+  let currentViewPort_x = viewPort.split(' ')[0];
+  let currentViewPort_y = viewPort.split(' ')[1];
+  let currentViewPort_width = viewPort.split(' ')[2];
+  let currentViewPort_height = viewPort.split(' ')[3];
+  //
+  let newViewPort = viewPort;
+  let newViewPort_x = currentViewPort_x;
+  let newViewPort_y = currentViewPort_y;
+  let newViewPort_width = currentViewPort_width;
+  let newViewPort_height = currentViewPort_height;
+  //
+  let midX = 0;
+  if(popupBBoxes.hasOwnProperty(num)){
+		// Position of selected area!
+		let _x = parseFloat(popupBBoxes[num]['dimensions'][0].x);
+		let _y = parseFloat(popupBBoxes[num]['dimensions'][0].y);
+		let _width = parseFloat(popupBBoxes[num]['dimensions'][0].width);
+		let _height = parseFloat(popupBBoxes[num]['dimensions'][0].height);
+		//
+		let rs = (pixiHeight/refPopupSize.height);
+		_x *= rs; _y *= rs;
+		_width *= rs;
+		_height *= rs;
+		console.log(num + ' popupBBoxes: '+ _x + ' ' + _y + ' ' + _width + ' ' + _height)
+		//
+		midX = _x + _width/2;
+		let xRange = 2000;
+		if(_width > xRange)	xRange = _width;	
+		//
+		newViewPort_x = midX - xRange;
+		if(newViewPort_x < 0)	newViewPort_x = 0;
+		newViewPort_width = xRange;
+	}
+	newViewPort = newViewPort_x + ' ' + newViewPort_y + ' '  + newViewPort_width + ' '  + newViewPort_height;
+	//
+	if(num != "0a" || num != "0b"){
+		svgEle.removeAttribute('style');
+		svgEle.removeAttribute('x');
+		svgEle.removeAttribute('y');
+		svgEle.removeAttribute('width'); 
+		svgEle.removeAttribute('height');
+		svgEle.removeAttribute('viewBox');
+		//
+		svgEle.setAttribute('x', newViewPort_x + 'px');
+		svgEle.setAttribute('y', newViewPort_y + 'px');
+		svgEle.setAttribute('width', newViewPort_width + 'px');
+		svgEle.setAttribute('height', newViewPort_height + 'px');
+		svgEle.setAttribute('viewBox', newViewPort);
+		console.log(num + ' new viewport: ' + newViewPort);
+	} 
+	//
+	svgxml = svgEle.outerHTML;
+	return [svgxml, newViewPort_x];
+}
 
 function measureSVG(svg) {
 	const viewBox = svg.getAttribute('viewBox').split(' ');
@@ -1298,14 +1316,6 @@ function changeCenter(oldCenter, deltaX, deltaY, factor){
   	oldCenter.x  = 0;
   if(oldCenter.x < -1*(scrollWidth*pixiScale - pixiWidth*3/4))
   	oldCenter.x  = -1*(scrollWidth*pixiScale - pixiWidth*3/4);
-  //
-  console.log(oldCenter.x + ' ' + scrollWidth + ' ' + pixiWidth) 
-  /*
-	if((oldCenter.y*window.app.stage.scale.x - pixiHeight/2) <= 0 && deltaY > 0)
-  	oldCenter.y = pixiHeight/(2*window.app.stage.scale.x);
-  if(oldCenter.y*window.app.stage.scale.x > (-pixiHeight/2 + pixiHeight*window.app.stage.scale.x) && deltaY < 0)
-  	oldCenter.y = (-pixiHeight/(2*window.app.stage.scale.x) + pixiHeight);
-  */
   //
   return oldCenter;
 }

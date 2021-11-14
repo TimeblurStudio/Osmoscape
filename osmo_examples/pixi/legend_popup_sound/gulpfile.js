@@ -10,6 +10,7 @@ const vinylsource = require('vinyl-source-stream');
 const vinylbuffer = require('vinyl-buffer');
 const replace = require('gulp-replace');
 const cssnano = require('cssnano');
+const sass = require('gulp-sass')(require('sass'));
 const { argv } = require('yargs');
 
 const $ = gulpLoadPlugins();
@@ -26,11 +27,11 @@ function styles() {
     sourcemaps: !isProd,
   })
     .pipe($.plumber())
-    .pipe($.sass.sync({
+    .pipe(sass.sync({
       outputStyle: 'expanded',
       precision: 10,
       includePaths: ['.']
-    }).on('error', $.sass.logError))
+    }).on('error', sass.logError))
     .pipe($.postcss([
       autoprefixer()
     ]))
