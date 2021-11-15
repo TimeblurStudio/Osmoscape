@@ -103,8 +103,8 @@ function copyAllExamples(){
                   .pipe(dest('dist/examples/')));
   tasks.push(src(['../osmo_examples/pixi/legend_popup/dist/**/*'])
                   .pipe(dest('dist/examples/pixi/legend_popup/')));
-  tasks.push(src(['../osmo_examples/pixi/legend_popup_sound/dist/**/*'])
-                  .pipe(dest('dist/examples/pixi/legend_popup_sound/')));
+  tasks.push(src(['../osmo_examples/pixi/legend_popup_svg/dist/**/*'])
+                  .pipe(dest('dist/examples/pixi/legend_popup_svg/')));
   tasks.push(src(['../osmo_examples/pixi/navigation/dist/**/*'])
                   .pipe(dest('dist/examples/pixi/navigation/')));
   return merge(tasks);
@@ -423,13 +423,13 @@ exports.default = serve;
 exports.deploy = series(
   clean, copyAssets, copyDash, commitDash,
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_sound/']),
+  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_svg/']),
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
   copyAllExamples, commitAllExamples, build, newDeploy);
 exports.serveDeploy = series(
   clean, copyAssets, copyDash, commitDash,
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_sound/']),
+  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_svg/']),
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
   copyAllExamples, commitAllExamples, build,
   shell.task(['serve ./dist/ -p 8080'])
