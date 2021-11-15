@@ -61,7 +61,7 @@ let refPopupSize = {
 };
 //
 let datasets = {};
-let loadIndividualFiles = false;
+let loadIndividualFiles = true;
 let mergedLegends = {}, mergedPolygons = {};
 let uploadedLegendFile = [];
 let maskAreas = [], legendFiles = [];
@@ -164,8 +164,8 @@ function init(){
 		start();
 	});
 	//
-	//
-	let dataURL = './assets/data/dataSummary.json' + '?v=' + commitversion;
+	//HH
+	let dataURL = './assets/data/dataSummary_new.json' + '?v=' + commitversion;
 	console.log('dataURL: ' + dataURL);
 	$.getJSON(dataURL, function( data ) {
 	  console.log('Loaded datasets summary');
@@ -200,7 +200,7 @@ function init(){
 
 	// Setup PIXI canvas
 	let canvas = document.getElementById('main-scroll-canvas');
-	pixiScale = 2;
+	pixiScale = 1;
 	pixiWidth = canvas.offsetWidth;
 	pixiHeight = canvas.offsetHeight;
 
@@ -209,7 +209,7 @@ function init(){
 	let app = new PIXI.Application({
 	    width: pixiWidth*pixiScale,
 	    height: pixiHeight*pixiScale,
-	    antialias: false,
+	    antialias: true,
 	    backgroundAlpha: 0,
 	    view: canvas
 	  }
@@ -344,6 +344,7 @@ function loadDataset(id, early=true){
       let title = datasets[id].title;
       //
 	    let morder = datasets[id].order;
+	    let zorder = datasets[id].zorder;
 	    if(morder != 'front' && morder != 'back')
 	    	morder = null;
 			//
@@ -361,8 +362,8 @@ function loadDataset(id, early=true){
 	      };
 	      //
 	      //
-	      let count = popupBBoxes[id]['dimensions'].length;
-				console.log('boxes: ' + count);
+	      //let count = popupBBoxes[id]['dimensions'].length;
+			//	console.log('boxes: ' + count);
 				//
 				let s = mainScrollScale;
 		    let rs = (pixiHeight/refPopupSize.height);
@@ -374,7 +375,7 @@ function loadDataset(id, early=true){
       }
       //
 	    //
-      let maskpromise = maskLoad(title, polygondata, id, morder);
+      let maskpromise = maskLoad(title, polygondata, id, zorder);
       let legendpromise = legendLoad(title, legenddata, lpath, id, loadIndividualFiles);
       //
       if(early){
@@ -432,7 +433,7 @@ function newPopRect(p1, p2) {
 //
 //
 //
-function maskLoad(title, polygons, num, order = null){
+function maskLoad(title, polygons, num, zorder){
 	//
 	let skipLoad = false;
 	const mpromise = new Promise((resolve, reject) => {
@@ -451,7 +452,8 @@ function maskLoad(title, polygons, num, order = null){
 			//
 			if(popupBBoxes[num] != undefined){
 		  	//
-				let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
+				/*HH
+                let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
 				let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
 				let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
 				let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
@@ -461,7 +463,7 @@ function maskLoad(title, polygons, num, order = null){
 				_y *= rs;
 				_width *= rs;
 				_height *= rs;
-				//
+				*/
 				let graphics = new PIXI.Graphics();
 				graphics.beginFill(0xFFA500);
 				graphics.lineStyle(1, 0xFF0000);
@@ -483,7 +485,7 @@ function maskLoad(title, polygons, num, order = null){
 				mask.data.maskName = 'mask-' + num;
 				mask.data.id = num;
 				mask.name = 'mask-' + num;
-				mask.data.order = order;
+				//mask.data.order = order;
 				//
 				//if(order == 'back')
 				//	mask.sendToBack();
@@ -499,7 +501,7 @@ function maskLoad(title, polygons, num, order = null){
 				//
 				mask.scale.set(maskScale, maskScale);
 				mask.x = pixiWidth*3/4;
-			  //
+			    mask.zIndex = zorder;
 			  //
 	  		mask.interactive = true;
 				mask.buttonMode = true;
@@ -564,7 +566,6 @@ function maskLoad(title, polygons, num, order = null){
 function legendLoad(title, svgxml, svgpath, num, frompath){
 	//
 	const lpromise = new Promise((resolve, reject) => {
-		//
 		let svgScale = 8.0;
 		let newViewPort_x, legendTexture;
 		if(!frompath){
@@ -610,15 +611,23 @@ function legendLoad(title, svgxml, svgpath, num, frompath){
 				//
 				//
 				//
-				//
-				let lms = pixiHeight/legendTexture.height;
-				console.log('LEGEND SCALE: ' + lms);
+				//HH
+				//let lms = pixiHeight/legendTexture.height;
+				
+                let legendRefHeight = (popupBBoxes[num].dimensions.height/623.5)
+                let legendScale = (legendRefHeight/legendTexture.height)*pixiHeight;
+                legend.scale.set(legendScale,legendScale)
+                console.log('LEGEND SCALE: ' + legendScale);
 				//
 				if(!frompath)
 					legend.x = newViewPort_x*lms*svgScale + pixiWidth*3/4;
-			  else
-			  	legend.x = pixiWidth*3/4;
-			  legend.scale.set(lms, lms);
+			  else {
+
+                legend.x = (popupBBoxes[num].dimensions.x)*(pixiHeight/623.5) + pixiWidth*3/4;
+                legend.y = (popupBBoxes[num].dimensions.y)*(pixiHeight/623.5);
+			  	//HH
+                //legend.x = pixiWidth*3/4;
+              }
 				//
 			  legendContainer.addChild(legend);
 			  resolve('l'+num);
