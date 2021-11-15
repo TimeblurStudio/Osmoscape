@@ -1,0 +1,341 @@
+{
+  "7": {
+    "ch": "ch3",
+    "id": "7",
+    "title": "Co2 Emission through the years",
+    "desc": "The World Resources Institute conducted a study of twelve countries showing  a rapid increase of carbon emissions from 1850 to 2012. The period between 1850-1900 is taken as the period of pre-industrial revolution. The pattern shows an  increase in the emissions for each of the selected countries. It shows that the developed world achieved economic growth due to large scale use of industries and burning of fossil fuels. They still continue to depend on fossil fuels to maintain their growth and continue to emit tons of carbon dioxide in the atmosphere. In recent years , the developing nations have also joined the race towards attaining a developed nation status and this has led to recurring in the old pattern that was seen in the western countries earlier. The sound is represented by recordings of a Tuk Tuk engine, diesel locomotives, and car engine, processed using granular synthesis.",
+    "legendpath": "../../assets/data/legends_png/07_legend.png",
+    "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
+    "zorder": 100,
+    "popdimensions": {
+      "x": 653.52,
+      "y": -1.8,
+      "width": 1076.48,
+      "height": 459.9
+    },
+    "audiofile": "../../assets/audio/loops/7 rev1.mp3"
+  },
+  "8": {
+    "ch": "ch3",
+    "id": "8",
+    "title": "Global sea surface temperature",
+    "desc": "The sea surface temperature is a measure of the energy of the molecules at the ocean surface, that is, the water temperature of the ocean surface. Measuring this helps in understanding the interaction between the sea surface and the layers of atmosphere above it, as it is this interaction that regulates the climate. A global study using satellite data and historical records to show that global sea surface temperatures have shown a steady rise between 1850 and 2018. The increase has been seen after the 1900s, which is the beginning of the industrial era. The ocean is a massive sink of carbon dioxide, which means that it absorbs the carbon dioxide from various sources as well as the heat radiated back to the earth from the greenhouse gases. The sound is represented by recordings of boiling water combined with field recordings of a coral reef.",
+    "legendpath": "../../assets/data/legends_png/08_legend.png",
+    "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg",
+    "audiofile": "../../assets/audio/loops/8.mp3",
+    "zorder": 200,
+    "popdimensions": {
+      "x": 734.886,
+      "y": 193.3,
+      "width": 1018.61,
+      "height": 427.13
+    }
+  },
+  "9": {
+    "ch": "ch3",
+    "id": "9",
+    "title": "Bay of Bengal & Arabian Sea SST",
+    "desc": "Using a blend of historical records and satellite data from 1900-2010, a study of monthly deviations of sea surface temperatures of the Bay of Bengal and Arabian sea region shows that the extreme weather events of 2010 in different parts of the world were caused by natural variability as well as human influence. The Sea Surface Temperatures in the northern Indian Ocean region which encompasses the Bay of Bengal and Arabian Sea, were the highest on record for any month in May 2010 at 30.4 degree Celsius.The sound is represented by a field recording of the Bay of Bengal, modulated by a recording of boiling water, and in turn modulating a synthesized 304hz tone (derived from the recorded 30.4 degree surface temperature in Bay of Bengal)",
+    "legendpath": "../../assets/data/legends_png/09_legend.png",
+    "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg",
+    "order": "front",
+    "zorder": 400,
+    "popdimensions": {
+      "x": 1529.1,
+      "y": 158.8,
+      "width": 612.35,
+      "height": 450.5
+    },
+    "audiofile": "../../assets/audio/loops/9 rev1.mp3"
+  },
+  "11": {
+    "ch": "ch3",
+    "id": "11",
+    "title": "Rain pH and Co2",
+    "desc": "Researchers from Japan looked at the change in rainwater pH from 1800 to 2007 as a result of increasing carbon dioxide in the atmosphere. They studied the historical records of CO2 till 1958 in the atmosphere from the ice cores in Antarctica and more recent data from 1958-2007 came from Mauna Loa, one of the five volcanoes in the US state of Hawaii in the Pacific Ocean. The data reveals that the pH of rainwater has decreased from 5.68 to 5.62 due to Co2 emissions. This is a decrease of 0.06 units. The pH is a logarithmic scale. This means that a drop in pH level by 1 unit means a ten times increase in acidity. If the pH of water reduces from 6.0 to 5.0, it becomes 10 times more acidic. If it reduces to 4.0 from 6.0, it has become 100 times more acidic. The sound is represented by a manipulated field recording of rain in the woods, the rhythm of which intermittently triggers the frequency of the carbon atom.",
+    "legendpath": "../../assets/data/legends_png/11_legend.png",
+    "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
+    "audiofile": "../../assets/audio/loops/11.mp3",
+    "zorder": 425,
+    "popdimensions": [
+      {
+        "x": 1666.49,
+        "y": 20.35,
+        "width": 674.12,
+        "height": 620.289
+      }
+    ]
+  },
+  "12": {
+    "ch": "ch3",
+    "id": "12",
+    "title": "Vermont acid rain",
+    "desc": "Vermont is a picturesque “green mountain state” in north-eastern USA. It is also one of the first few states to be recognised for being affected by acid rain. Fossil fuel plants in the 1980s which were based in midwest emitted gases such as sulphur dioxide and nitrous oxide. These were carried towards the north east by the wind patterns and mixed with the rainwater, fog and snow there, lowering the pH of water, making it acidic. A long-term monitoring of atmospheric deposition revealed that it was acid rain that caused the decline of several trees, including 300-year-old red spruce trees, and lakes of the green mountain. Similar well documented occurrences of acid rain have happened in other parts of the world, such as Norway, Germany, China and India. The pattern of its occurrence in each region corresponds with the surge of industrialisation in that region.  The sound is represented by a field recording of a Vermont rain storm, re-sampled and processed to add a sizzling and splatting element in order to evoke acid rain.",
+    "legendpath": "../../assets/data/legends_png/12_legend.png",
+    "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg",
+    "order": "front",
+    "zorder": 450,
+    "audiofile": "../../assets/audio/loops/12.mp3",
+    "popdimensions": 
+      {
+        "x": 2111.76,
+        "y": -37.6,
+        "width": 1076,
+        "height": 517.9
+      }
+    
+  },
+  "13": {
+    "ch": "ch3",
+    "id": "13",
+    "title": "Subsaharan desert",
+    "desc": "The study uses satellite data to monitor the dust movement pattern from Sahara Desert to the Amazon forest between 2007 and 2013. The study finds that the dust transported by wind over large distances contains phosphorus, which is an essential nutrient for soil. Some of the phosphorus gets distributed over Amazon’s soil, which is not rich in the nutrient. It acts as a natural fertiliser for growth of the forest. The sound is represented by sampled recording of a shovel in sand, manipulated to evoke the desert wind.",
+    "legendpath": "../../assets/data/legends_png/13_legend.png",
+    "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg",
+    "zorder": 500,
+    "popdimensions": {
+      "x": 1302.33,
+      "y": -201.436,
+      "width": 1437.17,
+      "height": 1026.64
+    },
+    "audiofile": "../../assets/audio/loops/13.mp3"
+  },
+  "14": {
+    "ch": "ch4",
+    "id": "14",
+    "title": "CO2 concentration in ice core",
+    "desc": "Ten datasets of ice cores from different parts of the world were analysed to measure the carbon concentration trapped in the cores. Records were obtained from 800,000BC till 2015. The concentration have varied to a maximum of 300 parts per million(ppm). If we observe the trend after 1900, it shows that the carbon dioxide concentrations have been steadily rising, and for the first time in earth’s history they have crossed the 400 ppm levels. The sound is represented by a binaural recording of ice and a field recording of Vostok, Antarctica. It is manipulated to create 6 discrete layers of sounds to represent Carbon, the atomic number of which is 6.",
+    "legendpath": "../../assets/data/legends_png/14_legend.png",
+    "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg",
+    "zorder": 600,
+    "popdimensions": 
+      {
+        "x": 2252.3,
+        "y": 158.2,
+        "width": 1394.74,
+        "height": 463.9
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/14.mp3"
+  },
+  "15": {
+    "ch": "ch4",
+    "id": "15",
+    "title": "Black carbon annual data",
+    "desc": "Researchers at the Institute of Tibetan Plateau Research in China conducted a study of ice cores from five different locations of the Tibetan Plateau, revealing the presence of black soot deposits. Black soot is formed from the incomplete combustion of fossil fuel. It gets transported by wind, mixes with rainwater and snow, and settles on glaciers. This leads to darkening of the surface of the glacier. The glaciers being white, have high albedo. This means they are able to reflect back most of the sunlight without absorbing it. Due to the presence of soot, they absorb sunlight and reduce the reflecting capacity of the glacier.This soot then contributes to the melting of the surface of the glacier. The soot received in the Tibetan glaciers in this study is mostly from Europe and the Middle East in the past. The sound is represented by field recordings of an Indian farmers burning their fields, combined with recordings of a glacier in the Karakoram.",
+    "legendpath": "../../assets/data/legends_png/15_legend.png",
+    "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg",
+    "audiofile": "../../assets/audio/loops/15.mp3",
+    "zorder": 700,
+    "popdimensions": 
+      {
+        "x": 2318.43,
+        "y": 63.04,
+        "width": 840.73,
+        "height": 522.92
+      }
+  },
+  "16": {
+    "ch": "ch4",
+    "id": "16",
+    "title": "Glacier data",
+    "desc": "Seven glacial systems around the world were studied to record the rate of their decline between 1960 and 2003. Across all locations, the glaciers have shown a decrease in volume. The cumulative mass balance shows highest decline for the Alaska and the Arctic regions. Melting glaciers add to rising sea levels, which in turn increases coastal erosion and elevates storm surge as warming air and ocean temperatures create more frequent and intense coastal storms like hurricanes and typhoons.The sound is represented by a field recording of a glacier melting. It had its rhythmic component extracted, and that rhythm triggers the sound of dripping water.",
+    "legendpath": "../../assets/data/legends_png/16_legend.png",
+    "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg",
+    "zorder": 800,
+   "popdimensions": 
+      {
+        "x": 2915.8,
+        "y": -2.16,
+        "width": 963.2,
+        "height": 589.46
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/16.mp3"
+  },
+  "17": {
+    "ch": "ch5",
+    "id": "17",
+    "title": "Aral Sea river dynamics",
+    "desc": "The Aral sea was an endorheic lake nestled between Kazakhstan and Uzbekistan in Central Asia. Once the fourth largest lake in the world, it began shrinking since the 1960s after the rivers that fed the lake were diverted to irrigate cotton fields under the Soviet regime. This dataset establishes an average annual water balance for the Aral sea from 1960-2005. It explores the multiple facets of water balance, such as river inflow, net evaporation, net groundwater reserves and the overall surplus or deficit of the water levels, and tells us the story of the desiccation of one of the largest saline lakes in the world thanks to human design. The sound is represented by a field recording  of the Aral sea, combined with the sounds of cotton processing, and manipulated to evoke desiccation.",
+    "legendpath": "../../assets/data/legends_png/17_legend.png",
+    "maskpath": "../../assets/data/legends/17 Aral sea river dynamics_mask-01.svg",
+    "zorder": 900,
+   "popdimensions": 
+      {
+        "x": 3617.37,
+        "y": 252.201,
+        "width": 1066.83,
+        "height": 370.999
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/17.mp3"
+  },
+  "19": {
+    "ch": "ch5",
+    "id": "19",
+    "title": "Aral sea breast milk analytes",
+    "desc": "Rising infant mortality in Kazakhstan and declining practice of breast feeding led to a study of breast milk by researcher Kim Hooper in February 1994. There were concerns about the presence of contaminants in breast milk. 92 first-time mothers with 2-8 week-old infants were chosen for the study.  The samples of milk were taken from seven different sites, chosen to reflect major agricultural, industrial and population centres in Kazakhstan. Other than samples of human breast milk, cow’s milk, fish from the region were also collected and tested for the presence of contaminants such as Organochlorine Pesticides (OC), Polychlorinated biphenyls (PCBs), Hexachlorocyclohexane and its isomers (HCH) and DDT and its metabolites. \nThe study found high levels of a pesticide called Beta-HCH. PCB toxicity was high in one of the sampled sites, Atyaru. Another pesticide DDE showed high levels in rural areas. The study helps in understanding how women and young children were the most affected in this ecological disaster. The brunt of disease and mortality are carried the most by vulnerable sections of the society. The sound is represented by a recording of a baby breastfeeding, manipulated and subtly combined with the sound of a Monsanto advertisement.",
+    "legendpath": "../../assets/data/legends_png/19_legend.png",
+    "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
+    "zorder": 1000,
+    "popdimensions": 
+      {
+        "x": 3564.46,
+        "y": 22.52,
+        "width": 1883.85,
+        "height": 584.933
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/19.mp3"
+  },
+  "20": {
+    "ch": "ch5",
+    "id": "20",
+    "title": "Water withdrawal for agriculture",
+    "desc": "A study published by Food and Agricultural Organisation of the United Nations shows a comparison of water used for agricultural by eleven countries over a period of 40 years, from 1975 to 2015. The study shows that India is the largest consumer of water for agricultural use, followed by China, Pakistan and Mexico. The sound is represented by a recording of a farm tractor engine, condensed down to .5 seconds, and re- sampled to evoke a sprinkle.",
+    "legendpath": "../../assets/data/legends_png/20_legend.png",
+    "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg",
+    "zorder": 1100,
+    "popdimensions": 
+      {
+        "x": 5053.34,
+        "y": 248.9,
+        "width": 266.04,
+        "height": 320.9
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/20.mp3"
+  },
+  "21": {
+    "ch": "ch5",
+    "id": "21",
+    "title": "Cotton production",
+    "desc": "Cotton is a water-intensive crop. The top seven cotton producing nations, Brazil, China, India, Pakistan, Turkey, the United States, and Uzbekistan, account for 84% of global cotton production. In this dataset, patterns related to weather and cotton production give a better understanding of the variability of cotton production and the influence it has on global production. The study shows a falling cotton production in 2016-17 when La Nina weather conditions existed. La Nina is an irregularly recurring upwelling of unusually cold water to the ocean surface along the western coast of South America that often occurs and disrupts typical regional and global weather patterns. There are critical questions being raised in the face of the current global climate change and a lack of infrastructure for careful allocation of water. The sound is represented by a recording of cotton fields being irrigated, combined with the sound of water running down a bathtub drain.",
+    "legendpath": "../../assets/data/legends_png/21_legend.png",
+    "zorder": 1100,
+    "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg",
+    "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg",
+    "popdimensions": 
+      {
+        "x": 3746.07,
+        "y": 0.1,
+        "width": 1066.84,
+        "height": 580.368
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/21 rev1.mp3"
+  },
+  "23": {
+    "ch": "ch5",
+    "id": "23",
+    "title": "Marathwada drought groundwater",
+    "desc": "Marathwada has traditionally been known to be a drought-prone region in the Indian state of Maharashtra in west India, with a low groundwater supply. 74 percent of the land in Marathwada is under agricultural use.The area has basaltic rock with low water holding capacity. The amount of rainfall received, the topography of the land and the type of rocks all determine the availability of groundwater in a region. A study by the government of Maharashtra draws comparison of the change in groundwater levels in eight different districts of Marathwada from 2012 to 2015. All districts show a varying degree of decline in groundwater level. The sound is a field recording of a farmer picking rocks from their barren soil, combined with a recording of a creaking cupboard, and re-sampled to evoke the cracking of desiccated farmland.",
+    "legendpath": "../../assets/data/legends_png/23_legend.png",
+    "zorder": 1200,
+    "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg",
+    "popdimensions": 
+      {
+        "x": 4774.85,
+        "y": 192.6,
+        "width": 1564.23,
+        "height": 430.92
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/23 v2.mp3"
+  },
+  "24": {
+    "ch": "ch5",
+    "id": "24",
+    "title": "Marathwada rainfall",
+    "desc": "A dataset by the Indian Institute of Meteorology describes rainfall data collected from Marathwada between 1871 and 2016. The dataset shows that the average rainfall dropped in Marathwada in the late 1960s with the lowest rainfall in 1973. The researchers of this project used the data to define a drought line and one can understand from the data that in the 150 years of study, Marathwada faces a five-year drought almost every decade. The lowest annual rainfall recorded in Marathwada was during 1871 where annual rainfall was below 3000 mms. The sound is represented by a recording of a rare rainfall in Marathwada, re-sampled and manipulated to evoke very sparse droplets of rain.",
+    "legendpath": "../../assets/data/legends_png/24_legend.png",
+    "zorder": 1300,
+    "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg",
+    "order": "back",
+    "popdimensions": 
+      {
+        "x": 4342.68,
+        "y": -36.5405,
+        "width": 1397.76,
+        "height": 568.32
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/24.mp3"
+  },
+  "25": {
+    "ch": "ch5",
+    "id": "25",
+    "title": "Droughts in India",
+    "desc": "A case study talks about the impact of droughts in various parts of India and delves into its social and economic implications. It analyses drought patterns in India for almost a century from 1877-1979. India faced its most severe drought in 1877 where about 28 percent of the area was affected by severe rainfall deficiency. Records state that almost five million people died because of the 1876-77 famine. India didn’t have any severe droughts between the years 1941 and 1968 with small areas being affected by severe drought in the years that followed up to 1979. The sound is represented by a recording of the arrival of a water tanker in Maharashtra, sampled and manipulated to sound like a diesel engine as heard from inside a water tank.",
+    "legendpath": "../../assets/data/legends_png/25_legend.png",
+    "zorder": 1400,
+    "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg",
+    "popdimensions": 
+      {
+        "x": 4468.48,
+        "y": 244.45,
+        "width": 904.34,
+        "height": 349.02
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/25 rev1.mp3"
+  },
+  "28": {
+    "ch": "ch5",
+    "id": "28",
+    "title": "Hydroelectric dam energy",
+    "desc": "A 2016 study by World Energy Council compares the unutilised hydropower potential of 20 countries across the globe. The dataset demonstrates the total potential of hydroelectricity power of each country (in GWh/year), the undeveloped potential and the amount of hydroelectricity currently used. Asia has the largest unutilised potential, estimated at 7,195 TWh/year, making it the likely leading market for future development. Beyond China, significant new development took place in the emerging markets of Asia including concentrations in Russia, India, Turkey and Vietnam. In Latin America, Brazil leads the continent in both installed capacity and new capacity additions, with 91.8 GW installed capacity in total. The study estimates the availability of approximately 10,000 TWh/year of unutilised hydropower potential worldwide as of 2016. The sound is represented by a field recording of water at a dam, manipulated to evoke a hydroelectric turbine.",
+    "legendpath": "../../assets/data/legends_png/28_legend.png",
+    "zorder": 1500,
+    "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01-Simplified.svg",
+    "popdimensions": 
+      {
+        "x": 5030.9,
+        "y": 251.79,
+        "width": 867.7,
+        "height": 363.118
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/28.mp3"
+  },
+  "29": {
+    "ch": "ch5",
+    "id": "29",
+    "title": "Thermal utilities India",
+    "desc": "According to a World Resources Institute paper titled “Parched Power: Water Demands, Risks, and Opportunities for India’s Power Sector,” almost 90% of India’s thermal power generation depends on freshwater for cooling. In 2016, thermal (fossil and nuclear) electricity accounted for more than 83% of India’s total utility power generation. The paper reveals “14 of India’s largest thermal power utility companies have experienced water shortage-related disruptions at least once between 2013 and 2016, losing over $1.4 billion in total potential revenue from the sale of power, and are likely to continue facing the problem as water competition intensifies in the future. In 2016, nine companies had water-related shutdown records for 12 of their plants, and together lost more than $614 million in potential revenue.” The sound is represented by a field recording of power lines, manipulated and interrupted. ",
+    "legendpath": "../../assets/data/legends_png/29_legend.png",
+    "zorder": 1600,
+    "maskpath": "../../assets/data/legends/29 Thermal Utilities India_mask-01.svg",
+    "order": "front",
+    "popdimensions": 
+      {
+        "x": 5281.6,
+        "y": 162.68,
+        "width": 106.17,
+        "height": 146.59
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/29.mp3"
+  },
+  "30": {
+    "ch": "ch5",
+    "id": "30",
+    "title": "River interlinking",
+    "desc": "River interlinking is the linking of rivers through a network of canals, based on the assumption that surplus water from some rivers can be diverted to rivers with a deficit. This system of inter-basin water transfer (IBWT) has been in practice since the Roman Civilisation. The interlinking of rivers in India has two components—Himalayan Rivers and the Peninsular Rivers. The idea is to form a gigantic South Asian water grid, to meet the country’s growing demand for food.The dataset describes the total virtual water flow as a result of interstate trade in agricultural commodities in India between the period 1997-2001. It then links this to the river interlinking project proposed to knit together ten major rivers across the nation. It shows that North Indian states of  Punjab, Uttar Pradesh and Haryana are the largest exporters of virtual water while eastern states of Bihar, Jharkhand and Orissa and the western states of, Gujarat, Maharashtra, Kerala (south west) are the key importers, pointing out a significant relation between high water footprints and poor agricultural practice in the Indian states. The sound is represented by synthetic water sounds played 37 times represent each of the Himalayan rivers interlinked for water distribution in India, these sounds are accompanied by a field recording of a river.",
+    "legendpath": "../../assets/data/legends_png/30_legend.png",
+    "zorder": 1700,
+    "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg",
+    "order": "front",
+    "popdimensions": 
+      {
+        "x": 5653.24,
+        "y": 227.399,
+        "width": 366.27,
+        "height": 401.66
+      }
+    ,
+    "audiofile": "../../assets/audio/loops/30.mp3"
+  }
+}

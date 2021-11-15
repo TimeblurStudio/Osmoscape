@@ -19,7 +19,15 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -38,7 +46,8 @@ var scrollMousePos, scrollPosition;
 var scrollWidth, scrollHeight;
 var mousePos = null;
 var maxZoom = 2;
-var started = false; //
+var started = false;
+var maskAlpha = 0.05; //
 
 var scrollType = '150ppi-LOW'; // 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 
@@ -74,6 +83,7 @@ var refPopupSize = {
 }; //
 
 var datasets = {};
+var loadIndividualFiles = true;
 var mergedLegends = {},
     mergedPolygons = {};
 var uploadedLegendFile = [];
@@ -183,9 +193,9 @@ function init() {
     if (performance_test) $('#performance-stats table').append('<tr> <td>Start clicked</td> <td>' + Math.round(performance.now() - t0) + '</td> <td>' + Math.round(window.meter.fps) + '</td></tr>');
     start();
   }); //
-  //
+  //HH
 
-  var dataURL = '../../../../assets/data/dataSummary.json' + '?v=' + commitversion;
+  var dataURL = '../../../../assets/data/dataSummary_new.json' + '?v=' + commitversion;
   console.log('dataURL: ' + dataURL);
   $.getJSON(dataURL, function (data) {
     console.log('Loaded datasets summary'); //
@@ -216,7 +226,7 @@ function init() {
   }); // Setup PIXI canvas
 
   var canvas = document.getElementById('main-scroll-canvas');
-  pixiScale = 2;
+  pixiScale = 1;
   pixiWidth = canvas.offsetWidth;
   pixiHeight = canvas.offsetHeight; //Create a Pixi Application
 
@@ -224,7 +234,7 @@ function init() {
   var app = new PIXI.Application({
     width: pixiWidth * pixiScale,
     height: pixiHeight * pixiScale,
-    antialias: false,
+    antialias: true,
     backgroundAlpha: 0,
     view: canvas
   });
@@ -346,7 +356,11 @@ function loadDataset(id) {
   var early = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
   if (datasets.hasOwnProperty(id)) {
-    console.log('Loading data for : ' + id);
+    console.log('Loading data for : ' + id); //
+    //if(loadIndividualFiles){
+    //}
+    //
+
     var legenddata = mergedLegends[id];
     var polygondata = JSON.parse(mergedPolygons[id]); //
 
@@ -354,6 +368,7 @@ function loadDataset(id) {
     var title = datasets[id].title; //
 
     var morder = datasets[id].order;
+    var zorder = datasets[id].zorder;
     if (morder != 'front' && morder != 'back') morder = null; //
 
     if (datasets[id].hasOwnProperty('popdimensions')) {
@@ -369,9 +384,9 @@ function loadDataset(id) {
         polygons: datasets[id].physics
       }; //
       //
-
-      var count = popupBBoxes[id]['dimensions'].length;
-      console.log('boxes: ' + count); //
+      //let count = popupBBoxes[id]['dimensions'].length;
+      //	console.log('boxes: ' + count);
+      //
 
       var s = mainScrollScale;
       var rs = pixiHeight / refPopupSize.height;
@@ -383,8 +398,8 @@ function loadDataset(id) {
     //
 
 
-    var maskpromise = maskLoad(title, polygondata, id, morder);
-    var legendpromise = legendLoad(title, legenddata, lpath, id); //
+    var maskpromise = maskLoad(title, polygondata, id, zorder);
+    var legendpromise = legendLoad(title, legenddata, lpath, id, loadIndividualFiles); //
 
     if (early) {
       earlySVGDataPromises.push(maskpromise);
@@ -441,8 +456,7 @@ function newPopRect(p1, p2) {
 //
 
 
-function maskLoad(title, polygons, num) {
-  var order = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+function maskLoad(title, polygons, num, zorder) {
   //
   var skipLoad = false;
   var mpromise = new Promise(function (resolve, reject) {
@@ -456,25 +470,23 @@ function maskLoad(title, polygons, num) {
 
       if (popupBBoxes[num] != undefined) {
         //
-        var _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
 
-        var _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
-
-        var _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
-
-        var _height = parseInt(popupBBoxes[num]['dimensions'][0].height); //
-
-
-        var rs = pixiHeight / refPopupSize.height;
+        /*HH
+                    let _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
+        let _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
+        let _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
+        let _height = parseInt(popupBBoxes[num]['dimensions'][0].height);
+        //
+        let rs = (pixiHeight/refPopupSize.height);
         _x *= rs;
         _y *= rs;
         _width *= rs;
-        _height *= rs; //
-
+        _height *= rs;
+        */
         var graphics = new PIXI.Graphics();
         graphics.beginFill(0xFFA500);
         graphics.lineStyle(1, 0xFF0000);
-        graphics.alpha = 0.2; //graphics.drawRect(_x, _y, _width, _height);
+        graphics.alpha = maskAlpha; //graphics.drawRect(_x, _y, _width, _height);
 
         if (polygons.shapes != undefined) {
           var _iterator = _createForOfIteratorHelper(polygons.shapes),
@@ -501,8 +513,8 @@ function maskLoad(title, polygons, num) {
         mask.data.legendName = 'legend-' + num;
         mask.data.maskName = 'mask-' + num;
         mask.data.id = num;
-        mask.name = 'mask-' + num;
-        mask.data.order = order; //
+        mask.name = 'mask-' + num; //mask.data.order = order;
+        //
         //if(order == 'back')
         //	mask.sendToBack();
         //if(order == 'front')
@@ -519,8 +531,8 @@ function maskLoad(title, polygons, num) {
 
 
         mask.scale.set(maskScale, maskScale);
-        mask.x = pixiWidth * 3 / 4; //
-        //
+        mask.x = pixiWidth * 3 / 4;
+        mask.zIndex = zorder; //
 
         mask.interactive = true;
         mask.buttonMode = true;
@@ -539,7 +551,7 @@ function maskLoad(title, polygons, num) {
             maskAreas[i].alpha = 0;
           }
 
-          mask.alpha = 0.2; //
+          mask.alpha = maskAlpha; //
 
           legendContainer.visible = true;
 
@@ -557,7 +569,7 @@ function maskLoad(title, polygons, num) {
           mainScroll['part2'].alpha = 1;
 
           for (var i = 0; i < maskAreas.length; i++) {
-            maskAreas[i].alpha = 0.2;
+            maskAreas[i].alpha = maskAlpha;
           } //
 
 
@@ -587,135 +599,159 @@ function maskLoad(title, polygons, num) {
 //
 
 
-function legendLoad(title, svgxml, svgpath, num) {
+function legendLoad(title, svgxml, svgpath, num, frompath) {
   //
-  var skipLoad = false;
   var lpromise = new Promise(function (resolve, reject) {
-    if (skipLoad) resolve('m' + num);else {
+    var svgScale = 8.0;
+    var newViewPort_x, legendTexture;
+
+    if (!frompath) {
       //
-      var svgContainer = document.createElement('div');
-      svgContainer.innerHTML = svgxml;
-      var svgEle = svgContainer.getElementsByTagName('svg')[0];
-      var viewPort = svgEle.getAttribute('viewBox');
-      if (!viewPort) viewPort = svgEle.getAttribute('x') + ' ' + svgEle.getAttribute('y') + ' ' + svgEle.getAttribute('width') + ' ' + svgEle.getAttribute('height');
-      console.log('old viewposrt: ' + viewPort);
-      var currentViewPort_x = viewPort.split(' ')[0];
-      var currentViewPort_y = viewPort.split(' ')[1];
-      var currentViewPort_width = viewPort.split(' ')[2];
-      var currentViewPort_height = viewPort.split(' ')[3]; //
+      var _updateSVGviewbox = updateSVGviewbox(svgxml, num);
 
-      var newViewPort = viewPort;
-      var newViewPort_x = currentViewPort_x;
-      var newViewPort_y = currentViewPort_y;
-      var newViewPort_width = currentViewPort_width;
-      var newViewPort_height = currentViewPort_height; //
+      var _updateSVGviewbox2 = _slicedToArray(_updateSVGviewbox, 2);
 
-      var midX = 0;
-
-      if (popupBBoxes.hasOwnProperty(num)) {
-        // Position of selected area!
-        var _x = parseFloat(popupBBoxes[num]['dimensions'][0].x);
-
-        var _y = parseFloat(popupBBoxes[num]['dimensions'][0].y);
-
-        var _width = parseFloat(popupBBoxes[num]['dimensions'][0].width);
-
-        var _height = parseFloat(popupBBoxes[num]['dimensions'][0].height); //
-
-
-        var rs = pixiHeight / refPopupSize.height;
-        _x *= rs;
-        _y *= rs;
-        _width *= rs;
-        _height *= rs;
-        console.log('popupBBoxes: ' + _x + ' ' + _y + ' ' + _width + ' ' + _height); //
-
-        midX = _x + _width / 2;
-        var xRange = 2000;
-        if (_width > xRange) xRange = _width; //
-
-        newViewPort_x = midX - xRange;
-        if (newViewPort_x < 0) newViewPort_x = 0; //newViewPort_x = 300;
-
-        newViewPort_width = xRange;
-      }
-
-      newViewPort = newViewPort_x + ' ' + newViewPort_y + ' ' + newViewPort_width + ' ' + newViewPort_height; //
-
-      svgEle.removeAttribute('style');
-      svgEle.removeAttribute('x');
-      svgEle.removeAttribute('y');
-      svgEle.removeAttribute('width');
-      svgEle.removeAttribute('height');
-      svgEle.removeAttribute('viewBox'); //
-
-      svgEle.setAttribute('x', newViewPort_x + 'px');
-      svgEle.setAttribute('y', newViewPort_y + 'px');
-      svgEle.setAttribute('width', newViewPort_width + 'px');
-      svgEle.setAttribute('height', newViewPort_height + 'px');
-      svgEle.setAttribute('viewBox', newViewPort);
-      console.log('new viewport: ' + newViewPort); //
-
-      svgxml = svgEle.outerHTML; //
-
+      svgxml = _updateSVGviewbox2[0];
+      newViewPort_x = _updateSVGviewbox2[1];
+      //
       var parser = new DOMParser();
       var doc = parser.parseFromString(svgxml, 'image/svg+xml');
       var serialized = new XMLSerializer().serializeToString(doc);
       var svgEncoded = 'data:image/svg+xml;base64,' + window.btoa(serialized); //
-      //
 
-      var svgScale = 8.0;
       var resource = new PIXI.SVGResource(svgEncoded, {
         scale: svgScale
       });
-      var legendTexture = PIXI.Texture.from(resource, {
+      legendTexture = PIXI.Texture.from(resource, {
+        resolution: 1.0
+      }); //
+    } else {
+      legendTexture = PIXI.Texture.from(svgpath, {
         resolution: 1.0
       });
-      var legendLoaded = false;
-      legendTexture.on('update', function () {
-        if (!legendLoaded) {
-          //
-          var legend = new PIXI.Sprite(legendTexture);
-          legendFiles.push(legend); //
-
-          console.log('Loaded ' + num + ' legend');
-          $('#status').text('Loaded ' + num + ' legend'); //
-
-          console.log('Loaded ' + num + ' legend');
-          $('#status').text('Loaded ' + num + ' legend'); //
-          //
-
-          if (popupBBoxes[num] != undefined) popupBBoxes[num]['legend'] = legend; //
-          //
-          //
-
-          if (legend.data == undefined) legend.data = {};
-          legend.data.legendName = 'legend-' + num;
-          legend.data.maskName = 'mask-' + num;
-          legend.name = 'legend-' + num;
-          legend.visible = false; //
-          //
-          //
-          //
-
-          var lms = pixiHeight / legendTexture.height;
-          console.log('LEGEND SCALE: ' + lms); //
-
-          legend.x = newViewPort_x * lms * svgScale + pixiWidth * 3 / 4;
-          legend.scale.set(lms, lms); //
-
-          legendContainer.addChild(legend);
-          resolve('l' + num);
-        }
-
-        legendLoaded = true;
-      }); //
     }
+
+    var legendLoaded = false;
+    legendTexture.on('update', function () {
+      if (!legendLoaded) {
+        //
+        var legend = new PIXI.Sprite(legendTexture);
+        legendFiles.push(legend); //
+
+        console.log('Loaded ' + num + ' legend');
+        $('#status').text('Loaded ' + num + ' legend'); //
+
+        console.log('Loaded ' + num + ' legend');
+        $('#status').text('Loaded ' + num + ' legend'); //
+        //
+
+        if (popupBBoxes[num] != undefined) popupBBoxes[num]['legend'] = legend; //
+        //
+        //
+
+        if (legend.data == undefined) legend.data = {};
+        legend.data.legendName = 'legend-' + num;
+        legend.data.maskName = 'mask-' + num;
+        legend.name = 'legend-' + num;
+        legend.visible = false; //
+        //
+        //
+        //HH
+        //let lms = pixiHeight/legendTexture.height;
+
+        var legendRefHeight = popupBBoxes[num].dimensions.height / 623.5;
+        var legendScale = legendRefHeight / legendTexture.height * pixiHeight;
+        legend.scale.set(legendScale, legendScale);
+        console.log('LEGEND SCALE: ' + legendScale); //
+
+        if (!frompath) legend.x = newViewPort_x * lms * svgScale + pixiWidth * 3 / 4;else {
+          legend.x = popupBBoxes[num].dimensions.x * (pixiHeight / 623.5) + pixiWidth * 3 / 4;
+          legend.y = popupBBoxes[num].dimensions.y * (pixiHeight / 623.5); //HH
+          //legend.x = pixiWidth*3/4;
+        } //
+
+        legendContainer.addChild(legend);
+        resolve('l' + num);
+      }
+
+      legendLoaded = true;
+    }); //
   }); //
 
   return lpromise;
 } //
 
+
+function updateSVGviewbox(svgxml, num) {
+  //
+  var svgContainer = document.createElement('div');
+  svgContainer.innerHTML = svgxml;
+  var svgEle = svgContainer.getElementsByTagName('svg')[0];
+  var viewPort = svgEle.getAttribute('viewBox');
+  if (!viewPort) viewPort = svgEle.getAttribute('x') + ' ' + svgEle.getAttribute('y') + ' ' + svgEle.getAttribute('width') + ' ' + svgEle.getAttribute('height');
+  console.log(num + ' old viewport: ' + viewPort);
+  var currentViewPort_x = viewPort.split(' ')[0];
+  var currentViewPort_y = viewPort.split(' ')[1];
+  var currentViewPort_width = viewPort.split(' ')[2];
+  var currentViewPort_height = viewPort.split(' ')[3]; //
+
+  var newViewPort = viewPort;
+  var newViewPort_x = currentViewPort_x;
+  var newViewPort_y = currentViewPort_y;
+  var newViewPort_width = currentViewPort_width;
+  var newViewPort_height = currentViewPort_height; //
+
+  var midX = 0;
+
+  if (popupBBoxes.hasOwnProperty(num)) {
+    // Position of selected area!
+    var _x = parseFloat(popupBBoxes[num]['dimensions'][0].x);
+
+    var _y = parseFloat(popupBBoxes[num]['dimensions'][0].y);
+
+    var _width = parseFloat(popupBBoxes[num]['dimensions'][0].width);
+
+    var _height = parseFloat(popupBBoxes[num]['dimensions'][0].height); //
+
+
+    var rs = pixiHeight / refPopupSize.height;
+    _x *= rs;
+    _y *= rs;
+    _width *= rs;
+    _height *= rs;
+    console.log(num + ' popupBBoxes: ' + _x + ' ' + _y + ' ' + _width + ' ' + _height); //
+
+    midX = _x + _width / 2;
+    var xRange = 2000;
+    if (_width > xRange) xRange = _width; //
+
+    newViewPort_x = midX - xRange;
+    if (newViewPort_x < 0) newViewPort_x = 0;
+    newViewPort_width = xRange;
+  }
+
+  newViewPort = newViewPort_x + ' ' + newViewPort_y + ' ' + newViewPort_width + ' ' + newViewPort_height; //
+
+  if (num != '0a' || num != '0b') {
+    svgEle.removeAttribute('style');
+    svgEle.removeAttribute('x');
+    svgEle.removeAttribute('y');
+    svgEle.removeAttribute('width');
+    svgEle.removeAttribute('height');
+    svgEle.removeAttribute('viewBox'); //
+
+    svgEle.setAttribute('x', newViewPort_x + 'px');
+    svgEle.setAttribute('y', newViewPort_y + 'px');
+    svgEle.setAttribute('width', newViewPort_width + 'px');
+    svgEle.setAttribute('height', newViewPort_height + 'px');
+    svgEle.setAttribute('viewBox', newViewPort);
+    console.log(num + ' new viewport: ' + newViewPort);
+  } //
+
+
+  svgxml = svgEle.outerHTML;
+  return [svgxml, newViewPort_x];
+}
 
 function measureSVG(svg) {
   var viewBox = svg.getAttribute('viewBox').split(' ');
@@ -1346,15 +1382,6 @@ function changeCenter(oldCenter, deltaX, deltaY, factor) {
 
   if (oldCenter.x > 0) oldCenter.x = 0;
   if (oldCenter.x < -1 * (scrollWidth * pixiScale - pixiWidth * 3 / 4)) oldCenter.x = -1 * (scrollWidth * pixiScale - pixiWidth * 3 / 4); //
-
-  console.log(oldCenter.x + ' ' + scrollWidth + ' ' + pixiWidth);
-  /*
-  if((oldCenter.y*window.app.stage.scale.x - pixiHeight/2) <= 0 && deltaY > 0)
-  	oldCenter.y = pixiHeight/(2*window.app.stage.scale.x);
-  if(oldCenter.y*window.app.stage.scale.x > (-pixiHeight/2 + pixiHeight*window.app.stage.scale.x) && deltaY < 0)
-  	oldCenter.y = (-pixiHeight/(2*window.app.stage.scale.x) + pixiHeight);
-  */
-  //
 
   return oldCenter;
 }

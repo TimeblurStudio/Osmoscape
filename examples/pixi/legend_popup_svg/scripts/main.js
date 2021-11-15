@@ -19,15 +19,20 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-/**
- * ------------------------------------------------
- * AUTHOR:  Mike Cj (mikecj184)
- * Copyright 2020 - 2021 Timeblur
- * This code is licensed under MIT license (see LICENSE file for more details)
- * ------------------------------------------------
- */
-//
-//
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 window.PIXI = PIXI; //
 
 window.debug = true;
@@ -41,7 +46,8 @@ var scrollMousePos, scrollPosition;
 var scrollWidth, scrollHeight;
 var mousePos = null;
 var maxZoom = 2;
-var started = false; //
+var started = false;
+var maskAlpha = 0.05; //
 
 var scrollType = '150ppi-LOW'; // 150ppi-LOW, 300ppi-HIGH, 600ppi-RETINA
 
@@ -52,6 +58,7 @@ var navChapters;
 var navScrolledUpdate = true;
 var mainScrollScale;
 var navScale;
+var pixiScale;
 var exploreGroup; //
 
 var allTracksCount = 0;
@@ -76,11 +83,11 @@ var refPopupSize = {
 }; //
 
 var datasets = {};
-var mergedMasks = {};
-var mergedLegends = {};
-var uploadedLegendFile = [],
-    uploadedMaskFile = [];
-var maskFiles = [],
+var loadIndividualFiles = false;
+var mergedLegends = {},
+    mergedPolygons = {};
+var uploadedLegendFile = [];
+var maskAreas = [],
     legendFiles = [];
 var earlySVGDataPromises = [],
     allSVGDataPromises = []; //
@@ -89,8 +96,12 @@ var earlySVGDataPromises = [],
 var performance_test = false;
 var commitversion = ''; //
 
-window.maskFiles = maskFiles;
+window.maskAreas = maskAreas;
+window.legendFiles = legendFiles;
 window.popupBBoxes = popupBBoxes; //
+
+window.earlySVGDataPromises = earlySVGDataPromises;
+window.allSVGDataPromises = allSVGDataPromises; //
 // Meter to keep track of FPS
 
 window.FPSMeter.theme.transparent.container.transform = 'scale(0.75)';
@@ -190,21 +201,14 @@ function init() {
     console.log('Loaded datasets summary'); //
 
     var dataWaitInterval = setInterval(function () {
-      if (mainScroll != null && !$.isEmptyObject(mergedMasks) && !$.isEmptyObject(mergedLegends)) {
+      if (mainScroll != null && !$.isEmptyObject(mergedLegends) && !$.isEmptyObject(mergedPolygons)) {
         clearInterval(dataWaitInterval);
         datasets = data;
-        loadDatasets();
+        loadDatasets(); //
       }
     }, 1000); //
   }); //
   //
-
-  var masksURL = '../../../../assets/data/mergedMasks.json' + '?v=' + commitversion;
-  console.log('mergedMasksURL: ' + masksURL);
-  $.getJSON(masksURL, function (data) {
-    mergedMasks = data;
-    console.log('Loaded mask files');
-  }); //
   //
 
   var legendsURL = '../../../../assets/data/mergedLegends.json' + '?v=' + commitversion;
@@ -212,19 +216,26 @@ function init() {
   $.getJSON(legendsURL, function (data) {
     mergedLegends = data;
     console.log('Loaded legend files');
+  }); //
+
+  var polygonsURL = '../../../../assets/data/mergedPolygons.json' + '?v=' + commitversion;
+  console.log('mergedPolygonsURL: ' + polygonsURL);
+  $.getJSON(polygonsURL, function (data) {
+    mergedPolygons = data;
+    console.log('Loaded polgon files');
   }); // Setup PIXI canvas
 
   var canvas = document.getElementById('main-scroll-canvas');
+  pixiScale = 2;
   pixiWidth = canvas.offsetWidth;
   pixiHeight = canvas.offsetHeight; //Create a Pixi Application
 
   PIXI.utils.skipHello();
   var app = new PIXI.Application({
-    width: pixiWidth,
-    height: pixiHeight,
-    antialias: true,
+    width: pixiWidth * pixiScale,
+    height: pixiHeight * pixiScale,
+    antialias: false,
     backgroundAlpha: 0,
-    resolution: 1,
     view: canvas
   });
   var cull = new _cull.Cull({
@@ -233,7 +244,8 @@ function init() {
   }); //
 
   mainApp = app;
-  mainStage = mainApp.stage; //
+  mainStage = mainApp.stage;
+  mainStage.scale.set(pixiScale, pixiScale); //
 
   mainApp.ticker.add(function (delta) {
     window.meter.tick(); //obtain the position of the mouse on the stage
@@ -273,7 +285,7 @@ function init() {
     $('#focused-cta').hide(); //
 
     $('#focused-info').animate({
-      right: '-500px'
+      left: '-500px'
     }, 600); //$('#focused-info').hide();
 
     $('.nav').show();
@@ -286,12 +298,12 @@ function init() {
     maskContainer.visible = true;
     legendContainer.visible = false;
 
-    for (var i = 0; i < legendFiles; i++) {
+    for (var i = 0; i < legendFiles.length; i++) {
       if (legendFiles[i].visible) legendFiles[i].visible = false;
     } //
 
 
-    var fac = 1; //1.005/(mainStage.scale.x*mainStage.scale.y);
+    var fac = 1.005; //1.005/(mainStage.scale.x*mainStage.scale.y);
 
     var newCenter = prevBoundsCenter;
     var zoomFac = prevZoom;
@@ -304,6 +316,10 @@ function init() {
     currentFocus = null;
     hitPopupMode = 'hovering';
   }); //
+
+  $(window).on('resize', function () {
+    window.location.reload(true);
+  });
 } //
 
 
@@ -340,22 +356,16 @@ function loadDataset(id) {
   var early = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
   if (datasets.hasOwnProperty(id)) {
-    console.log('Loading data for : ' + id);
-    var maskdata = mergedMasks[id];
-    var legenddata = mergedLegends[id]; //
+    console.log('Loading data for : ' + id); //
+    //if(loadIndividualFiles){
+    //}
+    //
 
-    var mpath = datasets[id].maskpath;
+    var legenddata = mergedLegends[id];
+    var polygondata = JSON.parse(mergedPolygons[id]); //
+
     var lpath = datasets[id].legendpath;
     var title = datasets[id].title; //
-
-    if (window.debug) {
-      var pieces = mpath.split('/');
-      var fname = pieces[pieces.length - 1];
-      pieces[pieces.length - 1] = 'Debug';
-      pieces.push(fname);
-      mpath = pieces.join('/');
-    } //
-
 
     var morder = datasets[id].order;
     if (morder != 'front' && morder != 'back') morder = null; //
@@ -369,7 +379,8 @@ function loadDataset(id) {
         legend: null,
         paths: [],
         rects: [],
-        dimensions: dim
+        dimensions: dim,
+        polygons: datasets[id].physics
       }; //
       //
 
@@ -386,8 +397,8 @@ function loadDataset(id) {
     //
 
 
-    var maskpromise = maskLoad(title, maskdata, mpath, id, morder);
-    var legendpromise = legendLoad(title, legenddata, lpath, id); //
+    var maskpromise = maskLoad(title, polygondata, id, morder);
+    var legendpromise = legendLoad(title, legenddata, lpath, id, loadIndividualFiles); //
 
     if (early) {
       earlySVGDataPromises.push(maskpromise);
@@ -444,120 +455,137 @@ function newPopRect(p1, p2) {
 //
 
 
-function maskLoad(title, svgxml, svgpath, num) {
-  var order = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+function maskLoad(title, polygons, num) {
+  var order = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
   //
   var skipLoad = false;
   var mpromise = new Promise(function (resolve, reject) {
     //
     //
     if (skipLoad) resolve('m' + num);else {
-      //
-      var svgDOM = new DOMParser().parseFromString(svgxml, 'image/svg+xml');
-      var svgEl = svgDOM.documentElement;
-      var mask = new _svg.SVGScene(svgEl); //
-      //
-      //
-
-      maskContainer.addChild(mask); //
-      //
-      //
-
       console.log('Loaded ' + num + ' mask'); //
-      //
-
-      maskFiles.push(mask); //
 
       if (window.debug) $('#status').text('Loaded ' + num + ' mask-debug');else $('#status').text('Loaded ' + num + ' mask'); //
       //
-      //
-
-      if (mask.data == undefined) mask.data = {};
-      mask.data.legendName = 'legend-' + num;
-      mask.data.maskName = 'mask-' + num;
-      mask.data.id = num;
-      mask.name = 'mask-' + num;
-      mask.data.order = order; //
-      //if(order == 'back')
-      //	mask.sendToBack();
-      //if(order == 'front')
-      //	mask.bringToFront();
-      //
-      //if(mask.children != undefined)
-      //	updateChildLegend(mask.children, mask.data.legendName);
-      //
-      //
-
-      var s = mainScrollScale;
-      var lms = pixiHeight / mask.height; //mask-scale
-
-      console.log('MAIN SCALE: ' + s);
-      console.log('MASK SCALE: ' + lms); //
-      //
-
-      var offset = 625 + pixiWidth * s * 3 / 4;
-      mask.scale.set(lms, lms);
-      mask.x = offset; //+ (pixiWidth*3/4);//Change the sprite's position
-      //mask.alpha = 0.3;
-      //
 
       if (popupBBoxes[num] != undefined) {
-        popupBBoxes[num]['mask'] = mask;
-      } //
-      //
+        //
+        var _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
 
-      /*
-      // APPROACH - A //
-      let maskTexture = PIXI.Texture.from(svgpath);
-      let maskLoaded = false;
-      maskTexture.on('update', () => {
-      	if(!maskLoaded){
-      		let mask = new PIXI.Sprite(maskTexture);
-      		maskFiles.push(mask);
-      		//
-      		console.log('Loaded '+num+' mask');
-      		if(window.debug)
-      			$('#status').text('Loaded '+num+' mask-debug');
-      		else
-      			$('#status').text('Loaded '+num+' mask');
-      		//
-      		//
-      		if(popupBBoxes[num] != undefined)
-      			popupBBoxes[num]['mask'] = mask;
-      		//
-      		//
-      		//
-      		if(mask.data == undefined)
-      			mask.data = {};
-      		mask.data.legendName = 'legend-'+num;
-      		mask.data.maskName = 'mask-' + num;
-      		mask.name = 'mask-' + num;
-      		mask.data.order = order;
-      		//
-      		//if(order == 'back')
-      		//	mask.sendToBack();
-      		//if(order == 'front')
-      		//	mask.bringToFront();
-      		//
-      		//if(mask.children != undefined)
-      		//	updateChildLegend(mask.children, mask.data.legendName);
-      		//
-      		//
-      		let s = mainScrollScale;
-      		let lms = pixiHeight/maskTexture.height;//mask-scale
-      		console.log('MAIN SCALE: ' + s);
-      		console.log('MASK SCALE: ' + lms);
-      		//
-      		let offset = 630;
-      		mask.scale.set(lms, lms);
-      		mask.x = offset ;//+ (pixiWidth*3/4);//Change the sprite's position
-      	  //mask.alpha = 0;
-      		//
-      	  mainStage.addChild(mask);
-      	}
-      	maskLoaded = true;
-      });
-      */
+        var _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
+
+        var _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
+
+        var _height = parseInt(popupBBoxes[num]['dimensions'][0].height); //
+
+
+        var rs = pixiHeight / refPopupSize.height;
+        _x *= rs;
+        _y *= rs;
+        _width *= rs;
+        _height *= rs; //
+
+        var graphics = new PIXI.Graphics();
+        graphics.beginFill(0xFFA500);
+        graphics.lineStyle(1, 0xFF0000);
+        graphics.alpha = maskAlpha; //graphics.drawRect(_x, _y, _width, _height);
+
+        if (polygons.shapes != undefined) {
+          var _iterator = _createForOfIteratorHelper(polygons.shapes),
+              _step;
+
+          try {
+            for (_iterator.s(); !(_step = _iterator.n()).done;) {
+              var s = _step.value;
+              graphics.drawPolygon(s.shape);
+            }
+          } catch (err) {
+            _iterator.e(err);
+          } finally {
+            _iterator.f();
+          }
+        }
+
+        popupBBoxes[num]['paths'].push(graphics); //
+
+        var mask = graphics;
+        maskAreas.push(mask); //
+
+        if (mask.data == undefined) mask.data = {};
+        mask.data.legendName = 'legend-' + num;
+        mask.data.maskName = 'mask-' + num;
+        mask.data.id = num;
+        mask.name = 'mask-' + num;
+        mask.data.order = order; //
+        //if(order == 'back')
+        //	mask.sendToBack();
+        //if(order == 'front')
+        //	mask.bringToFront();
+        //
+        //mask.x = (pixiWidth*mainScrollScale*3/4);
+
+        var maskScale = 1;
+
+        if (polygons.viewport) {
+          var maskHeight = polygons.viewport.split(' ')[3];
+          maskScale = pixiHeight / maskHeight;
+        } //
+
+
+        mask.scale.set(maskScale, maskScale);
+        mask.x = pixiWidth * 3 / 4; //
+        //
+
+        mask.interactive = true;
+        mask.buttonMode = true;
+        mask.on('pointerdown', function () {
+          //
+          console.log('Clicked inside hitArea for mask-' + num);
+          showLegend(num); //
+        });
+        mask.on('pointerover', function () {
+          //
+          console.log('Hover on mask-' + num);
+          mainScroll['part1'].alpha = 0.1;
+          mainScroll['part2'].alpha = 0.1; //
+
+          for (var i = 0; i < maskAreas.length; i++) {
+            maskAreas[i].alpha = 0;
+          }
+
+          mask.alpha = maskAlpha; //
+
+          legendContainer.visible = true;
+
+          for (var _i = 0; _i < legendFiles.length; _i++) {
+            if (legendFiles[_i].visible) legendFiles[_i].visible = false;
+          } //
+
+
+          popupBBoxes[num].legend.visible = true;
+        });
+        mask.on('pointerout', function () {
+          //
+          console.log('Hover out of mask-' + num);
+          mainScroll['part1'].alpha = 1;
+          mainScroll['part2'].alpha = 1;
+
+          for (var i = 0; i < maskAreas.length; i++) {
+            maskAreas[i].alpha = maskAlpha;
+          } //
+
+
+          legendContainer.visible = false;
+
+          for (var _i2 = 0; _i2 < legendFiles.length; _i2++) {
+            if (legendFiles[_i2].visible) legendFiles[_i2].visible = false;
+          } //
+
+        }); //
+
+        popupBBoxes[num]['mask'] = mask;
+        maskContainer.addChild(mask); //
+      } //
 
 
       resolve('m' + num); //
@@ -573,60 +601,154 @@ function maskLoad(title, svgxml, svgpath, num) {
 //
 
 
-function legendLoad(title, svgxml, svgpath, num) {
-  var skipLoad = false;
+function legendLoad(title, svgxml, svgpath, num, frompath) {
+  //
   var lpromise = new Promise(function (resolve, reject) {
-    if (skipLoad) resolve('m' + num);else {
+    //
+    var svgScale = 8.0;
+    var newViewPort_x, legendTexture;
+
+    if (!frompath) {
       //
-      // APPROACH - A //
-      var legendTexture = PIXI.Texture.from(svgpath);
-      var legendLoaded = false;
-      legendTexture.on('update', function () {
-        if (!legendLoaded) {
-          var legend = new PIXI.Sprite(legendTexture);
-          legendFiles.push(legend); //
+      var _updateSVGviewbox = updateSVGviewbox(svgxml, num);
 
-          console.log('Loaded ' + num + ' legend');
-          $('#status').text('Loaded ' + num + ' legend'); //
+      var _updateSVGviewbox2 = _slicedToArray(_updateSVGviewbox, 2);
 
-          console.log('Loaded ' + num + ' legend');
-          $('#status').text('Loaded ' + num + ' legend'); //
-          //
+      svgxml = _updateSVGviewbox2[0];
+      newViewPort_x = _updateSVGviewbox2[1];
+      //
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(svgxml, 'image/svg+xml');
+      var serialized = new XMLSerializer().serializeToString(doc);
+      var svgEncoded = 'data:image/svg+xml;base64,' + window.btoa(serialized); //
 
-          if (popupBBoxes[num] != undefined) popupBBoxes[num]['legend'] = legend; //
-          //
-          //
-
-          if (legend.data == undefined) legend.data = {};
-          legend.data.legendName = 'legend-' + num;
-          legend.data.maskName = 'mask-' + num;
-          legend.name = 'legend-' + num;
-          legend.visible = false; //
-          //
-          //
-          //
-
-          var s = mainScrollScale;
-          var lms = pixiHeight / legendTexture.height;
-          console.log('MAIN SCALE: ' + s);
-          console.log('LEGEND SCALE: ' + lms); //
-
-          var offset = 200;
-          legend.scale.set(lms, lms);
-          legend.x = offset + pixiWidth * 3 / 4; //
-
-          legendContainer.addChild(legend);
-          resolve('l' + num);
-        }
-
-        legendLoaded = true;
+      var resource = new PIXI.SVGResource(svgEncoded, {
+        scale: svgScale
+      });
+      legendTexture = PIXI.Texture.from(resource, {
+        resolution: 1.0
       }); //
+    } else {
+      legendTexture = PIXI.Texture.from(svgpath, {
+        resolution: 1.0
+      });
     }
+
+    var legendLoaded = false;
+    legendTexture.on('update', function () {
+      if (!legendLoaded) {
+        //
+        var legend = new PIXI.Sprite(legendTexture);
+        legendFiles.push(legend); //
+
+        console.log('Loaded ' + num + ' legend');
+        $('#status').text('Loaded ' + num + ' legend'); //
+
+        console.log('Loaded ' + num + ' legend');
+        $('#status').text('Loaded ' + num + ' legend'); //
+        //
+
+        if (popupBBoxes[num] != undefined) popupBBoxes[num]['legend'] = legend; //
+        //
+        //
+
+        if (legend.data == undefined) legend.data = {};
+        legend.data.legendName = 'legend-' + num;
+        legend.data.maskName = 'mask-' + num;
+        legend.name = 'legend-' + num;
+        legend.visible = false; //
+        //
+        //
+        //
+
+        var lms = pixiHeight / legendTexture.height;
+        console.log('LEGEND SCALE: ' + lms); //
+
+        if (!frompath) legend.x = newViewPort_x * lms * svgScale + pixiWidth * 3 / 4;else legend.x = pixiWidth * 3 / 4;
+        legend.scale.set(lms, lms); //
+
+        legendContainer.addChild(legend);
+        resolve('l' + num);
+      }
+
+      legendLoaded = true;
+    }); //
   }); //
 
   return lpromise;
 } //
 
+
+function updateSVGviewbox(svgxml, num) {
+  //
+  var svgContainer = document.createElement('div');
+  svgContainer.innerHTML = svgxml;
+  var svgEle = svgContainer.getElementsByTagName('svg')[0];
+  var viewPort = svgEle.getAttribute('viewBox');
+  if (!viewPort) viewPort = svgEle.getAttribute('x') + ' ' + svgEle.getAttribute('y') + ' ' + svgEle.getAttribute('width') + ' ' + svgEle.getAttribute('height');
+  console.log(num + ' old viewport: ' + viewPort);
+  var currentViewPort_x = viewPort.split(' ')[0];
+  var currentViewPort_y = viewPort.split(' ')[1];
+  var currentViewPort_width = viewPort.split(' ')[2];
+  var currentViewPort_height = viewPort.split(' ')[3]; //
+
+  var newViewPort = viewPort;
+  var newViewPort_x = currentViewPort_x;
+  var newViewPort_y = currentViewPort_y;
+  var newViewPort_width = currentViewPort_width;
+  var newViewPort_height = currentViewPort_height; //
+
+  var midX = 0;
+
+  if (popupBBoxes.hasOwnProperty(num)) {
+    // Position of selected area!
+    var _x = parseFloat(popupBBoxes[num]['dimensions'][0].x);
+
+    var _y = parseFloat(popupBBoxes[num]['dimensions'][0].y);
+
+    var _width = parseFloat(popupBBoxes[num]['dimensions'][0].width);
+
+    var _height = parseFloat(popupBBoxes[num]['dimensions'][0].height); //
+
+
+    var rs = pixiHeight / refPopupSize.height;
+    _x *= rs;
+    _y *= rs;
+    _width *= rs;
+    _height *= rs;
+    console.log(num + ' popupBBoxes: ' + _x + ' ' + _y + ' ' + _width + ' ' + _height); //
+
+    midX = _x + _width / 2;
+    var xRange = 2000;
+    if (_width > xRange) xRange = _width; //
+
+    newViewPort_x = midX - xRange;
+    if (newViewPort_x < 0) newViewPort_x = 0;
+    newViewPort_width = xRange;
+  }
+
+  newViewPort = newViewPort_x + ' ' + newViewPort_y + ' ' + newViewPort_width + ' ' + newViewPort_height; //
+
+  if (num != '0a' || num != '0b') {
+    svgEle.removeAttribute('style');
+    svgEle.removeAttribute('x');
+    svgEle.removeAttribute('y');
+    svgEle.removeAttribute('width');
+    svgEle.removeAttribute('height');
+    svgEle.removeAttribute('viewBox'); //
+
+    svgEle.setAttribute('x', newViewPort_x + 'px');
+    svgEle.setAttribute('y', newViewPort_y + 'px');
+    svgEle.setAttribute('width', newViewPort_width + 'px');
+    svgEle.setAttribute('height', newViewPort_height + 'px');
+    svgEle.setAttribute('viewBox', newViewPort);
+    console.log(num + ' new viewport: ' + newViewPort);
+  } //
+
+
+  svgxml = svgEle.outerHTML;
+  return [svgxml, newViewPort_x];
+}
 
 function measureSVG(svg) {
   var viewBox = svg.getAttribute('viewBox').split(' ');
@@ -724,57 +846,6 @@ function loadHQ() {
       $('#start-btn').hide();
       var waitTillTracksLoad = setInterval(function () {
         if (allTracksCount == 8 && loaded.HQimage && loaded.svgdata) {
-          var rs = pixiHeight / refPopupSize.height;
-          console.log('paper scale ratio: ' + rs); //
-
-          var _loop = function _loop(i) {
-            var num = maskFiles[i].data.id; //
-
-            if (popupBBoxes[num] != undefined) {
-              var _x = parseInt(popupBBoxes[num]['dimensions'][0].x);
-
-              var _y = parseInt(popupBBoxes[num]['dimensions'][0].y);
-
-              var _width = parseInt(popupBBoxes[num]['dimensions'][0].width);
-
-              var _height = parseInt(popupBBoxes[num]['dimensions'][0].height); //
-              //
-
-
-              var offset = pixiWidth * mainScrollScale * 3 / 4;
-              _x *= rs;
-              _x += offset;
-              _y *= rs;
-              _width *= rs;
-              _height *= rs; //
-
-              maskFiles[i].interactive = true;
-              maskFiles[i].buttonMode = true; //
-
-              console.log(num + ': ' + _x + ' ' + _y + ' ' + _width + ' ' + _height);
-              maskFiles[i].hitArea = new PIXI.Rectangle(_x - 625 - offset, _y, _width / maskFiles[i].scale.x, _height / maskFiles[i].scale.y);
-              maskFiles[i].on('pointerdown', function () {
-                //
-                console.log('Clicked inside hitArea for mask-' + num);
-                showLegend(i, num); //
-              }); //
-
-              var graphics = new PIXI.Graphics(); //graphics.beginFill(0xFFFF00);
-
-              graphics.lineStyle(1, 0xFF0000);
-              graphics.drawRect(_x, _y, _width, _height); //
-
-              maskContainer.addChild(graphics);
-              popupBBoxes[num]['paths'].push(graphics); //
-            } //
-
-          };
-
-          for (var i = 0; i < maskFiles.length; i++) {
-            _loop(i);
-          } //
-
-
           console.log('Total tracks loaded = ' + allTracksCount); //
 
           clearInterval(waitTillTracksLoad);
@@ -790,7 +861,9 @@ function loadHQ() {
           setInterval(function () {
             $('#status').hide();
           }, 2000);
-        } else console.log('Waiting for allTracks to complete loading');
+        } else {
+          console.log('Waiting for data to complete loading -- allTracks: ' + allTracksCount + ' HQimage: ' + loaded.HQimage + ' SVGdata: ' + loaded.svgdata);
+        }
       }, 2000);
     } //
     //backgroundContainer.sendToBack();
@@ -799,14 +872,14 @@ function loadHQ() {
   });
 }
 
-function showLegend(index, number) {
+function showLegend(number) {
   console.log('Opening legend ' + number); //
 
   $('#status').text('Showing: legend-' + number);
   $('#status').show(); //
 
   $('#focused-info').animate({
-    right: '0px'
+    left: '0px'
   }, 1200);
   $('.nav').hide(); //
 
@@ -825,32 +898,38 @@ function showLegend(index, number) {
   $('#focused-cta').show();
   $('#focused-info').show(); //
 
-  var legend = legendFiles[index];
-  legend.visible = true; //
-  //
-
   if (popupBBoxes.hasOwnProperty(currentFocus)) {
-    /*
-    let count = popupBBoxes[currentFocus]['paths'].length;
-    for(let i=0; i < count; i++){
-    	popupBBoxes[currentFocus]['paths'][i].visible = false;// true to show rect box
-    	popupBBoxes[currentFocus]['paths'][i].selected = false;
-    }
-    */
-    // Zoom into selected area!
-    var fac = 1; //1.005/(mainStage.scale.x*mainStage.scale.y);
+    //
+    var legend = popupBBoxes[currentFocus].legend;
+    legend.visible = true; //
+    //
+    // Position into selected area!
 
-    var path_bounds = popupBBoxes[currentFocus]['paths'][0].getBounds();
-    var newViewCenter = new PIXI.Point(path_bounds.x + path_bounds.width / 2, path_bounds.y + path_bounds.height / 2);
-    var zoomFac = fac * 0.5 * pixiWidth / (1.0 * path_bounds.width);
-    var deltaValX = newViewCenter.x / 2;
-    var deltaValY = -newViewCenter.y / 2; //
+    var _x = parseInt(popupBBoxes[currentFocus]['dimensions'][0].x);
+
+    var _y = parseInt(popupBBoxes[currentFocus]['dimensions'][0].y);
+
+    var _width = parseInt(popupBBoxes[currentFocus]['dimensions'][0].width);
+
+    var _height = parseInt(popupBBoxes[currentFocus]['dimensions'][0].height); //
+
+
+    var rs = pixiHeight / refPopupSize.height;
+    _x *= rs; // _x += (pixiWidth*mainScrollScale*3/4);
+
+    _y *= rs;
+    _width *= rs;
+    _height *= rs; //
 
     prevBoundsCenter = new PIXI.Point(mainStage.position.x, mainStage.position.y);
-    mainStage.position = changeCenter(mainStage.position, deltaValX, deltaValY, fac, false); //
-
-    prevZoom = zoomFac; //mainStage.scale.x = mainStage.scale.y = changeZoom(mainStage.scale.x, -1, zoomFac, false);
-    //
+    var newViewCenter = new PIXI.Point(-1 * _x * pixiScale, pixiHeight / 2 - _y - _height / 2);
+    mainStage.position = newViewCenter;
+    /*
+    // Zoom into selected area!
+    prevZoom = zoomFac;
+    let zoomFac = fac * 0.5 * pixiWidth / (1.0 * _width);
+    mainStage.scale.x = mainStage.scale.y = changeZoom(prevZoom, -1, zoomFac, false);
+    */
   } //
   //
 
@@ -875,8 +954,8 @@ function initNav() {
     var current_chapter = $.grep($(navChapters), function (e) {
       return e.id == 'nav-ch' + chap_id;
     });
-    var locX = -1 * parseFloat($(current_chapter).attr('x')) * navScale;
-    var w = parseFloat($(current_chapter).attr('width')) * navScale; //
+    var locX = -1 * parseFloat($(current_chapter).attr('x')) * navScale * pixiScale;
+    var w = parseFloat($(current_chapter).attr('width')) * navScale * pixiScale; //
 
     if (w > pixiWidth) locX -= pixiWidth / 2;else locX -= w / 2; //
     //
@@ -921,8 +1000,8 @@ function initNav() {
     // Stop all tracks and start target track
 
 
-    for (var _i = 0; _i < 7; _i++) {
-      baseTracks['base' + (_i + 1)].stop();
+    for (var _i3 = 0; _i3 < 7; _i3++) {
+      baseTracks['base' + (_i3 + 1)].stop();
     }
 
     setTimeout(function () {
@@ -955,15 +1034,15 @@ function loadNav() {
 
     navChapters = navScene.content.children[4].children; //
 
-    var lms = pixiHeight / navScene.height; //mask-scale
+    var lms = pixiHeight / navScene.height; //nav-scale
 
     console.log('Navigation SCALE: ' + lms);
     navScale = lms; //
 
-    navScene.scale.set(lms, lms);
-    navScene.x = pixiWidth * mainScrollScale * 3 / 4; //Change the sprite's position
+    navScene.x = pixiWidth * 3 / 4; //Change the sprite's position
 
-    navScene.alpha = 0; //
+    navScene.scale.set(lms, lms);
+    navScene.alpha = 1; //
     //navContainer.addChild(navScene); // hitTest not required So, no need to add it to layer
 
     if (performance_test) $('#performance-stats table').append('<tr> <td>Loaded nav</td> <td>' + Math.round(performance.now() - t0) + '</td> <td>' + Math.round(window.meter.fps) + '</td></tr>'); //
@@ -978,8 +1057,8 @@ function loadNav() {
 
 function scrollNavEffect() {
   for (var i = 0; i < navChapters.length - 1; i++) {
-    var this_locX = parseFloat($(navChapters[i]).attr('x')) * navScale;
-    var next_locX = parseFloat($(navChapters[i + 1]).attr('x')) * navScale; //
+    var this_locX = parseFloat($(navChapters[i]).attr('x')) * navScale * pixiScale;
+    var next_locX = parseFloat($(navChapters[i + 1]).attr('x')) * navScale * pixiScale; //
 
     if (Math.abs(mainStage.position.x) > this_locX && Math.abs(mainStage.position.x) < next_locX) {
       var name = navChapters[i].id; //
@@ -998,8 +1077,8 @@ function scrollNavEffect() {
           console.log('currentNavLoc not same - ' + currentNavLoc + ' ' + navLoc);
           var elements = $('.jump');
 
-          for (var _i2 = 0; _i2 < elements.length; _i2++) {
-            var ele = $(elements[_i2]);
+          for (var _i4 = 0; _i4 < elements.length; _i4++) {
+            var ele = $(elements[_i4]);
             var id = parseInt(ele.attr('data-id'));
 
             if (ele.hasClass('selected')) {
@@ -1025,8 +1104,8 @@ function scrollNavEffect() {
 
         if (currentTrack != 'intro') {
           //
-          for (var _i3 = 0; _i3 < 7; _i3++) {
-            baseTracks['base' + (_i3 + 1)].stop();
+          for (var _i5 = 0; _i5 < 7; _i5++) {
+            baseTracks['base' + (_i5 + 1)].stop();
           } //
 
 
@@ -1057,25 +1136,24 @@ function initSVGscroll(_url) {
 
   var s = pixiHeight / scroll_01.height;
   mainScrollScale = s;
-  console.log('SCALE: ' + s);
+  console.log('SCALE: ' + s); //
+
   scroll_01.scale.set(s, s);
-  scroll_02.scale.set(s, s); //Change the sprite's position
+  scroll_02.scale.set(s, s); //
 
-  scroll_01.x = pixiWidth * s * 3 / 4; // + (scroll_01.width*s/2);
+  scrollWidth = scroll_01.width * 2;
+  scrollHeight = pixiHeight; //
+  //Change the sprite's position
+  // NOTE: Offset required since -1 and 0 datasets were added at the end 
+  //       (effectively increasing the canvas width)
+  //
 
+  var svgOffset = 495;
+  var legendHeight = 623.5;
+  var offsetRatio = 495 / 623.5;
+  scroll_01.x = -1 * offsetRatio * pixiHeight + pixiWidth * 3 / 4;
   scroll_02.x = scroll_01.x + scroll_01.width; //
-
-  scrollWidth = scroll_01.width * s * 2;
-  scrollHeight = pixiHeight;
-  /*
-  scroll_01.interactive = true;
-  scroll_01.buttonMode = true;
-  scroll_01.on('pointerdown', function(){
-  	console.log('Clicked on scroll_01')
-  });
-  */
-
-  window.scroll_01 = scroll_01; //Add the scroll to the stage
+  //Add the scroll to the stage
 
   backgroundContainer.addChild(scroll_01);
   backgroundContainer.addChild(scroll_02);
@@ -1119,10 +1197,8 @@ function initSplash(_width) {
     // START BUTTON
 
     $('#start-btn').css('position', 'fixed');
-    $('#start-btn').css('left', splashSprite.x - $('#start-btn').outerWidth() / 2); //;
-
-    $('#start-btn').css('top', splashSprite.y + splashSprite.height * 0.65); //);
-    //
+    $('#start-btn').css('left', 'calc(50% - 30px)');
+    $('#start-btn').css('bottom', 'calc(50% - 200px)'); //
     // SCROLL TEXT & ARROW
     //
 
@@ -1202,7 +1278,19 @@ function initPanZoom() {
     et = event.originalEvent;
     event.preventDefault(); //
 
-    if (maskContainer.visible) maskContainer.visible = false; //
+    if (maskContainer.visible) {
+      mainScroll['part1'].alpha = 1;
+      mainScroll['part2'].alpha = 1;
+      maskContainer.visible = false; //
+
+      legendContainer.visible = true;
+
+      for (var i = 0; i < legendFiles.length; i++) {
+        if (legendFiles[i].visible) legendFiles[i].visible = false;
+      } //
+
+    } //
+
 
     if (navScrolledUpdate) {
       //
@@ -1221,7 +1309,8 @@ function initPanZoom() {
 
       clearTimeout($.data(this, 'scrollTimer'));
       $.data(this, 'scrollTimer', setTimeout(function () {
-        //
+        console.log(mainStage.position); //
+
         if (hitPopupMode != 'focused') {
           maskContainer.visible = true;
           Object.keys(popupBBoxes).forEach(function (key) {
@@ -1243,8 +1332,8 @@ function initPanZoom() {
           console.log('Changing base track - Haven\'t scrolled in 250ms!');
           currentTrack = 'base' + currentNavLoc; //
 
-          for (var i = 0; i < 7; i++) {
-            baseTracks['base' + (i + 1)].stop();
+          for (var _i6 = 0; _i6 < 7; _i6++) {
+            baseTracks['base' + (_i6 + 1)].stop();
           } //
 
 
@@ -1267,11 +1356,12 @@ function initPanZoom() {
     //
 
 
-    var fac = 1.005 / (mainStage.scale.x * mainStage.scale.y);
+    var fac = 1.005; //(mainStage.scale.x*mainStage.scale.y);
+
     var deltaValX, deltaValY;
     deltaValX = et.deltaY;
     deltaValY = et.deltaY;
-    mainStage.position = changeCenter(mainStage.position, deltaValX, 0, fac); //
+    mainStage.position = changeCenter(mainStage.position, deltaValX, 0, fac * pixiScale); //
     //
   }); //
 
@@ -1291,15 +1381,7 @@ function changeCenter(oldCenter, deltaX, deltaY, factor) {
   oldCenter.add(offset, oldCenter); //
 
   if (oldCenter.x > 0) oldCenter.x = 0;
-  if (oldCenter.x < -1 * (scrollWidth + 2 * (pixiWidth + pixiWidth * mainScrollScale * 3 / 4))) oldCenter.x = -1 * (scrollWidth + 2 * (pixiWidth + pixiWidth * mainScrollScale * 3 / 4)); //
-
-  /*
-  if((oldCenter.y*window.app.stage.scale.x - pixiHeight/2) <= 0 && deltaY > 0)
-  	oldCenter.y = pixiHeight/(2*window.app.stage.scale.x);
-  if(oldCenter.y*window.app.stage.scale.x > (-pixiHeight/2 + pixiHeight*window.app.stage.scale.x) && deltaY < 0)
-  	oldCenter.y = (-pixiHeight/(2*window.app.stage.scale.x) + pixiHeight);
-  */
-  //
+  if (oldCenter.x < -1 * (scrollWidth * pixiScale - pixiWidth * 3 / 4)) oldCenter.x = -1 * (scrollWidth * pixiScale - pixiWidth * 3 / 4); //
 
   return oldCenter;
 }
@@ -6309,7 +6391,7 @@ exports.SVGUseNode = SVGUseNode;
 exports.getLoaderCache = getLoaderCache;
 
 
-},{"@pixi-essentials/cull":3,"@pixi-essentials/gradients":4,"@pixi-essentials/texture-allocator":6,"@pixi/core":11,"@pixi/display":12,"@pixi/filter-color-matrix":16,"@pixi/graphics":20,"@pixi/math":24,"@pixi/sprite":37,"@pixi/text":40,"d-path-parser":43,"libtess":49,"tinycolor2":59}],6:[function(require,module,exports){
+},{"@pixi-essentials/cull":3,"@pixi-essentials/gradients":4,"@pixi-essentials/texture-allocator":6,"@pixi/core":11,"@pixi/display":12,"@pixi/filter-color-matrix":16,"@pixi/graphics":20,"@pixi/math":24,"@pixi/sprite":37,"@pixi/text":40,"d-path-parser":44,"libtess":49,"tinycolor2":59}],6:[function(require,module,exports){
 /* eslint-disable */
  
 /*!
@@ -47114,7 +47196,345 @@ exports.uid = uid;
 exports.url = url;
 
 
-},{"@pixi/constants":10,"@pixi/settings":34,"earcut":44,"eventemitter3":45,"url":61}],43:[function(require,module,exports){
+},{"@pixi/constants":10,"@pixi/settings":34,"earcut":45,"eventemitter3":43,"url":61}],43:[function(require,module,exports){
+'use strict';
+
+var has = Object.prototype.hasOwnProperty
+  , prefix = '~';
+
+/**
+ * Constructor to create a storage for our `EE` objects.
+ * An `Events` instance is a plain object whose properties are event names.
+ *
+ * @constructor
+ * @private
+ */
+function Events() {}
+
+//
+// We try to not inherit from `Object.prototype`. In some engines creating an
+// instance in this way is faster than calling `Object.create(null)` directly.
+// If `Object.create(null)` is not supported we prefix the event names with a
+// character to make sure that the built-in object properties are not
+// overridden or used as an attack vector.
+//
+if (Object.create) {
+  Events.prototype = Object.create(null);
+
+  //
+  // This hack is needed because the `__proto__` property is still inherited in
+  // some old browsers like Android 4, iPhone 5.1, Opera 11 and Safari 5.
+  //
+  if (!new Events().__proto__) prefix = false;
+}
+
+/**
+ * Representation of a single event listener.
+ *
+ * @param {Function} fn The listener function.
+ * @param {*} context The context to invoke the listener with.
+ * @param {Boolean} [once=false] Specify if the listener is a one-time listener.
+ * @constructor
+ * @private
+ */
+function EE(fn, context, once) {
+  this.fn = fn;
+  this.context = context;
+  this.once = once || false;
+}
+
+/**
+ * Add a listener for a given event.
+ *
+ * @param {EventEmitter} emitter Reference to the `EventEmitter` instance.
+ * @param {(String|Symbol)} event The event name.
+ * @param {Function} fn The listener function.
+ * @param {*} context The context to invoke the listener with.
+ * @param {Boolean} once Specify if the listener is a one-time listener.
+ * @returns {EventEmitter}
+ * @private
+ */
+function addListener(emitter, event, fn, context, once) {
+  if (typeof fn !== 'function') {
+    throw new TypeError('The listener must be a function');
+  }
+
+  var listener = new EE(fn, context || emitter, once)
+    , evt = prefix ? prefix + event : event;
+
+  if (!emitter._events[evt]) emitter._events[evt] = listener, emitter._eventsCount++;
+  else if (!emitter._events[evt].fn) emitter._events[evt].push(listener);
+  else emitter._events[evt] = [emitter._events[evt], listener];
+
+  return emitter;
+}
+
+/**
+ * Clear event by name.
+ *
+ * @param {EventEmitter} emitter Reference to the `EventEmitter` instance.
+ * @param {(String|Symbol)} evt The Event name.
+ * @private
+ */
+function clearEvent(emitter, evt) {
+  if (--emitter._eventsCount === 0) emitter._events = new Events();
+  else delete emitter._events[evt];
+}
+
+/**
+ * Minimal `EventEmitter` interface that is molded against the Node.js
+ * `EventEmitter` interface.
+ *
+ * @constructor
+ * @public
+ */
+function EventEmitter() {
+  this._events = new Events();
+  this._eventsCount = 0;
+}
+
+/**
+ * Return an array listing the events for which the emitter has registered
+ * listeners.
+ *
+ * @returns {Array}
+ * @public
+ */
+EventEmitter.prototype.eventNames = function eventNames() {
+  var names = []
+    , events
+    , name;
+
+  if (this._eventsCount === 0) return names;
+
+  for (name in (events = this._events)) {
+    if (has.call(events, name)) names.push(prefix ? name.slice(1) : name);
+  }
+
+  if (Object.getOwnPropertySymbols) {
+    return names.concat(Object.getOwnPropertySymbols(events));
+  }
+
+  return names;
+};
+
+/**
+ * Return the listeners registered for a given event.
+ *
+ * @param {(String|Symbol)} event The event name.
+ * @returns {Array} The registered listeners.
+ * @public
+ */
+EventEmitter.prototype.listeners = function listeners(event) {
+  var evt = prefix ? prefix + event : event
+    , handlers = this._events[evt];
+
+  if (!handlers) return [];
+  if (handlers.fn) return [handlers.fn];
+
+  for (var i = 0, l = handlers.length, ee = new Array(l); i < l; i++) {
+    ee[i] = handlers[i].fn;
+  }
+
+  return ee;
+};
+
+/**
+ * Return the number of listeners listening to a given event.
+ *
+ * @param {(String|Symbol)} event The event name.
+ * @returns {Number} The number of listeners.
+ * @public
+ */
+EventEmitter.prototype.listenerCount = function listenerCount(event) {
+  var evt = prefix ? prefix + event : event
+    , listeners = this._events[evt];
+
+  if (!listeners) return 0;
+  if (listeners.fn) return 1;
+  return listeners.length;
+};
+
+/**
+ * Calls each of the listeners registered for a given event.
+ *
+ * @param {(String|Symbol)} event The event name.
+ * @returns {Boolean} `true` if the event had listeners, else `false`.
+ * @public
+ */
+EventEmitter.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {
+  var evt = prefix ? prefix + event : event;
+
+  if (!this._events[evt]) return false;
+
+  var listeners = this._events[evt]
+    , len = arguments.length
+    , args
+    , i;
+
+  if (listeners.fn) {
+    if (listeners.once) this.removeListener(event, listeners.fn, undefined, true);
+
+    switch (len) {
+      case 1: return listeners.fn.call(listeners.context), true;
+      case 2: return listeners.fn.call(listeners.context, a1), true;
+      case 3: return listeners.fn.call(listeners.context, a1, a2), true;
+      case 4: return listeners.fn.call(listeners.context, a1, a2, a3), true;
+      case 5: return listeners.fn.call(listeners.context, a1, a2, a3, a4), true;
+      case 6: return listeners.fn.call(listeners.context, a1, a2, a3, a4, a5), true;
+    }
+
+    for (i = 1, args = new Array(len -1); i < len; i++) {
+      args[i - 1] = arguments[i];
+    }
+
+    listeners.fn.apply(listeners.context, args);
+  } else {
+    var length = listeners.length
+      , j;
+
+    for (i = 0; i < length; i++) {
+      if (listeners[i].once) this.removeListener(event, listeners[i].fn, undefined, true);
+
+      switch (len) {
+        case 1: listeners[i].fn.call(listeners[i].context); break;
+        case 2: listeners[i].fn.call(listeners[i].context, a1); break;
+        case 3: listeners[i].fn.call(listeners[i].context, a1, a2); break;
+        case 4: listeners[i].fn.call(listeners[i].context, a1, a2, a3); break;
+        default:
+          if (!args) for (j = 1, args = new Array(len -1); j < len; j++) {
+            args[j - 1] = arguments[j];
+          }
+
+          listeners[i].fn.apply(listeners[i].context, args);
+      }
+    }
+  }
+
+  return true;
+};
+
+/**
+ * Add a listener for a given event.
+ *
+ * @param {(String|Symbol)} event The event name.
+ * @param {Function} fn The listener function.
+ * @param {*} [context=this] The context to invoke the listener with.
+ * @returns {EventEmitter} `this`.
+ * @public
+ */
+EventEmitter.prototype.on = function on(event, fn, context) {
+  return addListener(this, event, fn, context, false);
+};
+
+/**
+ * Add a one-time listener for a given event.
+ *
+ * @param {(String|Symbol)} event The event name.
+ * @param {Function} fn The listener function.
+ * @param {*} [context=this] The context to invoke the listener with.
+ * @returns {EventEmitter} `this`.
+ * @public
+ */
+EventEmitter.prototype.once = function once(event, fn, context) {
+  return addListener(this, event, fn, context, true);
+};
+
+/**
+ * Remove the listeners of a given event.
+ *
+ * @param {(String|Symbol)} event The event name.
+ * @param {Function} fn Only remove the listeners that match this function.
+ * @param {*} context Only remove the listeners that have this context.
+ * @param {Boolean} once Only remove one-time listeners.
+ * @returns {EventEmitter} `this`.
+ * @public
+ */
+EventEmitter.prototype.removeListener = function removeListener(event, fn, context, once) {
+  var evt = prefix ? prefix + event : event;
+
+  if (!this._events[evt]) return this;
+  if (!fn) {
+    clearEvent(this, evt);
+    return this;
+  }
+
+  var listeners = this._events[evt];
+
+  if (listeners.fn) {
+    if (
+      listeners.fn === fn &&
+      (!once || listeners.once) &&
+      (!context || listeners.context === context)
+    ) {
+      clearEvent(this, evt);
+    }
+  } else {
+    for (var i = 0, events = [], length = listeners.length; i < length; i++) {
+      if (
+        listeners[i].fn !== fn ||
+        (once && !listeners[i].once) ||
+        (context && listeners[i].context !== context)
+      ) {
+        events.push(listeners[i]);
+      }
+    }
+
+    //
+    // Reset the array, or remove it completely if we have no more listeners.
+    //
+    if (events.length) this._events[evt] = events.length === 1 ? events[0] : events;
+    else clearEvent(this, evt);
+  }
+
+  return this;
+};
+
+/**
+ * Remove all listeners, or those of the specified event.
+ *
+ * @param {(String|Symbol)} [event] The event name.
+ * @returns {EventEmitter} `this`.
+ * @public
+ */
+EventEmitter.prototype.removeAllListeners = function removeAllListeners(event) {
+  var evt;
+
+  if (event) {
+    evt = prefix ? prefix + event : event;
+    if (this._events[evt]) clearEvent(this, evt);
+  } else {
+    this._events = new Events();
+    this._eventsCount = 0;
+  }
+
+  return this;
+};
+
+//
+// Alias methods names because people roll like that.
+//
+EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
+EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
+//
+// Expose the prefix.
+//
+EventEmitter.prefixed = prefix;
+
+//
+// Allow `EventEmitter` to be imported as module namespace.
+//
+EventEmitter.EventEmitter = EventEmitter;
+
+//
+// Expose the module.
+//
+if ('undefined' !== typeof module) {
+  module.exports = EventEmitter;
+}
+
+},{}],44:[function(require,module,exports){
 /*!
  * d-path-parser - v1.0.0
  * by Massimo Artizzu (MaxArt2501)
@@ -47285,7 +47705,7 @@ return function parse(d) {
 };
 });
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 'use strict';
 
 module.exports = earcut;
@@ -47970,344 +48390,6 @@ earcut.flatten = function (data) {
     }
     return result;
 };
-
-},{}],45:[function(require,module,exports){
-'use strict';
-
-var has = Object.prototype.hasOwnProperty
-  , prefix = '~';
-
-/**
- * Constructor to create a storage for our `EE` objects.
- * An `Events` instance is a plain object whose properties are event names.
- *
- * @constructor
- * @private
- */
-function Events() {}
-
-//
-// We try to not inherit from `Object.prototype`. In some engines creating an
-// instance in this way is faster than calling `Object.create(null)` directly.
-// If `Object.create(null)` is not supported we prefix the event names with a
-// character to make sure that the built-in object properties are not
-// overridden or used as an attack vector.
-//
-if (Object.create) {
-  Events.prototype = Object.create(null);
-
-  //
-  // This hack is needed because the `__proto__` property is still inherited in
-  // some old browsers like Android 4, iPhone 5.1, Opera 11 and Safari 5.
-  //
-  if (!new Events().__proto__) prefix = false;
-}
-
-/**
- * Representation of a single event listener.
- *
- * @param {Function} fn The listener function.
- * @param {*} context The context to invoke the listener with.
- * @param {Boolean} [once=false] Specify if the listener is a one-time listener.
- * @constructor
- * @private
- */
-function EE(fn, context, once) {
-  this.fn = fn;
-  this.context = context;
-  this.once = once || false;
-}
-
-/**
- * Add a listener for a given event.
- *
- * @param {EventEmitter} emitter Reference to the `EventEmitter` instance.
- * @param {(String|Symbol)} event The event name.
- * @param {Function} fn The listener function.
- * @param {*} context The context to invoke the listener with.
- * @param {Boolean} once Specify if the listener is a one-time listener.
- * @returns {EventEmitter}
- * @private
- */
-function addListener(emitter, event, fn, context, once) {
-  if (typeof fn !== 'function') {
-    throw new TypeError('The listener must be a function');
-  }
-
-  var listener = new EE(fn, context || emitter, once)
-    , evt = prefix ? prefix + event : event;
-
-  if (!emitter._events[evt]) emitter._events[evt] = listener, emitter._eventsCount++;
-  else if (!emitter._events[evt].fn) emitter._events[evt].push(listener);
-  else emitter._events[evt] = [emitter._events[evt], listener];
-
-  return emitter;
-}
-
-/**
- * Clear event by name.
- *
- * @param {EventEmitter} emitter Reference to the `EventEmitter` instance.
- * @param {(String|Symbol)} evt The Event name.
- * @private
- */
-function clearEvent(emitter, evt) {
-  if (--emitter._eventsCount === 0) emitter._events = new Events();
-  else delete emitter._events[evt];
-}
-
-/**
- * Minimal `EventEmitter` interface that is molded against the Node.js
- * `EventEmitter` interface.
- *
- * @constructor
- * @public
- */
-function EventEmitter() {
-  this._events = new Events();
-  this._eventsCount = 0;
-}
-
-/**
- * Return an array listing the events for which the emitter has registered
- * listeners.
- *
- * @returns {Array}
- * @public
- */
-EventEmitter.prototype.eventNames = function eventNames() {
-  var names = []
-    , events
-    , name;
-
-  if (this._eventsCount === 0) return names;
-
-  for (name in (events = this._events)) {
-    if (has.call(events, name)) names.push(prefix ? name.slice(1) : name);
-  }
-
-  if (Object.getOwnPropertySymbols) {
-    return names.concat(Object.getOwnPropertySymbols(events));
-  }
-
-  return names;
-};
-
-/**
- * Return the listeners registered for a given event.
- *
- * @param {(String|Symbol)} event The event name.
- * @returns {Array} The registered listeners.
- * @public
- */
-EventEmitter.prototype.listeners = function listeners(event) {
-  var evt = prefix ? prefix + event : event
-    , handlers = this._events[evt];
-
-  if (!handlers) return [];
-  if (handlers.fn) return [handlers.fn];
-
-  for (var i = 0, l = handlers.length, ee = new Array(l); i < l; i++) {
-    ee[i] = handlers[i].fn;
-  }
-
-  return ee;
-};
-
-/**
- * Return the number of listeners listening to a given event.
- *
- * @param {(String|Symbol)} event The event name.
- * @returns {Number} The number of listeners.
- * @public
- */
-EventEmitter.prototype.listenerCount = function listenerCount(event) {
-  var evt = prefix ? prefix + event : event
-    , listeners = this._events[evt];
-
-  if (!listeners) return 0;
-  if (listeners.fn) return 1;
-  return listeners.length;
-};
-
-/**
- * Calls each of the listeners registered for a given event.
- *
- * @param {(String|Symbol)} event The event name.
- * @returns {Boolean} `true` if the event had listeners, else `false`.
- * @public
- */
-EventEmitter.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {
-  var evt = prefix ? prefix + event : event;
-
-  if (!this._events[evt]) return false;
-
-  var listeners = this._events[evt]
-    , len = arguments.length
-    , args
-    , i;
-
-  if (listeners.fn) {
-    if (listeners.once) this.removeListener(event, listeners.fn, undefined, true);
-
-    switch (len) {
-      case 1: return listeners.fn.call(listeners.context), true;
-      case 2: return listeners.fn.call(listeners.context, a1), true;
-      case 3: return listeners.fn.call(listeners.context, a1, a2), true;
-      case 4: return listeners.fn.call(listeners.context, a1, a2, a3), true;
-      case 5: return listeners.fn.call(listeners.context, a1, a2, a3, a4), true;
-      case 6: return listeners.fn.call(listeners.context, a1, a2, a3, a4, a5), true;
-    }
-
-    for (i = 1, args = new Array(len -1); i < len; i++) {
-      args[i - 1] = arguments[i];
-    }
-
-    listeners.fn.apply(listeners.context, args);
-  } else {
-    var length = listeners.length
-      , j;
-
-    for (i = 0; i < length; i++) {
-      if (listeners[i].once) this.removeListener(event, listeners[i].fn, undefined, true);
-
-      switch (len) {
-        case 1: listeners[i].fn.call(listeners[i].context); break;
-        case 2: listeners[i].fn.call(listeners[i].context, a1); break;
-        case 3: listeners[i].fn.call(listeners[i].context, a1, a2); break;
-        case 4: listeners[i].fn.call(listeners[i].context, a1, a2, a3); break;
-        default:
-          if (!args) for (j = 1, args = new Array(len -1); j < len; j++) {
-            args[j - 1] = arguments[j];
-          }
-
-          listeners[i].fn.apply(listeners[i].context, args);
-      }
-    }
-  }
-
-  return true;
-};
-
-/**
- * Add a listener for a given event.
- *
- * @param {(String|Symbol)} event The event name.
- * @param {Function} fn The listener function.
- * @param {*} [context=this] The context to invoke the listener with.
- * @returns {EventEmitter} `this`.
- * @public
- */
-EventEmitter.prototype.on = function on(event, fn, context) {
-  return addListener(this, event, fn, context, false);
-};
-
-/**
- * Add a one-time listener for a given event.
- *
- * @param {(String|Symbol)} event The event name.
- * @param {Function} fn The listener function.
- * @param {*} [context=this] The context to invoke the listener with.
- * @returns {EventEmitter} `this`.
- * @public
- */
-EventEmitter.prototype.once = function once(event, fn, context) {
-  return addListener(this, event, fn, context, true);
-};
-
-/**
- * Remove the listeners of a given event.
- *
- * @param {(String|Symbol)} event The event name.
- * @param {Function} fn Only remove the listeners that match this function.
- * @param {*} context Only remove the listeners that have this context.
- * @param {Boolean} once Only remove one-time listeners.
- * @returns {EventEmitter} `this`.
- * @public
- */
-EventEmitter.prototype.removeListener = function removeListener(event, fn, context, once) {
-  var evt = prefix ? prefix + event : event;
-
-  if (!this._events[evt]) return this;
-  if (!fn) {
-    clearEvent(this, evt);
-    return this;
-  }
-
-  var listeners = this._events[evt];
-
-  if (listeners.fn) {
-    if (
-      listeners.fn === fn &&
-      (!once || listeners.once) &&
-      (!context || listeners.context === context)
-    ) {
-      clearEvent(this, evt);
-    }
-  } else {
-    for (var i = 0, events = [], length = listeners.length; i < length; i++) {
-      if (
-        listeners[i].fn !== fn ||
-        (once && !listeners[i].once) ||
-        (context && listeners[i].context !== context)
-      ) {
-        events.push(listeners[i]);
-      }
-    }
-
-    //
-    // Reset the array, or remove it completely if we have no more listeners.
-    //
-    if (events.length) this._events[evt] = events.length === 1 ? events[0] : events;
-    else clearEvent(this, evt);
-  }
-
-  return this;
-};
-
-/**
- * Remove all listeners, or those of the specified event.
- *
- * @param {(String|Symbol)} [event] The event name.
- * @returns {EventEmitter} `this`.
- * @public
- */
-EventEmitter.prototype.removeAllListeners = function removeAllListeners(event) {
-  var evt;
-
-  if (event) {
-    evt = prefix ? prefix + event : event;
-    if (this._events[evt]) clearEvent(this, evt);
-  } else {
-    this._events = new Events();
-    this._eventsCount = 0;
-  }
-
-  return this;
-};
-
-//
-// Alias methods names because people roll like that.
-//
-EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
-EventEmitter.prototype.addListener = EventEmitter.prototype.on;
-
-//
-// Expose the prefix.
-//
-EventEmitter.prefixed = prefix;
-
-//
-// Allow `EventEmitter` to be imported as module namespace.
-//
-EventEmitter.EventEmitter = EventEmitter;
-
-//
-// Expose the module.
-//
-if ('undefined' !== typeof module) {
-  module.exports = EventEmitter;
-}
 
 },{}],46:[function(require,module,exports){
 (function (global, factory) {
