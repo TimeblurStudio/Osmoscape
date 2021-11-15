@@ -689,7 +689,7 @@ function updateSVGviewbox(svgxml, num){
 	}
 	newViewPort = newViewPort_x + ' ' + newViewPort_y + ' '  + newViewPort_width + ' '  + newViewPort_height;
 	//
-	if(num != "0a" || num != "0b"){
+	if(num != '0a' || num != '0b'){
 		svgEle.removeAttribute('style');
 		svgEle.removeAttribute('x');
 		svgEle.removeAttribute('y');

@@ -115,8 +115,8 @@ function cleanExamplesSrc(){
     'dist/examples/pixi/**/*',
     // we don't want to clean this file though so we negate the pattern
     '!dist/examples/pixi/legend_popup/dist',
-    '!dist/examples/pixi/legend_popup/dist',
-    '!dist/examples/pixi/legend_popup/dist',
+    '!dist/examples/pixi/legend_popup_svg/dist',
+    '!dist/examples/pixi/navigation/dist',
   ]);
 }
 function commitanim(){
