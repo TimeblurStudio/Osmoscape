@@ -32,9 +32,9 @@ osmo.panAndZoom = class {
     this.maxZoom = 1;
     this.isCompletedDetecting = false;
     this.isTrackpadDetected = false;
+    this.navScrolledUpdate = false;
     this.deltaValX = 0;
     this.deltaValY = 0;
-
 
     // Methods
     this.init;
@@ -94,18 +94,37 @@ osmo.panAndZoom = class {
       if(!osmo.scroll.loaded.svgdata || !osmo.scroll.loaded.HQimage)
         return;
       //
-      /*
-      osmo.navinteract.hitNavEffect();
-      // check inactivity
-      clearTimeout($.data(this, 'scrollTimer'));
-      $.data(this, 'scrollTimer', setTimeout(function() {
-        osmo.navinteract.updateBasetrack();
-      }, 250));
-      clearTimeout($.data(this, 'scrollTimerLong'));
-      $.data(this, 'scrollTimerLong', setTimeout(function() {
-        osmo.pzinteract.enableMaskInteractions();
-      }, 1500));
-      */
+      // NOTE: navScrolledUpdate flag is used to
+      // Reduce number of times this snippet runs while scrolling
+      //
+      if(self.navScrolledUpdate){
+        //
+        if(osmo.scroll.hitPopupMode != 'focused'){
+          self.navScrolledUpdate = false;
+          setTimeout(function(){  osmo.navinteract.scrollNavEffect();  },50);
+        }
+        // check inactivity and when scrolling stops - update basetrack
+        clearTimeout($.data(this, 'scrollTimer'));
+        $.data(this, 'scrollTimer', setTimeout(function() {
+          osmo.navinteract.updateBasetrack();
+        }, 250));
+        //
+        // Code below makes scrolling experince way smooth
+        //
+        // HIDING MASK NEEDS TO BE ADDED
+        //
+        // check inactivity and when scrolling stops - enable mask
+        clearTimeout($.data(this, 'scrollTimerLong'));
+        $.data(this, 'scrollTimerLong', setTimeout(function() {
+          osmo.pzinteract.enableMaskInteractions();
+        }, 1500));
+        //
+      }
+      //
+      //
+      //
+      //
+      //
       let et;
       if(!window.isMobile){
         et = event.originalEvent;
@@ -113,18 +132,8 @@ osmo.panAndZoom = class {
       }else{
         et = event;
       }
-
       //
-      /*
-      // Code below makes scrolling experince way smooth
-      if(osmo.scroll.hitPopupMode != 'focused'){
-        osmo.legendinteract.hitMaskEffect(new osmo.scroll.PAPER.Point(0,0), 'scrolling');
-        if(osmo.legendsvg.maskLayer.visible)
-          osmo.legendsvg.maskLayer.visible = false;
-      }
-      */
-      //
-      let fac = 1.005/(osmo.scroll.mainStage.scale.x*osmo.scroll.mainStage.scale.y);
+      let fac = 1.005;///(osmo.scroll.mainStage.scale.x*osmo.scroll.mainStage.scale.y);
       //
       let deltaValX, deltaValY;
       if(osmo.scroll.hitPopupMode != 'focused'){
@@ -136,55 +145,17 @@ osmo.panAndZoom = class {
           deltaValY = et.deltaX;
         }
         //
-        osmo.scroll.mainStage.position = osmo.pzinteract.changeCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac);
-        //osmo.navinteract.navTweenItem.position = osmo.scroll.PAPER.view.center;
+        osmo.scroll.mainStage.position = osmo.pzinteract.changeCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac*osmo.scroll.pixiScale);
         //
       }
       else{
         deltaValX = et.deltaX;
         deltaValY = et.deltaY;
         //
-        osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, deltaValX, deltaValY, fac, false);
-        //osmo.navinteract.navTweenItem.position = osmo.scroll.PAPER.view.center;
+        osmo.scroll.mainStage.position = osmo.pzinteract.changeCenter(osmo.scroll.mainStage.position, deltaValX, deltaValY, fac*osmo.scroll.pixiScale, false);
         //
       }
     });
-
-    // INSIDE on mousewheel
-    /* EARLY METHOD BELOW INCLUDES TOUCH, TRACKPAD, MOUSE */
-    /*
-    // Pinch-Zoom
-    // Tricky spec - https://medium.com/@auchenberg/detecting-multi-touch-trackpad-gestures-in-javascript-a2505babb10e
-    if(et.ctrlKey && osmo.pzinteract.isTrackpadDetected){
-      osmo.scroll.PAPER.view.zoom = osmo.pzinteract.changeZoom(osmo.scroll.PAPER.view.zoom, et.deltaY);
-      // Center Y-axis on zoom-out
-      let bounds = osmo.scroll.PAPER.view.bounds;
-      if (bounds.y < 0) osmo.scroll.PAPER.view.center = osmo.scroll.PAPER.view.center.subtract(new osmo.scroll.PAPER.Point(0, bounds.y));
-      bounds = osmo.scroll.PAPER.view.bounds;
-      let h = bounds.y + bounds.height;
-      if (h > osmo.scroll.PAPER.view.viewSize.height) osmo.scroll.PAPER.view.center = osmo.scroll.PAPER.view.center.subtract(new osmo.scroll.PAPER.Point(0, h - osmo.scroll.PAPER.view.viewSize.height));
-    }else{
-      let fac = 1.005/(osmo.scroll.PAPER.view.zoom*osmo.scroll.PAPER.view.zoom);
-      if(window.isMobile)
-        fac *= 6;
-      //
-      if(osmo.scroll.PAPER.view.zoom == 1){
-        let deltaValX, deltaValY;
-        if(osmo.pzinteract.isTrackpadDetected){
-          deltaValX = et.deltaX;
-          deltaValY = et.deltaY;
-        }else{
-          deltaValY = et.deltaX;
-          deltaValX = et.deltaY;
-        }
-        //
-        osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, deltaValX, 0, fac);
-      }
-      else{
-        osmo.scroll.PAPER.view.center = osmo.pzinteract.changeCenter(osmo.scroll.PAPER.view.center, et.deltaX, et.deltaY, fac);
-      }
-    }
-    */
 
   }
 
@@ -202,7 +173,12 @@ osmo.panAndZoom = class {
    * ------------------------------------------------
    * enableMaskInteractions
    * ------------------------------------------------
+   */
   enableMaskInteractions(){
+    //
+    // ENABLING MASK NEEDS TO BE ADDED
+    //
+    /*
     if(osmo.legendsvg.maskLayer.visible == false){
       osmo.legendsvg.maskLayer.visible = true;
       console.log('Enabled mask after 1500ms');
@@ -232,8 +208,9 @@ osmo.panAndZoom = class {
         osmo.legendinteract.mouseMoved(cevent);
       //
     }
+    */
   }
-  */
+  
 
   /**
    * ------------------------------------------------
@@ -243,6 +220,7 @@ osmo.panAndZoom = class {
   changeCenter(oldCenter, deltaX, deltaY, factor, restricted=true){
     let scrollWidth = osmo.datasvg.scrollWidth;
     let pixiWidth = osmo.scroll.pixiWidth;
+    let pixiScale = osmo.scroll.pixiScale;
     //
     let offset = new this.PIXI.Point(deltaX, -deltaY);
     offset.multiplyScalar(factor, offset);
@@ -250,12 +228,12 @@ osmo.panAndZoom = class {
     if(restricted){
       if(oldCenter.x > 0)
         oldCenter.x  = 0;
-      if(oldCenter.x < -1*(scrollWidth + 2*(pixiWidth + pixiWidth*3/4)))
-        oldCenter.x  = -1*(scrollWidth + 2*(pixiWidth + pixiWidth*3/4));
+      if(oldCenter.x < -1*(scrollWidth*pixiScale - pixiWidth*3/4))
+       oldCenter.x  = -1*(scrollWidth*pixiScale - pixiWidth*3/4);
     }
     //
     return oldCenter;
-  } 
+  }
 
   /**
    * ------------------------------------------------
@@ -288,8 +266,6 @@ osmo.panAndZoom = class {
   setMaxZoom(val){
     this.maxZoom = val;
   }
-
-
 
   /**
    * ------------------------------------------------

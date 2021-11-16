@@ -23,12 +23,12 @@ import tone from 'tone';
 import WaveformData from 'waveform-data';
 import screenfull from 'screenfull/dist/screenfull';
 import { TweenMax, Power4 } from 'gsap';
-import { SVGScene } from '@pixi-essentials/svg';
 import { Cull } from '@pixi-essentials/cull';
 //
 //
 import {} from './audio/backgroundAudio';
 import {} from './data/dataSvg';
+import {} from './interactions/navigation';
 import {} from './interactions/panAndZoom';
 import {} from './interactions/speakerMicroInteraction';
 //
@@ -52,6 +52,8 @@ osmo.Scroll = class {
     this.PIXI;
     this.TONE;
     this.WAVEFORMDATA;
+    this.TWEENMAX;
+    this.POWER4;
 
     // ----------------
     // new Class objects/instance
@@ -74,6 +76,7 @@ osmo.Scroll = class {
     this.splashWidth;
     this.mouseLoc;
     this.loaded = {  'HQimage' : false,  'svgdata': true  };
+    this.pixiScale = 2;
     this.Volume_db = { min : -12,  max: 6 };
     this.refPopupSize = { width: 1440.0,  height: 821.0  };
     //
@@ -105,6 +108,8 @@ osmo.Scroll = class {
     osmo.scroll.PIXI = PIXI;
     osmo.scroll.TONE = tone;
     osmo.scroll.WAVEFORMDATA = WaveformData;
+    osmo.scroll.TWEENMAX = TweenMax;
+    osmo.scroll.POWER4 = Power4;
 
     // Setup UI
     this.initPixi();
@@ -119,8 +124,8 @@ osmo.Scroll = class {
     // INTERACTIONS
     osmo.pzinteract = new osmo.panAndZoom();
     osmo.pzinteract.init();
-    //osmo.navinteract = new osmo.navigationInteraction();
-    //osmo.navinteract.init();
+    osmo.navinteract = new osmo.navigationInteraction();
+    osmo.navinteract.init();
 
     // Custom mouse hide/show
     // HEAD ACTIONS
@@ -195,16 +200,16 @@ osmo.Scroll = class {
     //Create a Pixi Application
     PIXI.utils.skipHello();
     let app = new PIXI.Application({
-      width: self.pixiWidth,
-      height: self.pixiHeight,
+      width: self.pixiWidth*self.pixiScale,
+      height: self.pixiHeight*self.pixiScale,
       antialias: true,
       backgroundAlpha: 0,
-      resolution: 1,
       view: canvas
     }
     );
     self.mainApp = app;
     self.mainStage = self.mainApp.stage;
+    self.mainStage.scale.set(self.pixiScale, self.pixiScale);
     //
     //
     // CULLING
@@ -364,8 +369,8 @@ osmo.Scroll = class {
     osmo.scroll.loaded.HQimage = true;
     //
     //
-    //loadNav();
-    //initNav();
+    osmo.navinteract.loadNav();
+    osmo.navinteract.initNav();
     //
     /*
     if(allTracksCount == 8){

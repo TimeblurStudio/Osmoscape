@@ -69,15 +69,17 @@ osmo.dataSvg = class {
     // Scale the raster
     let s = osmo.scroll.pixiHeight/scroll_01.height;
     osmo.scroll.mainScrollScale = s;
+    console.log('MAIN SCALE: ' + s);
+    //
     scroll_01.scale.set(s, s);
     scroll_02.scale.set(s, s);
-    console.log('MAIN SCALE: ' + s);
+    //
+    this.scrollWidth = scroll_01.width*2;
+    this.scrollHeight = osmo.scroll.pixiHeight;
+    //
     //Change the sprite's position
     scroll_01.x = (osmo.scroll.pixiWidth*3/4);
     scroll_02.x = scroll_01.x + scroll_01.width;
-    //
-    this.scrollWidth = scroll_01.width*s*2;
-    this.scrollHeight = osmo.scroll.paperHeight;
     //
     //Add the scroll to the stage
     this.backgroundContainer.addChild(scroll_01);

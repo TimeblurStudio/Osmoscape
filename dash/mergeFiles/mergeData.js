@@ -1,5 +1,11 @@
 // Node.js program to read all SVG files from dataSummary
 // and merge into single mask and legend files
+//
+// Why merge data into a bundle?
+// https://stackoverflow.com/a/3138391
+// https://www.quora.com/Mobile-APIs-Is-it-better-to-return-a-large-JSON-or-use-multiple-requests
+// https://developer.yahoo.com/performance/rules.html?guccounter=1#num_http
+//
 
 
 const fs = require('fs');
