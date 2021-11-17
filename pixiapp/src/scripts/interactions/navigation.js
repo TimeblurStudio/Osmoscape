@@ -173,7 +173,7 @@ osmo.navigationInteraction = class {
       //
       setTimeout(function(){
         console.log('Completed scroll for - ' + chap_id);
-        ///maskContainer.visible = true;
+        osmo.legendsvg.maskContainer.visible = true;
         //
         console.log('Changing base track...');
         self.BGAUDIO.currentTrack = 'base' + chap_id;
@@ -361,6 +361,10 @@ osmo.navigationInteraction = class {
   * ------------------------------------------------
   */
   scrollNavEffect(){
+    //
+    // FIX ME
+    // navChapters were not loaded on time,
+    // leading to an error after scroll (Hover stopped working)
     //
     for(let i=0; i < this.navChapters.length-1; i++){
       let this_locX = parseFloat($(this.navChapters[i]).attr('x'))*this.navScale*osmo.scroll.pixiScale;

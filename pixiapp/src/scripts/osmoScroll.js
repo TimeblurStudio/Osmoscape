@@ -28,6 +28,7 @@ import { Cull } from '@pixi-essentials/cull';
 //
 import {} from './audio/backgroundAudio';
 import {} from './data/dataSvg';
+import {} from './data/legendSvg';
 import {} from './interactions/navigation';
 import {} from './interactions/panAndZoom';
 import {} from './interactions/speakerMicroInteraction';
@@ -127,6 +128,8 @@ osmo.Scroll = class {
     osmo.navinteract = new osmo.navigationInteraction();
     osmo.navinteract.init();
 
+    
+
     // Custom mouse hide/show
     // HEAD ACTIONS
     $('.head-actions').mouseenter(function(){
@@ -182,7 +185,6 @@ osmo.Scroll = class {
     //
     this.loadHQ();
     //
-    window.loading_screen.finish();
   }
 
   /**
@@ -222,17 +224,7 @@ osmo.Scroll = class {
       // Cull out all objects that don't intersect with the screen
       cull.cull(self.mainApp.renderer.screen);
     });
-
-    self.navContainer = new PIXI.Container();
-    self.legendContainer = new PIXI.Container();
-    self.maskContainer = new PIXI.Container();
     //
-    self.navContainer.visible = false;
-    self.legendContainer.visible = false;
-    //
-    //self.mainStage.addChild(self.backgroundContainer, self.navContainer, self.legendContainer, self.maskContainer);
-    //
-
   }
 
   /**
@@ -369,9 +361,11 @@ osmo.Scroll = class {
     osmo.scroll.loaded.HQimage = true;
     //
     //
-    osmo.navinteract.loadNav();
-    osmo.navinteract.initNav();
-    //
+    // LEGEND
+    osmo.legendsvg = new osmo.legendSvg();
+    osmo.legendsvg.init();
+    //osmo.legendinteract = new osmo.legendInteraction();
+
     /*
     if(allTracksCount == 8){
       //
@@ -404,10 +398,6 @@ osmo.Scroll = class {
     //backgroundContainer.sendToBack();
     //
     //osmo.datasvg.backgroundLayer.sendToBack();
-    if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata){
-      window.loading_screen.finish();
-      osmo.bgaudio.start();
-    }
     //
   }
 

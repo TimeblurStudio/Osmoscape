@@ -32,7 +32,7 @@ osmo.panAndZoom = class {
     this.maxZoom = 1;
     this.isCompletedDetecting = false;
     this.isTrackpadDetected = false;
-    this.navScrolledUpdate = false;
+    this.navScrolledUpdate = true;
     this.deltaValX = 0;
     this.deltaValY = 0;
 
@@ -94,6 +94,8 @@ osmo.panAndZoom = class {
       if(!osmo.scroll.loaded.svgdata || !osmo.scroll.loaded.HQimage)
         return;
       //
+      self.disableMaskInteractions();
+      //
       // NOTE: navScrolledUpdate flag is used to
       // Reduce number of times this snippet runs while scrolling
       //
@@ -117,7 +119,7 @@ osmo.panAndZoom = class {
         clearTimeout($.data(this, 'scrollTimerLong'));
         $.data(this, 'scrollTimerLong', setTimeout(function() {
           osmo.pzinteract.enableMaskInteractions();
-        }, 1500));
+        }, 500));
         //
       }
       //
@@ -174,16 +176,39 @@ osmo.panAndZoom = class {
    * enableMaskInteractions
    * ------------------------------------------------
    */
-  enableMaskInteractions(){
+  disableMaskInteractions(){  
     //
-    // ENABLING MASK NEEDS TO BE ADDED
     //
-    /*
-    if(osmo.legendsvg.maskLayer.visible == false){
-      osmo.legendsvg.maskLayer.visible = true;
-      console.log('Enabled mask after 1500ms');
+    if(osmo.legendsvg.maskContainer.visible){
+      osmo.scroll.mainScroll['part1'].alpha = 1;
+      osmo.scroll.mainScroll['part2'].alpha = 1;
+      osmo.legendsvg.maskContainer.visible = false;
       //
-      // Just enable legends in view
+      osmo.legendsvg.legendContainer.visible = true;
+      for(let i=0; i<osmo.legendsvg.legendFiles.length; i++)
+        if(osmo.legendsvg.legendFiles[i].visible)
+          osmo.legendsvg.legendFiles[i].visible = false;
+      //
+    }
+    //
+    //
+  }
+
+  /**
+   * ------------------------------------------------
+   * enableMaskInteractions
+   * ------------------------------------------------
+   */
+  enableMaskInteractions(){
+    if(osmo.legendsvg.maskContainer.visible == false){
+      osmo.legendsvg.maskContainer.visible = true;
+      console.log('Enabled mask after 500ms');
+      //
+      
+          
+
+      /*
+      // Just keep legends in and around current view
       let xMin = osmo.scroll.PAPER.view.center.x - osmo.scroll.paperWidth/2.0;
       let xMax = osmo.scroll.PAPER.view.center.x + osmo.scroll.paperWidth/2.0;
       Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
@@ -206,9 +231,9 @@ osmo.panAndZoom = class {
       cevent.point.x += xMin;
       if(!osmo.navinteract.isOnDiv)
         osmo.legendinteract.mouseMoved(cevent);
-      //
+      */
     }
-    */
+    
   }
   
 
@@ -229,7 +254,7 @@ osmo.panAndZoom = class {
       if(oldCenter.x > 0)
         oldCenter.x  = 0;
       if(oldCenter.x < -1*(scrollWidth*pixiScale - pixiWidth*3/4))
-       oldCenter.x  = -1*(scrollWidth*pixiScale - pixiWidth*3/4);
+        oldCenter.x  = -1*(scrollWidth*pixiScale - pixiWidth*3/4);
     }
     //
     return oldCenter;

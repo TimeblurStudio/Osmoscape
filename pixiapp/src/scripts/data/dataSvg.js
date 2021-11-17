@@ -78,7 +78,13 @@ osmo.dataSvg = class {
     this.scrollHeight = osmo.scroll.pixiHeight;
     //
     //Change the sprite's position
-    scroll_01.x = (osmo.scroll.pixiWidth*3/4);
+    // NOTE: Offset required since -1 and 0 datasets were added at the end 
+    //       (effectively increasing the canvas width)
+    //
+    let svgOffset = 495;
+    let legendHeight = 623.5;
+    let offsetRatio = 495/623.5;
+    scroll_01.x = -1*offsetRatio*osmo.scroll.pixiHeight +(osmo.scroll.pixiWidth*3/4);
     scroll_02.x = scroll_01.x + scroll_01.width;
     //
     //Add the scroll to the stage
