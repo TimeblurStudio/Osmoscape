@@ -1,4 +1,104 @@
 {
+  "-1": {
+    "id": "sha512-kicDo0A",
+    "title": "water structure",
+    "desc": "lp",
+    "legendpath": "../../assets/data/legends_png/_1_legend.png",
+    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
+    "order": "back",
+    "popdimensions": 
+      {
+        "x": -36.24,
+        "y": 242.4,
+        "width": 2922.14,
+        "height": 429.6
+      }
+  },
+
+  "0": {
+    "ch": "ch1",
+    "id": "0",
+    "title": "Human DNA",
+    "desc": "Deoxyribonucleic acid (DNA), which contains survival instructions necessary for most life and reproduction, depends on water for its structure. This paired chain of billions of nucleotides relies on the presence of polar water molecules around it to maintain its familiar double helix form. Water ensures that our genetic information is packed tightly together, only to be released for metabolic processes.  As with DNA, water enables the folding process in proteins, attracting and repelling different parts of the linear chain of amino acids to form all proteins. The sound is represented by a sound evoking typing, the pitch and rhythm of which are both determined by a human genetic sequence. In unison with a synthesized interpretation of human chromosome 1, manipulated.",
+    "legendpath": "../../assets/data/legends_png/0_legend.png",
+    "zorder": 10,
+    "maskpath": "../../assets/data/legends_png/0_human_dna_mask-01-Simplified.svg.json",
+    "order": "front",
+    "popdimensions": {
+      "x": -36,
+      "y": 237.80,
+      "width": 1706.160,
+      "height": 376.590
+    },
+    "audiofile": "../../assets/audio/loops/0 rev2.mp3"
+  },
+  "1": {
+    "ch": "ch1",
+    "id": "1",
+    "title": "Detection of water on exoplanet",
+    "desc": "This study is based on the discovery of an exoplanet named HAT-P-11-b  that was discovered in 2009, by a team at the Hungarian Automated telescope network (HATnet) in Arizona. This planet has a radius of about 4 times that of Earth and is about the size of Neptune. It showed an absorption spectrum of 1.4, which corresponds to the absorption spectrum of water, indicating the presence of water vapour in its atmosphere. Presence of water vapour on a planet helps scientists narrow their search for planets that might have biomolecules that support forms of life and also study the planet’s origins. The sound is represented by sampled recordings of Neptune, Hydrogen, and Oxygen, condensed down to 2 seconds, re-sampled, and triggered.",
+    "legendpath": "../../assets/data/legends_png/1_legend.png",
+    "zorder": 20,
+    "maskpath": "../../assets/data/legends_png/1 Water in space_mask-01.svg.json",
+    "popdimensions": {
+      "x": 4.32,
+      "y": 19.2,
+      "width": 551.18,
+      "height": 386.8
+    },
+    "audiofile": "../../assets/audio/loops/1 rev1.mp3"
+  },
+  "4": {
+    "ch": "ch2",
+    "id": "4",
+    "title": "Water acess vs GDP",
+    "desc": "The study brings forth the important question of access to clean water across the globe. Taking US dollars as the common unit, the study compares the GDP of all the countries to make a comprehensive comparison of access to improved water sources. The study emerges after surveying various countries from 1990 to 2016. It defines water stress as the ratio of freshwater withdrawals to renewable freshwater resources. If a country's withdrawals exceeds the available sources, then the country is under water-stress. The study shows a global link between freshwater access and a country's GDP. High income countries reflect between 98-99% of population with access to an improved source of water between 1990-2016 followed by upper middle income at 76-95% and middle income countries at 72-92%. Lower income countries as well as countries that are classified as poor, fragile, least developed and indebted are struggling to meet water demands with a population between 40-70% having access to an improved source of water. The dataset raises important questions regarding water access, water scarcity and security. The sound is represented by a field recording of a young girl walking to find water, punctuated with the sound of an ATM machine.",
+    "legendpath": "../../assets/data/legends_png/4_legend.png",
+    "zorder": 30,
+    "maskpath": "../../assets/data/legends_png/4 Water access vs GDP_mask-01-01.svg.json",
+    "popdimensions": {
+      "x": 374.03,
+      "y": 12.14,
+      "width": 618.81,
+      "height": 556.3
+    },
+    "audiofile": "../../assets/audio/loops/4.mp3"
+  },
+  "5": {
+    "ch": "ch2",
+    "id": "5",
+    "title": "Industrial Agriculture Linking",
+    "desc": "A study conducted by  researchers at the State Hydrological Institute, Russian Federation, from 1975 to 1990 highlighted the global consumption of water by the agricultural and industrial sectors. The study raised questions on how water withdrawal was increasing annually and with it the gap between water withdrawal and consumption, suggesting a higher rate of water getting wasted in industrial and agriculture processes. The study provided an assessment of the freshwater resources of the 21st century by forecasting global water use for 2000 and 2025 with the data on increasing water demand, population growth and water availability. It shows that the rapid population growth between 1970 and 1994 resulted in a decrease in water availability from 12.9 to 7.6 thousand cubic metres per person annually. The sound is represented by processed recordings of modern agricultural machines.",
+    "legendpath": "../../assets/data/legends_png/5_legend.png",
+    "zorder": 40,
+    "maskpath": "../../assets/data/legends_png/5 Industrial Agriculture Linking_mask-01.svg.json",
+    "popdimensions": {
+      "x": 800.13,
+      "y": 213.098,
+      "width": 323.68,
+      "height": 302.217
+    },
+    "audiofile": "../../assets/audio/loops/5 rev1.mp3"
+  },
+  "6": {
+    "ch": "ch2",
+    "id": "6",
+    "title": "Baseline water stress",
+    "desc": "This study, conducted by Water Resources Institute, records the baseline water stress in several major river basins across the world. Baseline water stress refers to the ratio between the total water withdrawn for use and the annual available renewable water supplies. It is clear that two variables determine the baseline water stress—water supply availability, and the demand for that water. Water is supplied to the basins in the form of precipitation (snow and rain) or the melting of glaciers. The demand for water is mainly divided into three sectors—the domestic, industrial, and agricultural sectors—with the latter usually having the highest baseline water stress. The study indicates that the demand is higher than the supply. River basins across the globe are being exploited to an unsustainable extent. The sound represents a field recording of the Yongding River, processed with a vocoder.",
+    "legendpath": "../../assets/data/legends_png/6_legend.png",
+    "zorder": 50,
+    "maskpath": "../../assets/data/legends_png/6 Baseline water stress_mask-01.svg.json",
+    "speciallegend": "../../assets/data/legends/6 Baseline water stress Layer4 Print legend_specialcase.svg.json",
+    "specialmask": "../../assets/data/legends/6 Baseline water stress Layer4 Print mask_specialcase.svg.json",
+    "order": "front",
+    "audiofile": "../../assets/audio/loops/6 rev1.mp3",
+    "popdimensions": {
+      "x": 582.61,
+      "y": 162.05,
+      "width": 1893.17,
+      "height": 445.308
+    }
+  },
   "7": {
     "ch": "ch3",
     "id": "7",
@@ -70,20 +170,18 @@
     "ch": "ch3",
     "id": "12",
     "title": "Vermont acid rain",
-    "desc": "Vermont is a picturesque “green mountain state” in north-eastern USA. It is also one of the first few states to be recognised for being affected by acid rain. Fossil fuel plants in the 1980s which were based in midwest emitted gases such as sulphur dioxide and nitrous oxide. These were carried towards the north east by the wind patterns and mixed with the rainwater, fog and snow there, lowering the pH of water, making it acidic. A long-term monitoring of atmospheric deposition revealed that it was acid rain that caused the decline of several trees, including 300-year-old red spruce trees, and lakes of the green mountain. Similar well documented occurrences of acid rain have happened in other parts of the world, such as Norway, Germany, China and India. The pattern of its occurrence in each region corresponds with the surge of industrialisation in that region.  The sound is represented by a field recording of a Vermont rain storm, re-sampled and processed to add a sizzling and splatting element in order to evoke acid rain.",
+    "desc": "Vermont is a picturesque “green mountain state” in north-eastern USA. It is also one of the first few states to be recognised for being affected by acid rain. Fossil fuel plants in the 1980s which were based in midwest emitted gases such as sulphur dioxide and nitrous oxide. These were carried towards the north east by the wind patterns and mixed with the rainwater, fog and snow there, lowering the pH of water, making it acidic. A long-term monitoring of atmospheric depopdimensions revealed that it was acid rain that caused the decline of several trees, including 300-year-old red spruce trees, and lakes of the green mountain. Similar well documented occurrences of acid rain have happened in other parts of the world, such as Norway, Germany, China and India. The pattern of its occurrence in each region corresponds with the surge of industrialisation in that region.  The sound is represented by a field recording of a Vermont rain storm, re-sampled and processed to add a sizzling and splatting element in order to evoke acid rain.",
     "legendpath": "../../assets/data/legends_png/12_legend.png",
     "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg",
     "order": "front",
     "zorder": 450,
     "audiofile": "../../assets/audio/loops/12.mp3",
-    "popdimensions": 
-      {
-        "x": 2111.76,
-        "y": -37.6,
-        "width": 1076,
-        "height": 517.9
-      }
-    
+    "popdimensions": {
+      "x": 2111.76,
+      "y": -37.6,
+      "width": 1076,
+      "height": 517.9
+    }
   },
   "13": {
     "ch": "ch3",
@@ -109,14 +207,12 @@
     "legendpath": "../../assets/data/legends_png/14_legend.png",
     "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg",
     "zorder": 600,
-    "popdimensions": 
-      {
-        "x": 2252.3,
-        "y": 158.2,
-        "width": 1394.74,
-        "height": 463.9
-      }
-    ,
+    "popdimensions": {
+      "x": 2252.3,
+      "y": 158.2,
+      "width": 1394.74,
+      "height": 463.9
+    },
     "audiofile": "../../assets/audio/loops/14.mp3"
   },
   "15": {
@@ -128,13 +224,12 @@
     "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg",
     "audiofile": "../../assets/audio/loops/15.mp3",
     "zorder": 700,
-    "popdimensions": 
-      {
-        "x": 2318.43,
-        "y": 63.04,
-        "width": 840.73,
-        "height": 522.92
-      }
+    "popdimensions": {
+      "x": 2318.43,
+      "y": 63.04,
+      "width": 840.73,
+      "height": 522.92
+    }
   },
   "16": {
     "ch": "ch4",
@@ -144,14 +239,12 @@
     "legendpath": "../../assets/data/legends_png/16_legend.png",
     "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg",
     "zorder": 800,
-   "popdimensions": 
-      {
-        "x": 2915.8,
-        "y": -2.16,
-        "width": 963.2,
-        "height": 589.46
-      }
-    ,
+    "popdimensions": {
+      "x": 2915.8,
+      "y": -2.16,
+      "width": 963.2,
+      "height": 589.46
+    },
     "audiofile": "../../assets/audio/loops/16.mp3"
   },
   "17": {
@@ -162,14 +255,12 @@
     "legendpath": "../../assets/data/legends_png/17_legend.png",
     "maskpath": "../../assets/data/legends/17 Aral sea river dynamics_mask-01.svg",
     "zorder": 900,
-   "popdimensions": 
-      {
-        "x": 3617.37,
-        "y": 252.201,
-        "width": 1066.83,
-        "height": 370.999
-      }
-    ,
+    "popdimensions": {
+      "x": 3617.37,
+      "y": 252.201,
+      "width": 1066.83,
+      "height": 370.999
+    },
     "audiofile": "../../assets/audio/loops/17.mp3"
   },
   "19": {
@@ -180,14 +271,12 @@
     "legendpath": "../../assets/data/legends_png/19_legend.png",
     "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
     "zorder": 1000,
-    "popdimensions": 
-      {
-        "x": 3564.46,
-        "y": 22.52,
-        "width": 1883.85,
-        "height": 584.933
-      }
-    ,
+    "popdimensions": {
+      "x": 3564.46,
+      "y": 22.52,
+      "width": 1883.85,
+      "height": 584.933
+    },
     "audiofile": "../../assets/audio/loops/19.mp3"
   },
   "20": {
@@ -198,14 +287,12 @@
     "legendpath": "../../assets/data/legends_png/20_legend.png",
     "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg",
     "zorder": 1100,
-    "popdimensions": 
-      {
-        "x": 5053.34,
-        "y": 248.9,
-        "width": 266.04,
-        "height": 320.9
-      }
-    ,
+    "popdimensions": {
+      "x": 5053.34,
+      "y": 248.9,
+      "width": 266.04,
+      "height": 320.9
+    },
     "audiofile": "../../assets/audio/loops/20.mp3"
   },
   "21": {
@@ -215,16 +302,13 @@
     "desc": "Cotton is a water-intensive crop. The top seven cotton producing nations, Brazil, China, India, Pakistan, Turkey, the United States, and Uzbekistan, account for 84% of global cotton production. In this dataset, patterns related to weather and cotton production give a better understanding of the variability of cotton production and the influence it has on global production. The study shows a falling cotton production in 2016-17 when La Nina weather conditions existed. La Nina is an irregularly recurring upwelling of unusually cold water to the ocean surface along the western coast of South America that often occurs and disrupts typical regional and global weather patterns. There are critical questions being raised in the face of the current global climate change and a lack of infrastructure for careful allocation of water. The sound is represented by a recording of cotton fields being irrigated, combined with the sound of water running down a bathtub drain.",
     "legendpath": "../../assets/data/legends_png/21_legend.png",
     "zorder": 1100,
-    "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg",
     "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg",
-    "popdimensions": 
-      {
-        "x": 3746.07,
-        "y": 0.1,
-        "width": 1066.84,
-        "height": 580.368
-      }
-    ,
+    "popdimensions": {
+      "x": 3746.07,
+      "y": 0.1,
+      "width": 1066.84,
+      "height": 580.368
+    },
     "audiofile": "../../assets/audio/loops/21 rev1.mp3"
   },
   "23": {
@@ -235,14 +319,12 @@
     "legendpath": "../../assets/data/legends_png/23_legend.png",
     "zorder": 1200,
     "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg",
-    "popdimensions": 
-      {
-        "x": 4774.85,
-        "y": 192.6,
-        "width": 1564.23,
-        "height": 430.92
-      }
-    ,
+    "popdimensions": {
+      "x": 4774.85,
+      "y": 192.6,
+      "width": 1564.23,
+      "height": 430.92
+    },
     "audiofile": "../../assets/audio/loops/23 v2.mp3"
   },
   "24": {
@@ -254,14 +336,12 @@
     "zorder": 1300,
     "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg",
     "order": "back",
-    "popdimensions": 
-      {
-        "x": 4342.68,
-        "y": -36.5405,
-        "width": 1397.76,
-        "height": 568.32
-      }
-    ,
+    "popdimensions": {
+      "x": 4342.68,
+      "y": -36.5405,
+      "width": 1397.76,
+      "height": 568.32
+    },
     "audiofile": "../../assets/audio/loops/24.mp3"
   },
   "25": {
@@ -272,14 +352,12 @@
     "legendpath": "../../assets/data/legends_png/25_legend.png",
     "zorder": 1400,
     "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg",
-    "popdimensions": 
-      {
-        "x": 4468.48,
-        "y": 244.45,
-        "width": 904.34,
-        "height": 349.02
-      }
-    ,
+    "popdimensions": {
+      "x": 4468.48,
+      "y": 244.45,
+      "width": 904.34,
+      "height": 349.02
+    },
     "audiofile": "../../assets/audio/loops/25 rev1.mp3"
   },
   "28": {
@@ -290,14 +368,12 @@
     "legendpath": "../../assets/data/legends_png/28_legend.png",
     "zorder": 1500,
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01-Simplified.svg",
-    "popdimensions": 
-      {
-        "x": 5030.9,
-        "y": 251.79,
-        "width": 867.7,
-        "height": 363.118
-      }
-    ,
+    "popdimensions": {
+      "x": 5030.9,
+      "y": 251.79,
+      "width": 867.7,
+      "height": 363.118
+    },
     "audiofile": "../../assets/audio/loops/28.mp3"
   },
   "29": {
@@ -309,14 +385,12 @@
     "zorder": 1600,
     "maskpath": "../../assets/data/legends/29 Thermal Utilities India_mask-01.svg",
     "order": "front",
-    "popdimensions": 
-      {
-        "x": 5281.6,
-        "y": 162.68,
-        "width": 106.17,
-        "height": 146.59
-      }
-    ,
+    "popdimensions": {
+      "x": 5281.6,
+      "y": 162.68,
+      "width": 106.17,
+      "height": 146.59
+    },
     "audiofile": "../../assets/audio/loops/29.mp3"
   },
   "30": {
@@ -328,14 +402,374 @@
     "zorder": 1700,
     "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg",
     "order": "front",
+    "popdimensions": {
+      "x": 5653.24,
+      "y": 227.399,
+      "width": 366.27,
+      "height": 401.66
+    },
+    "audiofile": "../../assets/audio/loops/30.mp3"
+  },
+  "32": {
+    "ch": "ch5",
+    "id": "32",
+    "title": "Drying cities Bangalore",
+    "desc": "Once upon a time, Bangalore was called the ‘City of Lakes’.Today,  five centuries later, modern Bangalore is often called the Silicon Valley of India, owing to its exponential growth in the Information Technology (IT) sector in the past few decades. A study shows that in the last five decades, between 1973 and 2007, Bangalore lost 262 water bodies. Urban floods and clogged roads are linked to the drying lakes, limiting the area in which water bodies can be stored. The sound is represented by the city sounds from Bangalore, combined with the sounds of sucking through a straw, manipulated to sound dry.",
+    "legendpath": "../../assets/data/legends_png/32_legend.png",
+    "zorder": 1800,
+    "maskpath": "../../assets/data/legends_png/32 Drying cities_Bangalore_mask-01.svg.json",
+    "popdimensions": {
+      "x": 5463.31,
+      "y": 5.406,
+      "width": 239.55,
+      "height": 203.274
+    },
+    "audiofile": "../../assets/audio/loops/32.mp3"
+  },
+  "33": {
+    "ch": "ch5",
+    "id": "33",
+    "title": "Radon in Bangalore",
+    "desc": "The depth of borewells in Bangalore has exceeded 1,500 feet. The more we extract, the more groundwater depletes leading to higher concentration of radon in water. Radon is a naturally occurring radioactive cancer causing gas. A 2009 study sampling groundwater in borewells across 30 sites in Bangalore found traces of radon in the water. The data collected has shown that the concentration of radon was above the permissible limit of 11.83 Becquerel per litre. In many places, it was a hundred times higher. The sound is represented by musical notes derived from the number of electrons per shell in radon. Those notes are then used to create a synthesized interpretation of radon gas.",
+    "legendpath": "../../assets/data/legends_png/33_legend.png",
+    "zorder": 1900,
+    "maskpath": "../../assets/data/legends_png/33_Radon_in_Bangalore_mask-01-Simplified.svg.json",
+    "order": "front",
+    "popdimensions": {
+      "x": 5387.17,
+      "y": 38.06,
+      "width": 277.06,
+      "height": 286.44
+    },
+    "audiofile": "../../assets/audio/loops/33 rev1.mp3"
+  },
+  "35": {
+    "ch": "ch5",
+    "id": "35",
+    "title": "Coca-Cola Water usage ",
+    "desc": "Plachimada was a little hamlet in the southern Indian state of Kerala. A semi-arid region between two large reservoirs and ten metres south of an irrigation canal, it was abundant with coconut groves and vegetable cultivation.Coca-Cola set up one of its largest bottling plants in the village of Plachimada in 1998. The Kerala State Pollution Control Board (KSPCB) granted the company a permit to produce 561,000 litres of beverage per day, with an average requirement of 3.8 litres of water for a litre of beverage. The source of water was primarily groundwater, and about two million litres of water per day was extracted. Within two years of its commissioning, the water table of a water abundant village depleted from 45 meters to 150 meters below the ground level district. Hundreds of wells dried up in the area causing people to walk kilometers away for potable drinking water. The sound is represented by cascading Coca Cola sounds, derived from the classic Suzanne Ciani synthesized Coca Cola advertisement.",
+    "legendpath": "../../assets/data/legends_png/35_legend.png",
+    "zorder": 2000,
+    "maskpath": "../../assets/data/legends_png/35 Cola Cola Water Usage_mask-01-wOffset.svg.json",
+    "popdimensions": {
+      "x": 5304.59,
+      "y": 9.02,
+      "width": 156.84,
+      "height": 98.73
+    },
+    "audiofile": "../../assets/audio/loops/35.mp3"
+  },
+  "36": {
+    "ch": "ch6",
+    "id": "36",
+    "title": "Rhine river temperature",
+    "desc": "The Rhine is one of the major rivers of Europe, the second longest in Central and Western Europe, after the Danube. The convention of 1831 gave an international status to the Rhine, giving riparian nations the right to use its waters for navigation and commerce. This resulted in the development of major industries, thermal industries in particular, on the banks of the river. As a result, the Rhine river became the most thermally polluted basin in the world. It has suffered abuse such as decades of untreated industrial and domestic waste and incessant thermal pollution, 75% of  which come from nuclear power plants. The case study uses Thermal Infrared Remote Sensors to investigate the detrimental effects of power plants on the temperature of the Rhine river, on the banks of which they are located. The sound is represented by a field recording of the Rhine combined with sounds from a nuclear power plant, and manipulated to evoke evaporation and contamination.",
+    "legendpath": "../../assets/data/legends_png/36_legend.png",
+    "zorder": 2100,
+    "maskpath": "../../assets/data/legends_png/36 Rhine River temp_mask-01-wOffset.svg.json",
+    "popdimensions": {
+      "x": 5544.57,
+      "y": 212.05,
+      "width": 135.67,
+      "height": 112.95
+    },
+    "audiofile": "../../assets/audio/loops/36.mp3"
+  },
+  "38": {
+    "ch": "ch6",
+    "id": "38",
+    "title": "Chaohu Eutrophication",
+    "desc": "Lake Chou Hu, one of the five largest freshwater lakes in China in the Yangtze floodplain, showed signs of eutrophication since the 1970s. Just like Lake Tai Hu, Chou Hu has also suffered from the settlement of industries around the lake bed. The main causes for eutrophication of the lake is due to the amount of pollutants discharged into the lake. The dataset compares the nutrients–total nitrogen and total phosphorus carried by 11 rivers that flow into Lake Chaohu using water samples and sediment cores for the analysis of the pH. An instrument called the UV-Visible spectrophotometer was used to measure the absorption spectrum for nitrate (NO-3) which shows a peak at 224 nm depending on the amount of  NO-3 in the sample. The sound is represented by recordings of water combined with the frequency of Nitrogen and re-sampled to evoke sludgy, polluted water.",
+    "legendpath": "../../assets/data/legends_png/38_legend.png",
+    "zorder": 2200,
+    "maskpath": "../../assets/data/legends_png/38 Chaohu Eutrophication_mask-01.svg.json",
+    "popdimensions": {
+      "x": 5514.87,
+      "y": 265.02,
+      "width": 78.28,
+      "height": 101.36
+    },
+    "audiofile": "../../assets/audio/loops/38.mp3"
+  },
+  "40": {
+    "ch": "ch6",
+    "id": "40",
+    "title": "Sukinda mines water sediment analysis for chromium",
+    "desc": "Sukinda valley is a town in the Jajpur district in the eastern Indian state of Odisha. The small, unassuming town of Sukinda is world famous. It contains 97% of India’s chromium ore deposits, and has one of the largest open cast chromite ore mines in the world. In the year 2007, the US-based Blacksmith Institute released a report taking a range of parameters to identify the ten most polluted places in the world. Sukinda was one of them. A study by Odisha-based non-profit Environment Protection Group revealed that the percentage of hexavalent chromium (Cr+6) in the rivers is higher than the permissible limit. Approximately 70% of the surface water and 60% of the drinking water contains hexavalent chromium at more than double national and international standards and levels of over 20 times the standard have been recorded. Hexavalent chromium is a known human carcinogen and adversely affects human health. The sound is represented by synthesized mining sounds, manipulated to create additional dusty and sludgy textures, and a repeating tone at 1907Hz (derived from the 1907 C melting point of Chromium).",
+    "legendpath": "../../assets/data/legends_png/40_legend.png",
+    "zorder": 2300,
+    "maskpath": "../../assets/data/legends_png/40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg.json",
+    "popdimensions": {
+      "x": 6204.75,
+      "y": 154.374,
+      "width": 144.848,
+      "height": 112.765
+    },
+    "audiofile": "../../assets/audio/loops/40 Rev1.mp3"
+  },
+  "41": {
+    "ch": "ch6",
+    "id": "41",
+    "title": "Sukinda mines sediment analysis for chromium",
+    "desc": "Another case study by Odisha-based non-profit Environment Protection Group showed that the sediment in the soil in Sukinda, the village destroyed by chromium mining, shows more metal content in the post-monsoon period owing to the leaching of metals from the overburden of mining. The pH test reflected the acidic nature of the soil, within a range of 5.5 to 6.3. The sound is represented by a news story of mining protests in Sukinda, fed into a granular synthesizer. Notes are arranged in clusters of 6 and transposed only by intervals of 6 semitones in order to represent hexavalent chromium. The overall effect is evocative of mining. ",
+    "legendpath": "../../assets/data/legends_png/41_legend.png",
+    "zorder": 2400,
+    "maskpath": "../../assets/data/legends_png/41_Sukinda mines _sediment_anlaysis for chromium_mask-01.svg.json",
+    "popdimensions": {
+      "x": 5760.3,
+      "y": 140.53,
+      "width": 164.41,
+      "height": 126.81
+    },
+    "audiofile": "../../assets/audio/loops/41.mp3"
+  },
+  "42": {
+    "ch": "ch6",
+    "id": "42",
+    "title": "42 Water and River",
+    "desc": "The Ashio mine was a copper mine that has been in existence since the 1600s in Japan.  This dataset records the environmental destruction that unfolded due to a rapid growth in copper mining in the 1870s as the metal became vital to provide for Japan’s breakneck modernization, increasing military strength and expanding industrialization. The data set chronicles Japan’s social struggle with the repercussions of its transformation into a modern industrial state and economy, from 1870s up to World War II and beyond. The Ashio Copper mining conflict is significant in Japanese history, because it was the first issue that created a huge surge of environmental movements. It was the first movement of its kind where peasant farmers were pitted against a powerful corporation, at a time when the nation’s economic growth almost wholly dependent on increasing copper production. The sound is represented by a synthesized pitch centered around 1084.62hz, as a musical representation of the 1084.62 C melting point of copper. Recorded sounds of molten copper are also added.",
+    "legendpath": "../../assets/data/legends_png/42_legend.png",
+    "zorder": 2400,
+    "maskpath": "../../assets/data/legends_png/45a_mask-01-Thick.svg.json",
+    "popdimensions": {
+      "x": 5781,
+      "y": 4.1938,
+      "width": 315.63,
+      "height": 264.436
+    },
+    "audiofile": "../../assets/audio/loops/45.mp3"
+  },
+  "43": {
+    "ch": "ch6",
+    "id": "43",
+    "title": "Guiyu PDBE in sediment",
+    "desc": "The town of Guiyu is situated on the South China Coast, in the Guangdong province of China. A region that was once a rice-growing village is today known as the electronic graveyard of the world. Today it is one of the world’s largest site for electronic waste. The discarded components of electronic equipment contain high amounts of lead and dioxin. One of the major toxic elements that have extreme medical consequences are PBDEs (Poly brominated diphenyl ethers), which are flame retardants used in electronic devices. The dataset centres around comparison of PBDE concentrations in sediments collected from the e-waste site at Guiyu and control sites in Hong Kong, showing a much higher concentration of the toxic material in Guiyu. The sound is represented by arpeggiated, rooted harmonics pitched to 55hz and 16hz corresponding to lowest levels of PBDE amounts found in river bottom sediment, doubled by river sounds to evoke motion and solidity relating to PBDE in sediment found in Nanyang river basin. ",
+    "legendpath": "../../assets/data/legends_png/43_legend.png",
+    "zorder": 2500,
+    "maskpath": "../../assets/data/legends_png/43 Guiyu PDBE in sediment_mask-01.svg.json",
+    "popdimensions": {
+      "x": 5652.74,
+      "y": 213.32,
+      "width": 279.774,
+      "height": 210.5
+    },
+    "audiofile": "../../assets/audio/loops/43.mp3"
+  },
+  "44": {
+    "ch": "ch6",
+    "id": "44",
+    "title": "Guiyu - PDBE in Fish",
+    "desc": "This data set centres around PBDE concentration analysis performed on tissues of fish collected from various locations in Guiyu and compared with that from Hong Kong, again showing a much higher concentration of PDBE in the fish found in the water bodies near Guiyu. The sound is represented by synthesizers equalized with a bandpass of 1088hz to 2687hz which are the amounts of PBDEs found in bighead carp in the Nanyang river evoke the feeling of being underwater and in the air simultaneously.",
+    "legendpath": "../../assets/data/legends_png/44_legend.png",
+    "zorder": 2600,
+    "maskpath": "../../assets/data/legends_png/44 Guiyu - PDBE in Fish_mask-01-01-wOffset.svg.json",
+    "popdimensions": {
+      "x": 5784.33,
+      "y": 18.76,
+      "width": 177.694,
+      "height": 183.43
+    },
+    "audiofile": "../../assets/audio/loops/44.mp3"
+  },
+  "45": {
+    "ch": "ch6",
+    "id": "45",
+    "title": "45 Water and River",
+    "desc": "This data set revolves around  the presence of transition metal in the bloodstream of children of Guiyu. Tests were performed on children in Guiyu where levels of transition metals in their bloodstream were measured. These tests were used to bring about a relation between lung function in school children and exposure to transition metals from e-waste recycling industries in Guiyu. Blood samples were taken from 71 children of various age groups in Guiyu and 73 children from Liangying, a neighbouring control area, where there were no e-waste recycling centres. The test results showed that the levels of transition metals in children from Guiyu were significantly higher than those from the control area. The sound is represented by three repeating pitches derived from the speed of sound of manganese, nickel, and chromium, combined with manipulated sounds of talking children.",
+    "legendpath": "../../assets/data/legends_png/45_legend.png",
+    "zorder": 2700,
+    "maskpath": "../../assets/data/legends_png/45b_mask-01.svg.json",
+    "popdimensions": {
+      "x": 5840.19,
+      "y": 74.81,
+      "width": 172.46,
+      "height": 174.19
+    },
+    "audiofile": "../../assets/audio/loops/45.mp3"
+  },
+  "46": {
+    "ch": "ch6",
+    "id": "46",
+    "title": "46 Water and River",
+    "desc": "India, home to nine large rivers flowing throughout the country generates a staggering 1.7 million tonnes of faecal waste a day, a large portion of which ends up in these water sources due to inappropriate sewage treatment.  Official records have shown that 78 percent of the sewage generated remains untreated and is disposed of in rivers, groundwater or lakes.  The dataset obtained from central government portals draws a comparison between the total sewage generated in all the states of India and the  treatment capacity of the installed sewage treatment plants across the country. Out of 38000 million litres per day of sewage generated treatment capacity exists for only about 12000 million litres per day. The sound is represented by field recording of India and rhythmic synthesizer pitched and timed corresponding to 62 which is the percentage of untreated daily waste nationally. ",
+    "legendpath": "../../assets/data/legends_png/46_legend.png",
+    "zorder": 2800,
+    "maskpath": "../../assets/data/legends_png/46_mask-01-Simplified.svg.json",
+    "order": "front",
+    "popdimensions": {
+      "x": 5862.85,
+      "y": 291,
+      "width": 292.16,
+      "height": 239.25
+    },
+    "audiofile": "../../assets/audio/loops/46.mp3"
+  },
+  "50": {
+    "ch": "ch6",
+    "id": "50",
+    "title": "Antibiotic resistance in India",
+    "desc": "A 2016 study carried by investigative agency called Ecostorm examined pharmaceutical pollution and showed that most pharmaceutical companies have a sinister way of disposing of their waste, especially in Hyderabad, Chennai and Delhi. Antibiotic pollution is a dangerous, increasingly common, and infectious problem. It leads to the creation of “superbugs” that are resistant to antibiotics. The data set exposes the occurrence of resistant bacteria surrounding pharmaceutical manufacturing plants in India and maps out the supply chain which delivers antibiotics from the dirty factories where they are produced for patients in Europe and the United States. The sound is represented by samples of prescription pills and an advertisement for one of India’s leading pharmaceutical companies, Orchid Pharma, are affected at 65% which is the same percentage of population sample groups that commonly takes antibiotics in India. ",
+    "legendpath": "../../assets/data/legends_png/50_legend.png",
+    "zorder": 3120,
+    "maskpath": "../../assets/data/legends_png/50 Antibiotic resistance in India_mask-01-simplified.svg.json",
+    "popdimensions": {
+      "x": 6057.41,
+      "y": 0.96,
+      "width": 971.52,
+      "height": 460.32
+    },
+    "audiofile": "../../assets/audio/loops/50.mp3"
+  },
+  "52": {
+    "ch": "ch6",
+    "id": "52",
+    "title": "Xenoestrogen in infertile men",
+    "desc": "A 2002 study in Hyderabad looked at  at how xenoestrogens, man-made chemicals which mimic the role of estrogens, the female sex hormone, affected fertility in men. It was conducted in a fertility clinic with 21 selected patients with cases of infertility, when other reasons were ruled out. Their semen was examined for the concentration of two xenoestrogens, polychlorinated biphenyl (PCBs) and phthalate esters (PEs), both prevalent in our everyday life. The study found that high quantities of these in the semen samples corresponded to low fertility in the male patients. The study further divided the men into different demographic groups such as urban and rural, fish-eaters and vegetarians, and combinations thereof. It was concluded that urban fish eaters were the most severely affected, the cause deduced to be the heavily polluted and untreated water that the people living in cities consume. The sound is represented by samples of water and capacitors doubled by synthesized electronics create a sound based on the distribution of PCBs and the products that contain PCBs which are a leading cause of infertility.",
+    "legendpath": "../../assets/data/legends_png/52_legend.png",
+    "zorder": 3000,
+    "maskpath": "../../assets/data/legends_png/52 Xenoestrogen in infertile men_mask-01.svg.json",
+    "popdimensions": {
+      "x": 6063.12,
+      "y": 45.44,
+      "width": 640.6,
+      "height": 357.888
+    },
+    "audiofile": "../../assets/audio/loops/52.mp3"
+  },
+  "53": {
+    "ch": "ch6",
+    "id": "53",
+    "title": "Bottled water consumption",
+    "desc": "A global study of bottled water consumption over 12 years has shown a rapid increase in Low and middle income countries (LMICs) as compared to High Income countries (HICs). The dataset tries to connect the health risks, environmental risks, high expenditure and the necessary public investment to the issue of safe drinking water. This normalization of plastic drinking bottles includes the possibility of forever denying access to clean water to all the sections of society and induces danger to various ecosystems. It is now a common perception that state provided water is contaminated and unsafe for drinking, especially in LMICs. The sound is represented by plastic bottles sampled and played back at granular synthesis rates corresponding with global usage increases.",
+    "legendpath": "../../assets/data/legends_png/53_legend.png",
+    "zorder": 3100,
+    "maskpath": "../../assets/data/legends_png/53 Bottled water consumption_mask-01-Simplified.svg.json",
+    "order": "back",
+    "popdimensions": {
+      "x": 5972.31,
+      "y": 27.84,
+      "width": 1436.87,
+      "height": 596.72
+    },
+    "audiofile": "../../assets/audio/loops/53.mp3"
+  },
+  "54": {
+    "ch": "ch6",
+    "id": "54",
+    "title": "Plastic bottled water",
+    "desc": "A study by researchers at the State University of New York in 2018 tested bottled water samples for the presence of microplastic. It involved 11 bottled water brands (Aqua, Aquafina, Bisleri, Dasani, E-Pura, Evian, Gerolsteiner, Minalba, Nestle Pure Life, San Pellegrino, and Wahaha) across nine countries [China, USA, Brazil, India, Indonesia, Mexico, Lebanon, Germany, and Thailand] countries. The data was then analyzed for the presence of microplastics and it was found that 93% of the samples tested had some form of microplastic contamination. The sound is represented by a recording of plastic water bottles which leave traces of microscopic plastics in water.",
+    "legendpath": "../../assets/data/legends_png/54_legend.png",
+    "zorder": 3200,
+    "maskpath": "../../assets/data/legends_png/54_ Platic bottled water_mask-01-simplified.svg.json",
+    "speciallegend": "../../assets/data/legends_png/54_ Platic bottled water_revised_legend_specialcase.svg.json",
+    "specialmask": "../../assets/data/legends_png/54_ Platic bottled water_revised_mask_specialcase.svg.json",
+    "order": "front",
+    "popdimensions": {
+      "x": 6527.89,
+      "y": 363.027,
+      "width": 1271.93,
+      "height": 244.983
+    },
+    "audiofile": "../../assets/audio/loops/54.mp3"
+  },
+  "55": {
+    "ch": "ch6",
+    "id": "55",
+    "title": "55 Water and River",
+    "desc": "55 description",
+    "legendpath": "../../assets/data/legends_png/55_legend.png",
+    "zorder": 3300,
+    "maskpath": "../../assets/data/legends_png/55_mask-rasterised-01.svg.json",
+    "popdimensions": {
+      "x": 6006.53,
+      "y": 379.63,
+      "width": 371.196,
+      "height": 222.781
+    },
+    "audiofile": "../../assets/audio/loops/54.mp3"
+  },
+  "58": {
+    "ch": "ch7",
+    "id": "58",
+    "title": "Area of hypoxia in Gulf of Mexico",
+    "desc": "A dead zone is a hypoxic area in the world’s oceans and large lakes. Hypoxia is a condition where the dissolved oxygen level in the water is less than 2 milligrams per litre of water (2mg/l).The Gulf of Mexico is an ocean basin largely surrounded by the North American continent. The region undergoes a seasonal hypoxia due to various processes.  Using mulitple technologies such as satellite monitoring, modelling studies, sampling of water column, sediment record studies, the US based National Oceanic and Atmospheric Administration conducted an extensive study between 1985 and 2013 to understand the occurence of hypoxia in the Gulf of Mexico. Since the 1950s, the duration of and the area under hypoxia has increased. Every summer, the area under hypoxia covers an area of about 15,000 sq km. A study shows that excess nutrients from untreated sewage waste or from fertilizers are causing the hypoxia. The sound is represented by a manipulated field recording of the Mississippi river, cascading into a manipulated field recording of the Gulf of Mexico.",
+    "legendpath": "../../assets/data/legends_png/58_legend.png",
+    "zorder": 3400,
+    "maskpath": "../../assets/data/legends_png/58 Area of hypoxia in Gulf of mexico_mask-01.svg.json",
+    "popdimensions": {
+      "x": 6579.85,
+      "y": 29.65,
+      "width": 921.082,
+      "height": 428.24
+    },
+    "audiofile": "../../assets/audio/loops/58.mp3"
+  },
+  "60": {
+    "ch": "ch7",
+    "id": "60",
+    "title": "Fukushima PBFT radionuclides",
+    "desc": "The Fukushima Daiichi Nuclear Power Plant disaster of 2011 caused a catastrophic chain of events leading to at least 20,000 direct deaths. Hundreds of thousands of people had to be evacuated from their homes. Apart from major health risks, the Fukushima accident caused the contamination of large areas that were, and partly still are used for agricultural purposes. Tests were performed on vegetables and meat to find out the amount of radiocesium, a radioactive isotope of Caesium, and it was discovered that most meat and vegetables were contaminated with the isotopes due to bioaccumulation. Import restrictions were placed on Fukushima. The Pacific Blue Fin Tuna is a favourite amongst fish eaters in the USA. It is a predatory, migratory species of the tuna that travels from the Japanese to California waters. A study was conducted shortly after the disaster to detect the amount of radionuclides in the Pacific Blue Fin Tuna. Studies conducted on 15 migratory Pacific Blue-Fin Tuna Thunnus orientalis caught off the coast of San Diego, California in August 2011 showed that the population was contaminated with Cesium-134 and higher levels of Cesium-137. This attracted intense media coverage and led to widespread public concern over the drift of radioactive contamination all the way from Japan to North America. The sound is represented by thematic notes repeat corresponding to Cs134 and Cs137 which are byproducts of nuclear power plants.",
+    "legendpath": "../../assets/data/legends_png/60_legend.png",
+    "zorder": 3500,
+    "maskpath": "../../assets/data/legends_png/60 Fukushima PBFT radionuclides_mask-01-simplified.svg.json",
+    "order": "back",
+    "popdimensions": {
+      "x": 6695.52,
+      "y": 36.5,
+      "width": 2063.08,
+      "height": 617.5
+    },
+    "audiofile": "../../assets/audio/loops/60.mp3"
+  },
+  "63": {
+    "ch": "ch7",
+    "id": "63",
+    "title": "Sound Pollution",
+    "desc": "This data set is based on a 2015 experiment that took place in a US lab in response to a hypothesis made in regards to how sound pollution in the ocean is affecting aquatic lifeforms. Marine life mainly depends on the use of sound for their survival. The ecological footprint of human activity is huge and the effects of which are in dire need of acknowledgement and treatment. Recordings of a boat engine in the open were recorded.This recorder played sounds between frequencies of 20 to 2,000 Hz. Multiple recordings taken at several distances from the hydrophone (underwater microphone) with a built-in amplifier to the boat engine, represented noise levels from very loud at 4 m to only moderately audible at 20 m. The fish were kept in an experimental aquaria constructed of glass in an insulated environmentally controlled room to minimize external noise, with timed lighting, allowing fish to remain on a natural light-dark cycle & were played underwater by an underwater speaker powered by an amplifier. After exposure, cortisol was extracted from each different fish to determine stress response to different noise levels that they were exposed to. A rise in cortisol concentration showed clearly that the recorded boat engine noise was increasing their stress levels. The experiment proves how intermittent noise is stressful to fish in comparison to continuous noise. The sound is represented by a sonar field recording mixed with submarine synthesizer sounds create a representation of underwater sound pollution.",
+    "legendpath": "../../assets/data/legends_png/63_legend.png",
+    "zorder": 3600,
+    "maskpath": "../../assets/data/legends_png/63 Sound Pollution_mask-01-01.svg.json",
+    "popdimensions": {
+      "x": 6693,
+      "y": 20.18,
+      "width": 365.24,
+      "height": 266.13
+    },
+    "audiofile": "../../assets/audio/loops/63.mp3"
+  },
+  "64": {
+    "ch": "ch7",
+    "id": "64",
+    "title": "Plankton",
+    "desc": "64 description",
+    "legendpath": "../../assets/data/legends_png/64_legend.png",
+    "zorder": 3700,
+    "maskpath": "../../assets/data/legends_png/64_plankton_mask-01.svg.json",
+    "order": "front",
+    "popdimensions": {
+      "x": 6247.56,
+      "y": 66.48,
+      "width": 2902.1,
+      "height": 537.84
+    },
+    "audiofile": "../../assets/audio/loops/63.mp3"
+  },
+  "48": {
+    "id": "48",
+    "title": "48_class 1 cities _sewage",
+    "desc": "48_class 1 cities _sewage",
+    "legendpath": "../../assets/data/legends_png/48_legend.png",
+    "zorder": 3150,
+    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg",
     "popdimensions": 
       {
-        "x": 5653.24,
-        "y": 227.399,
-        "width": 366.27,
-        "height": 401.66
+        "x": 6018.7,
+        "y": 212.2,
+        "width": 903.035,
+        "height": 266.2 
       }
     ,
-    "audiofile": "../../assets/audio/loops/30.mp3"
+    "audiofile": "../../assets/audio/loops/48.mp3"
   }
+
 }
