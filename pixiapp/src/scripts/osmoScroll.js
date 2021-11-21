@@ -29,8 +29,9 @@ import { Cull } from '@pixi-essentials/cull';
 import {} from './audio/backgroundAudio';
 import {} from './data/dataSvg';
 import {} from './data/legendSvg';
-import {} from './interactions/navigation';
-import {} from './interactions/panAndZoom';
+import {} from './interactions/navigationInteraction';
+import {} from './interactions/panAndZoomInteraction';
+import {} from './interactions/legendInteraction';
 import {} from './interactions/speakerMicroInteraction';
 //
 window.osmo = window.osmo || {};
@@ -76,7 +77,7 @@ osmo.Scroll = class {
     this.pixiWidth;
     this.splashWidth;
     this.mouseLoc;
-    this.loaded = {  'HQimage' : false,  'svgdata': true  };
+    this.loaded = {  'HQimage' : false,  'svgdata': false  };
     this.pixiScale = 2;
     this.Volume_db = { min : -12,  max: 6 };
     this.refPopupSize = { width: 1440.0,  height: 821.0  };
@@ -123,13 +124,15 @@ osmo.Scroll = class {
     osmo.bgaudio.loadAudio();
 
     // INTERACTIONS
-    osmo.pzinteract = new osmo.panAndZoom();
+    osmo.pzinteract = new osmo.panAndZoomInteraction();
     osmo.pzinteract.init();
     osmo.navinteract = new osmo.navigationInteraction();
     osmo.navinteract.init();
+    osmo.legendinteract = new osmo.legendInteraction();
+    osmo.legendinteract.init();
+          
 
-    
-
+    //
     // Custom mouse hide/show
     // HEAD ACTIONS
     $('.head-actions').mouseenter(function(){
@@ -194,6 +197,7 @@ osmo.Scroll = class {
    */
   initPixi(){
     let self = this;
+
     // Setup PIXI canvas
     let canvas = document.getElementById('main-scroll-canvas');
     self.pixiHeight = canvas.offsetHeight;
@@ -337,7 +341,8 @@ osmo.Scroll = class {
         self.onScrollData(HQpath);
         //
       });
-
+    //
+    //
   }
 
 
@@ -364,37 +369,38 @@ osmo.Scroll = class {
     // LEGEND
     osmo.legendsvg = new osmo.legendSvg();
     osmo.legendsvg.init();
-    //osmo.legendinteract = new osmo.legendInteraction();
+    //
+    
+    let waitTillTracksLoad = setInterval(function(){
+      let allTracksCount = osmo.bgaudio.allTracksCount;
+      let loadedHQimage = osmo.scroll.loaded.HQimage;
+      let loadedSVGdata = osmo.scroll.loaded.svgdata;
+      //
+      if(allTracksCount == osmo.bgaudio.allBackgroundTrackPaths.length &&  loadedHQimage && loadedSVGdata){
+        console.log('Total tracks loaded = ' + allTracksCount);
+        //
+        clearInterval(waitTillTracksLoad);
+        //$('#start-btn').show();
+        //
+        //
+        osmo.navinteract.loadNav();
+        osmo.navinteract.initNav();
+        //
+        osmo.legendinteract.initMaskInteractions();
+        //
+        window.loading_screen.finish();
+        osmo.bgaudio.start();
+        //
+        ///document.body.style.cursor = 'none';
+        ///$('.cursor-pointer-wrapper').css('opacity', 1);
+        //
+        //
+      }else{
+        console.log('Waiting for data to complete loading -- allTracks: ' + allTracksCount + ' HQimage: ' + loadedHQimage + ' SVGdata: ' + loadedSVGdata );
+      }
+    },500);
 
-    /*
-    if(allTracksCount == 8){
-      //
-      $('#status').text('Loaded');
-      $('#status').show();
-      $('#start-btn').show();
-      setInterval(function(){ $('#status').hide();  }, 2000);
-    }else{
-      //
-      $('#start-btn').hide();
-      let waitTillTracksLoad = setInterval(function(){
-        if(allTracksCount == 8 && loaded.HQimage && loaded.svgdata){
-          console.log('Total tracks loaded = ' + allTracksCount);
-          //
-          clearInterval(waitTillTracksLoad);
-          $('#status').text('Loaded');
-          $('#status').show();
-          $('#start-btn').show();
-          if(performance_test){
-            $('#performance-stats table').append('<tr> <td>App Ready</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
-            $('#performance-stats table').append('<tr> <td>-----</td> <td>-----</td> <td>-----</td></tr>');
-          }
-          setInterval(function(){ $('#status').hide();  }, 2000);
-        }else{
-          console.log('Waiting for data to complete loading -- allTracks: ' + allTracksCount + ' HQimage: ' + loaded.HQimage + ' SVGdata: ' + loaded.svgdata );
-        }
-      },2000);
-    }
-    */
+    //
     //backgroundContainer.sendToBack();
     //
     //osmo.datasvg.backgroundLayer.sendToBack();

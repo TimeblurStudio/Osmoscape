@@ -33,6 +33,7 @@ osmo.backgroundAudio = class {
     this.currentTrack;
     this.introTrack;
     this.baseTracks = {};
+    this.allBackgroundTrackPaths = [];
     //
   }
 
@@ -49,12 +50,14 @@ osmo.backgroundAudio = class {
   loadAudio(){
     console.log('osmo.backgroundAudio - loadAudio');
     //
+    let self = this;
     let base_path = './assets/audio/tracks/Baseline_';
     let urls = {};
     // Load base tracks
     for(let i=0; i < 7; i++){
       let index = (i+1);
       let path = base_path + index + '.mp3';
+      this.allBackgroundTrackPaths.push(path);
       //
       //
       let bplayer = new this.TONE.Player({
@@ -63,8 +66,8 @@ osmo.backgroundAudio = class {
         fadeOut: 10,
         fadeIn: 2,
         onload: function(){
-          this.allTracksCount++;
-          console.log(this.allTracksCount);
+          self.allTracksCount++;
+          console.log(self.allTracksCount + ' Loaded audio file: ' + path);
         }
       }).toMaster();
       //
@@ -73,16 +76,18 @@ osmo.backgroundAudio = class {
     }
     //
     // the intro player
+    let intro_path = './assets/audio/loops/-1.mp3';
+    this.allBackgroundTrackPaths.push(intro_path);
     this.introTrack = new this.TONE.Player({
-      url: './assets/audio/loops/-1.mp3',
+      url: intro_path,
       loop: true,
       loopStart: 0,
       loopEnd: 20,
       fadeOut: 4,
       fadeIn: 2,
       onload: function(){
-        allTracksCount++;
-        console.log(this.allTracksCount);
+        self.allTracksCount++;
+        console.log(self.allTracksCount + ' Loaded audio file: ' + intro_path);
       }
     }).toMaster();
     //

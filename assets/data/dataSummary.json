@@ -1,6 +1,6 @@
 {  
-  "0a": {
-    "id": "sha512-kicDo0A",
+  "-1": {
+    "id": "-1",
     "title": "water structure",
     "desc": "lp",
     "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified-new.svg",
@@ -15,9 +15,9 @@
       }
     ]
   },
-  "0b": {
+  "0": {
     "ch": "ch1",
-    "id": "0b",
+    "id": "0",
     "title": "Human DNA",
     "desc": "Deoxyribonucleic acid (DNA), which contains survival instructions necessary for most life and reproduction, depends on water for its structure. This paired chain of billions of nucleotides relies on the presence of polar water molecules around it to maintain its familiar double helix form. Water ensures that our genetic information is packed tightly together, only to be released for metabolic processes.  As with DNA, water enables the folding process in proteins, attracting and repelling different parts of the linear chain of amino acids to form all proteins. The sound is represented by a sound evoking typing, the pitch and rhythm of which are both determined by a human genetic sequence. In unison with a synthesized interpretation of human chromosome 1, manipulated.",
     "legendpath": "../../assets/data/legends/0_human_dna_legend-01-Simplified.svg",

@@ -168,11 +168,8 @@ osmo.legendSvg = class {
   loadDatasets(){
     let self = this;
     //
-    let count = 0;
-    for (let id in this.datasets){
-      count++;
-      setTimeout(function(){self.loadDataset(id, true);}, 10*count);
-    }
+    for (let id in this.datasets)
+      self.loadDataset(id, true);
     //
     //
     Promise.all(this.earlySVGDataPromises).then((values) => {
@@ -181,19 +178,7 @@ osmo.legendSvg = class {
       setTimeout(function(){
         console.log('Loaded all datasets');
         osmo.scroll.loaded.svgdata = true;
-        if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata){
-          //
-          osmo.navinteract.loadNav();
-          osmo.navinteract.initNav();
-          //
-          //
-          window.loading_screen.finish();
-          osmo.bgaudio.start();
-          //
-          ///document.body.style.cursor = 'none';
-          ///$('.cursor-pointer-wrapper').css('opacity', 1);
-          //
-        }
+        //
         ///self.correctMaskOrder();
         //
       }, 4000);
@@ -286,47 +271,6 @@ osmo.legendSvg = class {
         //
         mask.scale.set(maskScale, maskScale);
         mask.x = osmo.scroll.pixiWidth*3/4;
-        //
-        //
-        mask.interactive = true;
-        mask.buttonMode = true;
-        mask.on('pointerdown', function(){
-          //
-          console.log('Clicked inside hitArea for mask-'+num);
-          //showLegend(num);
-          //
-        });
-        mask.on('pointerover', function(){
-          //
-          console.log('Hover on mask-'+num);
-          osmo.scroll.mainScroll['part1'].alpha = 0.1;
-          osmo.scroll.mainScroll['part2'].alpha = 0.1;
-          //
-          for(let i=0; i<self.maskAreas.length; i++)
-            self.maskAreas[i].alpha = 0;
-          mask.alpha = self.maskAlpha;
-          //
-          self.legendContainer.visible = true;
-          for(let i=0; i<self.legendFiles.length; i++)
-            if(self.legendFiles[i].visible)
-              self.legendFiles[i].visible = false;
-          //
-          self.popupBBoxes[num].legend.visible = true;
-        });
-        mask.on('pointerout', function(){
-          //
-          console.log('Hover out of mask-'+num);
-          osmo.scroll.mainScroll['part1'].alpha = 1;
-          osmo.scroll.mainScroll['part2'].alpha = 1;
-          for(let i=0; i<self.maskAreas.length; i++)
-            self.maskAreas[i].alpha = self.maskAlpha;
-          //
-          self.legendContainer.visible = false;
-          for(let i=0; i<self.legendFiles.length; i++)
-            if(self.legendFiles[i].visible)
-              self.legendFiles[i].visible = false;
-          //
-        });
         //
         self.popupBBoxes[num]['mask'] = mask;
         self.maskContainer.addChild(mask);
@@ -457,7 +401,7 @@ osmo.legendSvg = class {
                  + ' ' + svgEle.getAttribute('y')
                  + ' ' + svgEle.getAttribute('width') 
                  + ' ' + svgEle.getAttribute('height');
-    console.log(num + ' old viewport: ' + viewPort)
+    console.log(num + ' old viewport: ' + viewPort);
     let currentViewPort_x = viewPort.split(' ')[0];
     let currentViewPort_y = viewPort.split(' ')[1];
     let currentViewPort_width = viewPort.split(' ')[2];
@@ -481,7 +425,7 @@ osmo.legendSvg = class {
       _x *= rs; _y *= rs;
       _width *= rs;
       _height *= rs;
-      console.log(num + ' popupBBoxes: '+ _x + ' ' + _y + ' ' + _width + ' ' + _height)
+      console.log(num + ' popupBBoxes: '+ _x + ' ' + _y + ' ' + _width + ' ' + _height);
       //
       midX = _x + _width/2;
       let xRange = 2000;
@@ -511,6 +455,47 @@ osmo.legendSvg = class {
     //
     svgxml = svgEle.outerHTML;
     return [svgxml, newViewPort_x];
+  }
+
+
+  /**
+   * ------------------------------------------------
+   * Highlight a legend on hover
+   * ------------------------------------------------
+   */
+  highlightLegend(id, mask){
+    osmo.scroll.mainScroll['part1'].alpha = 0.1;
+    osmo.scroll.mainScroll['part2'].alpha = 0.1;
+    //
+    for(let i=0; i<this.maskAreas.length; i++)
+      this.maskAreas[i].alpha = 0;
+    mask.alpha = this.maskAlpha;
+    //
+    this.legendContainer.visible = true;
+    for(let i=0; i<this.legendFiles.length; i++)
+      if(this.legendFiles[i].visible)
+        this.legendFiles[i].visible = false;
+    //
+    this.popupBBoxes[id].legend.visible = true;
+  }
+  
+  /**
+   * ------------------------------------------------
+   * Remove highlighted legend
+   * ------------------------------------------------
+   */
+  removeHighlight(){
+    //
+    osmo.scroll.mainScroll['part1'].alpha = 1;
+    osmo.scroll.mainScroll['part2'].alpha = 1;
+    for(let i=0; i<this.maskAreas.length; i++)
+      this.maskAreas[i].alpha = this.maskAlpha;
+    //
+    this.legendContainer.visible = false;
+    for(let i=0; i<this.legendFiles.length; i++)
+      if(this.legendFiles[i].visible)
+        this.legendFiles[i].visible = false;
+    //
   }
 
 };

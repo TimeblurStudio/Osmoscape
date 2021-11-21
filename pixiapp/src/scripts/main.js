@@ -65,6 +65,12 @@ window.onload = function() {
   $('#start-btn').on('click', function(){
     osmo.scroll.start();
   });
+
+  //
+  //
+  $(window).on('resize', function(){
+    window.location.reload(true);
+  });
 };
 
 
