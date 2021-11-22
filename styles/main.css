@@ -328,6 +328,7 @@ body {
 }
 
 .btn-round-bright {
+  cursor: pointer;
   color: #212529 !important;
   background-color: #f8f9fa !important;
   border-color: #f8f9fa !important;
@@ -347,8 +348,15 @@ body {
   border-color: #f8f9fa;
 }
 
-.btn {
+.btn-filled {
   cursor: pointer;
+  color: #eee;
+  background-color: #b97941;
+  border-color: none;
+}
+
+.btn {
+  outline: none;
   display: inline-block;
   font-weight: 400;
   text-align: center;

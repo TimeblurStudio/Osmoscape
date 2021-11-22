@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Osmoscape Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js?v=df53fc4" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css?v=df53fc4" integrity="sha512-CIYsJUa3pr1eoXlZFroEI0mq0UIMUqNouNinjpCkSWo3Bx5NRlQ0OuC6DtEB/bDqUWnzXc1gs2X/g52l36N5iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js?v=df53fc4" integrity="sha512-RWosNnDNw8FxHibJqdFRySIswOUgYhFxnmYO3fp+BgCU7gfo4z0oS7mYFBvaa8qu+axY39BmQOrhW3Tp70XbaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body>
+    <div id="aplayer"></div>
+  </body>
+  <script>
+    //
+    let files = [];
+    let dataURL = "../../assets/data/dataSummary.json";
+    if(location.hostname.match('osmoscape.com'))
+      // Changing relative path when deployed on app.osmoscape.com
+      dataURL = dataURL.substring(3);
+    console.log('dataURL: ' + dataURL);
+    $.getJSON(dataURL, function( data ) {
+      console.log('Loaded datasets summary');
+      //
+      datasets = data;
+      for (let id in datasets) {
+        if (datasets.hasOwnProperty(id)) {
+          console.log('Adding sound file for : ' + id);
+          let title = datasets[id].title;
+          let sound_file_path = datasets[id].audiofile.substring(3);
+          if(location.hostname.match('osmoscape.com'))
+            // Changing relative path when deployed on app.osmoscape.com
+            sound_file_path = sound_file_path.substring(3);
+          files.push(
+          {
+            name: title,
+            url: sound_file_path
+          });
+        }
+      }
+      //
+
+      //
+      const ap = new APlayer({
+          container: document.getElementById('aplayer'),
+          listFolded: false,
+          loop: 'one',
+          listMaxHeight: 90,
+          audio: files
+        });
+    //
+    //
+    });
+    //
+  </script>
+</html>

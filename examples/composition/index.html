@@ -4,19 +4,20 @@
     <meta name="description" content="Osmoscape" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="Lib/Tone.js?v=615d239"></script>
-    <script src="Lib/p5.js?v=615d239"></script>
-    <script src="Lib/p5.svg.js?v=615d239"></script>
-    <script src="Atom.js?v=615d239"></script>
-    <script src="Molecule.js?v=615d239"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js?v=615d239" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js?v=615d239"></script>
-    <script src="https://cdn.jsdelivr.net/npm/waveform-data@3.3.4/dist/waveform-data.js?v=615d239"></script>
+    <script src="Lib/Tone.js?v=df53fc4"></script>
+    <script src="Lib/p5.js?v=df53fc4"></script>
+    <script src="Lib/p5.svg.js?v=df53fc4"></script>
+    <script src="Atom.js?v=df53fc4"></script>
+    <script src="Molecule.js?v=df53fc4"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js?v=df53fc4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js?v=df53fc4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/waveform-data@3.3.4/dist/waveform-data.js?v=df53fc4"></script>
 
-    <link rel="stylesheet" href="main.css?v=615d239">
+    <link rel="stylesheet" href="main.css?v=df53fc4">
 
 
     <script>
+
       /**
        * ------------------------------------------------
        * AUTHOR:  Mike Cj (mikecj184)
@@ -28,6 +29,8 @@
       var allWaveformData = {};
       const dataPicks = {};
       const dataPickedPositions = {};
+      var tapTimeout;
+      var buffers = null;
       //
       //
       var indexedDBavailable = true;
@@ -55,53 +58,6 @@
       var mols=[];
       //
       let files = [
-        "../../assets/audio/loops/-1.mp3",
-        "../../assets/audio/loops/0.mp3",
-        "../../assets/audio/loops/1.mp3",
-        "../../assets/audio/loops/4.mp3",
-        "../../assets/audio/loops/5.mp3",
-        "../../assets/audio/loops/6.mp3",
-        "../../assets/audio/loops/7.mp3",
-        "../../assets/audio/loops/8.mp3",
-        "../../assets/audio/loops/9.mp3",
-        "../../assets/audio/loops/10.mp3",
-        "../../assets/audio/loops/11.mp3",
-        "../../assets/audio/loops/12.mp3",
-        "../../assets/audio/loops/13.mp3",
-        "../../assets/audio/loops/14.mp3",
-        "../../assets/audio/loops/15.mp3",
-        "../../assets/audio/loops/16.mp3",
-        "../../assets/audio/loops/17.mp3",
-        "../../assets/audio/loops/19.mp3",
-        "../../assets/audio/loops/20.mp3",
-        "../../assets/audio/loops/21.mp3",
-        "../../assets/audio/loops/23.mp3",
-        "../../assets/audio/loops/24.mp3",
-        "../../assets/audio/loops/25.mp3",
-        "../../assets/audio/loops/28.mp3",
-        "../../assets/audio/loops/29.mp3",
-        "../../assets/audio/loops/30.mp3",
-        "../../assets/audio/loops/32.mp3",
-        "../../assets/audio/loops/33.mp3",
-        "../../assets/audio/loops/35.mp3",
-        "../../assets/audio/loops/36.mp3",
-        "../../assets/audio/loops/37.mp3",
-        "../../assets/audio/loops/38.mp3",
-        "../../assets/audio/loops/40.mp3",
-        "../../assets/audio/loops/41.mp3",
-        "../../assets/audio/loops/43.mp3",
-        "../../assets/audio/loops/44.mp3",
-        "../../assets/audio/loops/45.mp3",
-        "../../assets/audio/loops/46.mp3",
-        "../../assets/audio/loops/48.mp3",
-        "../../assets/audio/loops/50.mp3",
-        "../../assets/audio/loops/52.mp3",
-        "../../assets/audio/loops/53.mp3",
-        "../../assets/audio/loops/54.mp3",
-        "../../assets/audio/loops/58.mp3",
-        "../../assets/audio/loops/60.mp3",
-        "../../assets/audio/loops/62.mp3",
-        "../../assets/audio/loops/63.mp3",
         "../../assets/audio/tracks/Baseline_1.mp3",
         "../../assets/audio/tracks/Baseline_2.mp3",
         "../../assets/audio/tracks/Baseline_3.mp3",
@@ -110,10 +66,31 @@
         "../../assets/audio/tracks/Baseline_6.mp3",
         "../../assets/audio/tracks/Baseline_7.mp3"
       ];
-      var tapTimeout;
-      var buffers = new Tone.Buffers(files,{
-        "onload":soundsLoaded
+      //
+      console.log('Loading dataSummary file');
+      //
+      let dataURL = "../../assets/data/dataSummary.json";
+      console.log('dataURL: ' + dataURL);
+      $.getJSON(dataURL, function( data ) {
+        console.log('Loaded datasets summary');
+        //
+        datasets = data;
+        for (let id in datasets) {
+          if (datasets.hasOwnProperty(id)) {
+            console.log('Adding sound file for : ' + id);
+            let sound_file_path = datasets[id].audiofile;
+            files.push(sound_file_path);
+          }
+        }
+        //
+        //
+        buffers = new Tone.Buffers(files,{
+          "onload":soundsLoaded
+        });
+        //
+        //
       });
+      //
       //
       function getBaseline(num){
         return (files.length-1)-(7-num);
@@ -487,7 +464,7 @@
 
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZ2Q19RXT0&v=615d239"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZ2Q19RXT0&v=df53fc4"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}

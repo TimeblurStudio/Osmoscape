@@ -531,14 +531,24 @@ function maskLoad(title, polygons, num, zorder) {
 
 
         mask.scale.set(maskScale, maskScale);
-        mask.x = pixiWidth * 3 / 4;
+
+        if (num === '-1') {
+          mask.x = (9945 - 9693) * maskScale + pixiWidth * 3 / 4;
+        } else if (num === '0') {
+          mask.x = (9945 - 9601) * maskScale + pixiWidth * 3 / 4;
+        } else if (num === '64') {
+          mask.x = (9945 - 9459) * maskScale + pixiWidth * 3 / 4;
+        } else {
+          mask.x = 495 * maskScale + pixiWidth * 3 / 4;
+        }
+
         mask.zIndex = zorder; //
 
         mask.interactive = true;
         mask.buttonMode = true;
         mask.on('pointerdown', function () {
           //
-          console.log('Clicked inside hitArea for mask-' + num);
+          con0ole.log('Clicked inside hitArea for mask-' + num);
           showLegend(num); //
         });
         mask.on('pointerover', function () {
@@ -665,7 +675,19 @@ function legendLoad(title, svgxml, svgpath, num, frompath) {
         console.log('LEGEND SCALE: ' + legendScale); //
 
         if (!frompath) legend.x = newViewPort_x * lms * svgScale + pixiWidth * 3 / 4;else {
-          legend.x = popupBBoxes[num].dimensions.x * (pixiHeight / 623.5) + pixiWidth * 3 / 4;
+          var offset = 0;
+
+          if (num === '-1') {
+            offset = 9945 - 9683;
+          } else if (num === '0') {
+            offset = 9945 - 9601;
+          } else if (num === '64') {
+            offset = 9945 - 9459;
+          } else {
+            offset = 495;
+          }
+
+          legend.x = (popupBBoxes[num].dimensions.x + offset) * (pixiHeight / 623.5) + pixiWidth * 3 / 4;
           legend.y = popupBBoxes[num].dimensions.y * (pixiHeight / 623.5); //HH
           //legend.x = pixiWidth*3/4;
         } //
@@ -1149,9 +1171,9 @@ function initSVGscroll(_url) {
   //Change the sprite's position
   // NOTE: Offset required since -1 and 0 datasets were added at the end 
   //       (effectively increasing the canvas width)
+  //  let offset = 1028;
 
-  var offset = 1028;
-  scroll_01.x = -1 * offset * mainScrollScale + pixiWidth * 3 / 4;
+  scroll_01.x = pixiWidth * 3 / 4;
   scroll_02.x = scroll_01.x + scroll_01.width; //
   //Add the scroll to the stage
 

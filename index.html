@@ -11,17 +11,17 @@
     <link rel="apple-touch-icon" href="assets/images/osmo_icon.png">
 
     <!-- stylesheet Links -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.8.12">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.8.12" rel="stylesheet">
-    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.8.12">
-    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.8.12">
-    <link rel="stylesheet" href="styles/main.css?v=0.8.12">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.3.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.3.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.3.0">
+    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.3.0">
+    <link rel="stylesheet" href="styles/main.css?v=0.3.0">
 
 
     <!-- scripts -->
-    <script src="scripts/modernizr.js?v=0.8.12"></script>
-    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.8.12"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fpsmeter/0.3.1/fpsmeter.min.js?v=0.8.12" integrity="sha512-60sOFuolHKjKWm4IcltFrnIvq2slKdPjz1i9WzZMzLDaYSUuwhvxg4Ku/eBnFejYJBuHce9hSvcngBSK9pEV1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="scripts/modernizr.js?v=0.3.0"></script>
+    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.3.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fpsmeter/0.3.1/fpsmeter.min.js?v=0.3.0" integrity="sha512-60sOFuolHKjKWm4IcltFrnIvq2slKdPjz1i9WzZMzLDaYSUuwhvxg4Ku/eBnFejYJBuHce9hSvcngBSK9pEV1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
     <!--[if IE]>
@@ -30,11 +30,7 @@
 
     <img id="splash" src="assets/images/OsmoSplash.png" alt="Splash image" height="1" style="display: none;">
 
-    <? Scroll Images ?>
-    <img id="HQscroll" src="" alt="High Quality scroll" height="1" style="display: none;">
-    <img id="RQscroll" src="" alt="Retina Quality scroll" height="1" style="display: none;">
-    <img id="MQscroll" src="" alt="Mobile Quality scroll" height="1" style="display: none;">
-
+    
     <? Custom Cursor ?>
     <div id="cursor">
         <div class="cursor-pointer-wrapper">
@@ -54,12 +50,11 @@
             </div>
         </div>
     </div>
-        <div>
-            <br>
-            <h2 style="color:white" id="text"></h2>
-        </div>
-    <? Scroll Section - PaperJS canvas ?>
-    <canvas id="main-scroll-canvas" resize="true" hidpi="off" data-paper-hidpi="off"></canvas>
+    <div style='position: absolute; top: 0; left: 0;'>
+        <h2 style="color:white" id="chapter-text"></h2>
+    </div>
+    <? Scroll Section - PixiJS canvas ?>
+    <canvas id="main-scroll-canvas" resize="true"></canvas>
 
     <div id="focused-info" style="display: none;"> <!-- style="right: 0px !important;z-index: 100000000;"-->
         <!--  -->
@@ -82,7 +77,7 @@
 
         <!--  -->
         <div id="focused-cta" style="display:none;">
-            <button class="btn" id="popcancel" style="font-size: 32px; color: #24292b; border-radius: 50%; background: white; height: 60px; width: 60px;">&#x2715;</button>
+            <button class="btn" id="popcancel" style="cursor: pointer; font-size: 32px; color: #24292b; border-radius: 50%; background: white; height: 60px; width: 60px;">&#x2715;</button>
         </div>
 
     </div>
@@ -148,7 +143,7 @@
     </div>
 
 
-    <div class="vinfo" >v<span id="versionid">0.8.12</span></div>
+    <div class="vinfo" >v<span id="versionid">0.3.0</span></div>
 
     <!--
         Additional menu items required -
@@ -177,7 +172,7 @@
     </div>
 
     <!-- build:js scripts/bundle.js -->
-    <script src="scripts/bundle.js?v=0.8.12"></script>
+    <script src="scripts/bundle.js?v=0.3.0"></script>
     <!-- endbuild -->
     <!--script type="text/javascript">
         javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
@@ -187,7 +182,7 @@
         console.log(window.version);
     </script-->
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZ2Q19RXT0&v=0.8.12"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZ2Q19RXT0&v=0.3.0"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
