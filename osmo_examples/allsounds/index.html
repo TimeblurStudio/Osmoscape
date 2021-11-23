@@ -2,6 +2,12 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Himanshu Erande (@rndexe)">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
     <title>Osmoscape Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -12,12 +18,15 @@
     <div id="aplayer"></div>
   </body>
   <script>
+    /**
+     * ------------------------------------------------
+     * AUTHOR:  Himanshu Erande (rndexe)
+     * This code is licensed under MIT license (see LICENSE file for more details)
+     * ------------------------------------------------
+     */
     //
     let files = [];
     let dataURL = "../../assets/data/dataSummary.json";
-    if(location.hostname.match('osmoscape.com'))
-      // Changing relative path when deployed on app.osmoscape.com
-      dataURL = dataURL.substring(3);
     console.log('dataURL: ' + dataURL);
     $.getJSON(dataURL, function( data ) {
       console.log('Loaded datasets summary');
@@ -27,10 +36,7 @@
         if (datasets.hasOwnProperty(id)) {
           console.log('Adding sound file for : ' + id);
           let title = datasets[id].title;
-          let sound_file_path = datasets[id].audiofile.substring(3);
-          if(location.hostname.match('osmoscape.com'))
-            // Changing relative path when deployed on app.osmoscape.com
-            //sound_file_path = sound_file_path.substring(3);
+          let sound_file_path = datasets[id].audiofile
           files.push(
           {
             name: title,

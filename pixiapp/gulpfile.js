@@ -78,25 +78,18 @@ function newDeploy() {
   return ghdeploy.publish('dist', function(err) {console.log('gh-pages publish');console.log(err);})
 };
 
+//
+//
+//
+//
 function copyAssets(){
   return src('../assets/**/*')
     .pipe(dest('dist/assets'));
 }
-//
-//
 function copyDash(){
   return src('../dash/**/*')
             .pipe(dest('dist/dash/'));
 }
-//
-function commitDash(){
-  return src('../dash/add_publish/index.html')
-            .pipe(version(commitConfig))
-            .pipe(dest('dist/dash/add_publish/'));
-}
-//
-//
-
 function copyAllExamples(){
   let tasks = [];
   tasks.push(src(['../osmo_examples/**/*', '!../osmo_examples/pixi', '!../osmo_examples/pixi/**'])
@@ -109,20 +102,30 @@ function copyAllExamples(){
                   .pipe(dest('dist/examples/pixi/navigation/')));
   return merge(tasks);
 }
-function cleanExamplesSrc(){
-  return del([
-    // here we use a globbing pattern to match everything inside the `mobile` folder
-    'dist/examples/pixi/**/*',
-    // we don't want to clean this file though so we negate the pattern
-    '!dist/examples/pixi/legend_popup/dist',
-    '!dist/examples/pixi/legend_popup_svg/dist',
-    '!dist/examples/pixi/navigation/dist',
-  ]);
+function copySpecialLinks(){
+  let tasks = [];
+  tasks.push(src(['../osmo_examples/allsounds/**/*'])
+                  .pipe(dest('dist/all-sounds/')));
+  tasks.push(src(['../osmo_examples/paper/sound/**/*'])
+                  .pipe(dest('dist/radio-osmoscape/')));
+  tasks.push(src(['../osmo_examples/composition/**/*'])
+                  .pipe(dest('dist/nonlinear-composition/')));
+  return merge(tasks);
+}
+//
+//
+//
+//
+//
+function commitDash(){
+  return src('../dash/add_publish/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/dash/add_publish/'));
 }
 function commitallsounds(){
   return src('../osmo_examples/allsounds/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/all-sounds/'));
+            .pipe(dest('dist/examples/allsounds/'));
 }
 function commitanim(){
   return src('../osmo_examples/animation/index.html')
@@ -148,6 +151,21 @@ function commitsou(){
   return src('../osmo_examples/paper/sound/index.html')
             .pipe(version(commitConfig))
             .pipe(dest('dist/examples/paper/sound/'));
+}
+function commitspeicialallsounds(){
+  return src('../osmo_examples/allsounds/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/all-sounds/'));
+}
+function commitspecialsound(){
+  return src('../osmo_examples/allsounds/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/radio-osmoscape/'));
+}
+function commitspecialcomp(){
+  return src('../osmo_examples/allsounds/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/nonlinear-composition/'));
 }
 //
 //
@@ -346,6 +364,13 @@ const commitAllExamples = parallel(
   commitsou
 );
 
+const commitSpecialLinks = parallel(
+  commitspeicialallsounds,
+  commitspecialsound,
+  commitspecialcomp
+);
+
+
 const build = series(
   parallel(
     lint,
@@ -431,12 +456,12 @@ exports.deploy = series(
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_svg/']),
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
-  copyAllExamples, commitAllExamples, build, newDeploy);
+  copyAllExamples, commitAllExamples, copySpecialLinks, commitSpecialLinks, build, newDeploy);
 exports.serveDeploy = series(
   clean, copyAssets, copyDash, commitDash,
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_svg/']),
   shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
-  copyAllExamples, commitAllExamples, build,
+  copyAllExamples, commitAllExamples, copySpecialLinks, commitSpecialLinks, build,
   shell.task(['serve ./dist/ -p 8080'])
 );

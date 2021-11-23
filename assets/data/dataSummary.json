@@ -99,7 +99,7 @@
     "legendpath": "../../assets/data/legends/6 Baseline water stress legend-01.svg",
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
     "speciallegend": "../../assets/data/legends/6 Baseline water stress Layer4 Print legend_specialcase.svg",
-    "specialmask": "../../assets/data/legends/6 Baseline water stress Layer4 Print mask_specialcase.svg",
+    "specialmask": "../../assets/data/legends/6 Baseline water stress_mask-01_specialcase.svg",
     "order": "front",
     "audiofile": "../../assets/audio/loops/6 rev1.mp3",
     "popdimensions": [
@@ -290,6 +290,8 @@
     "desc": "Rising infant mortality in Kazakhstan and declining practice of breast feeding led to a study of breast milk by researcher Kim Hooper in February 1994. There were concerns about the presence of contaminants in breast milk. 92 first-time mothers with 2-8 week-old infants were chosen for the study.  The samples of milk were taken from seven different sites, chosen to reflect major agricultural, industrial and population centres in Kazakhstan. Other than samples of human breast milk, cow’s milk, fish from the region were also collected and tested for the presence of contaminants such as Organochlorine Pesticides (OC), Polychlorinated biphenyls (PCBs), Hexachlorocyclohexane and its isomers (HCH) and DDT and its metabolites. \nThe study found high levels of a pesticide called Beta-HCH. PCB toxicity was high in one of the sampled sites, Atyaru. Another pesticide DDE showed high levels in rural areas. The study helps in understanding how women and young children were the most affected in this ecological disaster. The brunt of disease and mortality are carried the most by vulnerable sections of the society. The sound is represented by a recording of a baby breastfeeding, manipulated and subtly combined with the sound of a Monsanto advertisement.",
     "legendpath": "../../assets/data/legends/19 Aral sea breast milk analytes_legend-01.svg",
     "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
+    "speciallegend": "../../assets/data/legends/19 Aral sea breast milk analytes_vector_legend_specialcase.svg",
+    "specialmask": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01_specialcase.svg",
     "popdimensions": [
       {
         "x": 5526.585000000028,
@@ -705,7 +707,7 @@
     "legendpath": "../../assets/data/legends/54_ Platic bottled water_legend-01.svg",
     "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01-simplified.svg",
     "speciallegend":"../../assets/data/legends/54_ Platic bottled water_revised_legend_specialcase.svg",
-    "specialmask":"../../assets/data/legends/54_ Platic bottled water_revised_mask_specialcase.svg",
+    "specialmask":"../../assets/data/legends/54_ Platic bottled water_mask-01-simplified_specialcase.svg",
     "order": "front",
     "popdimensions": [
       {
@@ -815,22 +817,6 @@
         "y": 262.5388488769531,
         "width": 567.1332397460938,
         "height": 376.7903137207031
-      }
-    ],
-    "audiofile": "../../assets/audio/loops/48.mp3"
-  },
-  "48b": {
-    "id": "48b",
-    "title": "48_class 1b cities _sewage",
-    "desc": "48_class 1b cities _sewage",
-    "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg",
-    "popdimensions": [
-      {
-        "x": 8556.323152487283,
-        "y": 613.5525207519531,
-        "width": 613.5525207519531,
-        "height": 452.4305114746094
       }
     ],
     "audiofile": "../../assets/audio/loops/48.mp3"
