@@ -199,6 +199,45 @@
             }
             return result;
         }
+
+        function customFileLoader(){
+          let picker = document.getElementById("files");
+          picker.addEventListener('change', function(evt) {
+              let files = evt.target.files;
+              if (files.length < 1)
+                  return;
+              let f = files[0];
+              if (f.type != 'image/svg+xml')
+                  return;
+              let reader = new FileReader();
+              reader.onload = (function(theFile) {
+                  return function(e) {
+                      let result = e.target.result;
+                      // some programs add extra markup at the beginning, we remove that here
+                      result = result.replace(/^[\s\S]*(<svg)/i, "$1");
+                      document.getElementById('svg-original').innerHTML = result;
+                      crunch(false);
+                  };
+              })(f);
+              reader.readAsText(f);
+          }, false);
+          //
+          $('#crunched-file-download').click(function(){
+            console.log('Downloading crunched file');
+            //
+            let type=$('#file-type').val()
+            crunch(true, type, 'polygonized.svg')
+            //
+          })
+          $('#crunch-file-loader').click(function(){
+            console.log('Downloading crunched file');
+            //
+            let type=$('#file-type').val()
+            crunch(false)
+            //
+          })
+          //
+        }
         function crunch(_download, _type, _fname) {
           console.log('Curunching: ' + _type + ' ' + _download + ' ' + _fname);
           //
@@ -268,26 +307,7 @@
                 .then((value2) => {
                   let type = value2;
                   if(type == 'cancel'){
-                    let picker = document.getElementById("files");
-                    picker.addEventListener('change', function(evt) {
-                        let files = evt.target.files;
-                        if (files.length < 1)
-                            return;
-                        let f = files[0];
-                        if (f.type != 'image/svg+xml')
-                            return;
-                        let reader = new FileReader();
-                        reader.onload = (function(theFile) {
-                            return function(e) {
-                                let result = e.target.result;
-                                // some programs add extra markup at the beginning, we remove that here
-                                result = result.replace(/^[\s\S]*(<svg)/i, "$1");
-                                document.getElementById('svg-original').innerHTML = result;
-                                crunch(false);
-                            };
-                        })(f);
-                        reader.readAsText(f);
-                    }, false);
+                    customFileLoader();
                   }else{
                     //
                     $('#my-gui-container').hide();
@@ -343,31 +363,14 @@
                   }
                 });
               }else{
-                let picker = document.getElementById("files");
-                picker.addEventListener('change', function(evt) {
-                    let files = evt.target.files;
-                    if (files.length < 1)
-                        return;
-                    let f = files[0];
-                    if (f.type != 'image/svg+xml')
-                        return;
-                    let reader = new FileReader();
-                    reader.onload = (function(theFile) {
-                        return function(e) {
-                            let result = e.target.result;
-                            // some programs add extra markup at the beginning, we remove that here
-                            result = result.replace(/^[\s\S]*(<svg)/i, "$1");
-                            document.getElementById('svg-original').innerHTML = result;
-                            crunch(false);
-                        };
-                    })(f);
-                    reader.readAsText(f);
-                }, false);
+                customFileLoader();
               }
             });;
             //
             //
         }
+
+
     </script>
     <header class='jumbotron subhead'>
         <div class='row'>
@@ -375,9 +378,17 @@
                 <h1>Path to Polygon Converter</h1>
                 <p class='lead'>Use this to convert single (or) entire batch of svg paths into polygons suitable for use as P2 Collision Shapes.</p>
             </div>
-            <div class='span4' id="my-gui-container">
+            <div class='span4' id="my-gui-container" style="display: inline;">
                 <input id="files" type="file" name="files[]" />
             </div>
+            <select id="file-type" style="display: inline;">
+              <option selected value="">Choose type</option>
+              <option value="mask">Mask</option>
+              <option value="sound">Sound</option>
+            </select>
+            <div style="display: inline;"><button id="crunch-file-loader">Load</button></div>
+            <span>&nbsp;OR&nbsp;</span>
+            <div style="display: inline;"><button id="crunched-file-download">Download</button></div>
         </div>
     </header>
     <output id="viewbox"></output>

@@ -15,6 +15,7 @@ let mergedMasks = {};
 let mergedLegends = {};
 let mergedPolygons = {};
 let mergedSoundAreas = {};
+let includeSpecialCase = true;
 
 //
 var myArgs = process.argv.slice(2);
@@ -42,18 +43,17 @@ function mergeData(){
       let ppath = datasets[id].maskpath.replace("/legends/", "/polygons/")  + '.json';
       let spath = datasets[id].maskpath.replace("/legends/", "/sound_areas/")  + '.json';
       //
+      //
       let mask_data = fs.readFileSync(mpath, {encoding:'utf8', flag:'r'});
 			let legend_data = fs.readFileSync(lpath, {encoding:'utf8', flag:'r'});
       try{
         poly_data = fs.readFileSync(ppath, {encoding:'utf8', flag:'r'});
-      }
-      catch(e){
+      }catch(e){
         console.log('Couldn\'t find file: ' + ppath);
       }
       try{
         soundarea_data = fs.readFileSync(spath, {encoding:'utf8', flag:'r'});
-      }
-      catch(e){
+      }catch(e){
         console.log('Couldn\'t find file: ' + spath);
       }
       //
@@ -61,6 +61,28 @@ function mergeData(){
       mergedLegends[id] = legend_data;
       mergedPolygons[id] = poly_data;
       mergedSoundAreas[id] = soundarea_data;
+      //
+      //
+      if(includeSpecialCase){
+        if(datasets[id].speciallegend){
+          let special_lpath = datasets[id].speciallegend;
+          let special_legend_data = fs.readFileSync(lpath, {encoding:'utf8', flag:'r'});
+          mergedLegends[id+'_spl'] = special_legend_data;
+        }
+        //
+        if(datasets[id].specialmask){
+          let special_spath = datasets[id].specialmask.replace("/legends/", "/sound_areas/")  + '.json';
+          let special_soundarea_data = "{}";
+          try{
+            special_soundarea_data = fs.readFileSync(special_spath, {encoding:'utf8', flag:'r'});
+          }catch(e){
+            console.log('Couldn\'t find special file: ' + special_spath);
+          }
+          mergedSoundAreas[id+'_spl'] = special_soundarea_data;
+        }
+        //
+      }
+      //
       //
   	}
   }
