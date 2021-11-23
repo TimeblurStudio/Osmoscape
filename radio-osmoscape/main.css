@@ -1,0 +1,97 @@
+/* head, html and body */
+html, body {
+  height: 100%;
+  margin: 0;
+  background: #b5ced5;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+}
+
+h1, h2 {
+  font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+canvas[resize] {
+  width: 100%;
+  height: 100%;
+}
+
+
+#lineIndicator{
+  height: 100vh;
+  width:  2px;
+  display: none;
+  background: #dddd;
+  position: fixed;
+  top: 50%;
+  left: 20%;
+  /* bring your own prefixes */
+  transform: translate(-20%, -50%);
+}
+
+#trackProgress {
+  width: 100%;
+  background-color: #ddd4;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+
+#trackBar {
+  width: 1%;
+  height: 12px;
+  background-color: #04AA6D;
+}
+
+.playerInfo{
+  min-width: 200px;
+}
+.playerTextContent{
+  color:  white;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.playerProgress {
+  background-color: #ddd4;
+}
+
+.playerBar {
+  width: 1%;
+  height: 8px;
+  background-color: #444;
+}
+
+
+
+#status {
+  position: fixed;
+  padding: 5px;
+  font-size: 15px;
+}
+
+
+#audio_players_info {
+  position: fixed;
+  top:  35px;
+  padding: 5px;
+  font-size: 15px;
+}
+
+#play_pause{
+  position: fixed;
+  bottom:  12px;
+  left:  12px;
+  font-size: 26px;
+  color: white;
+  width:  32px;
+  height:  32px;
+  cursor: pointer;
+  display: none;
+}

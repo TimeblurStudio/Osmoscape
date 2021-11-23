@@ -362,6 +362,7 @@ function loadDataset(id) {
     //
 
     var legenddata = mergedLegends[id];
+    console.log(mergedPolygons[id]);
     var polygondata = JSON.parse(mergedPolygons[id]); //
 
     var lpath = datasets[id].legendpath;

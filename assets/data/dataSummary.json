@@ -820,21 +820,5 @@
       }
     ],
     "audiofile": "../../assets/audio/loops/48.mp3"
-  },
-  "48b": {
-    "id": "48b",
-    "title": "48_class 1b cities _sewage",
-    "desc": "48_class 1b cities _sewage",
-    "legendpath": "../../assets/data/legends/48_class 1b cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1b cities _sewage_mask-01-wOffset.svg",
-    "popdimensions": [
-      {
-        "x": 8556.323152487283,
-        "y": 613.5525207519531,
-        "width": 613.5525207519531,
-        "height": 452.4305114746094
-      }
-    ],
-    "audiofile": "../../assets/audio/loops/48.mp3"
   }
 }
