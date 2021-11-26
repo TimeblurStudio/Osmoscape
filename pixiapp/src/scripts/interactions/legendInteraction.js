@@ -57,9 +57,9 @@ osmo.legendInteraction = class {
         $('#popup-info-toggle').html('&lt;');
         $('#focused-info').animate({ left:'0%'}, 600);
       }else{
-        console.log('Not supposed to be here!')
+        console.log('Not supposed to be here!');
       }
-    })
+    });
     //
     $('#focused-info').mouseenter(function(){
       $('#cursor').hide();
