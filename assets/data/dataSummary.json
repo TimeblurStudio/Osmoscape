@@ -25,6 +25,8 @@
     "sounddesc":"The sound is represented by evoking typing, the pitch and rhythm of which are determined by a human genetic sequence in unison with a synthesized interpretation of human chromosome 1, manipulated.",
     "legendpath": "../../assets/data/legends/0_human_dna_legend-01-Simplified.svg",
     "maskpath": "../../assets/data/legends/0_human_dna_mask-01-Simplified.svg",
+    "speciallegend": "../../assets/data/legends/0_human_dna_legend_specialcase.svg",
+    "specialmask": "../../assets/data/legends/0_human_dna_mask_specialcase.svg",
     "order": "front",
     "popdimensions": [
       {
