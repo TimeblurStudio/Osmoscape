@@ -10,9 +10,9 @@
 
     <title>Osmoscape Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js?v=8ecfd8f" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css?v=8ecfd8f" integrity="sha512-CIYsJUa3pr1eoXlZFroEI0mq0UIMUqNouNinjpCkSWo3Bx5NRlQ0OuC6DtEB/bDqUWnzXc1gs2X/g52l36N5iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js?v=8ecfd8f" integrity="sha512-RWosNnDNw8FxHibJqdFRySIswOUgYhFxnmYO3fp+BgCU7gfo4z0oS7mYFBvaa8qu+axY39BmQOrhW3Tp70XbaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js?v=18ad7e4" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css?v=18ad7e4" integrity="sha512-CIYsJUa3pr1eoXlZFroEI0mq0UIMUqNouNinjpCkSWo3Bx5NRlQ0OuC6DtEB/bDqUWnzXc1gs2X/g52l36N5iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js?v=18ad7e4" integrity="sha512-RWosNnDNw8FxHibJqdFRySIswOUgYhFxnmYO3fp+BgCU7gfo4z0oS7mYFBvaa8qu+axY39BmQOrhW3Tp70XbaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
     <div id="aplayer"></div>
@@ -25,12 +25,21 @@
      * ------------------------------------------------
      */
     //
+    let chapter_names = {
+      'ch1': '1. Water in space',
+      'ch2': '2. Water and Planet',
+      'ch3': '3. Water and Atmospheric systems',
+      'ch4': '4. Water and Glacier',
+      'ch5': '5. Water and Industrial agriculture',
+      'ch6': '6. Water and River',
+      'ch7': '7. Water and Ocean'
+    };
     let files = [];
     let dataURL = "../../assets/data/dataSummary.json";
     console.log('dataURL: ' + dataURL);
     $.getJSON(dataURL, function( data ) {
       console.log('Loaded datasets summary');
-      //
+      // Load dataset tracks
       datasets = data;
       for (let id in datasets) {
         if (datasets.hasOwnProperty(id)) {
@@ -45,6 +54,17 @@
         }
       }
       //
+      // Load background tracks
+      let base_path = '../../../assets/audio/tracks/Baseline_';
+      for(let i=0; i < 7; i++){
+        let index = (i+1);
+        let path = base_path + index + '.mp3';
+        files.push(
+        {
+          name: chapter_names['ch'+index],
+          url: path
+        });
+      }
 
       //
       const ap = new APlayer({
