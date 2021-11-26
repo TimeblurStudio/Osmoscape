@@ -464,8 +464,11 @@ osmo.legendSvg = class {
    * ------------------------------------------------
    */
   highlightLegend(id, mask){
+    //
     osmo.scroll.mainScroll['part1'].alpha = 0.1;
     osmo.scroll.mainScroll['part2'].alpha = 0.1;
+    //
+    let titleName = osmo.legendsvg.datasets[id].title;
     //
     for(let i=0; i<this.maskAreas.length; i++)
       this.maskAreas[i].alpha = 0;
@@ -477,6 +480,65 @@ osmo.legendSvg = class {
         this.legendFiles[i].visible = false;
     //
     this.popupBBoxes[id].legend.visible = true;
+    //
+    if(osmo.legendinteract.cursorLoading != null)
+      clearTimeout(osmo.legendinteract.cursorLoading);
+    osmo.legendinteract.cursorLoading = null;
+    //
+    if(osmo.legendinteract.cursorLoading == null){
+      //
+      $('.cursor-pointer').css('border', 'none');
+      $('.cursor-loading').show();
+      $('.cursor-pointer-dot').hide();
+      //$('.cursor-txt').hide();
+      //
+      $('.cursor-txt').html('<span style="background: rgba(0,0,0,0.45); margin: -100%; padding: 2px 2px;">'+ titleName +'</span>');
+      $('.cursor-txt').show();
+      this.reset_animation('cursor-clc', 'cursor-loading-circle');
+      this.reset_animation('cursor-cl', 'cursor-loading');
+      //
+      let self = this;
+      osmo.legendinteract.cursorLoading = setTimeout(function(){
+        //
+        osmo.legendinteract.cursorLoading = null;
+        //
+        $('.cursor-pointer').css('border', '2px solid white');
+        $('.cursor-loading').hide();
+        $('.cursor-pointer-dot').show();
+        $('.cursor-txt').html('Click to open');
+        $('.cursor-txt').show();
+        /*
+        // Disable rest of the masks until the dark background fades out!
+        Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
+          let thismask = osmo.legendsvg.popupBBoxes[key]['mask'];
+          if(thismask.data.legendName == hitResult.item.data.legendName){
+            console.log('Not disabling - ' + thismask.data.legendName);
+            osmo.legendsvg.popupBBoxes[key]['mask'].visible = true;
+          }else
+            osmo.legendsvg.popupBBoxes[key]['mask'].visible = false;
+          //
+        });
+        */
+      },4000);//
+    }
+    //
+  }
+
+  reset_animation(_id, _class) {
+    /*
+    var el = document.getElementById(_id);
+    console.log(el);
+    el.style.animation = 'none';
+    el.offsetHeight; // trigger reflow
+    el.style.animation = null;
+    */
+    //
+    let $target = $('#'+_id);
+    $target.removeClass(_class);
+    setTimeout( function(){
+      $target.addClass(_class);
+    },100);
+    //
   }
   
   /**
@@ -495,6 +557,18 @@ osmo.legendSvg = class {
     for(let i=0; i<this.legendFiles.length; i++)
       if(this.legendFiles[i].visible)
         this.legendFiles[i].visible = false;
+    //
+    if(osmo.legendinteract.cursorLoading != null)
+      clearTimeout(osmo.legendinteract.cursorLoading);
+    osmo.legendinteract.cursorLoading = null;
+    //
+    $('.cursor-pointer').css('border', '2px solid white');
+    $('.cursor-loading').hide();
+    $('.cursor-loading-full').hide();
+    $('.cursor-pointer-dot').hide();
+    $('.cursor-txt').hide();
+    this.dragMode = false;
+    this.isDragging = false;
     //
   }
 

@@ -132,6 +132,17 @@ osmo.Scroll = class {
     osmo.legendinteract.init();
           
 
+    
+    //
+    // Custom Mouse follow
+    document.addEventListener('mousemove', function(e) {
+      osmo.scroll.mouseLoc = new osmo.scroll.PIXI.Point(e.pageX, e.pageY);
+      let mouseX = e.pageX;
+      let mouseY = e.pageY;
+      //if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata)
+      $('.cursor-pointer-wrapper').css('transform', 'translate3d('+mouseX+'px, '+mouseY+'px, 0px)');
+    });
+
     //
     // Custom mouse hide/show
     // HEAD ACTIONS
@@ -156,14 +167,14 @@ osmo.Scroll = class {
 
     //
     // Update on events
-    //
+    /*
     this.mainApp.ticker.add(function(delta) {
       window.meter.tick();
       //obtain the position of the mouse on the stage
       //let mousePosition = app.renderer.plugins.interaction.mouse.global;
       //
     });
-    //
+    */
   }
 
   /**
@@ -391,8 +402,8 @@ osmo.Scroll = class {
         window.loading_screen.finish();
         osmo.bgaudio.start();
         //
-        ///document.body.style.cursor = 'none';
-        ///$('.cursor-pointer-wrapper').css('opacity', 1);
+        document.body.style.cursor = 'none';
+        $('.cursor-pointer-wrapper').css('opacity', 1);
         //
         //
       }else{

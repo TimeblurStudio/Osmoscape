@@ -14,7 +14,7 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: 100000000;
+  z-index: 10;
   pointer-events: none;
 }
 
@@ -261,77 +261,84 @@ body {
   margin: 5px;
 }
 
+#focused-heading{
+  font-size: 38px;
+}
+
 #focused-description {
   min-height: 100px;
   max-height: 300px;
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  line-height: 31px;
+  font-size: 17px;
+  padding-right: 20px;
 }
 
-#focused-description-overlay {
-    position: relative;
-    min-height: 100px;
-    max-height: 100px;
-    margin-top: -120px;
-    background: linear-gradient(0deg, rgba(36,41,43,1) 0%, rgba(36,41,43,1) 10%, rgba(36,41,43,0) 100%) !important;
+#focused-description::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+}
+
+#focused-description::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background: rgba(0, 0, 0, .2);
+}
+
+#focused-description::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, .5);
 }
 
 #focused-info{
   position: fixed;
   bottom: 0;
-  right: -500px;
-  width: 500px;
+  left: -48%;
+  width: 48%;
   height: 100%;
-  background-color: #24292bbb;
+  background-color: #BACDD4;
   cursor: default;
-  backdrop-filter: blur(4px);
+  z-index: 100;
 }
 
 @supports (backdrop-filter: blur(4px)) {
   #focused-info{
-    position: fixed;
-    bottom: 0;
-    right: -500px;
-    width: 500px;
-    height: 100%;
-    background-color: #24292b55;
-    cursor: default;
+    -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
   }
 }
 
 
 .focused-content {
-  padding: 60px 40px;
+  margin: 58px 44px 157px 36px;
   color: #f8f9fa;
-  font-size: 21px;
+  background: #90AAB4;
+  border-radius: 13px;
+  padding: 30px;
+  height: calc(100% - 300px);
+  max-height: calc(100% - 300px);
 }
 
 .focused-content a {
   color: #f8f9fa !important;
 }
 
+
 #focused-cta{
-  position: fixed;
-  bottom: 50px;
-  right: 250px;
   width: 100%;
   margin: auto;
   text-align: right;
 }
 
-#focused_waveform_state{
-  display: none;
-  width: 75px;
-  margin: auto;
-  font-size: 30px;
-  margin-left: 20px;
-  cursor: pointer;
-  user-select: none;
-}
-
-#focused_waveforms{
-  width: 350px;
-  -webkit-mask-image: linear-gradient(to right, #fff6, #fff6 100%);
+#popup-info-toggle{
+  width: 41px; 
+  height: 28px;
+  cursor: pointer; 
+  background: #BACDD4; 
+  color: #2D4F5C;
+  font-size: 21px; 
+  border: none; 
+  border-radius: 4px;
 }
 
 
@@ -592,10 +599,11 @@ svg, path {
 
 .modal-content {
   position: absolute;
+  cursor: auto;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255,255,255,1);
   padding: 1rem 1.5rem;
   min-width: 300px;
   max-width: 70%;
@@ -625,6 +633,7 @@ svg, path {
 
 .show-modal {
   opacity: 1;
+  z-index: 1000;
   visibility: visible;
   transform: scale(1.0);
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
@@ -829,6 +838,7 @@ svg, path {
   right: 0px;
   text-align: right;
   vertical-align: middle;
+  margin: 25px;
 }
 
 .head-actions .icon {

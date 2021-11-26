@@ -27,7 +27,12 @@ osmo.legendInteraction = class {
     //
     this.cursorLoading = null;
     this.prevHitResultName = null;
+    //
     this.currentFocus = null;
+    this.dragMode = false;
+    this.isDragging = false;
+    this.loadingStage = null;
+    //
     this.prevBoundsCenter = null;
     this.prevZoom = null;
     //
@@ -43,7 +48,25 @@ osmo.legendInteraction = class {
     $('#popcancel').click(function(){
       self.closeLegendPopup();
     });
+    //    
+    $('#popup-info-toggle').click(function(){
+      if($('#popup-info-toggle').html() == '&lt;'){
+        $('#popup-info-toggle').html('&gt;');
+        $('#focused-info').animate({ left:'-48%'}, 600);
+      }else if($('#popup-info-toggle').html() == '&gt;'){
+        $('#popup-info-toggle').html('&lt;');
+        $('#focused-info').animate({ left:'0%'}, 600);
+      }else{
+        console.log('Not supposed to be here!')
+      }
+    })
     //
+    $('#focused-info').mouseenter(function(){
+      $('#cursor').hide();
+    });
+    $('#focused-info').mouseleave(function(){
+      $('#cursor').show();
+    });
     //
   }
 
@@ -57,13 +80,16 @@ osmo.legendInteraction = class {
         if(mask != null){
           //
           mask.interactive = true;
-          mask.buttonMode = true;
+          //mask.buttonMode = true;
+          //mask.cursor = 'none';
+          //
           //
           //
           mask.on('pointerdown', function(){
             //
             console.log('Clicked inside hitArea for mask-'+id);
-            self.showLegend(id);
+            if(self.cursorLoading == null)
+              self.showLegend(id);
             //
           });
           mask.on('pointerover', function(){
@@ -106,6 +132,39 @@ osmo.legendInteraction = class {
     osmo.legendsvg.maskContainer.visible = false;
     osmo.legendsvg.legendContainer.visible = true;
     //
+    //
+    if(this.loadingStage != null)
+      clearTimeout(this.loadingStage);
+    this.loadingStage = null;
+    // Also make sure it's not in loading stage
+    $('.cursor-pointer').css('border', 'none');
+    $('.cursor-loading-full').show();
+    $('.cursor-pointer-dot').hide();
+    $('.cursor-txt').hide();
+    //this.reset_animation('cursor-clcf', 'cursor-loading-circle');
+    //this.reset_animation('cursor-clf', 'cursor-loading-full');
+    this.dragMode = false;
+    this.isDragging = false;
+    //
+    let self = this;
+    this.loadingStage = setTimeout(function(){
+      //
+      if(this.loadingStage != null)
+        clearTimeout(this.loadingStage);
+      this.loadingStage = null;
+      //
+      $('.cursor-loading-full').hide();
+      $('.cursor-pointer-dot').show();
+      $('.cursor-txt').html('Click & drag');
+      $('.cursor-txt').show();
+      self.dragMode = true;
+      self.isDragging = false;
+    },4000);
+    //
+    //document.body.style.cursor = 'zoom-in';
+    //
+    
+    //
     this.currentFocus = number;
     console.log('Focused on: ' + this.currentFocus );
     //
@@ -113,6 +172,7 @@ osmo.legendInteraction = class {
     $('#focused-heading').text(osmo.legendsvg.datasets[this.currentFocus].title);
     $('#focused-description').text(osmo.legendsvg.datasets[this.currentFocus].desc);
     //
+    $('#head-normal-view').hide();
     $('#focused-cta').show();
     $('#focused-info').show();
     //
@@ -143,7 +203,7 @@ osmo.legendInteraction = class {
     mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
     */
     //
-    $('body').css('background-color',  '#6d7c80'); 
+    $('body').css('background-color',  '#A3BDC7'); 
     //
     //
   }
@@ -155,14 +215,15 @@ osmo.legendInteraction = class {
    */
   closeLegendPopup(){
     //
+    $('#head-normal-view').show();
     $('#focused-cta').hide();
+    $('#focused-info').animate({ left:'-48%'}, 600);
+    $('#focused-info').hide();
     //
-    $('#focused-info').animate({ left:'-500px'}, 600);
-    //$('#focused-info').hide();
     $('.nav').show();
     $('body').css('background-color',  '#b5ced5');
     //
-    document.body.style.cursor = 'default';
+    //document.body.style.cursor = 'default';
     //
     //
     osmo.datasvg.backgroundContainer.visible = true;
@@ -171,6 +232,22 @@ osmo.legendInteraction = class {
     for(let i=0; i<osmo.legendsvg.legendFiles.length; i++)
       if(osmo.legendsvg.legendFiles[i].visible)
         osmo.legendsvg.legendFiles[i].visible = false;
+    //
+    //
+    if(this.loadingStage != null)
+      clearTimeout(this.loadingStage);
+    this.loadingStage = null;
+    //
+    $('.cursor-pointer').css('border', '2px solid white');
+    $('.cursor-loading').hide();
+    $('.cursor-loading-full').hide();
+    $('.cursor-pointer-dot').hide();
+    $('.cursor-txt').html('');
+    $('.cursor-txt').hide();
+    this.dragMode = false;
+    this.isDragging = false;
+    //document.body.style.cursor = 'default';
+    //
     let fac = 1.005;//1.005/(mainStage.scale.x*mainStage.scale.y);
     let newCenter = this.prevBoundsCenter;
     let zoomFac = this.prevZoom;
