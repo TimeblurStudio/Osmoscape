@@ -66,7 +66,7 @@ function mergeData(){
       if(includeSpecialCase){
         if(datasets[id].speciallegend){
           let special_lpath = datasets[id].speciallegend;
-          let special_legend_data = fs.readFileSync(lpath, {encoding:'utf8', flag:'r'});
+          let special_legend_data = fs.readFileSync(special_lpath, {encoding:'utf8', flag:'r'});
           mergedLegends[id+'_spl'] = special_legend_data;
         }
         //
