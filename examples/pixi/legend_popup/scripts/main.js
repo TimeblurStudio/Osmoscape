@@ -360,8 +360,8 @@ function loadDataset(id) {
     //}
     //
 
-    var legenddata = mergedLegends[id];
-    console.log(mergedPolygons[id]);
+    var legenddata = mergedLegends[id]; //console.log(mergedPolygons[id])
+
     var polygondata = JSON.parse(mergedPolygons[id]); //
 
     var lpath = datasets[id].legendpath;
@@ -533,7 +533,8 @@ function maskLoad(title, polygons, num, zorder) {
         mask.scale.set(maskScale, maskScale);
 
         if (num === '-1') {
-          mask.x = (9945 - 9693) * maskScale + pixiWidth * 3 / 4;
+          //mask.x = (9945 - 9693)*maskScale + pixiWidth*3/4;
+          mask.x = 495 * maskScale + pixiWidth * 3 / 4;
         } else if (num === '0') {
           mask.x = (9945 - 9601) * maskScale + pixiWidth * 3 / 4;
         } else if (num === '64') {

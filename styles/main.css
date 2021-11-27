@@ -254,7 +254,8 @@ body {
   overflow-y: scroll;
   line-height: 31px;
   font-size: 17px;
-  padding-right: 20px;
+  padding-right: 10px;
+  height: calc(100% - 42px);
 }
 
 #focused-description::-webkit-scrollbar {
