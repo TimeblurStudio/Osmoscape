@@ -4,7 +4,7 @@
     "title": "water structure",
     "desc": "lp",
     "legendpath": "../../assets/data/legends_png/_1_legend.png",
-    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
+    "maskpath": "../../assets/data/legends_png/-1_water_structure_mask-01-Simplified.svg.json",
     "order": "back",
     "popdimensions": 
       {
@@ -57,7 +57,7 @@
     "zorder": 30,
     "maskpath": "../../assets/data/legends_png/4 Water access vs GDP_mask-01-01.svg.json",
     "popdimensions": {
-      "x": 374.03,
+      "x": 372.03,
       "y": 12.14,
       "width": 618.81,
       "height": 556.3
@@ -73,7 +73,7 @@
     "zorder": 40,
     "maskpath": "../../assets/data/legends_png/5 Industrial Agriculture Linking_mask-01.svg.json",
     "popdimensions": {
-      "x": 800.13,
+      "x": 798.13,
       "y": 213.098,
       "width": 323.68,
       "height": 302.217
@@ -93,7 +93,7 @@
     "order": "front",
     "audiofile": "../../assets/audio/loops/6 rev1.mp3",
     "popdimensions": {
-      "x": 582.61,
+      "x": 580.61,
       "y": 162.05,
       "width": 1893.17,
       "height": 445.308
@@ -108,7 +108,7 @@
     "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
     "zorder": 100,
     "popdimensions": {
-      "x": 653.52,
+      "x": 651.52,
       "y": -1.8,
       "width": 1076.48,
       "height": 459.9
@@ -125,7 +125,7 @@
     "audiofile": "../../assets/audio/loops/8.mp3",
     "zorder": 200,
     "popdimensions": {
-      "x": 734.886,
+      "x": 732.886,
       "y": 193.3,
       "width": 1018.61,
       "height": 427.13
@@ -141,7 +141,7 @@
     "order": "front",
     "zorder": 400,
     "popdimensions": {
-      "x": 1529.1,
+      "x": 1527.1,
       "y": 158.8,
       "width": 612.35,
       "height": 450.5
@@ -156,7 +156,7 @@
     "legendpath": "../../assets/data/legends_png/11_legend.png",
     "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
     "audiofile": "../../assets/audio/loops/11.mp3",
-    "zorder": 425,
+    "zorder": 300,
     "popdimensions": [
       {
         "x": 1666.49,
@@ -177,7 +177,7 @@
     "zorder": 450,
     "audiofile": "../../assets/audio/loops/12.mp3",
     "popdimensions": {
-      "x": 2111.76,
+      "x": 2107.76,
       "y": -37.6,
       "width": 1076,
       "height": 517.9
@@ -192,7 +192,7 @@
     "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg",
     "zorder": 500,
     "popdimensions": {
-      "x": 1302.33,
+      "x": 1300.33,
       "y": -201.436,
       "width": 1437.17,
       "height": 1026.64
@@ -208,7 +208,7 @@
     "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg",
     "zorder": 600,
     "popdimensions": {
-      "x": 2252.3,
+      "x": 2249.3,
       "y": 158.2,
       "width": 1394.74,
       "height": 463.9
@@ -225,7 +225,7 @@
     "audiofile": "../../assets/audio/loops/15.mp3",
     "zorder": 700,
     "popdimensions": {
-      "x": 2318.43,
+      "x": 2317.43,
       "y": 63.04,
       "width": 840.73,
       "height": 522.92
@@ -240,7 +240,7 @@
     "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg",
     "zorder": 800,
     "popdimensions": {
-      "x": 2915.8,
+      "x": 2913.8,
       "y": -2.16,
       "width": 963.2,
       "height": 589.46
@@ -272,7 +272,7 @@
     "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
     "zorder": 1000,
     "popdimensions": {
-      "x": 3564.46,
+      "x": 3560.00,
       "y": 22.52,
       "width": 1883.85,
       "height": 584.933
@@ -304,7 +304,7 @@
     "zorder": 1100,
     "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg",
     "popdimensions": {
-      "x": 3746.07,
+      "x": 3744.07,
       "y": 0.1,
       "width": 1066.84,
       "height": 580.368
@@ -320,7 +320,7 @@
     "zorder": 1200,
     "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg",
     "popdimensions": {
-      "x": 4774.85,
+      "x": 4770.85,
       "y": 192.6,
       "width": 1564.23,
       "height": 430.92
@@ -337,7 +337,7 @@
     "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg",
     "order": "back",
     "popdimensions": {
-      "x": 4342.68,
+      "x": 4336.68,
       "y": -36.5405,
       "width": 1397.76,
       "height": 568.32
@@ -353,7 +353,7 @@
     "zorder": 1400,
     "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg",
     "popdimensions": {
-      "x": 4468.48,
+      "x": 4464.48,
       "y": 244.45,
       "width": 904.34,
       "height": 349.02
@@ -386,7 +386,7 @@
     "maskpath": "../../assets/data/legends/29 Thermal Utilities India_mask-01.svg",
     "order": "front",
     "popdimensions": {
-      "x": 5281.6,
+      "x": 5275.6,
       "y": 162.68,
       "width": 106.17,
       "height": 146.59
@@ -403,7 +403,7 @@
     "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg",
     "order": "front",
     "popdimensions": {
-      "x": 5653.24,
+      "x": 5647.24,
       "y": 227.399,
       "width": 366.27,
       "height": 401.66
@@ -419,7 +419,7 @@
     "zorder": 1800,
     "maskpath": "../../assets/data/legends_png/32 Drying cities_Bangalore_mask-01.svg.json",
     "popdimensions": {
-      "x": 5463.31,
+      "x": 5457.31,
       "y": 5.406,
       "width": 239.55,
       "height": 203.274
@@ -436,7 +436,7 @@
     "maskpath": "../../assets/data/legends_png/33_Radon_in_Bangalore_mask-01-Simplified.svg.json",
     "order": "front",
     "popdimensions": {
-      "x": 5387.17,
+      "x": 5381.17,
       "y": 38.06,
       "width": 277.06,
       "height": 286.44
@@ -452,7 +452,7 @@
     "zorder": 2000,
     "maskpath": "../../assets/data/legends_png/35 Cola Cola Water Usage_mask-01-wOffset.svg.json",
     "popdimensions": {
-      "x": 5304.59,
+      "x": 5298.59,
       "y": 9.02,
       "width": 156.84,
       "height": 98.73
@@ -468,7 +468,7 @@
     "zorder": 2100,
     "maskpath": "../../assets/data/legends_png/36 Rhine River temp_mask-01-wOffset.svg.json",
     "popdimensions": {
-      "x": 5544.57,
+      "x": 5538.57,
       "y": 212.05,
       "width": 135.67,
       "height": 112.95
@@ -484,7 +484,7 @@
     "zorder": 2200,
     "maskpath": "../../assets/data/legends_png/38 Chaohu Eutrophication_mask-01.svg.json",
     "popdimensions": {
-      "x": 5514.87,
+      "x": 5508.87,
       "y": 265.02,
       "width": 78.28,
       "height": 101.36
@@ -500,7 +500,7 @@
     "zorder": 2300,
     "maskpath": "../../assets/data/legends_png/40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg.json",
     "popdimensions": {
-      "x": 6204.75,
+      "x": 5712.75,
       "y": 154.374,
       "width": 144.848,
       "height": 112.765
@@ -516,7 +516,7 @@
     "zorder": 2400,
     "maskpath": "../../assets/data/legends_png/41_Sukinda mines _sediment_anlaysis for chromium_mask-01.svg.json",
     "popdimensions": {
-      "x": 5760.3,
+      "x": 5759.3,
       "y": 140.53,
       "width": 164.41,
       "height": 126.81
@@ -532,7 +532,7 @@
     "zorder": 2400,
     "maskpath": "../../assets/data/legends_png/45a_mask-01-Thick.svg.json",
     "popdimensions": {
-      "x": 5781,
+      "x": 5775,
       "y": 4.1938,
       "width": 315.63,
       "height": 264.436
@@ -564,7 +564,7 @@
     "zorder": 2600,
     "maskpath": "../../assets/data/legends_png/44 Guiyu - PDBE in Fish_mask-01-01-wOffset.svg.json",
     "popdimensions": {
-      "x": 5784.33,
+      "x": 5778.33,
       "y": 18.76,
       "width": 177.694,
       "height": 183.43
@@ -580,7 +580,7 @@
     "zorder": 2700,
     "maskpath": "../../assets/data/legends_png/45b_mask-01.svg.json",
     "popdimensions": {
-      "x": 5840.19,
+      "x": 5837.19,
       "y": 74.81,
       "width": 172.46,
       "height": 174.19
@@ -597,7 +597,7 @@
     "maskpath": "../../assets/data/legends_png/46_mask-01-Simplified.svg.json",
     "order": "front",
     "popdimensions": {
-      "x": 5862.85,
+      "x": 5856.85,
       "y": 291,
       "width": 292.16,
       "height": 239.25
@@ -613,7 +613,7 @@
     "zorder": 3120,
     "maskpath": "../../assets/data/legends_png/50 Antibiotic resistance in India_mask-01-simplified.svg.json",
     "popdimensions": {
-      "x": 6057.41,
+      "x": 6049.41,
       "y": 0.96,
       "width": 971.52,
       "height": 460.32
@@ -629,7 +629,7 @@
     "zorder": 3000,
     "maskpath": "../../assets/data/legends_png/52 Xenoestrogen in infertile men_mask-01.svg.json",
     "popdimensions": {
-      "x": 6063.12,
+      "x": 6057.12,
       "y": 45.44,
       "width": 640.6,
       "height": 357.888
@@ -646,7 +646,7 @@
     "maskpath": "../../assets/data/legends_png/53 Bottled water consumption_mask-01-Simplified.svg.json",
     "order": "back",
     "popdimensions": {
-      "x": 5972.31,
+      "x": 5966.31,
       "y": 27.84,
       "width": 1436.87,
       "height": 596.72
@@ -665,7 +665,7 @@
     "specialmask": "../../assets/data/legends_png/54_ Platic bottled water_revised_mask_specialcase.svg.json",
     "order": "front",
     "popdimensions": {
-      "x": 6527.89,
+      "x": 6521.89,
       "y": 363.027,
       "width": 1271.93,
       "height": 244.983
@@ -681,7 +681,7 @@
     "zorder": 3300,
     "maskpath": "../../assets/data/legends_png/55_mask-rasterised-01.svg.json",
     "popdimensions": {
-      "x": 6006.53,
+      "x": 6004.53,
       "y": 379.63,
       "width": 371.196,
       "height": 222.781
@@ -697,7 +697,7 @@
     "zorder": 3400,
     "maskpath": "../../assets/data/legends_png/58 Area of hypoxia in Gulf of mexico_mask-01.svg.json",
     "popdimensions": {
-      "x": 6579.85,
+      "x": 6573.85,
       "y": 29.65,
       "width": 921.082,
       "height": 428.24
@@ -714,7 +714,7 @@
     "maskpath": "../../assets/data/legends_png/60 Fukushima PBFT radionuclides_mask-01-simplified.svg.json",
     "order": "back",
     "popdimensions": {
-      "x": 6695.52,
+      "x": 6691.52,
       "y": 36.5,
       "width": 2063.08,
       "height": 617.5
@@ -730,7 +730,7 @@
     "zorder": 3600,
     "maskpath": "../../assets/data/legends_png/63 Sound Pollution_mask-01-01.svg.json",
     "popdimensions": {
-      "x": 6693,
+      "x": 6687,
       "y": 20.18,
       "width": 365.24,
       "height": 266.13
