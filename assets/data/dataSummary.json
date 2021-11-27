@@ -7,7 +7,7 @@
     "sounddesc":"The sound is a synthesized representation of water. Two synthesizers, one representing oxygen and the other hydrogen, play a series of notes derived from the number of electrons in the shell of each element (1 for H and 2, 6 for O). ",
     "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified-new.svg",
     "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified-new.svg",
-    "legendpngpath": "../../assets/data/legends_png/_1_legend.png",
+    "legendpngpath": "../../assets/data/legends_png/-1_legend.png",
     "audiofile": "../../assets/audio/loops/-1.mp3",
     "order": "back",
     "popdimensions": [

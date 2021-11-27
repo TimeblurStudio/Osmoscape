@@ -3,7 +3,7 @@
     "id": "sha512-kicDo0A",
     "title": "water structure",
     "desc": "lp",
-    "legendpath": "../../assets/data/legends_png/_1_legend.png",
+    "legendpath": "../../assets/data/legends_png/-1_legend.png",
     "maskpath": "../../assets/data/legends_png/-1_water_structure_mask-01-Simplified.svg.json",
     "order": "back",
     "popdimensions": 
@@ -20,7 +20,7 @@
     "id": "0",
     "title": "Human DNA",
     "desc": "Deoxyribonucleic acid (DNA), which contains survival instructions necessary for most life and reproduction, depends on water for its structure. This paired chain of billions of nucleotides relies on the presence of polar water molecules around it to maintain its familiar double helix form. Water ensures that our genetic information is packed tightly together, only to be released for metabolic processes.  As with DNA, water enables the folding process in proteins, attracting and repelling different parts of the linear chain of amino acids to form all proteins. The sound is represented by a sound evoking typing, the pitch and rhythm of which are both determined by a human genetic sequence. In unison with a synthesized interpretation of human chromosome 1, manipulated.",
-    "legendpath": "../../assets/data/legends_png/0_legend.png",
+    "legendpath": "../../assets/data/legends_png/00_legend.png",
     "zorder": 10,
     "maskpath": "../../assets/data/legends_png/0_human_dna_mask-01-Simplified.svg.json",
     "order": "front",
@@ -37,7 +37,7 @@
     "id": "1",
     "title": "Detection of water on exoplanet",
     "desc": "This study is based on the discovery of an exoplanet named HAT-P-11-b  that was discovered in 2009, by a team at the Hungarian Automated telescope network (HATnet) in Arizona. This planet has a radius of about 4 times that of Earth and is about the size of Neptune. It showed an absorption spectrum of 1.4, which corresponds to the absorption spectrum of water, indicating the presence of water vapour in its atmosphere. Presence of water vapour on a planet helps scientists narrow their search for planets that might have biomolecules that support forms of life and also study the planet’s origins. The sound is represented by sampled recordings of Neptune, Hydrogen, and Oxygen, condensed down to 2 seconds, re-sampled, and triggered.",
-    "legendpath": "../../assets/data/legends_png/1_legend.png",
+    "legendpath": "../../assets/data/legends_png/01_legend.png",
     "zorder": 20,
     "maskpath": "../../assets/data/legends_png/1 Water in space_mask-01.svg.json",
     "popdimensions": {
@@ -53,7 +53,7 @@
     "id": "4",
     "title": "Water acess vs GDP",
     "desc": "The study brings forth the important question of access to clean water across the globe. Taking US dollars as the common unit, the study compares the GDP of all the countries to make a comprehensive comparison of access to improved water sources. The study emerges after surveying various countries from 1990 to 2016. It defines water stress as the ratio of freshwater withdrawals to renewable freshwater resources. If a country's withdrawals exceeds the available sources, then the country is under water-stress. The study shows a global link between freshwater access and a country's GDP. High income countries reflect between 98-99% of population with access to an improved source of water between 1990-2016 followed by upper middle income at 76-95% and middle income countries at 72-92%. Lower income countries as well as countries that are classified as poor, fragile, least developed and indebted are struggling to meet water demands with a population between 40-70% having access to an improved source of water. The dataset raises important questions regarding water access, water scarcity and security. The sound is represented by a field recording of a young girl walking to find water, punctuated with the sound of an ATM machine.",
-    "legendpath": "../../assets/data/legends_png/4_legend.png",
+    "legendpath": "../../assets/data/legends_png/04_legend.png",
     "zorder": 30,
     "maskpath": "../../assets/data/legends_png/4 Water access vs GDP_mask-01-01.svg.json",
     "popdimensions": {
@@ -69,7 +69,7 @@
     "id": "5",
     "title": "Industrial Agriculture Linking",
     "desc": "A study conducted by  researchers at the State Hydrological Institute, Russian Federation, from 1975 to 1990 highlighted the global consumption of water by the agricultural and industrial sectors. The study raised questions on how water withdrawal was increasing annually and with it the gap between water withdrawal and consumption, suggesting a higher rate of water getting wasted in industrial and agriculture processes. The study provided an assessment of the freshwater resources of the 21st century by forecasting global water use for 2000 and 2025 with the data on increasing water demand, population growth and water availability. It shows that the rapid population growth between 1970 and 1994 resulted in a decrease in water availability from 12.9 to 7.6 thousand cubic metres per person annually. The sound is represented by processed recordings of modern agricultural machines.",
-    "legendpath": "../../assets/data/legends_png/5_legend.png",
+    "legendpath": "../../assets/data/legends_png/05_legend.png",
     "zorder": 40,
     "maskpath": "../../assets/data/legends_png/5 Industrial Agriculture Linking_mask-01.svg.json",
     "popdimensions": {
@@ -85,7 +85,7 @@
     "id": "6",
     "title": "Baseline water stress",
     "desc": "This study, conducted by Water Resources Institute, records the baseline water stress in several major river basins across the world. Baseline water stress refers to the ratio between the total water withdrawn for use and the annual available renewable water supplies. It is clear that two variables determine the baseline water stress—water supply availability, and the demand for that water. Water is supplied to the basins in the form of precipitation (snow and rain) or the melting of glaciers. The demand for water is mainly divided into three sectors—the domestic, industrial, and agricultural sectors—with the latter usually having the highest baseline water stress. The study indicates that the demand is higher than the supply. River basins across the globe are being exploited to an unsustainable extent. The sound represents a field recording of the Yongding River, processed with a vocoder.",
-    "legendpath": "../../assets/data/legends_png/6_legend.png",
+    "legendpath": "../../assets/data/legends_png/06_legend.png",
     "zorder": 50,
     "maskpath": "../../assets/data/legends_png/6 Baseline water stress_mask-01.svg.json",
     "speciallegend": "../../assets/data/legends/6 Baseline water stress Layer4 Print legend_specialcase.svg.json",
