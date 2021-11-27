@@ -34,11 +34,26 @@
       'ch6': '6. Water and River',
       'ch7': '7. Water and Ocean'
     };
-    let files = [];
+    let files = [], backgroundfiles = [], loopfiles = [];
     let dataURL = "../../assets/data/dataSummary.json";
     console.log('dataURL: ' + dataURL);
     $.getJSON(dataURL, function( data ) {
       console.log('Loaded datasets summary');
+
+      //
+      // Load background tracks
+      let base_path = '../../../assets/audio/tracks/Baseline_';
+      for(let i=0; i < 7; i++){
+        let index = (i+1);
+        let path = base_path + index + '.mp3';
+        backgroundfiles.push(
+        {
+          name: 'Chapter ' + chapter_names['ch'+index],
+          artist: 'Background',
+          url: path
+        });
+      }
+
       // Load dataset tracks
       datasets = data;
       for (let id in datasets) {
@@ -46,27 +61,24 @@
           console.log('Adding sound file for : ' + id);
           let title = datasets[id].title;
           let sound_file_path = datasets[id].audiofile
-          files.push(
-          {
-            name: title,
-            url: sound_file_path
-          });
+          let chapter_name = datasets[id].ch
+          chapter_name = chapter_name.replace("ch", "Chapter ");
+          let loop_property = 
+            {
+              name: title,
+              artist: chapter_name,
+              url: sound_file_path
+            }
+          //
+          if(id == '-1')
+            loopfiles.unshift(loop_property);
+          else
+            loopfiles.push(loop_property);
         }
-      }
-      //
-      // Load background tracks
-      let base_path = '../../../assets/audio/tracks/Baseline_';
-      for(let i=0; i < 7; i++){
-        let index = (i+1);
-        let path = base_path + index + '.mp3';
-        files.push(
-        {
-          name: chapter_names['ch'+index],
-          url: path
-        });
       }
 
       //
+      files = backgroundfiles.concat(loopfiles);
       const ap = new APlayer({
           container: document.getElementById('aplayer'),
           listFolded: false,

@@ -10,9 +10,9 @@
 
     <title>Osmoscape Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js?v=18ad7e4" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css?v=18ad7e4" integrity="sha512-CIYsJUa3pr1eoXlZFroEI0mq0UIMUqNouNinjpCkSWo3Bx5NRlQ0OuC6DtEB/bDqUWnzXc1gs2X/g52l36N5iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js?v=18ad7e4" integrity="sha512-RWosNnDNw8FxHibJqdFRySIswOUgYhFxnmYO3fp+BgCU7gfo4z0oS7mYFBvaa8qu+axY39BmQOrhW3Tp70XbaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js?v=bfc2121" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css?v=bfc2121" integrity="sha512-CIYsJUa3pr1eoXlZFroEI0mq0UIMUqNouNinjpCkSWo3Bx5NRlQ0OuC6DtEB/bDqUWnzXc1gs2X/g52l36N5iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js?v=bfc2121" integrity="sha512-RWosNnDNw8FxHibJqdFRySIswOUgYhFxnmYO3fp+BgCU7gfo4z0oS7mYFBvaa8qu+axY39BmQOrhW3Tp70XbaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
     <div id="aplayer"></div>
@@ -34,11 +34,26 @@
       'ch6': '6. Water and River',
       'ch7': '7. Water and Ocean'
     };
-    let files = [];
+    let files = [], backgroundfiles = [], loopfiles = [];
     let dataURL = "../../assets/data/dataSummary.json";
     console.log('dataURL: ' + dataURL);
     $.getJSON(dataURL, function( data ) {
       console.log('Loaded datasets summary');
+
+      //
+      // Load background tracks
+      let base_path = '../../../assets/audio/tracks/Baseline_';
+      for(let i=0; i < 7; i++){
+        let index = (i+1);
+        let path = base_path + index + '.mp3';
+        backgroundfiles.push(
+        {
+          name: 'Chapter ' + chapter_names['ch'+index],
+          artist: 'Background',
+          url: path
+        });
+      }
+
       // Load dataset tracks
       datasets = data;
       for (let id in datasets) {
@@ -46,27 +61,24 @@
           console.log('Adding sound file for : ' + id);
           let title = datasets[id].title;
           let sound_file_path = datasets[id].audiofile
-          files.push(
-          {
-            name: title,
-            url: sound_file_path
-          });
+          let chapter_name = datasets[id].ch
+          chapter_name = chapter_name.replace("ch", "Chapter ");
+          let loop_property = 
+            {
+              name: title,
+              artist: chapter_name,
+              url: sound_file_path
+            }
+          //
+          if(id == '-1')
+            loopfiles.unshift(loop_property);
+          else
+            loopfiles.push(loop_property);
         }
-      }
-      //
-      // Load background tracks
-      let base_path = '../../../assets/audio/tracks/Baseline_';
-      for(let i=0; i < 7; i++){
-        let index = (i+1);
-        let path = base_path + index + '.mp3';
-        files.push(
-        {
-          name: chapter_names['ch'+index],
-          url: path
-        });
       }
 
       //
+      files = backgroundfiles.concat(loopfiles);
       const ap = new APlayer({
           container: document.getElementById('aplayer'),
           listFolded: false,

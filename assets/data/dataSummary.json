@@ -1,11 +1,12 @@
 {  
   "-1": {
+    "ch": "ch1",
     "id": "-1",
     "title": "What is Water",
     "desc": "Water bends, gyrates, vibrates, elongates, shortens, pulls and pushes. Nearly impossible to pin down, the structure of the water molecule has been hotly debated for decades.  It doesn’t follow the rules of chemistry. It moves against the force of gravity. It changes its form, it changes its shape. Its  solid form floats on its liquid form, it takes the shape of the container it is kept in, it expands when cooled. It is one of the hardest substances to understand, yet it is fundamental to our existence. It is in the background, it is in the foreground. Life needs water, yet water itself is both animate and inanimate. And therefore water structure is everything; it dictates the physics, therefore the chemistry, therefore the biology, therefore life as we know it. A molecule of water, the smallest unit it can be broken down to, has two atoms of hydrogen and one of oxygen. It is the way the oxygen and hydrogen atoms interact that makes water unique.",
     "sounddesc":"The sound is a synthesized representation of water. Two synthesizers, one representing oxygen and the other hydrogen, play a series of notes derived from the number of electrons in the shell of each element (1 for H and 2, 6 for O). ",
     "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified-new.svg",
-    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified.svg",
+    "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified-new.svg",
     "order": "back",
     "popdimensions": [
       {
@@ -25,6 +26,8 @@
     "sounddesc":"The sound is represented by evoking typing, the pitch and rhythm of which are determined by a human genetic sequence in unison with a synthesized interpretation of human chromosome 1, manipulated.",
     "legendpath": "../../assets/data/legends/0_human_dna_legend-01-Simplified.svg",
     "maskpath": "../../assets/data/legends/0_human_dna_mask-01-Simplified.svg",
+    "speciallegend": "../../assets/data/legends/0_human_dna_legend_specialcase_resized.svg",
+    "specialmask": "../../assets/data/legends/0_human_dna_mask_specialcase_resized.svg",
     "order": "front",
     "popdimensions": [
       {
@@ -702,6 +705,24 @@
     ],
     "audiofile": "../../assets/audio/loops/46.mp3"
   },
+  "48": {
+    "ch": "ch6",
+    "id": "48",
+    "title": "Sewage in the Ganges",
+    "desc": "The dataset, obtained from central government portals, draws a comparison between the sewage generated and the sewage treated in Class 1 cities along the banks of river Ganga. Class 1 cities are those that have a population above 100,000 and therefore are more affected by improper sewage treatment. The dataset shows us that almost 6 cities across the banks of the Ganga do not have any sewage treatment plants. The dataset also provides us a clear image of the population  in each of the  towns under study and correlates population with sewage generation. It shows us how the vast gap in extent of sewage generation and treatment in densely populated cities like Kanpur and Varanasi degrades the river.  In its course through Kanpur the river produces an overpowering stench and contains blackish grey sludge of chemicals which are visible. More than 400 tanneries in Kanpur pump out about 30 crore litres of polluted water everyday into the Ganges when the city’s treatment plants only have a capacity of 17 crore litres per day. The amount of parts per million of copper released in the Ganges is a thousand times higher than that present in uncontaminated water. About 12 percent of the total volume of effluents reaching the Ganga are industrial effluents. The dissolved oxygen in subsurface water and at the interface of sediment and water was lowest in the Jajmau region in Kanpur- the most polluted stretch of Ganga where over 202 MLD of industrial effluents are directly released into the river. The river Yamuna, the largest tributary of Ganga has nearly no dissolved oxygen in various stretches around Delhi and Agra owing to the excessive industrial wastes present in it. The river has been declared ‘dead’ in these locations as it does not have enough oxygen to sustain life.",
+    "sounddesc": "The sound is represented by field recording of the Ganges River, modulated by a recording of the sound of liquid mercury.",
+    "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
+    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg",
+    "popdimensions": [
+      {
+        "x": 8566.311220114236,
+        "y": 262.5388488769531,
+        "width": 567.1332397460938,
+        "height": 376.7903137207031
+      }
+    ],
+    "audiofile": "../../assets/audio/loops/48.mp3"
+  },
   "50": {
     "ch": "ch6",
     "id": "50",
@@ -868,22 +889,5 @@
       }
     ],
     "audiofile": "../../assets/audio/loops/63.mp3"
-  },
-  "48a": {
-    "id": "48a",
-    "title": "Sewage in the Ganges",
-    "desc": "The dataset, obtained from central government portals, draws a comparison between the sewage generated and the sewage treated in Class 1 cities along the banks of river Ganga. Class 1 cities are those that have a population above 100,000 and therefore are more affected by improper sewage treatment. The dataset shows us that almost 6 cities across the banks of the Ganga do not have any sewage treatment plants. The dataset also provides us a clear image of the population  in each of the  towns under study and correlates population with sewage generation. It shows us how the vast gap in extent of sewage generation and treatment in densely populated cities like Kanpur and Varanasi degrades the river.  In its course through Kanpur the river produces an overpowering stench and contains blackish grey sludge of chemicals which are visible. More than 400 tanneries in Kanpur pump out about 30 crore litres of polluted water everyday into the Ganges when the city’s treatment plants only have a capacity of 17 crore litres per day. The amount of parts per million of copper released in the Ganges is a thousand times higher than that present in uncontaminated water. About 12 percent of the total volume of effluents reaching the Ganga are industrial effluents. The dissolved oxygen in subsurface water and at the interface of sediment and water was lowest in the Jajmau region in Kanpur- the most polluted stretch of Ganga where over 202 MLD of industrial effluents are directly released into the river. The river Yamuna, the largest tributary of Ganga has nearly no dissolved oxygen in various stretches around Delhi and Agra owing to the excessive industrial wastes present in it. The river has been declared ‘dead’ in these locations as it does not have enough oxygen to sustain life.",
-    "sounddesc": "The sound is represented by field recording of the Ganges River, modulated by a recording of the sound of liquid mercury.",
-    "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
-    "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg",
-    "popdimensions": [
-      {
-        "x": 8566.311220114236,
-        "y": 262.5388488769531,
-        "width": 567.1332397460938,
-        "height": 376.7903137207031
-      }
-    ],
-    "audiofile": "../../assets/audio/loops/48.mp3"
   }
 }

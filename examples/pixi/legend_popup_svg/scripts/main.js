@@ -629,10 +629,13 @@ function legendLoad(title, svgxml, svgpath, num, frompath) {
         resolution: 1.0
       }); //
     } else {
+      svgpath = '../' + svgpath; // Fix relative path before loading
+
       legendTexture = PIXI.Texture.from(svgpath, {
         resolution: 1.0
       });
-    }
+    } //
+
 
     var legendLoaded = false;
     legendTexture.on('update', function () {
