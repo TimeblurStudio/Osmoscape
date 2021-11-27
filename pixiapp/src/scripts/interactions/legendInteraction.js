@@ -170,7 +170,13 @@ osmo.legendInteraction = class {
     //
     //
     $('#focused-heading').text(osmo.scroll.datasets[this.currentFocus].title);
-    $('#focused-description').text(osmo.scroll.datasets[this.currentFocus].desc);
+    let description = `
+      <p>${osmo.scroll.datasets[this.currentFocus].desc}</p>
+      <br>
+      <br>
+      <span style="font-weight: 400;">Sound description:</span>
+      <p style="margin-top: 0;">${osmo.scroll.datasets[this.currentFocus].sounddesc}</p>`
+    $('#focused-description').html(description);
     //
     $('#head-normal-view').hide();
     $('#focused-cta').show();

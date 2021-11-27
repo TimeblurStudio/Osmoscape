@@ -133,7 +133,6 @@ function init(){
 	pixiHeight = canvas.offsetHeight;
 
 	//Create a Pixi Application
-	PIXI.utils.skipHello();
 	let app = new PIXI.Application({
 	    width: pixiWidth,
 	    height: pixiHeight,

@@ -237,7 +237,6 @@ osmo.Scroll = class {
     self.pixiWidth = canvas.offsetWidth;
     
     //Create a Pixi Application
-    PIXI.utils.skipHello();
     let app = new PIXI.Application({
       width: self.pixiWidth*self.pixiScale,
       height: self.pixiHeight*self.pixiScale,
