@@ -591,6 +591,7 @@ function legendLoad(title, svgxml, svgpath, num, frompath){
 			legendTexture = PIXI.Texture.from(resource, {resolution: 1.0});
 			//
 		}else{
+			svgpath = '../' + svgpath;// Fix relative path before loading
 			legendTexture = PIXI.Texture.from(svgpath, {resolution: 1.0});
 		}
 		let legendLoaded = false;
