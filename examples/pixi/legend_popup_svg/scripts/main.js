@@ -229,8 +229,8 @@ function init() {
   pixiScale = 2;
   pixiWidth = canvas.offsetWidth;
   pixiHeight = canvas.offsetHeight; //Create a Pixi Application
+  //PIXI.utils.skipHello();
 
-  PIXI.utils.skipHello();
   var app = new PIXI.Application({
     width: pixiWidth * pixiScale,
     height: pixiHeight * pixiScale,
