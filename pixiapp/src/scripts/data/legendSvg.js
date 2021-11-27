@@ -38,7 +38,7 @@ osmo.legendSvg = class {
     this.legendFiles = [];
     this.maskContainer;
     this.legendContainer;
-    this.maskAlpha = 0.2;
+    this.maskAlpha = 0;
 
     // Methods
     this.init;
@@ -350,9 +350,9 @@ osmo.legendSvg = class {
           legend.visible = false;
           //
           //
-          let legendRefHeight = (self.popupBBoxes[num].boundingbox.height/623.5)
+          let legendRefHeight = (self.popupBBoxes[num].boundingbox.height/623.5);
           let legendScale = (legendRefHeight/legendTexture.height)*osmo.scroll.pixiHeight;
-          legend.scale.set(legendScale,legendScale)
+          legend.scale.set(legendScale,legendScale);
           console.log('LEGEND SCALE: ' + legendScale);
           //
           if(!frompath)
