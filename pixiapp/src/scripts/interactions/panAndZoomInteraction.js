@@ -104,22 +104,23 @@ osmo.panAndZoomInteraction = class {
         if(osmo.scroll.hitPopupMode != 'focused'){
           self.navScrolledUpdate = false;
           setTimeout(function(){  osmo.navinteract.scrollNavEffect();  },50);
+          // check inactivity and when scrolling stops - update basetrack
+          clearTimeout($.data(this, 'scrollTimer'));
+          $.data(this, 'scrollTimer', setTimeout(function() {
+            osmo.navinteract.updateBasetrack();
+          }, 250));
+          //
+          // Code below makes scrolling experince way smooth
+          //
+          // HIDING MASK NEEDS TO BE ADDED
+          //
+          // check inactivity and when scrolling stops - enable mask
+          clearTimeout($.data(this, 'scrollTimerLong'));
+          $.data(this, 'scrollTimerLong', setTimeout(function() {
+            osmo.pzinteract.enableMaskInteractions();
+          }, 500));
+          //
         }
-        // check inactivity and when scrolling stops - update basetrack
-        clearTimeout($.data(this, 'scrollTimer'));
-        $.data(this, 'scrollTimer', setTimeout(function() {
-          osmo.navinteract.updateBasetrack();
-        }, 250));
-        //
-        // Code below makes scrolling experince way smooth
-        //
-        // HIDING MASK NEEDS TO BE ADDED
-        //
-        // check inactivity and when scrolling stops - enable mask
-        clearTimeout($.data(this, 'scrollTimerLong'));
-        $.data(this, 'scrollTimerLong', setTimeout(function() {
-          osmo.pzinteract.enableMaskInteractions();
-        }, 500));
         //
       }
       //

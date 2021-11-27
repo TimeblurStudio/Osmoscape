@@ -52,7 +52,7 @@ osmo.legendInteraction = class {
     $('#popup-info-toggle').click(function(){
       if($('#popup-info-toggle').html() == '&lt;'){
         $('#popup-info-toggle').html('&gt;');
-        $('#focused-info').animate({ left:'-48%'}, 600);
+        $('#focused-info').animate({ left:'-33%'}, 600);
       }else if($('#popup-info-toggle').html() == '&gt;'){
         $('#popup-info-toggle').html('&lt;');
         $('#focused-info').animate({ left:'0%'}, 600);
@@ -74,7 +74,7 @@ osmo.legendInteraction = class {
     console.log('osmo.legendInteraction.initMaskInteractions - started'); 
     //
     let self = this;
-    for (let id in osmo.legendsvg.datasets){
+    for (let id in osmo.scroll.datasets){
       if(osmo.legendsvg.popupBBoxes.hasOwnProperty(id)){
         let mask = osmo.legendsvg.popupBBoxes[id]['mask'];
         if(mask != null){
@@ -169,8 +169,14 @@ osmo.legendInteraction = class {
     console.log('Focused on: ' + this.currentFocus );
     //
     //
-    $('#focused-heading').text(osmo.legendsvg.datasets[this.currentFocus].title);
-    $('#focused-description').text(osmo.legendsvg.datasets[this.currentFocus].desc);
+    $('#focused-heading').text(osmo.scroll.datasets[this.currentFocus].title);
+    let description = `
+      <p>${osmo.scroll.datasets[this.currentFocus].desc}</p>
+      <br>
+      <br>
+      <span style="font-weight: 400;">Sound description:</span>
+      <p style="margin-top: 0;">${osmo.scroll.datasets[this.currentFocus].sounddesc}</p>`
+    $('#focused-description').html(description);
     //
     $('#head-normal-view').hide();
     $('#focused-cta').show();
@@ -217,7 +223,7 @@ osmo.legendInteraction = class {
     //
     $('#head-normal-view').show();
     $('#focused-cta').hide();
-    $('#focused-info').animate({ left:'-48%'}, 600);
+    $('#focused-info').animate({ left:'-33%'}, 600);
     $('#focused-info').hide();
     //
     $('.nav').show();

@@ -142,22 +142,7 @@ osmo.navigationInteraction = class {
         x: locX,
         ease: self.POWER4.easeInOut
       });
-      // ALSO HAVE TO ENABLE MASK INTERACTIONS ON TWEEN COMPLETE
-      /*
-      setTimeout(function(){
-        console.log('Completed scroll for - ' + chap_id);
-        console.log('Changing base track...');
-        osmo.bgaudio.currentTrack = 'base' + chap_id;
-        //
-        console.log('Now playing : ' + osmo.bgaudio.currentTrack);
-        osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].start();
-        //
-        osmo.pzinteract.enableMaskInteractions();
-      },dur);
       //
-      console.log(chap_id + ' clicked -- scroll to: ' + locX);
-      console.log('duration: ' + dur);
-      */
       //
       let elements = $('.jump');
       let navLoc = chap_id;
@@ -177,14 +162,11 @@ osmo.navigationInteraction = class {
         }
       }
       //
-
       // Stop all tracks and start target track
       for(let i=0; i < 7; i++)
         self.BGAUDIO.baseTracks['base'+(i+1)].stop();
-      //
       setTimeout(function(){
         console.log('Completed scroll for - ' + chap_id);
-        osmo.legendsvg.maskContainer.visible = true;
         //
         console.log('Changing base track...');
         self.BGAUDIO.currentTrack = 'base' + chap_id;
@@ -192,8 +174,13 @@ osmo.navigationInteraction = class {
         console.log('Now playing : ' + self.BGAUDIO.currentTrack);
         self.BGAUDIO.baseTracks[self.BGAUDIO.currentTrack].start();
         //
+        // FIXME!!!
+        // ALSO HAVE TO ENABLE MASK INTERACTIONS ON TWEEN COMPLETE
+        //osmo.pzinteract.enableMaskInteractions();
+        osmo.legendsvg.maskContainer.visible = true;
+        //
       },dur);
-      console.log(chap_id + ' clicked -- scroll to: ' + locX);
+      console.log(chap_id + ' clicked -- scroll to: ' + locX + ' in duration: ' + dur);
       //
     });
     //

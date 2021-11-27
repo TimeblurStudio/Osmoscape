@@ -66,8 +66,13 @@ osmo.backgroundAudio = class {
         fadeOut: 10,
         fadeIn: 2,
         onload: function(){
+          //
           self.allTracksCount++;
           console.log(self.allTracksCount + ' Loaded audio file: ' + path);
+          //
+          if(self.allTracksCount == self.allBackgroundTrackPaths.length)
+            osmo.scroll.loaded.backgroundaudio = true;
+          //
         }
       }).toMaster();
       //

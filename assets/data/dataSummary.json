@@ -44,7 +44,7 @@
     "id": "1",
     "title": "Water Signature",
     "desc": "This study is based on the 2009 discovery of an exoplanet named HAT-P-11-b by a team at the Hungarian Automated Telescope network (HATnet) in Arizona. This planet has a radius about 4 times that of Earth and is roughly the size of Neptune. It shows an absorption spectrum of 1.4, also known as Water Signature, which corresponds to that of water, indicating the presence of water vapour in its atmosphere. The presence of water vapour on a planet helps scientists narrow their search for planets that might have biomolecules that support forms of life.",
-    "soundesc":"The sound is represented by sampled recordings of Neptune, Hydrogen and Oxygen, condensed to 2 seconds, re-sampled, and triggered.",
+    "sounddesc":"The sound is represented by sampled recordings of Neptune, Hydrogen and Oxygen, condensed to 2 seconds, re-sampled, and triggered.",
     "legendpath": "../../assets/data/legends/1 Water in space_legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/1 Water in space_mask-01.svg",
     "popdimensions": [

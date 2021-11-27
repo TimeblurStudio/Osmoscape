@@ -27,6 +27,7 @@ import { Cull } from '@pixi-essentials/cull';
 //
 //
 import {} from './audio/backgroundAudio';
+import {} from './audio/legendAudio';
 import {} from './data/dataSvg';
 import {} from './data/legendSvg';
 import {} from './interactions/navigationInteraction';
@@ -77,7 +78,8 @@ osmo.Scroll = class {
     this.pixiWidth;
     this.splashWidth;
     this.mouseLoc;
-    this.loaded = {  'HQimage' : false,  'svgdata': false  };
+    this.loaded = {  'HQimage' : false,  'svgdata': false, 'backgroundaudio': false, 'legendaudio': false  };
+    this.datasets = {};
     this.pixiScale = 2;
     this.Volume_db = { min : -12,  max: 6 };
     this.refPopupSize = { width: 1440.0,  height: 821.0  };
@@ -122,6 +124,26 @@ osmo.Scroll = class {
     // AUDIO
     osmo.bgaudio  = new osmo.backgroundAudio();
     osmo.bgaudio.loadAudio();
+    //
+
+    // LEGEND DATA AND AUDIO
+    let dataURL = './assets/data/dataSummary.json' + '?v=' + window.version;
+    console.log('dataURL: ' + dataURL);
+    $.getJSON(dataURL, function( data ) {
+      console.log('Loaded datasets summary');
+      //
+      osmo.scroll.datasets = data;
+      //
+      // LEGEND AUDIO
+      osmo.legendaudio = new osmo.legendAudio();
+      osmo.legendaudio.loadAudio();
+      //
+      // LEGEND DATA
+      osmo.legendsvg = new osmo.legendSvg();
+      osmo.legendsvg.init();
+      //
+    });
+
 
     // INTERACTIONS
     osmo.pzinteract = new osmo.panAndZoomInteraction();
@@ -215,7 +237,6 @@ osmo.Scroll = class {
     self.pixiWidth = canvas.offsetWidth;
     
     //Create a Pixi Application
-    PIXI.utils.skipHello();
     let app = new PIXI.Application({
       width: self.pixiWidth*self.pixiScale,
       height: self.pixiHeight*self.pixiScale,
@@ -377,18 +398,19 @@ osmo.Scroll = class {
     osmo.scroll.loaded.HQimage = true;
     //
     //
-    // LEGEND
-    osmo.legendsvg = new osmo.legendSvg();
-    osmo.legendsvg.init();
+
     //
-    
     let waitTillTracksLoad = setInterval(function(){
-      let allTracksCount = osmo.bgaudio.allTracksCount;
+      let loadedBackgroundAudio = osmo.scroll.loaded.backgroundaudio;
+      let loadedLegendAudio = osmo.scroll.loaded.legendaudio;
       let loadedHQimage = osmo.scroll.loaded.HQimage;
       let loadedSVGdata = osmo.scroll.loaded.svgdata;
       //
-      if(allTracksCount == osmo.bgaudio.allBackgroundTrackPaths.length &&  loadedHQimage && loadedSVGdata){
-        console.log('Total tracks loaded = ' + allTracksCount);
+      if(loadedBackgroundAudio && loadedHQimage && loadedSVGdata && !loadedLegendAudio)
+        $('#percentage').html('Loading audio...');
+      //
+      if(loadedBackgroundAudio && loadedLegendAudio &&  loadedHQimage && loadedSVGdata){
+        console.log('All required data loaded');
         //
         clearInterval(waitTillTracksLoad);
         //$('#start-btn').show();
@@ -407,7 +429,7 @@ osmo.Scroll = class {
         //
         //
       }else{
-        console.log('Waiting for data to complete loading -- allTracks: ' + allTracksCount + ' HQimage: ' + loadedHQimage + ' SVGdata: ' + loadedSVGdata );
+        console.log('Waiting for data to complete loading -- backgroundAudio: ' + loadedBackgroundAudio + ' legendAudio: ' + loadedLegendAudio + ' HQimage: ' + loadedHQimage + ' SVGdata: ' + loadedSVGdata );
       }
     },500);
 
