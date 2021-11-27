@@ -28,7 +28,7 @@ osmo.legendSvg = class {
     this.PIXI = osmo.scroll.PIXI;
 
     //@private
-    this.loadIndividualFiles = false;
+    this.loadIndividualFiles = true;
     this.mergedPolygons = {};
     this.mergedLegends = {};
     this.earlySVGDataPromises = [];
@@ -38,7 +38,7 @@ osmo.legendSvg = class {
     this.legendFiles = [];
     this.maskContainer;
     this.legendContainer;
-    this.maskAlpha = 0;
+    this.maskAlpha = 0.2;
 
     // Methods
     this.init;
@@ -100,7 +100,7 @@ osmo.legendSvg = class {
       let polygondata = JSON.parse(this.mergedPolygons[id]);
       //
       //
-      let lpath = osmo.scroll.datasets[id].legendpath;
+      let lpath = osmo.scroll.datasets[id].legendpngpath;
       let title = osmo.scroll.datasets[id].title;
       //
       //
@@ -109,15 +109,17 @@ osmo.legendSvg = class {
         morder = null;
       //
       //
-      if(osmo.scroll.datasets[id].hasOwnProperty('popdimensions')){
+      if(osmo.scroll.datasets[id].hasOwnProperty('popdimensions') && osmo.scroll.datasets[id].hasOwnProperty('boundingbox')){
         console.log('Loading dimensions for : ' + id);
         //
         let dim = osmo.scroll.datasets[id].popdimensions;
+        let bbox = osmo.scroll.datasets[id].boundingbox;
         this.popupBBoxes[id] = {
           mask: null,
           legend: null,
           paths: [],
           rects: [],
+          boundingbox: bbox,
           dimensions: dim,
           polygons: osmo.scroll.datasets[id].physics
         };
@@ -173,7 +175,7 @@ osmo.legendSvg = class {
         //
         ///self.correctMaskOrder();
         //
-      }, 4000);
+      }, 400);
     });
     //
   }
@@ -262,7 +264,18 @@ osmo.legendSvg = class {
         }
         //
         mask.scale.set(maskScale, maskScale);
-        mask.x = osmo.scroll.pixiWidth*3/4;
+        //
+        // NOTE: Offset required since -1 and 0 datasets were added at the end 
+        //       (effectively increasing the canvas width)
+        //
+        let offset = 0;
+        if (num === '-1') offset = 495;//(9945 - 9693);
+        else if (num === '0') offset = (9945 - 9601);
+        else if (num === '64')  offset = (9945 - 9459);
+        else  offset = 495;
+        //
+        //Change the legend's position with an added offset
+        mask.x =  offset*maskScale + osmo.scroll.pixiWidth*3/4;
         //
         self.popupBBoxes[num]['mask'] = mask;
         self.maskContainer.addChild(mask);
@@ -283,15 +296,10 @@ osmo.legendSvg = class {
    * legendLoad
    * ------------------------------------------------
    */
-  legendLoad(title, svgxml, svgpath, num, frompath){
+  legendLoad(title, svgxml, pngpath, num, frompath){
     //
     let self = this;
     const lpromise = new Promise((resolve, reject) => {
-      //
-      //
-      //
-      //
-      //
       //
       let svgScale = 8.0;
       let newViewPort_x, legendTexture;
@@ -307,8 +315,12 @@ osmo.legendSvg = class {
         let resource = new self.PIXI.SVGResource (svgEncoded, {scale: svgScale});
         legendTexture = self.PIXI.Texture.from(resource, {resolution: 1.0});
         //
-      }else
-        legendTexture = self.PIXI.Texture.from(svgpath, {resolution: 1.0});
+      }else{
+        //
+        pngpath = '../' + pngpath;// Fix relative path before loading
+        legendTexture = self.PIXI.Texture.from(pngpath, {resolution: 1.0});
+        //
+      }
       //
       let legendLoaded = false;
       legendTexture.on('update', () => {
@@ -338,16 +350,28 @@ osmo.legendSvg = class {
           legend.visible = false;
           //
           //
-          //
-          //
-          let lms = osmo.scroll.pixiHeight/legendTexture.height;
-          console.log('LEGEND SCALE: ' + lms);
+          let legendRefHeight = (self.popupBBoxes[num].boundingbox.height/623.5)
+          let legendScale = (legendRefHeight/legendTexture.height)*osmo.scroll.pixiHeight;
+          legend.scale.set(legendScale,legendScale)
+          console.log('LEGEND SCALE: ' + legendScale);
           //
           if(!frompath)
             legend.x = newViewPort_x*lms*svgScale + osmo.scroll.pixiWidth*3/4;
-          else
-            legend.x = osmo.scroll.pixiWidth*3/4;
-          legend.scale.set(lms, lms);
+          else{
+            //
+            // NOTE: Offset required since -1 and 0 datasets were added at the end 
+            //       (effectively increasing the canvas width)
+            //
+            let offset = 0;
+            if (num === '-1') offset = (9945 - 9683);
+            else if (num === '0') offset = (9945 - 9601);
+            else if (num === '64')  offset = (9945 - 9459);
+            else  offset = 495;
+            //
+            //Change the legend's position with an added offset
+            legend.x = (self.popupBBoxes[num].boundingbox.x + offset)*(osmo.scroll.pixiHeight/623.5) + osmo.scroll.pixiWidth*3/4;
+            legend.y = (self.popupBBoxes[num].boundingbox.y)*(osmo.scroll.pixiHeight/623.5);
+          }
           //
           self.legendContainer.addChild(legend);
           resolve('l'+num);

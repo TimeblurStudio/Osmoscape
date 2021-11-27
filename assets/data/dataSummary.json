@@ -7,6 +7,8 @@
     "sounddesc":"The sound is a synthesized representation of water. Two synthesizers, one representing oxygen and the other hydrogen, play a series of notes derived from the number of electrons in the shell of each element (1 for H and 2, 6 for O). ",
     "legendpath": "../../assets/data/legends/-1_water_structure_legend-01-Simplified-new.svg",
     "maskpath": "../../assets/data/legends/-1_water_structure_mask-01-Simplified-new.svg",
+    "legendpngpath": "../../assets/data/legends_png/_1_legend.png",
+    "audiofile": "../../assets/audio/loops/-1.mp3",
     "order": "back",
     "popdimensions": [
       {
@@ -16,7 +18,12 @@
         "height": 470
       }
     ],
-    "audiofile": "../../assets/audio/loops/-1.mp3"
+    "boundingbox": {
+      "x": -36.24,
+      "y": 242.4,
+      "width": 2922.14,
+      "height": 429.6
+    }
   },
   "0": {
     "ch": "ch1",
@@ -28,7 +35,10 @@
     "maskpath": "../../assets/data/legends/0_human_dna_mask-01-Simplified.svg",
     "speciallegend": "../../assets/data/legends/0_human_dna_legend_specialcase_resized.svg",
     "specialmask": "../../assets/data/legends/0_human_dna_mask_specialcase_resized.svg",
+    "legendpngpath": "../../assets/data/legends_png/00_legend.png",
+    "audiofile": "../../assets/audio/loops/0 rev2.mp3",
     "order": "front",
+    "zorder": 10,
     "popdimensions": [
       {
         "x": 408.8699999999999,
@@ -37,7 +47,13 @@
         "height": 503
       }
     ],
-    "audiofile": "../../assets/audio/loops/0 rev2.mp3"
+    "boundingbox": {
+      "x": -36,
+      "y": 237.80,
+      "width": 1706.160,
+      "height": 376.590
+    }
+    
   },
   "1": {
     "ch": "ch1",
@@ -47,6 +63,9 @@
     "sounddesc":"The sound is represented by sampled recordings of Neptune, Hydrogen and Oxygen, condensed to 2 seconds, re-sampled, and triggered.",
     "legendpath": "../../assets/data/legends/1 Water in space_legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/1 Water in space_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/01_legend.png",
+    "audiofile": "../../assets/audio/loops/1 rev1.mp3",
+    "zorder": 20,
     "popdimensions": [
       {
         "x": 662.3799999999999,
@@ -61,7 +80,12 @@
         "height": 492
       }
     ],
-    "audiofile": "../../assets/audio/loops/1 rev1.mp3"
+    "boundingbox": {
+      "x": 4.32,
+      "y": 19.2,
+      "width": 551.18,
+      "height": 386.8
+    }
   },
   "4": {
     "ch": "ch2",
@@ -71,6 +95,9 @@
     "sounddesc": "The sound is represented by a field recording of a young girl walking to find water, punctuated by the sound of an ATM machine.",
     "legendpath": "../../assets/data/legends/4 Water access vs GDP-legend_01-01.svg",
     "maskpath": "../../assets/data/legends/4 Water access vs GDP_mask-01-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/04_legend.png",
+    "audiofile": "../../assets/audio/loops/4.mp3",
+    "zorder": 30,
     "popdimensions": [
       {
         "x": 1139.1900000000032,
@@ -79,7 +106,12 @@
         "height": 756
       }
     ],
-    "audiofile": "../../assets/audio/loops/4.mp3"
+    "boundingbox": {
+      "x": 372.03,
+      "y": 12.14,
+      "width": 618.81,
+      "height": 556.3
+    }
   },
   "5": {
     "ch": "ch2",
@@ -89,6 +121,9 @@
     "sounddesc": "The sound is represented by processed recordings of modern agricultural machines.",
     "legendpath": "../../assets/data/legends/5 Industrial Agriculture Linking_legend-01.svg",
     "maskpath": "../../assets/data/legends/5 Industrial Agriculture Linking_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/05_legend.png",
+    "audiofile": "../../assets/audio/loops/5 rev1.mp3",
+    "zorder": 40,
     "popdimensions": [
       {
         "x": 1700.6200000000035,
@@ -97,7 +132,12 @@
         "height": 418
       }
     ],
-    "audiofile": "../../assets/audio/loops/5 rev1.mp3"
+    "boundingbox": {
+      "x": 798.13,
+      "y": 213.098,
+      "width": 323.68,
+      "height": 302.217
+    }
   },
   "6": {
     "ch": "ch2",
@@ -109,8 +149,10 @@
     "maskpath": "../../assets/data/legends/6 Baseline water stress_mask-01.svg",
     "speciallegend": "../../assets/data/legends/6 Baseline water stress Layer4 Print legend_specialcase.svg",
     "specialmask": "../../assets/data/legends/6 Baseline water stress_mask-01_specialcase.svg",
-    "order": "front",
+    "legendpngpath": "../../assets/data/legends_png/06_legend.png",
     "audiofile": "../../assets/audio/loops/6 rev1.mp3",
+    "order": "front",
+    "zorder": 50,
     "popdimensions": [
       {
         "x": 1335.3590485930454,
@@ -118,7 +160,13 @@
         "width": 977.1429443359375,
         "height": 636.5017166137695
       }
-    ]
+    ],
+    "boundingbox": {
+      "x": 580.61,
+      "y": 162.05,
+      "width": 1893.17,
+      "height": 445.308
+    }
   },
   "7": {
     "ch": "ch3",
@@ -128,6 +176,9 @@
     "sounddesc": "The sound is represented by recordings of a Tuk Tuk engine, diesel locomotives and a car engine, processed using granular synthesis.",
     "legendpath": "../../assets/data/legends/7 Co2 Emission through the years_legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/7 Co2 Emission through the years_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/07_legend.png",
+    "audiofile": "../../assets/audio/loops/7 rev1.mp3",
+    "zorder": 100,
     "popdimensions": [
       {
         "x": 1482.3550000000077,
@@ -136,7 +187,12 @@
         "height": 563
       }
     ],
-    "audiofile": "../../assets/audio/loops/7 rev1.mp3"
+    "boundingbox": {
+      "x": 651.52,
+      "y": -1.8,
+      "width": 1076.48,
+      "height": 459.9
+    }
   },
   "8": {
     "ch": "ch3",
@@ -146,7 +202,9 @@
     "sounddesc": "The sound is represented by recordings of boiling water combined with field recordings of a coral reef.",
     "legendpath": "../../assets/data/legends/08_global sea surface temp-legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/08_global sea surface temp_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/08_legend.png",
     "audiofile": "../../assets/audio/loops/8.mp3",
+    "zorder": 200,
     "popdimensions": [
       {
         "x": 1581.1307652878822,
@@ -154,7 +212,13 @@
         "width": 871.8206787109375,
         "height": 522.7484436035156
       }
-    ]
+    ],
+    "boundingbox": {
+      "x": 732.886,
+      "y": 193.3,
+      "width": 1018.61,
+      "height": 427.13
+    }
   },
   "9": {
     "ch": "ch3",
@@ -164,7 +228,10 @@
     "sounddesc": "The sound is represented by a field recording of the Bay of Bengal, modulated by a recording of boiling water, in turn modulating a synthesized 304 hz tone (derived from the recorded 30.4 degree Celsius surface temperature in Bay of Bengal).",
     "legendpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_legend - Simplified.svg",
     "maskpath": "../../assets/data/legends/9 Bay of Bengal_ Arabian Sea SST_mask -01.svg",
+    "legendpngpath": "../../assets/data/legends_png/09_legend.png",
+    "audiofile": "../../assets/audio/loops/9 rev1.mp3",
     "order": "front",
+    "zorder": 400,
     "popdimensions": [
       {
         "x": 2649.6550000000047,
@@ -173,7 +240,12 @@
         "height": 618
       }
     ],
-    "audiofile": "../../assets/audio/loops/9 rev1.mp3"
+    "boundingbox": {
+      "x": 1527.1,
+      "y": 158.8,
+      "width": 612.35,
+      "height": 450.5
+    }
   },
   "11": {
     "ch": "ch3",
@@ -183,7 +255,9 @@
     "sounddesc": "The sound is represented by a manipulated field recording of rain in the woods, the rhythm of which intermittently triggers the frequency of the carbon atom.",
     "legendpath": "../../assets/data/legends/11 Rain pH and Co2-01.svg",
     "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/11_legend.png",
     "audiofile": "../../assets/audio/loops/11.mp3",
+    "zorder": 300,
     "popdimensions": [
       {
         "x": 2836.9842242050277,
@@ -191,7 +265,13 @@
         "width": 912.8417968749995,
         "height": 790.7280416488647
       }
-    ]
+    ],
+    "boundingbox": {
+      "x": 1666.49,
+      "y": 20.35,
+      "width": 674.12,
+      "height": 620.289
+    }
   },
   "12": {
     "ch": "ch3",
@@ -201,8 +281,10 @@
     "sounddesc": "The sound is represented by a field recording of a Vermont rain storm, re-sampled and processed to add a sizzling and splatting element in order to evoke acid rain.",
     "legendpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 Print-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/12 Vermont Acid rain Layer 4 mask-01.svg",
-    "order": "front",
+    "legendpngpath": "../../assets/data/legends_png/12_legend.png",
     "audiofile": "../../assets/audio/loops/12.mp3",
+    "order": "front",
+    "zorder": 450,
     "popdimensions": [
       {
         "x": 3417.578582007888,
@@ -210,7 +292,13 @@
         "width": 1053.1955261230469,
         "height": 396.799015045166
       }
-    ]
+    ],
+    "boundingbox": {
+      "x": 2107.76,
+      "y": -37.6,
+      "width": 1076,
+      "height": 517.9
+    }
   },
   "13": {
     "ch": "ch3",
@@ -220,6 +308,9 @@
     "sounddesc": "The sound is represented by sampled recordings of a shovel in sand, manipulated to evoke the desert wind.",
     "legendpath": "../../assets/data/legends/13 Subsaharan_legend_revised-01-updated.svg",
     "maskpath": "../../assets/data/legends/13 Subsaharan_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/13_legend.png",
+    "audiofile": "../../assets/audio/loops/13.mp3",
+    "zorder": 500,
     "popdimensions": [
       {
         "x": 2808.370000000012,
@@ -228,7 +319,12 @@
         "height": 625
       }
     ],
-    "audiofile": "../../assets/audio/loops/13.mp3"
+    "boundingbox": {
+      "x": 1300.33,
+      "y": -201.436,
+      "width": 1437.17,
+      "height": 1026.64
+    }
   },
   "14": {
     "ch": "ch4",
@@ -238,6 +334,9 @@
     "sounddesc": "The sound is represented by a binaural recording of ice and a field recording of Vostok, Antarctica. It is manipulated to create 6 discrete layers of sounds to represent carbon, the atomic number of which is 6.",
     "legendpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend-01 - Simplified.svg",
     "maskpath": "../../assets/data/legends/14 CO2 conc in ice core sample_legend_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/14_legend.png",
+    "audiofile": "../../assets/audio/loops/14.mp3",
+    "zorder": 600,
     "popdimensions": [
       {
         "x": 3467.415000000002,
@@ -246,7 +345,12 @@
         "height": 529
       }
     ],
-    "audiofile": "../../assets/audio/loops/14.mp3"
+    "boundingbox": {
+      "x": 2249.3,
+      "y": 158.2,
+      "width": 1394.74,
+      "height": 463.9
+    }
   },
   "15": {
     "ch": "ch4",
@@ -256,7 +360,9 @@
     "sounddesc": "The sound is represented by field recordings of Indian farmers burning their fields, combined with recordings of a glacier in the Karakoram mountains.",
     "legendpath": "../../assets/data/legends/15 Black carbon annual data_legend-01.svg",
     "maskpath": "../../assets/data/legends/15 Black carbon annual data_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/15_legend.png",
     "audiofile": "../../assets/audio/loops/15.mp3",
+    "zorder": 700,
     "popdimensions": [
       {
         "x": 3691.1471329617643,
@@ -264,7 +370,13 @@
         "width": 986.3443603515625,
         "height": 740.8799438476562
       }
-    ]
+    ],
+    "boundingbox": {
+      "x": 2317.43,
+      "y": 63.04,
+      "width": 840.73,
+      "height": 522.92
+    }
   },
   "16": {
     "ch": "ch4",
@@ -274,6 +386,9 @@
     "sounddesc": "The sound is represented by a field recording of a glacier melting. It has had its rhythmic component extracted, and that rhythm triggers the sound of dripping water.",
     "legendpath": "../../assets/data/legends/16 glacier data_legend - Simplified.svg",
     "maskpath": "../../assets/data/legends/16 glacier data_mask_1-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/16_legend.png",
+    "audiofile": "../../assets/audio/loops/16.mp3",
+    "zorder": 800,
     "popdimensions": [
       {
         "x": 4474.855000000018,
@@ -282,7 +397,12 @@
         "height": 734
       }
     ],
-    "audiofile": "../../assets/audio/loops/16.mp3"
+    "boundingbox": {
+      "x": 2913.8,
+      "y": -2.16,
+      "width": 963.2,
+      "height": 589.46
+    }
   },
   "17": {
     "ch": "ch5",
@@ -292,6 +412,9 @@
     "sounddesc": "The sound is represented by a field recording  of the Aral sea, combined with the sounds of cotton processing, and manipulated to evoke desiccation.",
     "legendpath": "../../assets/data/legends/17 Aral sea river dynamics_legend-01.svg",
     "maskpath": "../../assets/data/legends/17 Aral sea river dynamics_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/17_legend.png",
+    "audiofile": "../../assets/audio/loops/17.mp3",
+    "zorder": 900,
     "popdimensions": [
       {
         "x": 4936.110000000002,
@@ -300,7 +423,12 @@
         "height": 550
       }
     ],
-    "audiofile": "../../assets/audio/loops/17.mp3"
+    "boundingbox": {
+      "x": 3617.37,
+      "y": 252.201,
+      "width": 1066.83,
+      "height": 370.999
+    }
   },
   "19": {
     "ch": "ch5",
@@ -312,6 +440,9 @@
     "maskpath": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01.svg",
     "speciallegend": "../../assets/data/legends/19 Aral sea breast milk analytes_vector_legend_specialcase.svg",
     "specialmask": "../../assets/data/legends/19 Aral sea breast milk analytes_mask-01_specialcase.svg",
+    "legendpngpath": "../../assets/data/legends_png/19_legend.png",
+    "audiofile": "../../assets/audio/loops/19.mp3",
+    "zorder": 1000,
     "popdimensions": [
       {
         "x": 5526.585000000028,
@@ -320,7 +451,12 @@
         "height": 775
       }
     ],
-    "audiofile": "../../assets/audio/loops/19.mp3"
+    "boundingbox": {
+      "x": 3560.00,
+      "y": 22.52,
+      "width": 1883.85,
+      "height": 584.933
+    }
   },
   "20": {
     "ch": "ch5",
@@ -330,6 +466,9 @@
     "sounddesc": "The sound is represented by a recording of a farm tractor engine, condensed down to .5 seconds, and re- sampled to evoke a sprinkle.",
     "legendpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_legend-01.svg",
     "maskpath": "../../assets/data/legends/20_water_withdrawal_for agriculture_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/20_legend.png",
+    "audiofile": "../../assets/audio/loops/20.mp3",
+    "zorder": 1100,
     "popdimensions": [
       {
         "x": 7291.470000000012,
@@ -338,7 +477,12 @@
         "height": 463
       }
     ],
-    "audiofile": "../../assets/audio/loops/20.mp3"
+    "boundingbox": {
+      "x": 5053.34,
+      "y": 248.9,
+      "width": 266.04,
+      "height": 320.9
+    }
   },
   "21": {
     "ch": "ch5",
@@ -348,6 +492,9 @@
     "sounddesc": "The sound is represented by a recording of cotton fields being irrigated, combined with the sound of water running down a bathtub drain.",
     "legendpath": "../../assets/data/legends/21 Cotton production by country_legend_updated.svg",
     "maskpath": "../../assets/data/legends/21 Cotton production_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/21_legend.png",
+    "audiofile": "../../assets/audio/loops/21 rev1.mp3",
+    "zorder": 1100,
     "popdimensions": [
       {
         "x": 5569.352386451121,
@@ -356,7 +503,12 @@
         "height": 760
       }
     ],
-    "audiofile": "../../assets/audio/loops/21 rev1.mp3"
+    "boundingbox": {
+      "x": 3744.07,
+      "y": 0.1,
+      "width": 1066.84,
+      "height": 580.368
+    }
   },
   "23": {
     "ch": "ch5",
@@ -366,6 +518,9 @@
     "sounddesc": "The sound is a field recording of a farmer picking rocks from their barren soil, combined with a recording of a creaking cupboard, and re-sampled to evoke the cracking of desiccated farmland.",
     "legendpath": "../../assets/data/legends/23 Marathawada drought Groundwater_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/23 Marathawada drought Groundwater_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/23_legend.png",
+    "audiofile": "../../assets/audio/loops/23 v2.mp3",
+    "zorder": 1200,
     "popdimensions": [
       {
         "x": 6893.295459921343,
@@ -374,7 +529,12 @@
         "height": 606.4723968505859
       }
     ],
-    "audiofile": "../../assets/audio/loops/23 v2.mp3"
+    "boundingbox": {
+      "x": 4770.85,
+      "y": 192.6,
+      "width": 1564.23,
+      "height": 430.92
+    }
   },
   "24": {
     "ch": "ch5",
@@ -384,7 +544,10 @@
     "sounddesc": "The sound is represented by a recording of a rare rainfall in Marathwada, re-sampled and manipulated to evoke very sparse droplets of rain.",
     "legendpath": "../../assets/data/legends/24 Marathwada Rainfall_legend-01-simplified.svg",
     "maskpath": "../../assets/data/legends/24 Marathwada Rainfall_mask-01-wOffsetSimplified.svg",
+    "legendpngpath": "../../assets/data/legends_png/24_legend.png",
+    "audiofile": "../../assets/audio/loops/24.mp3",
     "order": "back",
+    "zorder": 1300,
     "popdimensions": [
       {
         "x": 6964.470000000012,
@@ -393,7 +556,12 @@
         "height": 606
       }
     ],
-    "audiofile": "../../assets/audio/loops/24.mp3"
+    "boundingbox": {
+      "x": 4336.68,
+      "y": -36.5405,
+      "width": 1397.76,
+      "height": 568.32
+    }
   },
   "25": {
     "ch": "ch5",
@@ -403,6 +571,9 @@
     "sounddesc": "The sound is represented by a recording of the arrival of a water tanker in Maharashtra, sampled and manipulated to sound like a diesel engine as heard from inside a water tank.",
     "legendpath": "../../assets/data/legends/25  Droughts in India_legend-01.svg",
     "maskpath": "../../assets/data/legends/25  Droughts in India_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/25_legend.png",
+    "audiofile": "../../assets/audio/loops/25 rev1.mp3",
+    "zorder": 1400,
     "popdimensions": [
       {
         "x": 6516.128129482283,
@@ -411,7 +582,12 @@
         "height": 494.7319641113281
       }
     ],
-    "audiofile": "../../assets/audio/loops/25 rev1.mp3"
+    "boundingbox": {
+      "x": 4464.48,
+      "y": 244.45,
+      "width": 904.34,
+      "height": 349.02
+    }
   },
   "28": {
     "ch": "ch5",
@@ -421,6 +597,9 @@
     "sounddesc": "The sound is represented by a field recording of water at a dam, manipulated to evoke a hydroelectric turbine.",
     "legendpath": "../../assets/data/legends/28 HydroElectric Dam Energy_legend-01.svg",
     "maskpath": "../../assets/data/legends/28 HydroElectric Dam Energy_mask-01-Simplified.svg",
+    "legendpngpath": "../../assets/data/legends_png/28_legend.png",
+    "audiofile": "../../assets/audio/loops/28.mp3",
+    "zorder": 1500,
     "popdimensions": [
       {
         "x": 7237.355000000012,
@@ -429,7 +608,12 @@
         "height": 532
       }
     ],
-    "audiofile": "../../assets/audio/loops/28.mp3"
+    "boundingbox": {
+      "x": 5028.9,
+      "y": 251.79,
+      "width": 867.7,
+      "height": 363.118
+    }
   },
   "29": {
     "ch": "ch5",
@@ -439,7 +623,10 @@
     "sounddesc": "The sound is represented by a field recording of power lines, manipulated and interrupted.",
     "legendpath": "../../assets/data/legends/29 Thermal Utilities India_legends-01.svg",
     "maskpath": "../../assets/data/legends/29 Thermal Utilities India_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/29_legend.png",
+    "audiofile": "../../assets/audio/loops/29.mp3",
     "order": "front",
+    "zorder": 1600,
     "popdimensions": [
       {
         "x": 7584.155000000019,
@@ -448,7 +635,12 @@
         "height": 226
       }
     ],
-    "audiofile": "../../assets/audio/loops/29.mp3"
+    "boundingbox": {
+      "x": 5275.6,
+      "y": 162.68,
+      "width": 106.17,
+      "height": 146.59
+    }
   },
   "30": {
     "ch": "ch5",
@@ -458,7 +650,10 @@
     "sounddesc": "Field recording of the Kosi river (one of the rivers included in the river linking project), modulated by the sound of politicians discussing the river-linking project, and processed to sound dried up and empty.",
     "legendpath": "../../assets/data/legends/30 River Interlinking_legend-01.svg",
     "maskpath": "../../assets/data/legends/30 River Interlinking_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/30_legend.png",
+    "audiofile": "../../assets/audio/loops/30.mp3",
     "order": "front",
+    "zorder": 1700,
     "popdimensions": [
       {
         "x": 8065.405000000012,
@@ -467,7 +662,12 @@
         "height": 533
       }
     ],
-    "audiofile": "../../assets/audio/loops/30.mp3"
+    "boundingbox": {
+      "x": 5647.24,
+      "y": 227.399,
+      "width": 366.27,
+      "height": 401.66
+    }
   },
   "32": {
     "ch": "ch5",
@@ -477,6 +677,9 @@
     "sounddesc": "The sound is represented by the city sounds from Bangalore, combined with the sounds of sucking through a straw, manipulated to sound dry.",
     "legendpath": "../../assets/data/legends/32 Drying cities_Bangalore_legend-01.svg",
     "maskpath": "../../assets/data/legends/32 Drying cities_Bangalore_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/32_legend.png",
+    "audiofile": "../../assets/audio/loops/32.mp3",
+    "zorder": 1800,
     "popdimensions": [
       {
         "x": 7829.155000000019,
@@ -485,7 +688,12 @@
         "height": 285
       }
     ],
-    "audiofile": "../../assets/audio/loops/32.mp3"
+    "boundingbox": {
+      "x": 5457.31,
+      "y": 5.406,
+      "width": 239.55,
+      "height": 203.274
+    }
   },
   "33": {
     "ch": "ch5",
@@ -495,7 +703,10 @@
     "sounddesc": "The sound is represented by musical notes derived from the number of electrons per shell in radon. Those notes are then used to create a synthesized interpretation of radon gas.",
     "legendpath": "../../assets/data/legends/33_Radon_in_Bangalore_legend-01.svg",
     "maskpath": "../../assets/data/legends/33_Radon_in_Bangalore_mask-01-Simplified.svg",
+    "legendpngpath": "../../assets/data/legends_png/33_legend.png",
+    "audiofile": "../../assets/audio/loops/33 rev1.mp3",
     "order": "front",
+    "zorder": 1900,
     "popdimensions": [
       {
         "x": 7726.155000000019,
@@ -504,7 +715,12 @@
         "height": 394
       }
     ],
-    "audiofile": "../../assets/audio/loops/33 rev1.mp3"
+    "boundingbox": {
+      "x": 5381.17,
+      "y": 38.06,
+      "width": 277.06,
+      "height": 286.44
+    }
   },
   "35": {
     "ch": "ch5",
@@ -514,6 +730,9 @@
     "sounddesc": "The sound is represented by cascading Coca Cola sounds, derived from the classic Suzanne Ciani synthesized Coca Cola advertisement.",
     "legendpath": "../../assets/data/legends/35 Cola Cola Water Usage_legend-01.svg",
     "maskpath": "../../assets/data/legends/35 Cola Cola Water Usage_mask-01-wOffset.svg",
+    "legendpngpath": "../../assets/data/legends_png/35_legend.png",
+    "audiofile": "../../assets/audio/loops/35.mp3",
+    "zorder": 2000,
     "popdimensions": [
       {
         "x": 7624.155000000019,
@@ -522,7 +741,12 @@
         "height": 147
       }
     ],
-    "audiofile": "../../assets/audio/loops/35.mp3"
+    "boundingbox": {
+      "x": 5298.59,
+      "y": 9.02,
+      "width": 156.84,
+      "height": 98.73
+    }
   },
   "36": {
     "ch": "ch6",
@@ -532,6 +756,9 @@
     "sounddesc": "The sound is represented by a field recording of the Rhine combined with sounds from a nuclear power plant, and manipulated to evoke evaporation and contamination.",
     "legendpath": "../../assets/data/legends/36 Rhine River temp_legend-01.svg",
     "maskpath": "../../assets/data/legends/36 Rhine River temp_mask-01-wOffset.svg",
+    "legendpngpath": "../../assets/data/legends_png/36_legend.png",
+    "audiofile": "../../assets/audio/loops/36.mp3",
+    "zorder": 2100,
     "popdimensions": [
       {
         "x": 7936.155000000019,
@@ -540,7 +767,12 @@
         "height": 170
       }
     ],
-    "audiofile": "../../assets/audio/loops/36.mp3"
+    "boundingbox": {
+      "x": 5538.57,
+      "y": 212.05,
+      "width": 135.67,
+      "height": 112.95
+    }
   },
   "37": {
     "ch": "ch6",
@@ -550,6 +782,9 @@
     "sounddesc": "The sound is represented by field recordings of Lake Erie(the shallowest of the Great Lakes), arranged in irregular clumps to represent toxic algal blooms.",
     "legendpath": "../../assets/data/legends/37_Microcystic bloom_legend.svg",
     "maskpath": "../../assets/data/legends/37_Microcystic bloom_mask.svg",
+    "legendpngpath": "../../assets/data/legends_png/37_legend.png",
+    "audiofile": "../../assets/audio/loops/37.mp3",
+    "zorder": 2150,
     "popdimensions": [
       {
         "x": 7896.155000000019,
@@ -558,7 +793,12 @@
         "height": 149
       }
     ],
-    "audiofile": "../../assets/audio/loops/37.mp3"
+    "boundingbox": {
+      "x": 5508.87,
+      "y": 265.02,
+      "width": 78.28,
+      "height": 101.36
+    }
   },
   "38": {
     "ch": "ch6",
@@ -568,6 +808,9 @@
     "sounddesc": "The sound is represented by recordings of water combined with the frequency of Nitrogen and re-sampled to evoke sludgy, polluted water.",
     "legendpath": "../../assets/data/legends/38 Chaohu Eutrophication_legend-01.svg",
     "maskpath": "../../assets/data/legends/38 Chaohu Eutrophication_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/38_legend.png",
+    "audiofile": "../../assets/audio/loops/38.mp3",
+    "zorder": 2200,
     "popdimensions": [
       {
         "x": 7896.155000000019,
@@ -576,7 +819,12 @@
         "height": 149
       }
     ],
-    "audiofile": "../../assets/audio/loops/38.mp3"
+    "boundingbox": {
+      "x": 5508.87,
+      "y": 265.02,
+      "width": 78.28,
+      "height": 101.36
+    }
   },
   "40": {
     "ch": "ch6",
@@ -586,6 +834,9 @@
     "sounddesc": "The sound is represented by synthesized mining sounds, manipulated to create additional dusty and sludgy textures, and a repeating tone at 1907Hz (derived from the 1907 C melting point of Chromium).",
     "legendpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_updated.svg",
     "maskpath": "../../assets/data/legends/40_Sukinda mines water_sediment_anlaysis for chromium_legend_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/40_legend.png",
+    "audiofile": "../../assets/audio/loops/40 Rev1.mp3",
+    "zorder": 2300,
     "popdimensions": [
       {
         "x": 8150.155000000019,
@@ -594,7 +845,12 @@
         "height": 196
       }
     ],
-    "audiofile": "../../assets/audio/loops/40 Rev1.mp3"
+    "boundingbox": {
+      "x": 5712.75,
+      "y": 154.374,
+      "width": 144.848,
+      "height": 112.765
+    }
   },
   "41": {
     "ch": "ch6",
@@ -604,6 +860,9 @@
     "sounddesc": "The sound is represented by a news story of mining protests in Sukinda, fed into a granular synthesizer. Notes are arranged in clusters of 6 and transposed only by intervals of 6 semitones in order to represent hexavalent chromium. The overall effect is evocative of mining.",
     "legendpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_legend_updated.svg",
     "maskpath": "../../assets/data/legends/41_Sukinda mines _sediment_anlaysis for chromium_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/41_legend.png",
+    "audiofile": "../../assets/audio/loops/41.mp3",
+    "zorder": 2400,
     "popdimensions": [
       {
         "x": 8220.155000000019,
@@ -612,7 +871,12 @@
         "height": 198
       }
     ],
-    "audiofile": "../../assets/audio/loops/41.mp3"
+    "boundingbox": {
+      "x": 5759.3,
+      "y": 140.53,
+      "width": 164.41,
+      "height": 126.81
+    }
   },
   "42": {
     "ch": "ch6",
@@ -622,6 +886,9 @@
     "sounddesc": "The sound is represented by a synthesized pitch centered around 1084.62hz, as a musical representation of the 1084.62 C melting point of copper. Recorded sounds of molten copper are also added.",
     "legendpath": "../../assets/data/legends/45a_legend-01.svg",
     "maskpath": "../../assets/data/legends/45a_mask-01-Thick.svg",
+    "legendpngpath": "../../assets/data/legends_png/42_legend.png",
+    "audiofile": "../../assets/audio/loops/45.mp3",
+    "zorder": 2400,
     "popdimensions": [
       {
         "x": 8245.825118312834,
@@ -630,7 +897,12 @@
         "height": 351.795786857605
       }
     ],
-    "audiofile": "../../assets/audio/loops/45.mp3"
+    "boundingbox": {
+      "x": 5775,
+      "y": 4.1938,
+      "width": 315.63,
+      "height": 264.436
+    }
   },
   "43": {
     "ch": "ch6",
@@ -640,6 +912,9 @@
     "sounddesc": "The sound is represented by the chemical structure of PBDE, translated into sound by graphically overlaying it onto the circle of 5ths.",
     "legendpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_legend-01-01.svg",
     "maskpath": "../../assets/data/legends/43 Guiyu PDBE in sediment_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/43_legend.png",
+    "audiofile": "../../assets/audio/loops/43.mp3",
+    "zorder": 2500,
     "popdimensions": [
       {
         "x": 8083.155000000019,
@@ -648,7 +923,12 @@
         "height": 306
       }
     ],
-    "audiofile": "../../assets/audio/loops/43.mp3"
+    "boundingbox": {
+      "x": 5652.74,
+      "y": 213.32,
+      "width": 279.774,
+      "height": 210.5
+    }
   },
   "44": {
     "ch": "ch6",
@@ -658,6 +938,9 @@
     "sounddesc": "The sound is represented by an ASMR recording of fried tilapia being eaten, modulated by PBDE sound from data set 43.",
     "legendpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_legend-01.svg",
     "maskpath": "../../assets/data/legends/44 Guiyu - PDBE in Fish_mask-01-01-wOffset.svg",
+    "legendpngpath": "../../assets/data/legends_png/44_legend.png",
+    "audiofile": "../../assets/audio/loops/44.mp3",
+    "zorder": 2600,
     "popdimensions": [
       {
         "x": 8247.405000000012,
@@ -666,7 +949,12 @@
         "height": 272
       }
     ],
-    "audiofile": "../../assets/audio/loops/44.mp3"
+    "boundingbox": {
+      "x": 5778.33,
+      "y": 18.76,
+      "width": 177.694,
+      "height": 183.43
+    }
   },
   "45": {
     "ch": "ch6",
@@ -676,6 +964,9 @@
     "sounddesc": " The sound is represented by three repeating pitches derived from the speed of sound of manganese, nickel, and chromium, combined with manipulated sounds of talking children.",
     "legendpath": "../../assets/data/legends/45b_legend-01.svg",
     "maskpath": "../../assets/data/legends/45b_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/45_legend.png",
+    "audiofile": "../../assets/audio/loops/45.mp3",
+    "zorder": 2700,
     "popdimensions": [
       {
         "x": 8325.405000000012,
@@ -684,7 +975,12 @@
         "height": 268
       }
     ],
-    "audiofile": "../../assets/audio/loops/45.mp3"
+    "boundingbox": {
+      "x": 5837.19,
+      "y": 74.81,
+      "width": 172.46,
+      "height": 174.19
+    }
   },
   "46": {
     "ch": "ch6",
@@ -694,7 +990,10 @@
     "sounddesc": "The sound is represented by field recordings of a sewage treatment plant and of sewage, sampled and manipulated. They play a 19:6 rhythmic ratio against one another, representative of the ratio of liters of sewage created per day in India to liters of sewage per day which is treatable with current infrastructure.",
     "legendpath": "../../assets/data/legends/46_legend_updated.svg",
     "maskpath": "../../assets/data/legends/46_mask-01-Simplified.svg",
+    "legendpngpath": "../../assets/data/legends_png/46_legend.png",
+    "audiofile": "../../assets/audio/loops/46.mp3",
     "order": "front",
+    "zorder": 2800,
     "popdimensions": [
       {
         "x": 8356.43999999999,
@@ -703,7 +1002,12 @@
         "height": 343
       }
     ],
-    "audiofile": "../../assets/audio/loops/46.mp3"
+    "boundingbox": {
+      "x": 5856.85,
+      "y": 291,
+      "width": 292.16,
+      "height": 239.25
+    }
   },
   "48": {
     "ch": "ch6",
@@ -713,6 +1017,9 @@
     "sounddesc": "The sound is represented by field recording of the Ganges River, modulated by a recording of the sound of liquid mercury.",
     "legendpath": "../../assets/data/legends/48_class 1 cities _sewage_legend-01.svg",
     "maskpath": "../../assets/data/legends/48_class 1 cities _sewage_mask-01-wOffset.svg",
+    "legendpngpath": "../../assets/data/legends_png/48_legend.png",
+    "audiofile": "../../assets/audio/loops/48.mp3",
+    "zorder": 3150,
     "popdimensions": [
       {
         "x": 8566.311220114236,
@@ -721,7 +1028,12 @@
         "height": 376.7903137207031
       }
     ],
-    "audiofile": "../../assets/audio/loops/48.mp3"
+    "boundingbox": {
+      "x": 6018.7,
+      "y": 212.2,
+      "width": 903.035,
+      "height": 266.2 
+    }
   },
   "50": {
     "ch": "ch6",
@@ -731,6 +1043,9 @@
     "sounddesc": "The sound is represented by recordings of a pill bottle combined with an Aurobindo Pharma stock news update, and then processed further using granular synthesis.",
     "legendpath": "../../assets/data/legends/50 Antibiotic resistance in India_legend-01-simplified.svg",
     "maskpath": "../../assets/data/legends/50 Antibiotic resistance in India_mask-01-simplified.svg",
+    "legendpngpath": "../../assets/data/legends_png/50_legend.png",
+    "audiofile": "../../assets/audio/loops/50.mp3",
+    "zorder": 3120,
     "popdimensions": [
       {
         "x": 8651.029999999984,
@@ -739,7 +1054,12 @@
         "height": 545
       }
     ],
-    "audiofile": "../../assets/audio/loops/50.mp3"
+    "boundingbox": {
+      "x": 6049.41,
+      "y": 0.96,
+      "width": 971.52,
+      "height": 460.32
+    }
   },
   "52": {
     "ch": "ch6",
@@ -749,6 +1069,9 @@
     "sounddesc": "The sound is represented by field recording of a plastic water bottle factory, combined with recordings of male sex sounds.",
     "legendpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_legend-01.svg",
     "maskpath": "../../assets/data/legends/52 Xenoestrogen in infertile men_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/52_legend.png",
+    "audiofile": "../../assets/audio/loops/52.mp3",
+    "zorder": 3000,
     "popdimensions": [
       {
         "x": 8606.344999999988,
@@ -757,7 +1080,12 @@
         "height": 505
       }
     ],
-    "audiofile": "../../assets/audio/loops/52.mp3"
+    "boundingbox": {
+      "x": 6057.12,
+      "y": 45.44,
+      "width": 640.6,
+      "height": 357.888
+    }
   },
   "53": {
     "ch": "ch6",
@@ -767,7 +1095,10 @@
     "sounddesc": "The sound is represented by recordings of voices talking about bottled water, ring modulated and processed via granular synthesis.",
     "legendpath": "../../assets/data/legends/53 Bottled water consumption_legend-01.svg",
     "maskpath": "../../assets/data/legends/53 Bottled water consumption_mask-01-Simplified.svg",
+    "legendpngpath": "../../assets/data/legends_png/53_legend.png",
+    "audiofile": "../../assets/audio/loops/53.mp3",
     "order": "back",
+    "zorder": 3100,
     "popdimensions": [
       {
         "x": 8496.024999999998,
@@ -776,7 +1107,12 @@
         "height": 798
       }
     ],
-    "audiofile": "../../assets/audio/loops/53.mp3"
+    "boundingbox": {
+      "x": 5966.31,
+      "y": 27.84,
+      "width": 1436.87,
+      "height": 596.72
+    }
   },
   "54": {
     "ch": "ch6",
@@ -788,7 +1124,10 @@
     "maskpath": "../../assets/data/legends/54_ Platic bottled water_mask-01-simplified.svg",
     "speciallegend":"../../assets/data/legends/54_ Platic bottled water_revised_legend_specialcase.svg",
     "specialmask":"../../assets/data/legends/54_ Platic bottled water_mask-01-simplified_specialcase.svg",
+    "legendpngpath": "../../assets/data/legends_png/54_legend.png",
+    "audiofile": "../../assets/audio/loops/54.mp3",
     "order": "front",
+    "zorder": 3200,
     "popdimensions": [
       {
         "x": 9879.752386451104,
@@ -797,7 +1136,12 @@
         "height": 353
       }
     ],
-    "audiofile": "../../assets/audio/loops/54.mp3"
+    "boundingbox": {
+      "x": 6521.89,
+      "y": 363.027,
+      "width": 1271.93,
+      "height": 244.983
+    }
   },
   "55": {
     "ch": "ch6",
@@ -807,6 +1151,9 @@
     "sounddesc": "The sound is represented by the recording of a PET plastic bottle being crushed, used to create a pointillistic sound collage which allocates 1 discrete sound per 100 billion pieces of plastic in the ocean (fifty discrete sounds in total)",
     "legendpath": "../../assets/data/legends/55_legend-rasterised.svg",
     "maskpath": "../../assets/data/legends/55_mask-rasterised-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/55_legend.png",
+    "audiofile": "../../assets/audio/loops/54.mp3",
+    "zorder": 3300,
     "popdimensions": [
       {
         "x": 8556.202449076196,
@@ -814,7 +1161,13 @@
         "width": 508.24652099609375,
         "height": 270.22027587890625
       }
-    ],"audiofile": "../../assets/audio/loops/54.mp3"
+    ],
+    "boundingbox": {
+      "x": 6004.53,
+      "y": 379.63,
+      "width": 371.196,
+      "height": 222.781
+    }
   },
   "58": {
     "ch": "ch7",
@@ -824,6 +1177,9 @@
     "sounddesc": "The sound is represented by a manipulated field recording of the Mississippi river, cascading into a manipulated field recording of the Gulf of Mexico.",
     "legendpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_legend-01.svg",
     "maskpath": "../../assets/data/legends/58 Area of hypoxia in Gulf of mexico_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/58_legend.png",
+    "audiofile": "../../assets/audio/loops/58.mp3",
+    "zorder": 3400,
     "popdimensions": [
       {
         "x": 9299.819999999998,
@@ -832,7 +1188,12 @@
         "height": 595
       }
     ],
-    "audiofile": "../../assets/audio/loops/58.mp3"
+    "boundingbox": {
+      "x": 6573.85,
+      "y": 29.65,
+      "width": 921.082,
+      "height": 428.24
+    }
   },
   "60": {
     "ch": "ch7",
@@ -842,7 +1203,10 @@
     "sounddesc": "The sound is represented by using the rhythm of a Geiger counter, but the frequency of caesium (divided by 1 million to bring it into the audible range).",
     "legendpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_updated.svg",
     "maskpath": "../../assets/data/legends/60 Fukushima PBFT radionuclides_mask-01-simplified.svg",
+    "legendpngpath": "../../assets/data/legends_png/60_legend.png",
+    "audiofile": "../../assets/audio/loops/60.mp3",
     "order": "back",
+    "zorder": 3500,
     "popdimensions": [
       {
         "x": 9490.634999999995,
@@ -851,7 +1215,12 @@
         "height": 729
       }
     ],
-    "audiofile": "../../assets/audio/loops/60.mp3"
+    "boundingbox": {
+      "x": 6691.52,
+      "y": 36.5,
+      "width": 2063.08,
+      "height": 617.5
+    }
   },
   "63": {
     "ch": "ch7",
@@ -861,6 +1230,9 @@
     "sounddesc": "The sound is represented by field recording of the sounds of a coral reef, drowned out with spectral processing.",
     "legendpath": "../../assets/data/legends/63 Sound Pollution_legend-01.svg",
     "maskpath": "../../assets/data/legends/63 Sound Pollution_mask-01-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/63_legend.png",
+    "audiofile": "../../assets/audio/loops/63.mp3",
+    "zorder": 3600,
     "popdimensions": [
       {
         "x": 9447.944999999976,
@@ -869,7 +1241,12 @@
         "height": 380
       }
     ],
-    "audiofile": "../../assets/audio/loops/63.mp3"
+    "boundingbox": {
+      "x": 6687,
+      "y": 20.18,
+      "width": 365.24,
+      "height": 266.13
+    }
   },
   "64": {
     "ch": "ch7",
@@ -879,7 +1256,10 @@
     "sounddesc": "The sound is represented by the sound of carbon (data set 14) was manipulated to sound watery and layered with an interpretive sound of plankton.synthesizer",
     "legendpath": "../../assets/data/legends/64_plankton_legend-01.svg",
     "maskpath": "../../assets/data/legends/64_plankton_mask-01.svg",
+    "legendpngpath": "../../assets/data/legends_png/64_legend.png",
+    "audiofile": "../../assets/audio/loops/63.mp3",
     "order": "front",
+    "zorder": 3700,
     "popdimensions": [
       {
         "x": 10874.752386451117,
@@ -888,6 +1268,11 @@
         "height": 717
       }
     ],
-    "audiofile": "../../assets/audio/loops/63.mp3"
+    "boundingbox": {
+      "x": 6247.56,
+      "y": 66.48,
+      "width": 2902.1,
+      "height": 537.84
+    }
   }
 }

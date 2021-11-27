@@ -1,7 +1,7 @@
 /**
  * ------------------------------------------------
- * AUTHOR:  Mike Cj (mikecj184)
- * Copyright 2020 - 2021 Timeblur
+ * AUTHORS:  Mike Cj (mikecj184) and Himanshu erande (rndexe)
+ * Copyright 2020 - 2021
  * This code is licensed under MIT license (see LICENSE file for more details)
  * ------------------------------------------------
  */
@@ -337,7 +337,7 @@ function loadDataset(id, early=true){
       //}
       //
       let legenddata = mergedLegends[id];
-      console.log(mergedPolygons[id])
+      //console.log(mergedPolygons[id])
       let polygondata = JSON.parse(mergedPolygons[id]);
       //
       let lpath = datasets[id].legendpath;

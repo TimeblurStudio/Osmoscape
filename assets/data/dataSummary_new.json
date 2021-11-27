@@ -157,14 +157,13 @@
     "maskpath": "../../assets/data/legends/11 Rain pH and Co2_mask-01.svg",
     "audiofile": "../../assets/audio/loops/11.mp3",
     "zorder": 300,
-    "popdimensions": [
-      {
-        "x": 1666.49,
-        "y": 20.35,
-        "width": 674.12,
-        "height": 620.289
-      }
-    ]
+    "popdimensions": {
+      "x": 1666.49,
+      "y": 20.35,
+      "width": 674.12,
+      "height": 620.289
+    }
+  
   },
   "12": {
     "ch": "ch3",
