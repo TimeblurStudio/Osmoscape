@@ -28,7 +28,6 @@ osmo.legendSvg = class {
     this.PIXI = osmo.scroll.PIXI;
 
     //@private
-    this.datasets = {};
     this.loadIndividualFiles = false;
     this.mergedPolygons = {};
     this.mergedLegends = {};
@@ -51,24 +50,17 @@ osmo.legendSvg = class {
     console.log('osmo.Legend - init');
     //
     //
-    let dataURL = './assets/data/dataSummary.json' + '?v=' + window.version;
-    console.log('dataURL: ' + dataURL);
-    $.getJSON(dataURL, function( data ) {
-      console.log('Loaded datasets summary');
-      //
-      let dataWaitInterval = setInterval(function(){
-        if(osmo.datasvg){
-          if(osmo.scroll.mainScroll != null && !jQuery.isEmptyObject(self.mergedLegends) && !jQuery.isEmptyObject(self.mergedPolygons)){
-            //
-            clearInterval(dataWaitInterval);
-            self.datasets = data;
-            self.loadDatasets();
-            //
-          }
+    let dataWaitInterval = setInterval(function(){
+      if(osmo.datasvg){
+        if(osmo.scroll.mainScroll != null && !jQuery.isEmptyObject(self.mergedLegends) && !jQuery.isEmptyObject(self.mergedPolygons)){
+          //
+          clearInterval(dataWaitInterval);
+          self.loadDatasets();
+          //
         }
-      },1000);
-      //
-    });
+      }
+    },1000);
+    //
     //
     let legendsURL = './assets/data/mergedLegends.json' + '?v=' + window.version;
     console.log('mergedLegendURL: ' + legendsURL);
@@ -81,7 +73,7 @@ osmo.legendSvg = class {
     console.log('mergedPolygonsURL: ' + polygonsURL);
     $.getJSON(polygonsURL, function( data ) {
       self.mergedPolygons = data;
-      console.log('Loaded polgon files');
+      console.log('Loaded polygon files');
     });
     //
     //
@@ -101,33 +93,33 @@ osmo.legendSvg = class {
    * ------------------------------------------------
    */
   loadDataset(id, early=true){
-    if (this.datasets.hasOwnProperty(id)) {
+    if (osmo.scroll.datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
       let legenddata = this.mergedLegends[id];
       let polygondata = JSON.parse(this.mergedPolygons[id]);
       //
       //
-      let lpath = this.datasets[id].legendpath;
-      let title = this.datasets[id].title;
+      let lpath = osmo.scroll.datasets[id].legendpath;
+      let title = osmo.scroll.datasets[id].title;
       //
       //
-      let morder = this.datasets[id].order;
+      let morder = osmo.scroll.datasets[id].order;
       if(morder != 'front' && morder != 'back')
         morder = null;
       //
       //
-      if(this.datasets[id].hasOwnProperty('popdimensions')){
+      if(osmo.scroll.datasets[id].hasOwnProperty('popdimensions')){
         console.log('Loading dimensions for : ' + id);
         //
-        let dim = this.datasets[id].popdimensions;
+        let dim = osmo.scroll.datasets[id].popdimensions;
         this.popupBBoxes[id] = {
           mask: null,
           legend: null,
           paths: [],
           rects: [],
           dimensions: dim,
-          polygons: this.datasets[id].physics
+          polygons: osmo.scroll.datasets[id].physics
         };
         //
         //
@@ -168,7 +160,7 @@ osmo.legendSvg = class {
   loadDatasets(){
     let self = this;
     //
-    for (let id in this.datasets)
+    for (let id in osmo.scroll.datasets)
       self.loadDataset(id, true);
     //
     //
@@ -327,8 +319,8 @@ osmo.legendSvg = class {
           //
           console.log('Loaded '+num+' legend');
           //
-          let percmask = 0.5*parseFloat(self.maskAreas.length)/parseFloat(Object.keys(self.datasets).length);
-          let percleg = 0.5*parseFloat(self.legendFiles.length)/parseFloat(Object.keys(self.datasets).length);
+          let percmask = 0.5*parseFloat(self.maskAreas.length)/parseFloat(Object.keys(osmo.scroll.datasets).length);
+          let percleg = 0.5*parseFloat(self.legendFiles.length)/parseFloat(Object.keys(osmo.scroll.datasets).length);
           let percentage = '&nbsp;&nbsp;' + parseInt((percmask + percleg)*100) + '%';
           $('#percentage').html(percentage);
           //
@@ -468,7 +460,7 @@ osmo.legendSvg = class {
     osmo.scroll.mainScroll['part1'].alpha = 0.1;
     osmo.scroll.mainScroll['part2'].alpha = 0.1;
     //
-    let titleName = osmo.legendsvg.datasets[id].title;
+    let titleName = osmo.scroll.datasets[id].title;
     //
     for(let i=0; i<this.maskAreas.length; i++)
       this.maskAreas[i].alpha = 0;
@@ -486,6 +478,12 @@ osmo.legendSvg = class {
     osmo.legendinteract.cursorLoading = null;
     //
     if(osmo.legendinteract.cursorLoading == null){
+      //
+      // Stop all tracks and start target track
+      for (let audioid in osmo.scroll.datasets)
+        osmo.legendaudio.audioPlayerInstances[audioid].stop();
+      console.log('Now playing legend audio: ' + id);
+      osmo.legendaudio.audioPlayerInstances[id].start();
       //
       $('.cursor-pointer').css('border', 'none');
       $('.cursor-loading').show();
@@ -552,11 +550,14 @@ osmo.legendSvg = class {
     osmo.scroll.mainScroll['part2'].alpha = 1;
     for(let i=0; i<this.maskAreas.length; i++)
       this.maskAreas[i].alpha = this.maskAlpha;
-    //
+    // Hide all legends
     this.legendContainer.visible = false;
     for(let i=0; i<this.legendFiles.length; i++)
       if(this.legendFiles[i].visible)
         this.legendFiles[i].visible = false;
+    // Stop all tracks
+    for (let audioid in osmo.scroll.datasets)
+      osmo.legendaudio.audioPlayerInstances[audioid].stop();
     //
     if(osmo.legendinteract.cursorLoading != null)
       clearTimeout(osmo.legendinteract.cursorLoading);
