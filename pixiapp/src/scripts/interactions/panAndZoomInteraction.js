@@ -27,14 +27,25 @@ osmo.panAndZoomInteraction = class {
     // Lib
     // ----------------
     this.PIXI = osmo.scroll.PIXI;
+    this.TWEENMAX = osmo.scroll.TWEENMAX;
+    this.POWER4 = osmo.scroll.POWER4;
+    
 
     //@private
+    this.defaultZoom = null;
+    this.minZoom = 1;
     this.maxZoom = 1;
+    //
     this.isCompletedDetecting = false;
     this.isTrackpadDetected = false;
     this.navScrolledUpdate = true;
+    //
     this.deltaValX = 0;
     this.deltaValY = 0;
+    this.isDragging = false;
+    this.prevMouseLoc = null;
+    this.mouseLoc = null;
+
 
     // Methods
     this.init;
@@ -50,6 +61,53 @@ osmo.panAndZoomInteraction = class {
     let self = this;
     this.detectMouseType();
 
+    // zoom init
+    this.defaultZoom = osmo.scroll.mainStage.scale.x;
+    this.setZoomRange(0.85, 4);//0.85x to 4x
+    let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/this.defaultZoom)*100).toString() + '%';
+    $('#zoom-level').text(zoomPercentage);
+    $('#zoom-in').on('click', function(){
+      osmo.pzinteract.changeZoom(-50, true, true);
+    });
+    $('#zoom-out').on('click', function(){
+      osmo.pzinteract.changeZoom(50, true, true);
+    });
+    
+    //
+    // Custom Mouse follow
+    document.addEventListener('mousemove', function(e) {
+      self.prevMouseLoc = self.mouseLoc;
+      self.mouseLoc = new osmo.scroll.PIXI.Point(e.pageX, e.pageY);
+      $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+    });
+
+    //
+    // Click and drag when focused
+    document.addEventListener('mousedown', function(e) {
+      if(osmo.scroll.hitPopupMode == 'focused')
+        self.isDragging = true;
+    });
+
+    document.addEventListener('mouseup', function(e) {
+      if(osmo.scroll.hitPopupMode == 'focused')
+        self.isDragging = false;
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      // If focused - click and drag feature
+      if(osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isDragging){
+        //
+        let deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
+        let deltaY = -1*(self.mouseLoc.y - self.prevMouseLoc.y);
+        let fac = 1.005;
+        osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaX, deltaY, fac*osmo.scroll.pixiScale, false);//
+        //
+      }
+      //
+    });
+
+    //
+    //
     /* EARLY METHOD BELOW FOR TOUCH */
     /*
     //touchmove works for iOS, and Android
@@ -80,9 +138,6 @@ osmo.panAndZoomInteraction = class {
       $('#main-scroll-canvas').trigger(newEvent);
     });
     */
-
-
-
 
     // Main scrolling functionality
     //$('#main-scroll-canvas').on('mousewheel', function(event) {
@@ -124,10 +179,6 @@ osmo.panAndZoomInteraction = class {
         //
       }
       //
-      //
-      //
-      //
-      //
       let et;
       if(!window.isMobile){
         et = event.originalEvent;
@@ -148,18 +199,96 @@ osmo.panAndZoomInteraction = class {
           deltaValY = et.deltaX;
         }
         //
-        osmo.scroll.mainStage.position = osmo.pzinteract.changeCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac*osmo.scroll.pixiScale);
+        osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac*osmo.scroll.pixiScale);
         //
       }
       else{
+        //
         deltaValX = et.deltaX;
         deltaValY = et.deltaY;
-        //
-        osmo.scroll.mainStage.position = osmo.pzinteract.changeCenter(osmo.scroll.mainStage.position, deltaValX, deltaValY, fac*osmo.scroll.pixiScale, false);
+        osmo.pzinteract.changeZoom(deltaValY);// Consilder only deltaY for zoom
         //
       }
     });
 
+
+
+    //
+    document.addEventListener('keydown', this.onKeyDown);
+  }
+
+  /*
+  $(document).ready(function(){
+    $('#myCanvas').on('mousewheel', function(event) {
+      var newZoom = paper.view.zoom; 
+      var oldZoom = paper.view.zoom;
+      
+      if (event.deltaY > 0) {     
+        newZoom = paper.view.zoom * 1.05;
+      } else {
+        newZoom = paper.view.zoom * 0.95;
+      }
+      
+      var beta = oldZoom / newZoom;
+      
+      var mousePosition = new paper.Point(event.offsetX, event.offsetY);
+      
+      //viewToProject: gives the coordinates in the Project space from the Screen Coordinates
+      var viewPosition = paper.view.viewToProject(mousePosition);
+      
+      var mpos = viewPosition;
+      var ctr = paper.view.center;
+      
+      var pc = mpos.subtract(ctr);
+      var offset = mpos.subtract(pc.multiply(beta)).subtract(ctr);  
+      
+      paper.view.zoom = newZoom;
+      paper.view.center = paper.view.center.add(offset);
+      
+      event.preventDefault();
+      paper.view.draw();      
+    }); 
+  }); 
+  */
+
+
+  onKeyDown(event) {
+    //
+    // 107 Num Key  +
+    // 109 Num Key  -
+    // 173 Min Key  hyphen/underscore key
+    // 61 Plus key  +/= key
+    //
+    if ((event.ctrlKey || event.metaKey) && (event.which == '61' || event.which == '107' || event.which == '173' || event.which == '109'  || event.which == '187'  || event.which == '189'  ) ) {
+      console.log('Pressed ' + event.which + ' - disabling zoom');
+      event.preventDefault();
+      //
+      //
+      let self = osmo.pzinteract;
+      if(osmo.scroll.hitPopupMode == 'focused'){
+        let zoomChanged = false;
+        let deltaValY = 0;
+        //
+        if ((event.ctrlKey || event.metaKey) && (event.key === '=' || event.key === '+')) {// Equivalent to +
+          console.log('Zooming in');
+          deltaValY = -50;
+          zoomChanged = true;
+        }
+        if ((event.ctrlKey || event.metaKey) && (event.key === '-' || event.key === '_')) {
+          console.log('Zooming out');
+          deltaValY = 50;
+          zoomChanged = true;
+        }
+        //
+        if(zoomChanged)
+          osmo.pzinteract.changeZoom(deltaValY, false, true);
+        //
+      }
+      //
+      //
+      return;
+    }
+    //
   }
 
   /**
@@ -205,9 +334,6 @@ osmo.panAndZoomInteraction = class {
       osmo.legendsvg.maskContainer.visible = true;
       console.log('Enabled mask after 500ms');
       //
-      
-          
-
       /*
       // Just keep legends in and around current view
       let xMin = osmo.scroll.PAPER.view.center.x - osmo.scroll.paperWidth/2.0;
@@ -237,13 +363,12 @@ osmo.panAndZoomInteraction = class {
     
   }
   
-
   /**
    * ------------------------------------------------
-   * changeCenter
+   * calculateCenter
    * ------------------------------------------------
    */
-  changeCenter(oldCenter, deltaX, deltaY, factor, restricted=true){
+  calculateCenter(oldCenter, deltaX, deltaY, factor, restricted=true){
     let scrollWidth = osmo.datasvg.scrollWidth;
     let pixiWidth = osmo.scroll.pixiWidth;
     let pixiScale = osmo.scroll.pixiScale;
@@ -263,22 +388,24 @@ osmo.panAndZoomInteraction = class {
 
   /**
    * ------------------------------------------------
-   * changeZoom
+   * calculateZoom
    * ------------------------------------------------
    */
-  changeZoom(oldZoom, delta, factor=1.015, restricted=true){
-    let newZoom = oldZoom;
+  calculateZoom(oldZoom, delta, factor=1.015, restricted=true){
     //
+    factor = factor+Math.abs(delta*0.01);
+    //
+    let newZoom = oldZoom;
     if(delta < 0)
       newZoom = oldZoom * factor;
     if(delta > 0)
       newZoom = oldZoom / factor;
     //
     if(restricted){
-      if(newZoom <= 1)
-        newZoom = 1;
-      if(newZoom > maxZoom)
-        newZoom = maxZoom;
+      if(newZoom <= this.defaultZoom*this.minZoom)
+        newZoom = this.defaultZoom*this.minZoom;
+      if(newZoom > this.defaultZoom*this.maxZoom)
+        newZoom = this.defaultZoom*this.maxZoom;
     }
     //
     return newZoom;
@@ -286,11 +413,76 @@ osmo.panAndZoomInteraction = class {
 
   /**
    * ------------------------------------------------
-   * setMaxZoom
+   * changeZoom
    * ------------------------------------------------
    */
-  setMaxZoom(val){
-    this.maxZoom = val;
+  changeZoom(delta,centeredZoom=false,animate=false){
+    //
+    let fac = 1.0;
+    let currentZoom = osmo.scroll.mainStage.scale.x;
+    let newScale = osmo.pzinteract.calculateZoom(currentZoom, delta, fac, true);
+    let mouseX = osmo.pzinteract.mouseLoc.x*osmo.scroll.pixiScale;
+    let mouseY = osmo.pzinteract.mouseLoc.y*osmo.scroll.pixiScale;
+    //
+    if(centeredZoom){
+      mouseX = (osmo.scroll.pixiWidth/2)*osmo.scroll.pixiScale;
+      mouseY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
+    }
+    //
+    let worldPos = new osmo.scroll.PIXI.Point((mouseX - osmo.scroll.mainStage.x) / currentZoom, (mouseY - osmo.scroll.mainStage.y)/currentZoom);
+    let newScreenPos = new osmo.scroll.PIXI.Point(worldPos.x*newScale + osmo.scroll.mainStage.x, worldPos.y*newScale + osmo.scroll.mainStage.y);
+    //
+    if(animate){
+      let dur = 500;// half a second
+      //
+      this.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
+        x: osmo.scroll.mainStage.x - (newScreenPos.x-mouseX),
+        y: osmo.scroll.mainStage.y - (newScreenPos.y-mouseY),
+        ease: this.POWER4.easeInOut
+      });
+      //
+      this.TWEENMAX.to(osmo.scroll.mainStage.scale, dur/1000, {
+        x: newScale,
+        y: newScale,
+        ease: this.POWER4.easeInOut
+      });
+      //
+      let self = this;
+      setTimeout(function(){
+        let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/self.defaultZoom)*100).toString() + '%';
+        $('#zoom-level').text(zoomPercentage);
+      }, dur);
+      //
+    }else{
+      osmo.scroll.mainStage.x -= (newScreenPos.x-mouseX) ;
+      osmo.scroll.mainStage.y -= (newScreenPos.y-mouseY) ;
+      osmo.scroll.mainStage.scale.x = osmo.scroll.mainStage.scale.y = newScale;
+      //
+      let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/this.defaultZoom)*100).toString() + '%';
+      $('#zoom-level').text(zoomPercentage);
+      //
+    }
+    //
+    //
+  }
+
+  /**
+   * ------------------------------------------------
+   * resetZoom
+   * ------------------------------------------------
+   */
+  resetZoom(){
+    osmo.scroll.mainStage.scale.x = osmo.scroll.mainStage.scale.y = this.defaultZoom;
+  }
+
+  /**
+   * ------------------------------------------------
+   * setZoomRange
+   * ------------------------------------------------
+   */
+  setZoomRange(minval, maxval){
+    this.minZoom = minval;
+    this.maxZoom = maxval;
   }
 
   /**

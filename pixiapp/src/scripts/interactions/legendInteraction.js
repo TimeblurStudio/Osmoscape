@@ -25,12 +25,10 @@ osmo.legendInteraction = class {
     //
     this.PIXI = osmo.scroll.PIXI;
     //
-    this.cursorLoading = null;
     this.prevHitResultName = null;
     //
     this.currentFocus = null;
     this.dragMode = false;
-    this.isDragging = false;
     this.loadingStage = null;
     //
     this.prevBoundsCenter = null;
@@ -47,6 +45,7 @@ osmo.legendInteraction = class {
     let self = this;
     $('#popcancel').click(function(){
       self.closeLegendPopup();
+      osmo.pzinteract.resetZoom();
     });
     //    
     $('#popup-info-toggle').click(function(){
@@ -88,8 +87,15 @@ osmo.legendInteraction = class {
           mask.on('pointerdown', function(){
             //
             console.log('Clicked inside hitArea for mask-'+id);
-            if(self.cursorLoading == null)
+            if(osmo.legendsvg.cursorLoading == null){
+              //
+              if(osmo.legendsvg.cursorTextTimeout != null)
+                clearTimeout(osmo.legendsvg.cursorTextTimeout);
+              osmo.legendsvg.cursorTextTimeout = null;
+              //
               self.showLegend(id);
+              //
+            }
             //
           });
           mask.on('pointerover', function(){
@@ -123,6 +129,7 @@ osmo.legendInteraction = class {
    */
   showLegend(number){
     console.log('Opening legend ' + number);
+    osmo.legendsvg.legendClicksCount++;
     //
     $('#focused-info').animate({ left:'0px'}, 1200);
     $('.nav').hide();
@@ -144,7 +151,6 @@ osmo.legendInteraction = class {
     //this.reset_animation('cursor-clcf', 'cursor-loading-circle');
     //this.reset_animation('cursor-clf', 'cursor-loading-full');
     this.dragMode = false;
-    this.isDragging = false;
     //
     let self = this;
     this.loadingStage = setTimeout(function(){
@@ -155,11 +161,14 @@ osmo.legendInteraction = class {
       //
       $('.cursor-loading-full').hide();
       $('.cursor-pointer-dot').show();
-      $('.cursor-txt').html('Click & drag');
-      $('.cursor-txt').show();
+      if(osmo.legendsvg.legendClicksCount < 2){
+        $('.cursor-txt').html('Click & drag');
+        $('.cursor-txt').show();
+        setTimeout(function(){  $('.cursor-txt').html('Scroll to zoom');  }, 4000);
+        setTimeout(function(){  $('.cursor-txt').hide();  }, 8000);
+      }
       self.dragMode = true;
-      self.isDragging = false;
-    },4000);
+    },1000);
     //
     //document.body.style.cursor = 'zoom-in';
     //
@@ -251,7 +260,6 @@ osmo.legendInteraction = class {
     $('.cursor-txt').html('');
     $('.cursor-txt').hide();
     this.dragMode = false;
-    this.isDragging = false;
     //document.body.style.cursor = 'default';
     //
     let fac = 1.005;//1.005/(mainStage.scale.x*mainStage.scale.y);
@@ -261,7 +269,7 @@ osmo.legendInteraction = class {
     let deltaValY = -(newCenter.y - osmo.scroll.mainStage.position.y);
     //
     //mainStage.scale.x = mainStage.scale.y = changeZoom(mainStage.scale.x, -1, zoomFac, false);
-    osmo.scroll.mainStage.position = osmo.pzinteract.changeCenter(osmo.scroll.mainStage.position, deltaValX, deltaValY, fac);
+    osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaValX, deltaValY, fac);
     //
     this.currentFocus = null;
     osmo.scroll.hitPopupMode = 'hovering';

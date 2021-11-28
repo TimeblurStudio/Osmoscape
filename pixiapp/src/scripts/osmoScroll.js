@@ -77,7 +77,6 @@ osmo.Scroll = class {
     this.pixiHeight;
     this.pixiWidth;
     this.splashWidth;
-    this.mouseLoc;
     this.loaded = {  'HQimage' : false,  'svgdata': false, 'backgroundaudio': false, 'legendaudio': false  };
     this.datasets = {};
     this.pixiScale = 2;
@@ -152,18 +151,6 @@ osmo.Scroll = class {
     osmo.navinteract.init();
     osmo.legendinteract = new osmo.legendInteraction();
     osmo.legendinteract.init();
-          
-
-    
-    //
-    // Custom Mouse follow
-    document.addEventListener('mousemove', function(e) {
-      osmo.scroll.mouseLoc = new osmo.scroll.PIXI.Point(e.pageX, e.pageY);
-      let mouseX = e.pageX;
-      let mouseY = e.pageY;
-      //if(osmo.scroll.loaded.HQimage && osmo.scroll.loaded.svgdata)
-      $('.cursor-pointer-wrapper').css('transform', 'translate3d('+mouseX+'px, '+mouseY+'px, 0px)');
-    });
 
     //
     // Custom mouse hide/show

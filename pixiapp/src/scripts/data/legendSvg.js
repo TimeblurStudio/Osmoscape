@@ -39,6 +39,11 @@ osmo.legendSvg = class {
     this.maskContainer;
     this.legendContainer;
     this.maskAlpha = 0;
+    //
+    this.cursorTextTimeout = null;
+    this.cursorLoading = null;
+    this.legendClicksCount = 0;
+    //
 
     // Methods
     this.init;
@@ -497,11 +502,14 @@ osmo.legendSvg = class {
     //
     this.popupBBoxes[id].legend.visible = true;
     //
-    if(osmo.legendinteract.cursorLoading != null)
-      clearTimeout(osmo.legendinteract.cursorLoading);
-    osmo.legendinteract.cursorLoading = null;
+    if(this.cursorLoading != null)
+      clearTimeout(this.cursorLoading);
+    this.cursorLoading = null;
+    if(this.cursorTextTimeout != null)
+      clearTimeout(this.cursorTextTimeout);
+    this.cursorTextTimeout = null;
     //
-    if(osmo.legendinteract.cursorLoading == null){
+    if(this.cursorLoading == null){
       //
       // Stop all tracks and start target track
       for (let audioid in osmo.scroll.datasets)
@@ -520,15 +528,22 @@ osmo.legendSvg = class {
       this.reset_animation('cursor-cl', 'cursor-loading');
       //
       let self = this;
-      osmo.legendinteract.cursorLoading = setTimeout(function(){
+      this.cursorLoading = setTimeout(function(){
         //
-        osmo.legendinteract.cursorLoading = null;
+        self.cursorLoading = null;
         //
         $('.cursor-pointer').css('border', '2px solid white');
         $('.cursor-loading').hide();
         $('.cursor-pointer-dot').show();
-        $('.cursor-txt').html('Click to open');
-        $('.cursor-txt').show();
+        if(self.legendClicksCount < 2){
+          $('.cursor-txt').html('<span style="background: rgba(0,0,0,0.45); margin: -100%; padding: 2px 2px;">'+ 'Click to open' +'</span>');
+          $('.cursor-txt').show();
+          self.cursorTextTimeout = setTimeout(function(){  
+            $('.cursor-txt').hide();  
+            self.cursorTextTimeout = null;
+          }, 4000); 
+        }else
+          $('.cursor-txt').hide();
         /*
         // Disable rest of the masks until the dark background fades out!
         Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
@@ -583,9 +598,9 @@ osmo.legendSvg = class {
     for (let audioid in osmo.scroll.datasets)
       osmo.legendaudio.audioPlayerInstances[audioid].stop();
     //
-    if(osmo.legendinteract.cursorLoading != null)
-      clearTimeout(osmo.legendinteract.cursorLoading);
-    osmo.legendinteract.cursorLoading = null;
+    if(this.cursorLoading != null)
+      clearTimeout(this.cursorLoading);
+    this.cursorLoading = null;
     //
     $('.cursor-pointer').css('border', '2px solid white');
     $('.cursor-loading').hide();
