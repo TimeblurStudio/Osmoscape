@@ -308,6 +308,9 @@ body {
   width: 100%;
   margin: auto;
   text-align: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 #popup-info-toggle {
