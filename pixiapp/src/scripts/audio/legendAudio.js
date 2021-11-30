@@ -14,14 +14,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:   legendAudio
+ * class:   LegendAudio
  * desc:
  * ------------------------------------------------
  */
-osmo.legendAudio = class {
+osmo.LegendAudio = class {
 
   constructor(){
-    console.log('osmo.legendAudio - constructor');
+    console.log('osmo.LegendAudio - constructor');
 
     // ----------------
     // Lib
@@ -36,7 +36,7 @@ osmo.legendAudio = class {
   }
 
   loadAudio(){
-    console.log('osmo.legendAudio - loadAudio');
+    console.log('osmo.LegendAudio - loadAudio');
     //
     let self = this;
     //

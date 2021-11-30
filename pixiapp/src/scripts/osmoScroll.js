@@ -26,14 +26,14 @@ import { TweenMax, Power4 } from 'gsap';
 import { Cull } from '@pixi-essentials/cull';
 //
 //
-import {} from './audio/backgroundAudio';
-import {} from './audio/legendAudio';
-import {} from './data/dataSvg';
-import {} from './data/legendSvg';
-import {} from './interactions/navigationInteraction';
-import {} from './interactions/panAndZoomInteraction';
-import {} from './interactions/legendInteraction';
-import {} from './interactions/speakerMicroInteraction';
+import {} from './audio/BackgroundAudio';
+import {} from './audio/LegendAudio';
+import {} from './data/DataSvg';
+import {} from './data/LegendSvg';
+import {} from './interactions/NavigationInteraction';
+import {} from './interactions/PanAndZoomInteraction';
+import {} from './interactions/LegendInteraction';
+import {} from './interactions/SpeakerMicroInteraction';
 //
 window.osmo = window.osmo || {};
 //
@@ -121,7 +121,7 @@ osmo.Scroll = class {
     this.initModal(false);
 
     // AUDIO
-    osmo.bgaudio  = new osmo.backgroundAudio();
+    osmo.bgaudio  = new osmo.BackgroundAudio();
     osmo.bgaudio.loadAudio();
     //
 
@@ -134,22 +134,22 @@ osmo.Scroll = class {
       osmo.scroll.datasets = data;
       //
       // LEGEND AUDIO
-      osmo.legendaudio = new osmo.legendAudio();
+      osmo.legendaudio = new osmo.LegendAudio();
       osmo.legendaudio.loadAudio();
       //
       // LEGEND DATA
-      osmo.legendsvg = new osmo.legendSvg();
+      osmo.legendsvg = new osmo.LegendSvg();
       osmo.legendsvg.init();
       //
     });
 
 
     // INTERACTIONS
-    osmo.pzinteract = new osmo.panAndZoomInteraction();
+    osmo.pzinteract = new osmo.PanAndZoomInteraction();
     osmo.pzinteract.init();
-    osmo.navinteract = new osmo.navigationInteraction();
+    osmo.navinteract = new osmo.NavigationInteraction();
     osmo.navinteract.init();
-    osmo.legendinteract = new osmo.legendInteraction();
+    osmo.legendinteract = new osmo.LegendInteraction();
     osmo.legendinteract.init();
 
     //
@@ -330,7 +330,7 @@ osmo.Scroll = class {
 
     //
     // SPEAKER
-    osmo.smi = new osmo.speakerMicroInteraction();
+    osmo.smi = new osmo.SpeakerMicroInteraction();
     osmo.smi.init();
     //
     //
@@ -374,7 +374,7 @@ osmo.Scroll = class {
   onScrollData(_path){
     //
     //
-    osmo.datasvg = new osmo.dataSvg();
+    osmo.datasvg = new osmo.DataSvg();
     osmo.datasvg.init('High');
     osmo.datasvg.initSplash(osmo.scroll.splashWidth);
     osmo.datasvg.initSVGscroll(_path);

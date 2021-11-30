@@ -26,14 +26,14 @@ import { SVGScene } from '@pixi-essentials/svg';
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:  Navigation
+ * class:  NavigationInteraction
  * desc:
  * ------------------------------------------------
  */
-osmo.navigationInteraction = class {
+osmo.NavigationInteraction = class {
 
   constructor(){
-    console.log('osmo.navigationInteraction - constructor');
+    console.log('osmo.NavigationInteraction - constructor');
 
     // ----------------
     // Lib

@@ -23,20 +23,20 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:  speakerMicroInteraction
+ * class:  SpeakerMicroInteraction
  * desc:
  * ------------------------------------------------
  */
-osmo.speakerMicroInteraction = class {
+osmo.SpeakerMicroInteraction = class {
 
   constructor(){
-    console.log('osmo.speakerMicroInteraction - constructor');
+    console.log('osmo.SpeakerMicroInteraction - constructor');
     //
   }
 
   //
   init(){
-    console.log('init speakerMicroInteraction');
+    console.log('init SpeakerMicroInteraction');
     $(document).ready(function () {
 
       // Speaker interaction

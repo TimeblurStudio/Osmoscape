@@ -14,14 +14,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:  dataSvg
+ * class:  DataSvg
  * desc:
  * ------------------------------------------------
  */
-osmo.dataSvg = class {
+osmo.DataSvg = class {
 
   constructor(){
-    console.log('osmo.dataSvg - constructor');
+    console.log('osmo.DataSvg - constructor');
 
     // ----------------
     // Lib
@@ -51,7 +51,7 @@ osmo.dataSvg = class {
    */
   init(q){
     //
-    console.log('osmo.dataSvg - init');
+    console.log('osmo.DataSvg - init');
     this.quality = q;
     //
     this.backgroundContainer = new this.PIXI.Container();
@@ -95,7 +95,7 @@ osmo.dataSvg = class {
    * ------------------------------------------------
    */
   initSplash(_width){
-    console.log('osmo.dataSvg - initSplash');
+    console.log('osmo.DataSvg - initSplash');
     let self = this;
     //
     let splashURL = './assets/images/OsmoSplash.png';

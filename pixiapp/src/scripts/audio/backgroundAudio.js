@@ -14,14 +14,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:   backgroundAudio
+ * class:   BackgroundAudio
  * desc:
  * ------------------------------------------------
  */
-osmo.backgroundAudio = class {
+osmo.BackgroundAudio = class {
 
   constructor(){
-    console.log('osmo.backgroundAudio - constructor');
+    console.log('osmo.BackgroundAudio - constructor');
 
     // ----------------
     // Lib
@@ -48,7 +48,7 @@ osmo.backgroundAudio = class {
   }
 
   loadAudio(){
-    console.log('osmo.backgroundAudio - loadAudio');
+    console.log('osmo.BackgroundAudio - loadAudio');
     //
     let self = this;
     let base_path = './assets/audio/tracks/Baseline_';

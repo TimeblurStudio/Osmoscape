@@ -14,11 +14,11 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:  Legend
+ * class:  LegendSvg
  * desc:
  * ------------------------------------------------
  */
-osmo.legendSvg = class {
+osmo.LegendSvg = class {
 
   constructor(){
     console.log('osmo.Legend - constructor');

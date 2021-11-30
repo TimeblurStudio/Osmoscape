@@ -10,7 +10,7 @@
 
 
 import './jquery-global.js';
-import {} from './osmoScroll';
+import {} from './OsmoScroll';
 
 
 window.osmo = window.osmo || {};

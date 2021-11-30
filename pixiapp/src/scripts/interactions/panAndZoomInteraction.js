@@ -18,10 +18,10 @@ window.osmo = window.osmo || {};
  * desc:
  * ------------------------------------------------
  */
-osmo.panAndZoomInteraction = class {
+osmo.PanAndZoomInteraction = class {
 
   constructor(){
-    console.log('osmo.panAndZoomInteraction - constructor');
+    console.log('osmo.PanAndZoomInteraction - constructor');
 
     // ----------------
     // Lib

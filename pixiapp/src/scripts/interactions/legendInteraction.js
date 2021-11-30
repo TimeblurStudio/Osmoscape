@@ -14,14 +14,14 @@ export default class {}
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
- * class:  legendInteraction
+ * class:  LegendInteraction
  * desc:
  * ------------------------------------------------
  */
-osmo.legendInteraction = class {
+osmo.LegendInteraction = class {
 
   constructor(){
-    console.log('osmo.legendInteraction - constructor');
+    console.log('osmo.LegendInteraction - constructor');
     //
     this.PIXI = osmo.scroll.PIXI;
     //
@@ -38,7 +38,7 @@ osmo.legendInteraction = class {
 
 
   init(){
-    console.log('osmo.legendInteraction.init - started');
+    console.log('osmo.LegendInteraction.init - started');
     //
     //
     //
@@ -68,7 +68,7 @@ osmo.legendInteraction = class {
   }
 
   initMaskInteractions(){
-    console.log('osmo.legendInteraction.initMaskInteractions - started'); 
+    console.log('osmo.LegendInteraction.initMaskInteractions - started'); 
     //
     let self = this;
     for (let id in osmo.scroll.datasets){
