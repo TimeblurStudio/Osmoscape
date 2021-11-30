@@ -84,6 +84,7 @@ osmo.legendSvg = class {
     //
     this.legendContainer = new this.PIXI.Container();
     this.maskContainer = new this.PIXI.Container();
+    this.maskContainer.sortableChildren = true;
     //
     this.maskContainer.visible = true;
     this.legendContainer.visible = false;
@@ -107,11 +108,7 @@ osmo.legendSvg = class {
       //
       let lpath = osmo.scroll.datasets[id].legendpngpath;
       let title = osmo.scroll.datasets[id].title;
-      //
-      //
-      let morder = osmo.scroll.datasets[id].order;
-      if(morder != 'front' && morder != 'back')
-        morder = null;
+      let zorder = osmo.scroll.datasets[id].zorder;
       //
       //
       if(osmo.scroll.datasets[id].hasOwnProperty('popdimensions') && osmo.scroll.datasets[id].hasOwnProperty('boundingbox')){
@@ -126,7 +123,9 @@ osmo.legendSvg = class {
           rects: [],
           boundingbox: bbox,
           dimensions: dim,
-          polygons: osmo.scroll.datasets[id].physics
+          polygons: osmo.scroll.datasets[id].physics,
+          maskScale: 1,
+          legendScale: 1
         };
         //
         //
@@ -143,7 +142,7 @@ osmo.legendSvg = class {
       }
       //
       //
-      let maskpromise = this.maskLoad(title, polygondata, id, morder);
+      let maskpromise = this.maskLoad(title, polygondata, id, zorder);
       let legendpromise = this.legendLoad(title, legenddata, lpath, id, this.loadIndividualFiles);
       //
       if(early){
@@ -214,7 +213,7 @@ osmo.legendSvg = class {
    * maskLoad
    * ------------------------------------------------
    */
-  maskLoad(title, polygons, num, order = null){
+  maskLoad(title, polygons, num, order = 0){
     let self = this;
     //
     console.log('maskLoad called');
@@ -222,21 +221,11 @@ osmo.legendSvg = class {
       //
       if(self.popupBBoxes[num] != undefined){
         //
-        let _x = parseInt(self.popupBBoxes[num]['dimensions'][0].x);
-        let _y = parseInt(self.popupBBoxes[num]['dimensions'][0].y);
-        let _width = parseInt(self.popupBBoxes[num]['dimensions'][0].width);
-        let _height = parseInt(self.popupBBoxes[num]['dimensions'][0].height);
-        //
-        let rs = (osmo.scroll.pixiHeight/osmo.scroll.refPopupSize.height);
-        _x *= rs;
-        _y *= rs;
-        _width *= rs;
-        _height *= rs;
-        //
         let graphics = new self.PIXI.Graphics();
         graphics.beginFill(0xFFA500);
         graphics.lineStyle(1, 0xFF0000);
         graphics.alpha = self.maskAlpha;
+        graphics.zIndex = order;
         //
         if(polygons.shapes != undefined){
           for (let s of polygons.shapes){
@@ -266,6 +255,7 @@ osmo.legendSvg = class {
         if(polygons.viewport){
           let maskHeight = polygons.viewport.split(' ')[3];
           maskScale = osmo.scroll.pixiHeight/maskHeight;
+          self.popupBBoxes[num].maskScale = maskScale;
         }
         //
         mask.scale.set(maskScale, maskScale);
@@ -522,7 +512,7 @@ osmo.legendSvg = class {
       $('.cursor-pointer-dot').hide();
       //$('.cursor-txt').hide();
       //
-      $('.cursor-txt').html('<span style="background: rgba(0,0,0,0.45); margin: -100%; padding: 2px 2px;">'+ titleName +'</span>');
+      $('.cursor-txt').html('<span style=" text-shadow: 1px 1px 2px black; margin: -100%; padding: 2px 2px;">'+ titleName +'</span>');
       $('.cursor-txt').show();
       this.reset_animation('cursor-clc', 'cursor-loading-circle');
       this.reset_animation('cursor-cl', 'cursor-loading');
@@ -536,7 +526,7 @@ osmo.legendSvg = class {
         $('.cursor-loading').hide();
         $('.cursor-pointer-dot').show();
         if(self.legendClicksCount < 2){
-          $('.cursor-txt').html('<span style="background: rgba(0,0,0,0.45); margin: -100%; padding: 2px 2px;">'+ 'Click to open' +'</span>');
+          $('.cursor-txt').html('<span style=" text-shadow: 1px 1px 2px black; margin: -100%; padding: 2px 2px;">'+ 'Click to open' +'</span>');
           $('.cursor-txt').show();
           self.cursorTextTimeout = setTimeout(function(){  
             $('.cursor-txt').hide();  

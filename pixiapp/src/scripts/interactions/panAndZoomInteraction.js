@@ -67,10 +67,31 @@ osmo.panAndZoomInteraction = class {
     let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/this.defaultZoom)*100).toString() + '%';
     $('#zoom-level').text(zoomPercentage);
     $('#zoom-in').on('click', function(){
-      osmo.pzinteract.changeZoom(-50, true, true);
+      //
+      let centerPosX = (osmo.scroll.pixiWidth/2)*osmo.scroll.pixiScale;
+      let centerPosY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
+      // consilder if left panel is open
+      if(osmo.legendinteract.isSidebarOpen()){
+        let left_shift = osmo.scroll.pixiWidth*0.33;
+        let focused_width = osmo.scroll.pixiWidth*(1-0.33);
+        centerPosX = (left_shift+focused_width/2)*osmo.scroll.pixiScale;
+        centerPosY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
+      }
+      //
+      osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, -50, true);
     });
     $('#zoom-out').on('click', function(){
-      osmo.pzinteract.changeZoom(50, true, true);
+      let centerPosX = (osmo.scroll.pixiWidth/2)*osmo.scroll.pixiScale;
+      let centerPosY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
+      // consilder if left panel is open
+      if(osmo.legendinteract.isSidebarOpen()){
+        let left_shift = osmo.scroll.pixiWidth*0.33;
+        let focused_width = osmo.scroll.pixiWidth*(1-0.33);
+        centerPosX = (left_shift+focused_width/2)*osmo.scroll.pixiScale;
+        centerPosY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
+      }
+      //      
+      osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, 50, true);
     });
     
     //
@@ -206,7 +227,10 @@ osmo.panAndZoomInteraction = class {
         //
         deltaValX = et.deltaX;
         deltaValY = et.deltaY;
-        osmo.pzinteract.changeZoom(deltaValY);// Consilder only deltaY for zoom
+        //
+        let mouseX = osmo.pzinteract.mouseLoc.x*osmo.scroll.pixiScale;
+        let mouseY = osmo.pzinteract.mouseLoc.y*osmo.scroll.pixiScale;
+        osmo.pzinteract.changeZoomAt(mouseX, mouseY, deltaValY);// Consilder only deltaY for zoom
         //
       }
     });
@@ -280,8 +304,11 @@ osmo.panAndZoomInteraction = class {
           zoomChanged = true;
         }
         //
-        if(zoomChanged)
-          osmo.pzinteract.changeZoom(deltaValY, false, true);
+        if(zoomChanged){
+          let mouseX = osmo.pzinteract.mouseLoc.x*osmo.scroll.pixiScale;
+          let mouseY = osmo.pzinteract.mouseLoc.y*osmo.scroll.pixiScale;
+          osmo.pzinteract.changeZoomAt(mouseX, mouseY, deltaValY, true);
+        }
         //
       }
       //
@@ -413,21 +440,14 @@ osmo.panAndZoomInteraction = class {
 
   /**
    * ------------------------------------------------
-   * changeZoom
+   * changeZoomAt
    * ------------------------------------------------
    */
-  changeZoom(delta,centeredZoom=false,animate=false){
+  changeZoomAt(mouseX, mouseY, delta, animate=false){
     //
     let fac = 1.0;
     let currentZoom = osmo.scroll.mainStage.scale.x;
     let newScale = osmo.pzinteract.calculateZoom(currentZoom, delta, fac, true);
-    let mouseX = osmo.pzinteract.mouseLoc.x*osmo.scroll.pixiScale;
-    let mouseY = osmo.pzinteract.mouseLoc.y*osmo.scroll.pixiScale;
-    //
-    if(centeredZoom){
-      mouseX = (osmo.scroll.pixiWidth/2)*osmo.scroll.pixiScale;
-      mouseY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
-    }
     //
     let worldPos = new osmo.scroll.PIXI.Point((mouseX - osmo.scroll.mainStage.x) / currentZoom, (mouseY - osmo.scroll.mainStage.y)/currentZoom);
     let newScreenPos = new osmo.scroll.PIXI.Point(worldPos.x*newScale + osmo.scroll.mainStage.x, worldPos.y*newScale + osmo.scroll.mainStage.y);

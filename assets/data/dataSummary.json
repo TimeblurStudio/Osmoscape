@@ -626,7 +626,7 @@
     "legendpngpath": "../../assets/data/legends_png/29_legend.png",
     "audiofile": "../../assets/audio/loops/29.mp3",
     "order": "front",
-    "zorder": 1600,
+    "zorder": 6000,
     "popdimensions": [
       {
         "x": 7584.155000000019,

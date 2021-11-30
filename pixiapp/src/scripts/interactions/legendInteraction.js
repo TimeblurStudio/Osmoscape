@@ -49,14 +49,12 @@ osmo.legendInteraction = class {
     });
     //    
     $('#popup-info-toggle').click(function(){
-      if($('#popup-info-toggle').html() == '&lt;'){
+      if(self.isSidebarOpen()){
         $('#popup-info-toggle').html('&gt;');
         $('#focused-info').animate({ left:'-33%'}, 600);
-      }else if($('#popup-info-toggle').html() == '&gt;'){
+      }else {
         $('#popup-info-toggle').html('&lt;');
         $('#focused-info').animate({ left:'0%'}, 600);
-      }else{
-        console.log('Not supposed to be here!');
       }
     });
     //
@@ -121,6 +119,9 @@ osmo.legendInteraction = class {
   }
 
 
+  isSidebarOpen(){
+    return $('#popup-info-toggle').html() == '&lt;';
+  }
 
   /*
    * ------------------------------------------------
@@ -207,16 +208,31 @@ osmo.legendInteraction = class {
     _y *= rs;
     _width *= rs;
     _height *= rs;
+    /*
+    let offset = 0;
+    if (this.currentFocus === '-1') offset = 495;//(9945 - 9693);
+    else if (this.currentFocus === '0') offset = (9945 - 9601);
+    else if (this.currentFocus === '64')  offset = (9945 - 9459);
+    else  offset = 495;
+    let maskScale = osmo.legendsvg.popupBBoxes[this.currentFocus].maskScale;
+    */
+    _x += osmo.scroll.pixiWidth*3/4;
+    let left_corner = -1*_x;
+    let left_shift = osmo.scroll.pixiWidth*0.33;
+    let focused_width = osmo.scroll.pixiWidth*(1-0.33);
+    let centerShiftX = (focused_width/2) - (_width/2);
     //
     this.prevBoundsCenter = new this.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
-    var newViewCenter = new this.PIXI.Point(-1*_x*osmo.scroll.pixiScale, osmo.scroll.pixiHeight/2 - _y - _height/2);
+    let newViewCenter = new this.PIXI.Point((left_corner + left_shift + centerShiftX)*osmo.scroll.pixiScale, (-1*_y + (osmo.scroll.pixiHeight- _height)/2)*osmo.scroll.pixiScale);//  *osmo.scroll.pixiScale + osmo.scroll.pixiHeight*osmo.scroll.pixiScale/2 - _height*osmo.scroll.pixiScale/2);
     osmo.scroll.mainStage.position = newViewCenter;
-    /*
     // Zoom into selected area!
-    this.prevZoom = zoomFac;
-    let zoomFac = fac * 0.5 * pixiWidth / (1.0 * _width);
-    mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
-    */
+    this.prevZoom = osmo.scroll.mainStage.scale.x;
+    let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * _width);
+    let delta = -1*(zoomFac - 1)*100*0.5;//75% of required scale
+    let focusedCenterX = (left_shift+focused_width/2)*osmo.scroll.pixiScale;
+    let focusedCenterY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
+    osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
+    //mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
     //
     $('body').css('background-color',  '#A3BDC7'); 
     //
@@ -232,8 +248,10 @@ osmo.legendInteraction = class {
     //
     $('#head-normal-view').show();
     $('#focused-cta').hide();
+    $('#popup-info-toggle').html('&lt;');
     $('#focused-info').animate({ left:'-33%'}, 600);
     $('#focused-info').hide();
+    $('#zoom-level').text('100%');
     //
     $('.nav').show();
     $('body').css('background-color',  '#b5ced5');
