@@ -29,8 +29,9 @@ osmo.LegendSvg = class {
 
     //@private
     this.loadIndividualFiles = true;
-    this.mergedPolygons = {};
     this.mergedLegends = {};
+    this.mergedPolygons = {};
+    this.mergedSoundAreas = {};
     this.earlySVGDataPromises = [];
     this.allSVGDataPromises = [];
     this.popupBBoxes = {};
@@ -57,7 +58,7 @@ osmo.LegendSvg = class {
     //
     let dataWaitInterval = setInterval(function(){
       if(osmo.datasvg){
-        if(osmo.scroll.mainScroll != null && !jQuery.isEmptyObject(self.mergedLegends) && !jQuery.isEmptyObject(self.mergedPolygons)){
+        if(osmo.scroll.mainScroll != null && !jQuery.isEmptyObject(self.mergedLegends) && !jQuery.isEmptyObject(self.mergedPolygons) && !jQuery.isEmptyObject(self.mergedSoundAreas)){
           //
           clearInterval(dataWaitInterval);
           self.loadDatasets();
@@ -71,14 +72,21 @@ osmo.LegendSvg = class {
     console.log('mergedLegendURL: ' + legendsURL);
     $.getJSON(legendsURL, function( data ) {
       self.mergedLegends = data;
-      console.log('Loaded legend files');
+      console.log('Loaded legends');
     });
     //
     let polygonsURL = './assets/data/mergedPolygons.json' + '?v=' + window.version;
     console.log('mergedPolygonsURL: ' + polygonsURL);
     $.getJSON(polygonsURL, function( data ) {
       self.mergedPolygons = data;
-      console.log('Loaded polygon files');
+      console.log('Loaded polygons');
+    });
+    //
+    let soundAreasURL = './assets/data/mergedSoundAreas.json' + '?v=' + window.version;
+    console.log('mergedSoundAreasURL: ' + soundAreasURL);
+    $.getJSON(soundAreasURL, function( data ) {
+      self.mergedSoundAreas = data;
+      console.log('Loaded sound areas');
     });
     //
     //

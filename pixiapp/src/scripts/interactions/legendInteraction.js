@@ -11,6 +11,11 @@
 'use strict';
 export default class {}
 
+//
+import {} from '../audio/MoleculeController';
+import {} from '../audio/SoundEffects';
+import {} from '../data/SoundInteractionArea';
+
 window.osmo = window.osmo || {};
 /**
  * ------------------------------------------------
@@ -208,14 +213,6 @@ osmo.LegendInteraction = class {
     _y *= rs;
     _width *= rs;
     _height *= rs;
-    /*
-    let offset = 0;
-    if (this.currentFocus === '-1') offset = 495;//(9945 - 9693);
-    else if (this.currentFocus === '0') offset = (9945 - 9601);
-    else if (this.currentFocus === '64')  offset = (9945 - 9459);
-    else  offset = 495;
-    let maskScale = osmo.legendsvg.popupBBoxes[this.currentFocus].maskScale;
-    */
     _x += osmo.scroll.pixiWidth*3/4;
     let left_corner = -1*_x;
     let left_shift = osmo.scroll.pixiWidth*0.33;
@@ -225,6 +222,7 @@ osmo.LegendInteraction = class {
     this.prevBoundsCenter = new this.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
     let newViewCenter = new this.PIXI.Point((left_corner + left_shift + centerShiftX)*osmo.scroll.pixiScale, (-1*_y + (osmo.scroll.pixiHeight- _height)/2)*osmo.scroll.pixiScale);//  *osmo.scroll.pixiScale + osmo.scroll.pixiHeight*osmo.scroll.pixiScale/2 - _height*osmo.scroll.pixiScale/2);
     osmo.scroll.mainStage.position = newViewCenter;
+    /*
     // Zoom into selected area!
     this.prevZoom = osmo.scroll.mainStage.scale.x;
     let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * _width);
@@ -233,6 +231,29 @@ osmo.LegendInteraction = class {
     let focusedCenterY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
     osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
     //mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
+    */
+    //
+    // ADD SOUND INTERACTION AREA
+    osmo.soundareas = new osmo.SoundInteractionArea();
+    osmo.soundareas.init();
+    osmo.scroll.mainStage.addChild(osmo.soundareas.areaContainer);
+    // POSITION SOUND INATRACTION AREA
+    let maskScale = osmo.legendsvg.popupBBoxes[this.currentFocus].maskScale;
+    let offset = 0;
+    if (this.currentFocus === '-1') offset = 495;//(9945 - 9693);
+    else if (this.currentFocus === '0') offset = (9945 - 9601);
+    else if (this.currentFocus === '64')  offset = (9945 - 9459);
+    else  offset = 495;
+    offset -= 2; // NOTE: CORRECTING FOR MINOR OFFSET (WHILE GENERATING THE SOUND AREA MAY BE?)
+    osmo.soundareas.setNew(this.currentFocus, maskScale, new this.PIXI.Point(offset*maskScale+osmo.scroll.pixiWidth*3/4,0));
+    // ADD SOUND EFFECTS
+    osmo.soundeffects = new osmo.SoundEffects();
+    osmo.soundeffects.init();
+    //osmo.soundeffects.setNewBuffer(this.currentFocus);
+    // ADD MOLECULE
+    //osmo.mc = new osmo.MoleculeController();
+    //osmo.mc.init(osmo.scroll.mainStage.position);
+    //osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
     //
     $('body').css('background-color',  '#A3BDC7'); 
     //
@@ -245,6 +266,14 @@ osmo.LegendInteraction = class {
    * ------------------------------------------------
    */
   closeLegendPopup(){
+    //
+    osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
+    osmo.mc = null;
+    delete osmo.mc;
+    //
+    osmo.scroll.mainStage.removeChild(osmo.soundareas.areaContainer);
+    osmo.soundareas = null;
+    delete osmo.soundareas;
     //
     $('#head-normal-view').show();
     $('#focused-cta').hide();

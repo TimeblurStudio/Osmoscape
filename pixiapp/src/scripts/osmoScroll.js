@@ -79,6 +79,7 @@ osmo.Scroll = class {
     this.splashWidth;
     this.loaded = {  'HQimage' : false,  'svgdata': false, 'backgroundaudio': false, 'legendaudio': false  };
     this.datasets = {};
+    this.includeSpecialCase = false;
     this.pixiScale = 2;
     this.Volume_db = { min : -12,  max: 6 };
     this.refPopupSize = { width: 1440.0,  height: 821.0  };
@@ -87,6 +88,7 @@ osmo.Scroll = class {
     this.prevBoundsCenter = null;
     this.prevZoom = null;
     //
+    this.tonecontext = null;
     this.started = false;
     
     // Methods
@@ -113,9 +115,12 @@ osmo.Scroll = class {
     osmo.scroll.WAVEFORMDATA = WaveformData;
     osmo.scroll.TWEENMAX = TweenMax;
     osmo.scroll.POWER4 = Power4;
+    //
+    window.tone = tone;
 
     // Setup UI
     this.initPixi();
+    this.initTone();
     this.renderAnimations();
     this.addActionButtons();
     this.initModal(false);
@@ -151,6 +156,13 @@ osmo.Scroll = class {
     osmo.navinteract.init();
     osmo.legendinteract = new osmo.LegendInteraction();
     osmo.legendinteract.init();
+
+    /*
+    // ADD MOLECULE
+    osmo.mc = new osmo.MoleculeController();
+    osmo.mc.init(osmo.scroll.mainStage.position);
+    osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
+    */
 
     //
     // Custom mouse hide/show
@@ -220,34 +232,45 @@ osmo.Scroll = class {
 
     // Setup PIXI canvas
     let canvas = document.getElementById('main-scroll-canvas');
-    self.pixiHeight = canvas.offsetHeight;
-    self.pixiWidth = canvas.offsetWidth;
+    this.pixiHeight = canvas.offsetHeight;
+    this.pixiWidth = canvas.offsetWidth;
     
     //Create a Pixi Application
     let app = new PIXI.Application({
-      width: self.pixiWidth*self.pixiScale,
-      height: self.pixiHeight*self.pixiScale,
+      width: this.pixiWidth*this.pixiScale,
+      height: this.pixiHeight*this.pixiScale,
       antialias: true,
       backgroundAlpha: 0,
       view: canvas
     }
     );
-    self.mainApp = app;
-    self.mainStage = self.mainApp.stage;
-    self.mainStage.scale.set(self.pixiScale, self.pixiScale);
+    this.mainApp = app;
+    this.mainStage = this.mainApp.stage;
+    this.mainStage.scale.set(this.pixiScale, this.pixiScale);
     //
     //
     // CULLING
     //
     // Cull the entire scene graph, starting from the stage
     const cull = new Cull({ recursive: true, toggle: 'renderable' });
-    cull.add(self.mainStage);
+    cull.add(this.mainStage);
     // "prerender" is fired right before the renderer draws the scene
-    self.mainApp.renderer.on('prerender', () => {
+    this.mainApp.renderer.on('prerender', () => {
       // Cull out all objects that don't intersect with the screen
       cull.cull(self.mainApp.renderer.screen);
     });
     //
+  }
+
+  /**
+   * ------------------------------------------------
+   * initTone
+   * ------------------------------------------------
+   */
+  initTone(){
+    // INIT AUDIO LIB
+    this.tonecontext = new this.TONE.Context({ latencyHint: 'balanced'});
+    this.TONE.setContext(this.tonecontext);
   }
 
   /**

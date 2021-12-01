@@ -116,7 +116,7 @@ osmo.DataSvg = class {
         splashSprite.anchor.y = 0.5;
         // Move the raster to the center of the view
         splashSprite.x = osmo.scroll.pixiWidth/2;
-        splashSprite.y = osmo.scroll.pixiHeight/2;
+        splashSprite.y = osmo.scroll.pixiHeight/2 - splashSprite.height/4;
         //
           
         //
@@ -128,7 +128,7 @@ osmo.DataSvg = class {
           fill: '#b97941'
         });
         let text = new self.PIXI.Text(window.isMobile?'Hold & Scroll to explore':'Scroll to explore',style);
-        let textLoc = new self.PIXI.Point(splashSprite.x - splashSprite.width/3 + 15, splashSprite.y + splashSprite.height*0.4);
+        let textLoc = new self.PIXI.Point(splashSprite.x - splashSprite.width/3 + 15, splashSprite.y + splashSprite.height*0.6);
         text.x = textLoc.x;
         text.y = textLoc.y;
         //

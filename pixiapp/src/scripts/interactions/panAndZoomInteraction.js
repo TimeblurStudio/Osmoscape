@@ -118,10 +118,18 @@ osmo.PanAndZoomInteraction = class {
       // If focused - click and drag feature
       if(osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isDragging){
         //
-        let deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
-        let deltaY = -1*(self.mouseLoc.y - self.prevMouseLoc.y);
-        let fac = 1.005;
-        osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaX, deltaY, fac*osmo.scroll.pixiScale, false);//
+        let dragging_enabled = true;
+        if(osmo.mc != null)
+          if(osmo.mc.dragging)
+            dragging_enabled = false;
+        //
+        //
+        if(dragging_enabled){
+          let deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
+          let deltaY = -1*(self.mouseLoc.y - self.prevMouseLoc.y);
+          let fac = 1.005;
+          osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaX, deltaY, fac*osmo.scroll.pixiScale, false);//
+        }
         //
       }
       //
@@ -476,6 +484,7 @@ osmo.PanAndZoomInteraction = class {
     }else{
       osmo.scroll.mainStage.x -= (newScreenPos.x-mouseX) ;
       osmo.scroll.mainStage.y -= (newScreenPos.y-mouseY) ;
+      //
       osmo.scroll.mainStage.scale.x = osmo.scroll.mainStage.scale.y = newScale;
       //
       let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/this.defaultZoom)*100).toString() + '%';
