@@ -1,9 +1,22 @@
+@font-face {
+  font-family: OratorStd;
+  src: url("../assets/fonts/OratorStd.otf") format("opentype");
+}
 body {
   -webkit-user-select: none;
   -moz-user-select: none;
   -o-user-select: none;
   -ms-user-select: none;
       user-select: none;
+}
+
+#chapter-text {
+  padding: 12px;
+  margin: 0;
+  color: white;
+  font-weight: 400;
+  font-family: OratorStd, sans-serif;
+  display: none;
 }
 
 #cursor {
@@ -71,10 +84,10 @@ body {
   position: absolute;
   color: white;
   left: 50%;
-  bottom: -15px;
-  width: 160px;
-  margin-left: -80px;
-  font: 700 13px/15px Roboto, sans-serif;
+  bottom: -48px;
+  width: 260px;
+  margin-left: -130px;
+  font: 13px "Roboto", sans-serif;
   letter-spacing: 3px;
   text-align: center;
   text-transform: uppercase;
@@ -254,7 +267,7 @@ body {
   line-height: 31px;
   font-size: 17px;
   padding-right: 10px;
-  height: calc(100% - 86px);
+  height: 100%;
 }
 
 #focused-description::-webkit-scrollbar {
@@ -1053,11 +1066,11 @@ svg, path {
   width: 336px;
   bottom: 0;
   left: calc(50% - 164px);
-  padding: 10px;
+  padding: 5px;
   display: none;
   margin-bottom: 18px;
   z-index: 10;
-  background: #0001;
+  background: rgba(0, 0, 0, 0.03);
   border-radius: 20px;
 }
 
