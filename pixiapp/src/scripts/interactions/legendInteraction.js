@@ -139,6 +139,7 @@ osmo.LegendInteraction = class {
     //
     $('#focused-info').animate({ left:'0px'}, 1200);
     $('.nav').hide();
+    $('#chapter-text').hide();
     //
     osmo.scroll.hitPopupMode = 'focused';
     osmo.datasvg.backgroundContainer.visible = false;
@@ -222,7 +223,7 @@ osmo.LegendInteraction = class {
     this.prevBoundsCenter = new this.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
     let newViewCenter = new this.PIXI.Point((left_corner + left_shift + centerShiftX)*osmo.scroll.pixiScale, (-1*_y + (osmo.scroll.pixiHeight- _height)/2)*osmo.scroll.pixiScale);//  *osmo.scroll.pixiScale + osmo.scroll.pixiHeight*osmo.scroll.pixiScale/2 - _height*osmo.scroll.pixiScale/2);
     osmo.scroll.mainStage.position = newViewCenter;
-    /*
+    //
     // Zoom into selected area!
     this.prevZoom = osmo.scroll.mainStage.scale.x;
     let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * _width);
@@ -231,7 +232,7 @@ osmo.LegendInteraction = class {
     let focusedCenterY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
     osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
     //mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
-    */
+    //
     //
     // ADD SOUND INTERACTION AREA
     osmo.soundareas = new osmo.SoundInteractionArea();
@@ -267,9 +268,9 @@ osmo.LegendInteraction = class {
    */
   closeLegendPopup(){
     //
-    osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
-    osmo.mc = null;
-    delete osmo.mc;
+    //osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
+    //osmo.mc = null;
+    //delete osmo.mc;
     //
     osmo.scroll.mainStage.removeChild(osmo.soundareas.areaContainer);
     osmo.soundareas = null;
@@ -283,6 +284,7 @@ osmo.LegendInteraction = class {
     $('#zoom-level').text('100%');
     //
     $('.nav').show();
+    $('#chapter-text').show();
     $('body').css('background-color',  '#b5ced5');
     //
     //document.body.style.cursor = 'default';

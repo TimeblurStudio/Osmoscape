@@ -149,7 +149,7 @@ osmo.NavigationInteraction = class {
       for(let i=0; i < elements.length; i++){
         let ele = $(elements[i]);
         let id = parseInt(ele.attr('data-id'));
-        if(ele.hasClass('selected') ){
+        if(ele.hasClass('selected')){
           ele.removeClass('selected');
           ele.find('img')[0].src = ele.find('img')[0].src.replace('_selected','_default');
         }
@@ -157,7 +157,10 @@ osmo.NavigationInteraction = class {
           console.log('Updated - ' + navLoc);
           self.currentNavLoc = navLoc;
           ele.addClass('selected');
-          //
+          for(let key in chapter_names)
+            if('ch'+id==`${key}`)
+              $('#chapter-text').text(`${chapter_names[key]}`);
+          this.currentNavLoc = navLoc;
           ele.find('img')[0].src = ele.find('img')[0].src.replace('_default','_selected');
         }
       }
@@ -361,6 +364,7 @@ osmo.NavigationInteraction = class {
         if(name.includes('nav-ch')){
           if(this.currentNavLoc == -1){
             $('.nav').fadeIn();
+            $('#chapter-text').fadeIn();
             //
             this.BGAUDIO.introTrack.stop();
             this.BGAUDIO.currentTrack = 'none';
@@ -380,6 +384,9 @@ osmo.NavigationInteraction = class {
                 console.log('Updated - ' + navLoc);
                 this.currentNavLoc = navLoc;
                 ele.addClass('selected');
+                for(let key in chapter_names)
+                  if('ch'+id==`${key}`)
+                    $('#chapter-text').text(`${chapter_names[key]}`);
                 //
                 ele.find('img')[0].src = ele.find('img')[0].src.replace('_default','_selected');
               }
@@ -389,6 +396,7 @@ osmo.NavigationInteraction = class {
         //
         if(name.includes('intro')){
           $('.nav').fadeOut();
+          $('#chapter-text').fadeOut();
           this.currentNavLoc = -1;
           //
           if(this.BGAUDIO.currentTrack != 'intro'){

@@ -26,6 +26,8 @@ osmo.LegendSvg = class {
     // Lib
     // ----------------
     this.PIXI = osmo.scroll.PIXI;
+    this.TWEENMAX = osmo.scroll.TWEENMAX;
+    this.POWER4 = osmo.scroll.POWER4;
 
     //@private
     this.loadIndividualFiles = true;
@@ -40,6 +42,7 @@ osmo.LegendSvg = class {
     this.maskContainer;
     this.legendContainer;
     this.maskAlpha = 0;
+    this.highlightTweens = [];
     //
     this.cursorTextTimeout = null;
     this.cursorLoading = null;
@@ -484,8 +487,23 @@ osmo.LegendSvg = class {
    */
   highlightLegend(id, mask){
     //
-    osmo.scroll.mainScroll['part1'].alpha = 0.1;
-    osmo.scroll.mainScroll['part2'].alpha = 0.1;
+    osmo.scroll.mainScroll['part1'].alpha = 1;
+    osmo.scroll.mainScroll['part2'].alpha = 1;
+    this.legendContainer.alpha = 0;
+    //
+    let dur = 4000;
+    this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
+      alpha: 1,
+      ease: this.POWER4.easeInOut
+    }));
+    this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part1'], dur/1000, {
+      alpha: 0.05,
+      ease: this.POWER4.easeInOut
+    }));
+    this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part2'], dur/1000, {
+      alpha: 0.05,
+      ease: this.POWER4.easeInOut
+    }));
     //
     let titleName = osmo.scroll.datasets[id].title;
     //
@@ -520,7 +538,7 @@ osmo.LegendSvg = class {
       $('.cursor-pointer-dot').hide();
       //$('.cursor-txt').hide();
       //
-      $('.cursor-txt').html('<span style=" text-shadow: 1px 1px 2px black; margin: -100%; padding: 2px 2px;">'+ titleName +'</span>');
+      $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px black; white-space: break-spaces; padding: 2px 2px;">'+ titleName +'</p>');
       $('.cursor-txt').show();
       this.reset_animation('cursor-clc', 'cursor-loading-circle');
       this.reset_animation('cursor-cl', 'cursor-loading');
@@ -534,7 +552,7 @@ osmo.LegendSvg = class {
         $('.cursor-loading').hide();
         $('.cursor-pointer-dot').show();
         if(self.legendClicksCount < 2){
-          $('.cursor-txt').html('<span style=" text-shadow: 1px 1px 2px black; margin: -100%; padding: 2px 2px;">'+ 'Click to open' +'</span>');
+          $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px black; white-space: break-spaces; padding: 2px 2px;">'+ 'Click to open' +'</p>');
           $('.cursor-txt').show();
           self.cursorTextTimeout = setTimeout(function(){  
             $('.cursor-txt').hide();  
@@ -582,9 +600,13 @@ osmo.LegendSvg = class {
    * ------------------------------------------------
    */
   removeHighlight(){
+    for(let tweenid in this.highlightTweens)
+      this.highlightTweens[tweenid].kill();
     //
     osmo.scroll.mainScroll['part1'].alpha = 1;
     osmo.scroll.mainScroll['part2'].alpha = 1;
+    this.legendContainer.alpha = 0;
+    //
     for(let i=0; i<this.maskAreas.length; i++)
       this.maskAreas[i].alpha = this.maskAlpha;
     // Hide all legends
