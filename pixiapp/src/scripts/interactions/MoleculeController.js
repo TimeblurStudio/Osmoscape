@@ -133,4 +133,8 @@ osmo.MoleculeController = class {
     return np;
   }
 
+  updateMoleculeScale(val){
+    this.moleculeContainer.scale.x = this.moleculeContainer.scale.y = val;
+  }
+
 };

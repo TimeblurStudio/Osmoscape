@@ -343,13 +343,17 @@ osmo.PanAndZoomInteraction = class {
    */
   disableMaskInteractions(){  
     //
-    //
+    // Check mask container, if visible
     if(osmo.legendsvg.maskContainer.visible){
+      // Remove highlight if any
+      osmo.legendsvg.removeHighlight();
+    
+      // Show background
       osmo.scroll.mainScroll['part1'].alpha = 1;
       osmo.scroll.mainScroll['part2'].alpha = 1;
+      // Disable all masks and legends
       osmo.legendsvg.maskContainer.visible = false;
-      //
-      osmo.legendsvg.legendContainer.visible = true;
+      osmo.legendsvg.legendContainer.visible = false;
       for(let i=0; i<osmo.legendsvg.legendFiles.length; i++)
         if(osmo.legendsvg.legendFiles[i].visible)
           osmo.legendsvg.legendFiles[i].visible = false;
@@ -367,6 +371,7 @@ osmo.PanAndZoomInteraction = class {
   enableMaskInteractions(){
     if(osmo.legendsvg.maskContainer.visible == false){
       osmo.legendsvg.maskContainer.visible = true;
+      // NOTE: mask.on('pointerover' is not triggered unless pointer goes out and comes back into the mask
       console.log('Enabled mask after 500ms');
       //
       /*
@@ -462,6 +467,7 @@ osmo.PanAndZoomInteraction = class {
     //
     if(animate){
       let dur = 500;// half a second
+      let zoomPercentage = (newScale/this.defaultZoom);
       //
       this.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
         x: osmo.scroll.mainStage.x - (newScreenPos.x-mouseX),
@@ -474,11 +480,18 @@ osmo.PanAndZoomInteraction = class {
         y: newScale,
         ease: this.POWER4.easeInOut
       });
+      if(osmo.mc){
+        this.TWEENMAX.to(osmo.mc.moleculeContainer.scale, dur/1000, {
+          x: 1/zoomPercentage,
+          y: 1/zoomPercentage,
+          ease: this.POWER4.easeInOut
+        });
+      }
       //
       let self = this;
       setTimeout(function(){
-        let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/self.defaultZoom)*100).toString() + '%';
-        $('#zoom-level').text(zoomPercentage);
+        $('#zoom-level').text(parseInt(zoomPercentage*100).toString() + '%');
+        //osmo.mc.updateMoleculeScale(1/zoomPercentage);
         self.updateSoundArea();
       }, dur);
       //
@@ -488,8 +501,9 @@ osmo.PanAndZoomInteraction = class {
       //
       osmo.scroll.mainStage.scale.x = osmo.scroll.mainStage.scale.y = newScale;
       //
-      let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/this.defaultZoom)*100).toString() + '%';
-      $('#zoom-level').text(zoomPercentage);
+      let zoomPercentage = (osmo.scroll.mainStage.scale.x/this.defaultZoom);
+      $('#zoom-level').text(parseInt(zoomPercentage*100).toString() + '%');
+      osmo.mc.updateMoleculeScale(1/zoomPercentage);
       this.updateSoundArea();
       //
     }

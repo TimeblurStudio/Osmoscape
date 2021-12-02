@@ -29,6 +29,8 @@ osmo.LegendInteraction = class {
     console.log('osmo.LegendInteraction - constructor');
     //
     this.PIXI = osmo.scroll.PIXI;
+    this.TWEENMAX = osmo.scroll.TWEENMAX;
+    this.POWER4 = osmo.scroll.POWER4;
     //
     this.prevHitResultName = null;
     //
@@ -110,7 +112,7 @@ osmo.LegendInteraction = class {
           mask.on('pointerout', function(){
             //
             console.log('Hover out of mask-'+id);
-            osmo.legendsvg.removeHighlight(id);
+            osmo.legendsvg.removeHighlight();
             //
           });
           //
@@ -198,6 +200,11 @@ osmo.LegendInteraction = class {
       <p style="margin-top: 0;">${osmo.scroll.datasets[this.currentFocus].sounddesc}</p>`;
     $('#focused-description').html(description);
     //
+    setTimeout(function(){
+      let headingHeight = $('#focused-heading').height();
+      $('#focused-description').height(`calc(100% - ${headingHeight}px)`);
+    },50);
+    //
     $('#head-normal-view').hide();
     $('#focused-cta').show();
     $('#focused-info').show();
@@ -255,6 +262,7 @@ osmo.LegendInteraction = class {
     // REMOVE MOLECULE INTERACTION
     this.destroyMoleculeInteraction();
     //
+    $('#focused-description').height('100%');
     $('#head-normal-view').show();
     $('#focused-cta').hide();
     $('#popup-info-toggle').html('&lt;');
@@ -333,6 +341,14 @@ osmo.LegendInteraction = class {
     osmo.mc = new osmo.MoleculeController();
     osmo.mc.init(osmo.scroll.mainStage.position);
     osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
+    //
+    let zoomPercentage = (osmo.scroll.mainStage.scale.x/osmo.pzinteract.defaultZoom);
+    let dur = 500;// half a second
+    this.TWEENMAX.to(osmo.mc.moleculeContainer.scale, dur/1000, {
+        x: 1/zoomPercentage,
+        y: 1/zoomPercentage,
+        ease: this.POWER4.easeInOut
+    });
     //
   }
 
