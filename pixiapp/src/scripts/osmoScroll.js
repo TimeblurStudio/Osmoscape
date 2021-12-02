@@ -19,7 +19,7 @@ import 'jquery-mousewheel';
 import 'jquery-ui';
 import * as PIXI from 'pixi.js';
 import '@pixi/math-extras';
-import tone from 'tone';
+import * as Tone from 'tone';
 import WaveformData from 'waveform-data';
 import screenfull from 'screenfull/dist/screenfull';
 import { TweenMax, Power4 } from 'gsap';
@@ -111,13 +111,11 @@ osmo.Scroll = class {
 
     // Setup LIBS
     osmo.scroll.PIXI = PIXI;
-    osmo.scroll.TONE = tone;
+    osmo.scroll.TONE = Tone;
     osmo.scroll.WAVEFORMDATA = WaveformData;
     osmo.scroll.TWEENMAX = TweenMax;
     osmo.scroll.POWER4 = Power4;
     //
-    window.tone = tone;
-
     // Setup UI
     this.initPixi();
     this.initTone();

@@ -35,6 +35,12 @@ osmo.LegendAudio = class {
     this.audioPlayerInstances = {};
   }
 
+
+  /**
+   * ------------------------------------------------
+   * load audio files
+   * ------------------------------------------------
+   */
   loadAudio(){
     console.log('osmo.LegendAudio - loadAudio');
     //
@@ -60,7 +66,7 @@ osmo.LegendAudio = class {
             osmo.scroll.loaded.legendaudio = true;
           //
         }
-      }).toMaster();
+      }).toDestination();
       //
       //
       this.audioPlayerInstances[id] = player;

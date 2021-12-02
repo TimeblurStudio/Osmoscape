@@ -74,7 +74,7 @@ osmo.BackgroundAudio = class {
             osmo.scroll.loaded.backgroundaudio = true;
           //
         }
-      }).toMaster();
+      }).toDestination();
       //
       //
       this.baseTracks['base'+index] = bplayer;
@@ -94,7 +94,7 @@ osmo.BackgroundAudio = class {
         self.allTracksCount++;
         console.log(self.allTracksCount + ' Loaded audio file: ' + intro_path);
       }
-    }).toMaster();
+    }).toDestination();
     //
     //
     //

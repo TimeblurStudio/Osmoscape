@@ -479,6 +479,7 @@ osmo.PanAndZoomInteraction = class {
       setTimeout(function(){
         let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/self.defaultZoom)*100).toString() + '%';
         $('#zoom-level').text(zoomPercentage);
+        self.updateSoundArea();
       }, dur);
       //
     }else{
@@ -489,10 +490,28 @@ osmo.PanAndZoomInteraction = class {
       //
       let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/this.defaultZoom)*100).toString() + '%';
       $('#zoom-level').text(zoomPercentage);
+      this.updateSoundArea();
       //
     }
     //
     //
+  }
+
+  updateSoundArea(){
+    let num = osmo.legendinteract.currentFocus;
+    if(num != null){
+      let maskScale = osmo.legendsvg.popupBBoxes[num].maskScale;
+      let offset = 0;
+      if (num === '-1') offset = 495;//(9945 - 9693);
+      else if (num === '0') offset = (9945 - 9601);
+      else if (num === '64')  offset = (9945 - 9459);
+      else  offset = 495;
+      offset -= 2; // NOTE: CORRECTING FOR MINOR OFFSET (WHILE GENERATING THE SOUND AREA MAY BE?)
+      //
+      if(osmo.soundareas)
+        osmo.soundareas.updatePositionAndScale(num, maskScale, new osmo.scroll.PIXI.Point(offset*maskScale+osmo.scroll.pixiWidth*3/4,0));
+    }
+    
   }
 
   /**

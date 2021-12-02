@@ -99,14 +99,17 @@ osmo.MoleculeController = class {
       const newPosition = this.data.global;
       this.x = (newPosition.x - osmo.scroll.mainStage.x)/osmo.scroll.mainStage.scale.x;// + osmo.scroll.mainStage.x;
       this.y = (newPosition.y - osmo.scroll.mainStage.y)/osmo.scroll.mainStage.scale.y;// + osmo.scroll.mainStage.y;
-      /*
-      soundeffects.crossfade.fade.rampTo(0,1.0);
+      //console.log(parseInt(this.x) + ' ' + parseInt(this.y))
+      osmo.soundeffects.crossfade.fade.rampTo(0,1.0);
+      //
       if(osmo.soundareas.containsPoint(newPosition)) {
-        soundeffects.crossfade.fade.rampTo(1,1.0);
-        let np = this.getNormalizedPosition(newPosition);
-        soundeffects.changeParameters(np);
+        //console.log(newPosition.x + ' ' + newPosition.y);
+        osmo.soundeffects.crossfade.fade.rampTo(1,1.0);
+        let np = osmo.mc.getNormalizedPosition(newPosition);
+        //console.log(np);
+        osmo.soundeffects.changeParameters(np);
       }
-      */
+      //
     }
   }
 
@@ -123,6 +126,9 @@ osmo.MoleculeController = class {
     np.nx = np.x/osmo.soundareas.currentBounds.width;
     np.ny = np.y/osmo.soundareas.currentBounds.height;
     np.navg = (np.nx+np.ny)/2;
+    //
+    //
+    //console.log(np.x + ' ' + np.y + ' ' + osmo.soundareas.currentBounds.width +  ' ' + osmo.soundareas.currentBounds.height +  ' ' + np.nx + ' ' + np.ny);
     //
     return np;
   }

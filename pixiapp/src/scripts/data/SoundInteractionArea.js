@@ -65,6 +65,17 @@ osmo.SoundInteractionArea = class {
     this.areaContainer.position = pos;
     this.currentBounds = this.areaContainer.getBounds();
   }
+
+  /**
+   * ------------------------------------------------
+   * update position and scale
+   * ------------------------------------------------
+   */
+  updatePositionAndScale(num,s,pos) {
+    this.areaContainer.scale.set(s);
+    this.areaContainer.position = pos;
+    this.currentBounds = this.areaContainer.getBounds();
+  }
     
   /**
    * ------------------------------------------------

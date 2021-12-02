@@ -12,9 +12,9 @@
 export default class {}
 
 //
-import {} from '../audio/MoleculeController';
 import {} from '../audio/SoundEffects';
 import {} from '../data/SoundInteractionArea';
+import {} from '../interactions/MoleculeController';
 
 window.osmo = window.osmo || {};
 /**
@@ -137,6 +137,10 @@ osmo.LegendInteraction = class {
     console.log('Opening legend ' + number);
     osmo.legendsvg.legendClicksCount++;
     //
+    // Stop all tracks from playing
+    for (let audioid in osmo.scroll.datasets)
+      osmo.legendaudio.audioPlayerInstances[audioid].stop();
+    //
     $('#focused-info').animate({ left:'0px'}, 1200);
     $('.nav').hide();
     $('#chapter-text').hide();
@@ -233,28 +237,8 @@ osmo.LegendInteraction = class {
     osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
     //mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
     //
-    //
-    // ADD SOUND INTERACTION AREA
-    osmo.soundareas = new osmo.SoundInteractionArea();
-    osmo.soundareas.init();
-    osmo.scroll.mainStage.addChild(osmo.soundareas.areaContainer);
-    // POSITION SOUND INATRACTION AREA
-    let maskScale = osmo.legendsvg.popupBBoxes[this.currentFocus].maskScale;
-    let offset = 0;
-    if (this.currentFocus === '-1') offset = 495;//(9945 - 9693);
-    else if (this.currentFocus === '0') offset = (9945 - 9601);
-    else if (this.currentFocus === '64')  offset = (9945 - 9459);
-    else  offset = 495;
-    offset -= 2; // NOTE: CORRECTING FOR MINOR OFFSET (WHILE GENERATING THE SOUND AREA MAY BE?)
-    osmo.soundareas.setNew(this.currentFocus, maskScale, new this.PIXI.Point(offset*maskScale+osmo.scroll.pixiWidth*3/4,0));
-    // ADD SOUND EFFECTS
-    osmo.soundeffects = new osmo.SoundEffects();
-    osmo.soundeffects.init();
-    //osmo.soundeffects.setNewBuffer(this.currentFocus);
-    // ADD MOLECULE
-    //osmo.mc = new osmo.MoleculeController();
-    //osmo.mc.init(osmo.scroll.mainStage.position);
-    //osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
+    // MOLECULE INTERACTION
+    this.createMoleculeInteraction();
     //
     $('body').css('background-color',  '#A3BDC7'); 
     //
@@ -268,13 +252,8 @@ osmo.LegendInteraction = class {
    */
   closeLegendPopup(){
     //
-    //osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
-    //osmo.mc = null;
-    //delete osmo.mc;
-    //
-    osmo.scroll.mainStage.removeChild(osmo.soundareas.areaContainer);
-    osmo.soundareas = null;
-    delete osmo.soundareas;
+    // REMOVE MOLECULE INTERACTION
+    this.destroyMoleculeInteraction();
     //
     $('#head-normal-view').show();
     $('#focused-cta').hide();
@@ -325,5 +304,56 @@ osmo.LegendInteraction = class {
     //
   }
 
+  /*
+   * ------------------------------------------------
+   * createMoleculeInteraction
+   * desc: Create sound areas, add sound effects and add molecule
+   * ------------------------------------------------
+   */
+  createMoleculeInteraction(){
+    //
+    // ADD SOUND INTERACTION AREA
+    osmo.soundareas = new osmo.SoundInteractionArea();
+    osmo.soundareas.init();
+    osmo.scroll.mainStage.addChild(osmo.soundareas.areaContainer);
+    // POSITION SOUND INATRACTION AREA
+    let maskScale = osmo.legendsvg.popupBBoxes[this.currentFocus].maskScale;
+    let offset = 0;
+    if (this.currentFocus === '-1') offset = 495;//(9945 - 9693);
+    else if (this.currentFocus === '0') offset = (9945 - 9601);
+    else if (this.currentFocus === '64')  offset = (9945 - 9459);
+    else  offset = 495;
+    offset -= 2; // NOTE: CORRECTING FOR MINOR OFFSET (WHILE GENERATING THE SOUND AREA MAY BE?)
+    osmo.soundareas.setNew(this.currentFocus, maskScale, new this.PIXI.Point(offset*maskScale+osmo.scroll.pixiWidth*3/4,0));
+    // ADD SOUND EFFECTS
+    osmo.soundeffects = new osmo.SoundEffects();
+    osmo.soundeffects.init();
+    osmo.soundeffects.setNewBuffer(this.currentFocus, osmo.scroll.datasets[this.currentFocus].audiofile);
+    // ADD MOLECULE
+    osmo.mc = new osmo.MoleculeController();
+    osmo.mc.init(osmo.scroll.mainStage.position);
+    osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
+    //
+  }
+
+  /*
+   * ------------------------------------------------
+   * destroyMoleculeInteraction
+   * desc: Destroy molecule and sound effects
+   * ------------------------------------------------
+   */
+  destroyMoleculeInteraction(){
+    //
+    osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
+    osmo.mc = null;
+    delete osmo.mc;
+    //
+    osmo.soundeffects.stopPlayers();
+    //
+    osmo.scroll.mainStage.removeChild(osmo.soundareas.areaContainer);
+    osmo.soundareas = null;
+    delete osmo.soundareas;
+    //
+  }
 
 };

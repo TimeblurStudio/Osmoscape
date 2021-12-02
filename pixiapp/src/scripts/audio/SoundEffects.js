@@ -30,7 +30,6 @@ osmo.SoundEffects = class {
     //
     //@private
     //
-    this.context;
     this.crossfade;
     this.player;
     this.grainplayer;
@@ -65,16 +64,15 @@ osmo.SoundEffects = class {
   init(){
     console.log('osmo.SoundEffects - init');
     //
-    /*
     this.crossfade = new this.TONE.CrossFade({fade : 0.0});
     this.player = new this.TONE.Player({loop : true});
     this.grainplayer = new this.TONE.GrainPlayer({loop : true});
     this.pitchshift = new this.TONE.PitchShift();
     this.vibrato = new this.TONE.Vibrato();
     this.delay = new this.TONE.Delay();
-    */
-    //this.makeEffectChain();
-    //this.setDefaultParameterRange();
+    //
+    this.makeEffectChain();
+    this.setDefaultParameterRange();
     //
   }
 
@@ -144,11 +142,11 @@ osmo.SoundEffects = class {
    * Set new buffer
    * ------------------------------------------------
    */
-  setNewBuffer(num) {
-    let self = this;
+  setNewBuffer(num, mp3url) {
     //
-    const currentBuffer = new Tone.ToneAudioBuffer({
-      url:   '../_data/audio/loops/'+num+'.mp3',
+    let self = this;
+    const currentBuffer = new this.TONE.ToneAudioBuffer({
+      url: mp3url,
       onload: () => {
         //
         self.grainplayer.buffer = currentBuffer; 
@@ -160,6 +158,16 @@ osmo.SoundEffects = class {
       }
     }); 
     //
+  }
+
+  /**
+   * ------------------------------------------------
+   * stop all audio players
+   * ------------------------------------------------
+   */
+  stopPlayers(){
+    this.player.stop();
+    this.grainplayer.stop();
   }
 
 };
