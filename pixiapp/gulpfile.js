@@ -235,10 +235,11 @@ function scripts() {
     .on('error', function(err){ console.log(err.stack); })
     .pipe(vinylsource(browserifyjs.out))
     .pipe(vinylbuffer())
-    .pipe(stripDebug())
     .pipe(uglify())
     .pipe(dest(browserifyjs.outdir));
 };
+// NOTE: .pipe(stripDebug()) - gives syntax error (Not sure what's changed)
+
 
 //
 //

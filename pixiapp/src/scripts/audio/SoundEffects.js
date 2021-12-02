@@ -144,19 +144,13 @@ osmo.SoundEffects = class {
    */
   setNewBuffer(num, mp3url) {
     //
-    let self = this;
-    const currentBuffer = new this.TONE.ToneAudioBuffer({
-      url: mp3url,
-      onload: () => {
-        //
-        self.grainplayer.buffer = currentBuffer; 
-        self.player.buffer = currentBuffer;
-        //
-        self.player.start();
-        self.grainplayer.start();
-        //
-      }
-    }); 
+    let currentBuffer = osmo.legendaudio.audioPlayerInstances[num].buffer;
+    //
+    this.grainplayer.buffer = currentBuffer; 
+    this.player.buffer = currentBuffer;
+    //
+    this.player.start();
+    this.grainplayer.start();
     //
   }
 

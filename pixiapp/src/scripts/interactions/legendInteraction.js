@@ -241,11 +241,11 @@ osmo.LegendInteraction = class {
     let delta = -1*(zoomFac - 1)*100*0.5;//75% of required scale
     let focusedCenterX = (left_shift+focused_width/2)*osmo.scroll.pixiScale;
     let focusedCenterY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
-    osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
+    let newScale = osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
     //mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
     //
     // MOLECULE INTERACTION
-    this.createMoleculeInteraction();
+    this.createMoleculeInteraction(newScale);
     //
     $('body').css('background-color',  '#A3BDC7'); 
     //
@@ -318,7 +318,7 @@ osmo.LegendInteraction = class {
    * desc: Create sound areas, add sound effects and add molecule
    * ------------------------------------------------
    */
-  createMoleculeInteraction(){
+  createMoleculeInteraction(newScale){
     //
     // ADD SOUND INTERACTION AREA
     osmo.soundareas = new osmo.SoundInteractionArea();
@@ -337,18 +337,20 @@ osmo.LegendInteraction = class {
     osmo.soundeffects = new osmo.SoundEffects();
     osmo.soundeffects.init();
     osmo.soundeffects.setNewBuffer(this.currentFocus, osmo.scroll.datasets[this.currentFocus].audiofile);
+    //
     // ADD MOLECULE
     osmo.mc = new osmo.MoleculeController();
     osmo.mc.init(osmo.scroll.mainStage.position);
     osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
     //
-    let zoomPercentage = (osmo.scroll.mainStage.scale.x/osmo.pzinteract.defaultZoom);
+    let zoomPercentage = (newScale/osmo.pzinteract.defaultZoom);
     let dur = 500;// half a second
     this.TWEENMAX.to(osmo.mc.moleculeContainer.scale, dur/1000, {
-        x: 1/zoomPercentage,
-        y: 1/zoomPercentage,
-        ease: this.POWER4.easeInOut
+      x: 1/zoomPercentage,
+      y: 1/zoomPercentage,
+      ease: this.POWER4.easeInOut
     });
+    //
     //
   }
 

@@ -509,6 +509,7 @@ osmo.PanAndZoomInteraction = class {
     }
     //
     //
+    return newScale;
   }
 
   updateSoundArea(){
