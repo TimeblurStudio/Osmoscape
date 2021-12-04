@@ -167,10 +167,10 @@ osmo.SoundEffects = class {
       this.grainSizeMin = 0.01;
     }
 
-    this.loopStartRange = this.grainplayer.buffer.duration/2;
+    this.loopStartRange = this.grainplayer.buffer.length/2;
     this.loopStartMin = 0;
-    this.loopEndRange = this.grainplayer.buffer.duration/2;
-    this.loopEndMin = this.grainplayer.buffer.duration/2;
+    this.loopEndRange = this.grainplayer.buffer.length/2;
+    this.loopEndMin = this.grainplayer.buffer.length/2;
   }
 
   /**
@@ -209,8 +209,8 @@ osmo.SoundEffects = class {
     //
     this.grainplayer.detune = np.nx * this.detuneRange + this.detuneMin;
     this.grainplayer.grainSize = np.ny * this.grainSizeRange + this.grainSizeMin; 
-    this.grainplayer.loopStart = np.ny * this.loopStartRange + this.loopStartMin;
-    this.grainplayer.loopEnd = np.nx * this.loopEndRange + this.loopEndMin;
+    //this.grainplayer.loopStart = np.ny * this.loopStartRange + this.loopStartMin;
+    //this.grainplayer.loopEnd = np.nx * this.loopEndRange + this.loopEndMin;
     //
   }
 
@@ -229,9 +229,9 @@ osmo.SoundEffects = class {
     this.grainplayer.buffer = currentBuffer; 
     this.player.buffer = currentBuffer;
     //
-    this.baseplayer.volume.value.rampTo(this.effectData.baseVolume,2000);
-    this.grainplayer.volume.value.rampTo(this.effectData.loopVolume,2000);
-    this.player.volume.value.rampTo(this.effectData.loopVolume,2000);
+    this.baseplayer.volume.rampTo(this.effectData.baseVolume,2000);
+    this.grainplayer.volume.rampTo(this.effectData.loopVolume,2000);
+    this.player.volume.rampTo(this.effectData.loopVolume,2000);
     //
     this.player.start();
     this.grainplayer.start();

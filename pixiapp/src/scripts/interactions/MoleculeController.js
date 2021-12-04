@@ -170,6 +170,11 @@ osmo.MoleculeController = class {
     });
     ampData.forEach((x,i) => {
       osmo.mc.fftVisualizer.drawCircle(0, 0, x);
+
+      if(i > 5 && i < 8 ) {
+        osmo.mc.fftVisualizer.drawCircle(97.22 + 17.5, -97.22 - 17.5, x/4);
+        osmo.mc.fftVisualizer.drawCircle(97.22+17.5, +97.22+17.5, x/4);
+      }
     });
   }
   

@@ -32,8 +32,8 @@
         "depth" : { "min" : 0, "max" : 0.2 },
         "pitchshift" : { "min" : -24, "max" : 7 },
         "delay" : { "min" : 0.01, "max" : 0.8},
-        "baseVolume" : -6,
-        "loopVolume" : 0
+        "baseVolume" : -12,
+        "loopVolume" : 6
     }
   },
   "0": {
@@ -222,8 +222,8 @@
         "depth" : { "min" : 0, "max" : 1 },
         "pitchshift" : { "min" : -24, "max" : 24 },
         "delay" : { "min" : 0.01, "max" : 0.6 },
-        "baseVolume" : -6,
-        "loopVolume" : 0
+        "baseVolume" : -12,
+        "loopVolume" : 6
     }
   },
   "7": {

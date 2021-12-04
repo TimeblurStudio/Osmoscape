@@ -246,6 +246,9 @@ osmo.Scroll = class {
     this.mainStage = this.mainApp.stage;
     this.mainStage.scale.set(this.pixiScale, this.pixiScale);
     //
+
+    this.mainApp.renderer.plugins.interaction.interactionFrequency = 50;
+    //console.log('interaction frequency',this.mainApp.renderer.plugins.interaction.interactionFrequency);
     //
     // CULLING
     //
