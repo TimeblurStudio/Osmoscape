@@ -335,13 +335,16 @@ osmo.LegendInteraction = class {
     osmo.soundareas.setNew(this.currentFocus, maskScale, new this.PIXI.Point(offset*maskScale+osmo.scroll.pixiWidth*3/4,0));
     // ADD SOUND EFFECTS
     osmo.soundeffects = new osmo.SoundEffects();
-    osmo.soundeffects.init();
+    osmo.soundeffects.init(this.currentFocus);
     osmo.soundeffects.setNewBuffer(this.currentFocus, osmo.scroll.datasets[this.currentFocus].audiofile);
     //
     // ADD MOLECULE
     osmo.mc = new osmo.MoleculeController();
     osmo.mc.init(osmo.scroll.mainStage.position);
     osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
+    
+    // START TICKER AND ANIMATION
+    osmo.scroll.mainApp.ticker.add(osmo.mc.animateMolecule);
     //
     let zoomPercentage = (newScale/osmo.pzinteract.defaultZoom);
     let dur = 500;// half a second
@@ -361,6 +364,9 @@ osmo.LegendInteraction = class {
    * ------------------------------------------------
    */
   destroyMoleculeInteraction(){
+    
+    // STOP TICKER AND ANIMATION
+    osmo.scroll.mainApp.ticker.remove(osmo.mc.animateMolecule);
     //
     osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
     osmo.mc = null;

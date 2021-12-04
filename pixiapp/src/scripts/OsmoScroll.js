@@ -267,7 +267,7 @@ osmo.Scroll = class {
    */
   initTone(){
     // INIT AUDIO LIB
-    this.tonecontext = new this.TONE.Context({ latencyHint: 'balanced'});
+    this.tonecontext = new this.TONE.Context({ latencyHint: 'playback'});
     this.TONE.setContext(this.tonecontext);
   }
 

@@ -33,6 +33,7 @@ osmo.MoleculeController = class {
     //
     this.moleculeContainer;
     this.molecule;
+    this.fftvisualizer;
     this.dragging;
     this.data;
     this.alpha;
@@ -54,13 +55,31 @@ osmo.MoleculeController = class {
     this.moleculeContainer.buttonMode = true;
     //
     this.molecule = new this.PIXI.Graphics()
-      .lineStyle(1, 0xb67339, 1)
-      .beginFill(0xeaf1f3, 0.53)
-      .drawCircle(0, 0, 75)
+      .beginFill(0xeaf1f3, 0.05)
+      .lineStyle(2, 0xb67339, 1)
+      .drawCircle(0, 0, 137.5)
       .endFill()
-      .drawCircle(0, 0, 25);
+      .drawCircle(0, 0, 132.5)
+      .drawCircle(0, 0, 127.5)
+      .drawCircle(0, 0, 122.5)
+      .moveTo(97.22,-97.22)
+      .lineTo(97.22+48.5,-97.22-48.5)
+      .moveTo(97.22,97.22)
+      .lineTo(97.22+48.5,97.22+48.5)
+      .drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 37.5)
+      .drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 37.5)
+      .lineStyle(2, 0xFFFFFF, 1)
+      .drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 12.5)
+      .drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 12.5);
+    this.molecule.scale.set(0.5,0.5);
+    //
+    this.fftVisualizer = new this.PIXI.Graphics();
+    this.fftVisualizer.scale.set(0.75,0.75);
+    this.fftVisualizer.lineStyle(1,0xFFFFFF,1);
     //
     this.moleculeContainer.addChild(this.molecule);
+    this.moleculeContainer.addChild(this.fftVisualizer);
+    //
     this.moleculeContainer.on('pointerdown', this.onDragStart)
       .on('pointerup', this.onDragEnd)
       .on('pointerupoutside', this.onDragEnd)
@@ -102,12 +121,13 @@ osmo.MoleculeController = class {
       //console.log(parseInt(this.x) + ' ' + parseInt(this.y))
       osmo.soundeffects.crossfade.fade.rampTo(0,1.0);
       //
-      if(osmo.soundareas.containsPoint(newPosition)) {
+      let hitShape = osmo.soundareas.containsPoint(newPosition);
+      if(hitShape.contains) {
         //console.log(newPosition.x + ' ' + newPosition.y);
         osmo.soundeffects.crossfade.fade.rampTo(1,1.0);
         let np = osmo.mc.getNormalizedPosition(newPosition);
         //console.log(np);
-        osmo.soundeffects.changeParameters(np);
+        osmo.soundeffects.changeParameters(np,hitShape.shapeIndex);
       }
       //
     }
@@ -133,6 +153,26 @@ osmo.MoleculeController = class {
     return np;
   }
 
+  /**
+   * ------------------------------------------------
+   * animate molecule with audio 
+   * ------------------------------------------------
+   */
+  
+  animateMolecule() {
+    osmo.mc.fftVisualizer.clear();
+    osmo.mc.fftVisualizer.lineStyle(1,0xFFFFFF,1);
+
+    const fftData = osmo.soundeffects.fft.getValue();
+    const ampData = fftData.map(x => {
+      let y= (x + 140);
+      return y;
+    });
+    ampData.forEach((x,i) => {
+      osmo.mc.fftVisualizer.drawCircle(0, 0, x);
+    });
+  }
+  
   updateMoleculeScale(val){
     this.moleculeContainer.scale.x = this.moleculeContainer.scale.y = val;
   }

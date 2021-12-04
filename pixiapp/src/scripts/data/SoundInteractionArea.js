@@ -135,11 +135,11 @@ osmo.SoundInteractionArea = class {
     for (const shape in shapeArray) {
       if (shapeArray[shape].containsPoint(pos)){
         contains = true;
-        return contains;
+        return { 'contains' : true , 'shapeIndex' : shape };
       }
     }
     //
-    return contains;
+    return { 'contains' : false };
   }
 
 };

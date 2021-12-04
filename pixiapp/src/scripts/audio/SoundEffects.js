@@ -32,10 +32,13 @@ osmo.SoundEffects = class {
     //
     this.crossfade;
     this.player;
+    this.baseplayer;
     this.grainplayer;
     this.pitchshift;
     this.vibrato;
     this.delay;
+
+    this.fft;
     //
     this.delayRange;
     this.delayMin;
@@ -54,6 +57,9 @@ osmo.SoundEffects = class {
     this.loopEndRange;
     this.loopEndMin;
     //
+    this.currentFocus;
+    this.effectData;
+    this.csvData;
   }
 
   /**
@@ -61,18 +67,35 @@ osmo.SoundEffects = class {
    * Init
    * ------------------------------------------------
    */
-  init(){
+  init(currentFocus){
     console.log('osmo.SoundEffects - init');
     //
     this.crossfade = new this.TONE.CrossFade({fade : 0.0});
     this.player = new this.TONE.Player({loop : true});
+    this.baseplayer = new this.TONE.Player({loop : true});
     this.grainplayer = new this.TONE.GrainPlayer({loop : true});
     this.pitchshift = new this.TONE.PitchShift();
     this.vibrato = new this.TONE.Vibrato();
     this.delay = new this.TONE.Delay();
-    //
+    this.fft = new this.TONE.FFT ({
+      size: 16,
+      smoothing : 0.75,
+      normalRange : false
+    });
+    
+    this.currentFocus = currentFocus;
+    if ( 'effectData' in osmo.scroll.datasets[currentFocus]) {
+      this.effectData = osmo.scroll.datasets[currentFocus].effectData;
+    } else {
+      this.effectData = null;
+    } 
+    if ( 'csvData' in osmo.scroll.datasets[currentFocus]) {
+      this.csvData = osmo.scroll.datasets[currentFocus].csvData;
+    } else {
+      this.csvData = null;
+    } 
     this.makeEffectChain();
-    this.setDefaultParameterRange();
+    this.setParameterRange();
     //
   }
 
@@ -90,6 +113,7 @@ osmo.SoundEffects = class {
     this.pitchshift.connect(this.crossfade.b);
     //
     this.crossfade.connect(this.TONE.getDestination());
+    this.TONE.getDestination().connect(this.fft);
   }
 
   /**
@@ -97,23 +121,56 @@ osmo.SoundEffects = class {
    * Set default paramter range
    * ------------------------------------------------
    */
-  setDefaultParameterRange() {
-    this.delayRange = (0.6 - 0.01);
-    this.delayMin = 0.01;
-    this.freqRange = (10 - 0.1);
-    this.freqMin = 0.1;
-    this.depthRange = (1 - 0);
-    this.depthMin = 0;
-    this.pitchRange = (12 + 12);
-    this.pitchMin = -12;
-    this.detuneRange = (12 + 12);
-    this.detuneMin = -12;
-    this.grainSizeRange = (3 - 0.01);
-    this.grainSizeMin = 0.01;
-    this.loopStartRange = this.grainplayer.buffer.length/2;
+  setParameterRange() {
+    
+    if (this.effectData !== null && ('delay' in this.effectData))  {
+      this.delayRange = (this.effectData.delay.max - this.effectData.delay.min);
+      this.delayMin = this.effectData.delay.min;
+    } else {
+      this.delayRange = (0.6 - 0.01);
+      this.delayMin = 0.01;
+    }
+    if (this.effectData !== null && ('freq' in this.effectData))  {
+      this.freqRange = (this.effectData.freq.max - this.effectData.freq.min);
+      this.freqMin = this.effectData.freq.min;
+    } else {
+      this.freqRange = (10 - 0.3);
+      this.freqMin = 0.3;
+    }
+    if (this.effectData !== null && ('depth' in this.effectData))  {
+      this.depthRange = (this.effectData.depth.max - this.effectData.depth.min);
+      this.depthMin = this.effectData.depth.min;
+    } else {
+      this.depthRange = (1 - 0);
+      this.depthMin = 0;
+    }
+    if (this.effectData !== null && ('pitchshift' in this.effectData))  {
+      this.pitchRange = (this.effectData.pitchshift.max - this.effectData.pitchshift.min);
+      this.pitchMin = this.effectData.pitchshift.min;
+    } else {
+      this.pitchRange = (24 + 24);
+      this.pitchMin = -24;
+    }
+    if (this.effectData !== null && ('detune' in this.effectData))  {
+      this.detuneRange = (this.effectData.detune.max - this.effectData.detune.min);
+      this.detuneMin = this.effectData.detune.min;
+
+    } else {
+      this.detuneRange = (24 + 24);
+      this.detuneMin = -24;
+    }
+    if (this.effectData !== null && ('grainsize' in this.effectData))  {
+      this.grainSizeRange = (this.effectData.grainsize.max - this.effectData.grainsize.min);
+      this.grainSizeMin = this.effectData.grainsize.min;
+    } else {
+      this.grainSizeRange = (3 - 0.01);
+      this.grainSizeMin = 0.01;
+    }
+
+    this.loopStartRange = this.grainplayer.buffer.duration/2;
     this.loopStartMin = 0;
-    this.loopEndRange = this.grainplayer.buffer.length/2;
-    this.loopEndMin = this.grainplayer.buffer.length/2;
+    this.loopEndRange = this.grainplayer.buffer.duration/2;
+    this.loopEndMin = this.grainplayer.buffer.duration/2;
   }
 
   /**
@@ -121,7 +178,27 @@ osmo.SoundEffects = class {
    * Change parameters
    * ------------------------------------------------
    */
-  changeParameters(np) {
+  changeParameters(np,shape) {
+    
+    
+    if (this.effectData1== null && ('invertY' in this.effectData)) {
+      np.ny = 1.0 - np.ny;
+      np.navg = (np.nx+np.ny)/2;
+    }
+    if (this.effectData1== null && ('invertX' in this.effectData)) {
+      np.nx = 1.0 - np.nx;
+      np.navg = (np.nx+np.ny)/2;
+    }
+    console.log('Shape hit: ',shape);
+    if (shape && this.csvData!== null) {
+      np.ny = this.csvData[shape];
+      np.nx = this.csvData[shape];
+      np.navg = this.csvData[shape];
+    } else if (this.currentFocus === '1') {
+      np.navg = (4*np.nx + np.ny)/5;
+      np.nx = np.navg;
+      np.ny = np.navg;
+    }
     //
     this.delay.delayTime.rampTo(np.navg * this.delayRange + this.delayMin,0.1);
     //
@@ -145,12 +222,16 @@ osmo.SoundEffects = class {
   setNewBuffer(num, mp3url) {
     //
     let currentBuffer = osmo.legendaudio.audioPlayerInstances[num].buffer;
+    let chapter = osmo.scroll.datasets[num].ch.slice(-1);
+    console.log('chapter: ',chapter);
     //
+    this.baseplayer.buffer = osmo.bgaudio.baseTracks['base'+chapter].buffer;
     this.grainplayer.buffer = currentBuffer; 
     this.player.buffer = currentBuffer;
     //
     this.player.start();
     this.grainplayer.start();
+    this.baseplayer.start();
     //
   }
 
@@ -162,6 +243,7 @@ osmo.SoundEffects = class {
   stopPlayers(){
     this.player.stop();
     this.grainplayer.stop();
+    this.baseplayer.stop();
   }
 
 };

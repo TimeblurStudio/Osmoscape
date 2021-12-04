@@ -23,6 +23,15 @@
       "y": 242.4,
       "width": 2922.14,
       "height": 429.6
+    },
+    "csvData" : [0.50,0.75],
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 0.5 },
+        "detune" : { "min" : -24, "max" : 2 },
+        "freq" : { "min" : 0.3, "max" : 10 },
+        "depth" : { "min" : 0, "max" : 0.2 },
+        "pitchshift" : { "min" : -24, "max" : 7 },
+        "delay" : { "min" : 0.01, "max" : 0.8}
     }
   },
   "0": {
@@ -52,8 +61,15 @@
       "y": 237.80,
       "width": 1706.160,
       "height": 376.590
+    },
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 0.3 },
+        "detune" : { "min" : -10, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 6 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 20 },
+        "delay" : { "min" : 0.01, "max" : 0.02}
     }
-    
   },
   "1": {
     "ch": "ch1",
@@ -111,6 +127,15 @@
       "y": 12.14,
       "width": 618.81,
       "height": 556.3
+    },
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 2 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 12 },
+        "delay" : { "min" : 0.01, "max" : 0.1},
+        "invertY" : true
     }
   },
   "5": {
@@ -137,6 +162,15 @@
       "y": 213.098,
       "width": 323.68,
       "height": 302.217
+    },
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 0.5 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 1.5 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.2 },
+        "invertY" : true
     }
   },
   "6": {
@@ -166,6 +200,15 @@
       "y": 162.05,
       "width": 1893.17,
       "height": 445.308
+    },
+    "csvData" : [0.71,0.52,0.83,1,0.31,0.51,0.18,0.46,0.34,0.68,0.87,0.90,0.74,0.74,0.11,0.03],
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 0.5 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 10 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 24 },
+        "delay" : { "min" : 0.01, "max" : 0.6 }
     }
   },
   "7": {
@@ -192,6 +235,15 @@
       "y": -1.8,
       "width": 1076.48,
       "height": 459.9
+    },
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 2 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 6 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 5 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "invertY" : true
     }
   },
   "8": {
@@ -218,6 +270,14 @@
       "y": 193.3,
       "width": 1018.61,
       "height": 427.13
+    },
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 1 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 10 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 24 },
+        "delay" : { "min" : 0.01, "max" : 0.6 }
     }
   },
   "9": {
@@ -245,7 +305,16 @@
       "y": 158.8,
       "width": 612.35,
       "height": 450.5
+    },
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 0.1 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 2 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 24 },
+        "delay" : { "min" : 0.01, "max" : 0.6 }
     }
+ 
   },
   "11": {
     "ch": "ch3",
@@ -271,6 +340,15 @@
       "y": 20.35,
       "width": 674.12,
       "height": 620.289
+    },
+    "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 10 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 24 },
+        "delay" : { "min" : 0.01, "max" : 0.6 }
     }
   },
   "12": {
@@ -324,8 +402,17 @@
       "y": -201.436,
       "width": 1437.17,
       "height": 1026.64
+    },
+     "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.2, "max" : 4 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 3 },
+        "delay" : { "min" : 0.01, "max" : 0.1 }
     }
-  },
+
+ },
   "14": {
     "ch": "ch4",
     "id": "14",
@@ -350,6 +437,17 @@
       "y": 158.2,
       "width": 1394.74,
       "height": 463.9
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 10 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 20 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -10,
+        "loopVolume" : 3
     }
   },
   "15": {
@@ -376,6 +474,16 @@
       "y": 63.04,
       "width": 840.73,
       "height": 522.92
+    },
+     "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 1 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 10 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 15 },
+        "delay" : { "min" : 0.01, "max" : 0.06 },
+        "baseVolume" : -10,
+        "loopVolume" : 3
     }
   },
   "16": {
@@ -402,6 +510,16 @@
       "y": -2.16,
       "width": 963.2,
       "height": 589.46
+    },
+     "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 1 },
+        "detune" : { "min" : -24, "max" : 24 },
+        "freq" : { "min" : 0.3, "max" : 10 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 15 },
+        "delay" : { "min" : 0.01, "max" : 0.06 },
+        "baseVolume" : -10,
+        "loopVolume" : 3
     }
   },
   "17": {
@@ -428,6 +546,16 @@
       "y": 252.201,
       "width": 1066.83,
       "height": 370.999
+    },
+    "effectData" : {
+        "grainsize" : { "min" : 0.01, "max" : 1 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0.3, "max" : 4 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -12, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.1 },
+        "baseVolume" : -12,
+        "loopVolume" : -3
     }
   },
   "19": {
@@ -456,6 +584,17 @@
       "y": 22.52,
       "width": 1883.85,
       "height": 584.933
+    },
+    "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "20": {
@@ -482,6 +621,17 @@
       "y": 248.9,
       "width": 266.04,
       "height": 320.9
+    },
+    "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "21": {
@@ -508,7 +658,20 @@
       "y": 0.1,
       "width": 1066.84,
       "height": 580.368
+    },
+    "csvData" : [0.14,1,0.97,0.23,0,0.43,0.05,0.59],
+    "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
+ 
   },
   "23": {
     "ch": "ch5",
@@ -534,6 +697,17 @@
       "y": 192.6,
       "width": 1564.23,
       "height": 430.92
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "24": {
@@ -561,8 +735,19 @@
       "y": -36.5405,
       "width": 1397.76,
       "height": 568.32
+    },
+      "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
-  },
+ },
   "25": {
     "ch": "ch5",
     "id": "25",
@@ -587,6 +772,17 @@
       "y": 244.45,
       "width": 904.34,
       "height": 349.02
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "28": {
@@ -613,8 +809,19 @@
       "y": 251.79,
       "width": 867.7,
       "height": 363.118
+    },
+      "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
-  },
+ },
   "29": {
     "ch": "ch5",
     "id": "29",
@@ -640,6 +847,17 @@
       "y": 162.68,
       "width": 106.17,
       "height": 146.59
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "30": {
@@ -667,6 +885,17 @@
       "y": 227.399,
       "width": 366.27,
       "height": 401.66
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "32": {
@@ -693,6 +922,17 @@
       "y": 5.406,
       "width": 239.55,
       "height": 203.274
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "33": {
@@ -720,6 +960,17 @@
       "y": 38.06,
       "width": 277.06,
       "height": 286.44
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "35": {
@@ -746,6 +997,17 @@
       "y": 9.02,
       "width": 156.84,
       "height": 98.73
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "36": {
@@ -772,6 +1034,17 @@
       "y": 212.05,
       "width": 135.67,
       "height": 112.95
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "37": {
@@ -798,6 +1071,17 @@
       "y": 258.5,
       "width": 109.11,
       "height": 110.4
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "38": {
@@ -824,6 +1108,17 @@
       "y": 265.02,
       "width": 78.28,
       "height": 101.36
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "40": {
@@ -850,6 +1145,17 @@
       "y": 154.374,
       "width": 144.848,
       "height": 112.765
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "41": {
@@ -876,6 +1182,17 @@
       "y": 140.53,
       "width": 164.41,
       "height": 126.81
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "42": {
@@ -902,6 +1219,17 @@
       "y": 4.1938,
       "width": 315.63,
       "height": 264.436
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "43": {
@@ -928,6 +1256,17 @@
       "y": 213.32,
       "width": 279.774,
       "height": 210.5
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "44": {
@@ -954,6 +1293,17 @@
       "y": 18.76,
       "width": 177.694,
       "height": 183.43
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "45": {
@@ -980,6 +1330,17 @@
       "y": 74.81,
       "width": 172.46,
       "height": 174.19
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "46": {
@@ -1007,6 +1368,17 @@
       "y": 291,
       "width": 292.16,
       "height": 239.25
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "48": {
@@ -1033,6 +1405,17 @@
       "y": 212.2,
       "width": 903.035,
       "height": 266.2 
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "50": {
@@ -1059,6 +1442,17 @@
       "y": 0.96,
       "width": 971.52,
       "height": 460.32
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "52": {
@@ -1085,6 +1479,17 @@
       "y": 45.44,
       "width": 640.6,
       "height": 357.888
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "53": {
@@ -1112,6 +1517,18 @@
       "y": 27.84,
       "width": 1436.87,
       "height": 596.72
+    },
+    "csvData" : [0.004,0.02,0,1,0.002,0.82,0.129,0.23,0.124,0.0138],
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "54": {
@@ -1141,6 +1558,18 @@
       "y": 363.027,
       "width": 1271.93,
       "height": 244.983
+    },
+    "csvData" : [0.30,0,0,0.08,0.064,1,0.074,0.30,0.004,0.5,0.29,0.5,0.166,0.019,0.5,0.053,0.19,0,0.016],
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "55": {
@@ -1167,6 +1596,17 @@
       "y": 379.63,
       "width": 371.196,
       "height": 222.781
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "58": {
@@ -1193,6 +1633,17 @@
       "y": 29.65,
       "width": 921.082,
       "height": 428.24
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "60": {
@@ -1220,6 +1671,17 @@
       "y": 36.5,
       "width": 2063.08,
       "height": 617.5
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "63": {
@@ -1246,6 +1708,17 @@
       "y": 20.18,
       "width": 365.24,
       "height": 266.13
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   },
   "64": {
@@ -1273,6 +1746,17 @@
       "y": 66.48,
       "width": 2902.1,
       "height": 537.84
+    },
+     "effectData" : {
+        "invertY" : true,
+        "grainsize" : { "min" : 0.01, "max" : 3 },
+        "detune" : { "min" : -24, "max" : 20 },
+        "freq" : { "min" : 0, "max" : 3 },
+        "depth" : { "min" : 0, "max" : 1 },
+        "pitchshift" : { "min" : -24, "max" : 10 },
+        "delay" : { "min" : 0.01, "max" : 0.6 },
+        "baseVolume" : -24,
+        "loopVolume" : 0
     }
   }
 }
