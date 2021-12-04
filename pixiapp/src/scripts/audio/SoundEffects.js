@@ -181,11 +181,11 @@ osmo.SoundEffects = class {
   changeParameters(np,shape) {
     
     
-    if (this.effectData1== null && ('invertY' in this.effectData)) {
+    if (this.effectData!== null && ('invertY' in this.effectData)) {
       np.ny = 1.0 - np.ny;
       np.navg = (np.nx+np.ny)/2;
     }
-    if (this.effectData1== null && ('invertX' in this.effectData)) {
+    if (this.effectData!== null && ('invertX' in this.effectData)) {
       np.nx = 1.0 - np.nx;
       np.navg = (np.nx+np.ny)/2;
     }
@@ -228,6 +228,10 @@ osmo.SoundEffects = class {
     this.baseplayer.buffer = osmo.bgaudio.baseTracks['base'+chapter].buffer;
     this.grainplayer.buffer = currentBuffer; 
     this.player.buffer = currentBuffer;
+    //
+    this.baseplayer.volume.value.rampTo(this.effectData.baseVolume,2000);
+    this.grainplayer.volume.value.rampTo(this.effectData.loopVolume,2000);
+    this.player.volume.value.rampTo(this.effectData.loopVolume,2000);
     //
     this.player.start();
     this.grainplayer.start();

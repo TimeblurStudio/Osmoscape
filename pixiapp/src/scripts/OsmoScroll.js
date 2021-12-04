@@ -81,7 +81,7 @@ osmo.Scroll = class {
     this.datasets = {};
     this.includeSpecialCase = false;
     this.pixiScale = 2;
-    this.Volume_db = { min : -12,  max: 6 };
+    this.Volume_db = { min : -24,  max: 6 };
     this.refPopupSize = { width: 1440.0,  height: 821.0  };
     //
     this.hitPopupMode = 'hovering';

@@ -209,7 +209,7 @@ osmo.SpeakerMicroInteraction = class {
 
         animation: function () {
           if (this.off) { // animation when volume became 0
-            osmo.scroll.TONE.Master.mute = true;
+            osmo.scroll.TONE.getDestination().mute = true;
             [volObj.arcBigB, volObj.arcBigF, volObj.arcSmB, volObj.arcSmF].forEach((el) => {
               el.setAttribute('visibility', 'hidden');
             });
@@ -286,11 +286,11 @@ osmo.SpeakerMicroInteraction = class {
             if (this.curPos < 0.5) amplitudeB = 0;
             if (amplitudeS <= 0 || !amplitudeS) amplitudeS = 0;
             //
-            if(osmo.scroll.TONE.Master.mute)
-              osmo.scroll.TONE.Master.mute = false;
+            if(osmo.scroll.TONE.getDestination().mute)
+              osmo.scroll.TONE.getDestination().mute = false;
             if(this.prevPos != this.curPos){
               console.log('Changed volume - ' + this.curPos);
-              osmo.scroll.TONE.Master.volume.value = osmo.scroll.map(
+              osmo.scroll.TONE.getDestination().volume.value = osmo.scroll.map(
                 this.curPos,
                 0,
                 1,
@@ -430,7 +430,7 @@ osmo.SpeakerMicroInteraction = class {
         //
       }
       console.log('Current Volume = ' + currentVolume);
-      osmo.scroll.TONE.Master.volume.value = osmo.scroll.map(
+      osmo.scroll.TONE.getDestination().volume.value = osmo.scroll.map(
         currentVolume,
         0,
         1,

@@ -532,6 +532,7 @@ osmo.LegendSvg = class {
         osmo.legendaudio.audioPlayerInstances[audioid].stop();
       console.log('Now playing legend audio: ' + id);
       osmo.legendaudio.audioPlayerInstances[id].start();
+      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.value.rampTo(-6,dur);
       //
       $('.cursor-pointer').css('border', 'none');
       $('.cursor-loading').show();
@@ -557,7 +558,7 @@ osmo.LegendSvg = class {
           self.cursorTextTimeout = setTimeout(function(){  
             $('.cursor-txt').hide();  
             self.cursorTextTimeout = null;
-          }, 4000); 
+          }, dur); 
         }else
           $('.cursor-txt').hide();
         /*
@@ -572,7 +573,7 @@ osmo.LegendSvg = class {
           //
         });
         */
-      },4000);//
+      },dur);//
     }
     //
   }
@@ -618,6 +619,7 @@ osmo.LegendSvg = class {
     for (let audioid in osmo.scroll.datasets)
       osmo.legendaudio.audioPlayerInstances[audioid].stop();
     //
+    osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.value.rampTo(0,2000);
     if(this.cursorLoading != null)
       clearTimeout(this.cursorLoading);
     this.cursorLoading = null;
