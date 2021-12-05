@@ -246,7 +246,7 @@ osmo.LegendInteraction = class {
     //mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
     //
     // MOLECULE INTERACTION
-    $("#dragmol").click(function() {
+    $('#dragmol').click(function() {
       if(osmo.mc == null)
         self.createMoleculeInteraction(newScale);
     });
@@ -263,7 +263,7 @@ osmo.LegendInteraction = class {
    */
   closeLegendPopup(){
     //
-    $("dragmol").unbind();
+    $('dragmol').unbind();
     // REMOVE MOLECULE INTERACTION
     this.destroyMoleculeInteraction();
     //
@@ -369,19 +369,23 @@ osmo.LegendInteraction = class {
    * ------------------------------------------------
    */
   destroyMoleculeInteraction(){
-    
-    // STOP TICKER AND ANIMATION
-    osmo.scroll.mainApp.ticker.remove(osmo.mc.animateMolecule);
+    if(osmo.mc){
+      // STOP TICKER AND ANIMATION
+      osmo.scroll.mainApp.ticker.remove(osmo.mc.animateMolecule);
+      //
+      osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
+      osmo.mc = null;
+      delete osmo.mc;
+    }
     //
-    osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
-    osmo.mc = null;
-    delete osmo.mc;
+    if(osmo.soundeffects)
+      osmo.soundeffects.stopPlayers();
     //
-    osmo.soundeffects.stopPlayers();
-    //
-    osmo.scroll.mainStage.removeChild(osmo.soundareas.areaContainer);
-    osmo.soundareas = null;
-    delete osmo.soundareas;
+    if(osmo.soundareas){
+      osmo.scroll.mainStage.removeChild(osmo.soundareas.areaContainer);
+      osmo.soundareas = null;
+      delete osmo.soundareas;
+    }
     //
   }
 
