@@ -193,9 +193,9 @@ osmo.LegendInteraction = class {
     //
     $('#focused-heading').text(osmo.scroll.datasets[this.currentFocus].title);
     let description = `
-      <span style="font-weight: 400;">Sound description:</span>
-      <p>${osmo.scroll.datasets[this.currentFocus].sounddesc}</p>
       <br>
+      <span style="font-weight: 400;">Sound description:</span>
+      <p style="margin-top: 0;">${osmo.scroll.datasets[this.currentFocus].sounddesc}</p>
       <br>
       <span style="font-weight: 400;">Data description:</span>
       <p style="margin-top: 0;">${osmo.scroll.datasets[this.currentFocus].desc}</p>`;
@@ -246,7 +246,10 @@ osmo.LegendInteraction = class {
     //mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
     //
     // MOLECULE INTERACTION
-    this.createMoleculeInteraction(newScale);
+    $("#dragmol").click(function() {
+      if(osmo.mc == null)
+        self.createMoleculeInteraction(newScale);
+    });
     //
     $('body').css('background-color',  '#A3BDC7'); 
     //
@@ -260,6 +263,7 @@ osmo.LegendInteraction = class {
    */
   closeLegendPopup(){
     //
+    $("dragmol").unbind();
     // REMOVE MOLECULE INTERACTION
     this.destroyMoleculeInteraction();
     //
@@ -325,7 +329,7 @@ osmo.LegendInteraction = class {
     osmo.soundareas = new osmo.SoundInteractionArea();
     osmo.soundareas.init();
     osmo.scroll.mainStage.addChild(osmo.soundareas.areaContainer);
-    // POSITION SOUND INATRACTION AREA
+    // POSITION SOUND INTERACTION AREA
     let maskScale = osmo.legendsvg.popupBBoxes[this.currentFocus].maskScale;
     let offset = 0;
     if (this.currentFocus === '-1') offset = 495;//(9945 - 9693);
