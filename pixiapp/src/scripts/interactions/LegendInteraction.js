@@ -193,11 +193,12 @@ osmo.LegendInteraction = class {
     //
     $('#focused-heading').text(osmo.scroll.datasets[this.currentFocus].title);
     let description = `
-      <p>${osmo.scroll.datasets[this.currentFocus].desc}</p>
-      <br>
-      <br>
       <span style="font-weight: 400;">Sound description:</span>
-      <p style="margin-top: 0;">${osmo.scroll.datasets[this.currentFocus].sounddesc}</p>`;
+      <p>${osmo.scroll.datasets[this.currentFocus].sounddesc}</p>
+      <br>
+      <br>
+      <span style="font-weight: 400;">Data description:</span>
+      <p style="margin-top: 0;">${osmo.scroll.datasets[this.currentFocus].desc}</p>`;
     $('#focused-description').html(description);
     //
     setTimeout(function(){
