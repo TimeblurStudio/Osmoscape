@@ -142,54 +142,67 @@ osmo.PanAndZoomInteraction = class {
     let prevX = 0;
     let prevY = 0;
     $(document).on('touchmove', function(event) {
-      console.log('touchmove');
-      console.log(event);
-      //
-      let newX = event.touches[0].clientX;
-      let newY = event.touches[0].clientY;
-      //
-      let deltaX = (prevX - newX); if(deltaX > 10 || deltaX < -10)  deltaX = 0;
-      let deltaY = (prevY - newY); if(deltaY > 10 || deltaY < -10)  deltaY = 0;
-      //
-      prevX = newX;
-      prevY = newY;
-      //
-      let newEvent = event;
-      newEvent.type = 'mousewheel';
-      newEvent.deltaX = deltaX;
-      newEvent.deltaY = deltaY;
-      newEvent.originalEvent = JSON.parse(JSON.stringify(event));
-      //
-      // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
-      // Implement this for phone
-
-      //
-      //$('#main-scroll-canvas').trigger(newEvent);
-      self.onOsmoScroll(self, newEvent);
+      //console.log('touchmove');
+      //console.log(event);
+      // 2/3 finger scroll
+      if(event.touches.length > 1) {
+        //
+        let newX = event.touches[0].clientX;
+        let newY = event.touches[0].clientY;
+        //
+        let deltaX = (prevX - newX); //if(deltaX > 10 || deltaX < -10)  deltaX = 0;
+        let deltaY = (prevY - newY); //if(deltaY > 10 || deltaY < -10)  deltaY = 0;
+        //
+        prevX = newX;
+        prevY = newY;
+        //
+        let newEvent = event;
+        newEvent.type = 'mousewheel';
+        newEvent.deltaX = deltaX;
+        newEvent.deltaY = deltaY;
+        newEvent.originalEvent = JSON.parse(JSON.stringify(event));
+        //
+        // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
+        // Implement this for phone
+        //
+        //
+        //$('#main-scroll-canvas').trigger(newEvent);
+        self.onOsmoScroll(self, newEvent);
+      }
     });
-
-    // Main scrolling functionality
+    $(document).on('touchstart', function(event) {
+      // 2/3 finger scroll
+      if(event.touches.length > 1) {
+        prevX = event.touches[0].clientX;
+        prevY = event.touches[0].clientY;
+      }
+      //
+    });
+    //
+    //
+    //
+    // Trackpad scrolling functionality
     //$('#main-scroll-canvas').on('mousewheel', function(event) {
     $('#main-scroll-canvas').on('wheel', function(event){
-      //
       self.onOsmoScroll(self, event);
-      //
     });
-
-
-
     //
     document.addEventListener('keydown', this.onKeyDown);
   }
 
 
-
+  /**
+   * ------------------------------------------------
+   * on scroll event trigger
+   * ------------------------------------------------
+   */
   onOsmoScroll(self, event){
     // Wait for start button press
     if(!osmo.scroll.started) return; 
     // Wait for items to load
     if(!osmo.scroll.loaded.svgdata || !osmo.scroll.loaded.HQimage)
       return;
+    //
     //
     self.disableMaskInteractions();
     //
@@ -224,7 +237,8 @@ osmo.PanAndZoomInteraction = class {
     let et;
     if(!window.isMobile){
       et = event.originalEvent;
-      event.preventDefault();
+      //if(event.preventDefault)
+      //  event.preventDefault();
     }else{
       et = event;
     }
@@ -240,6 +254,9 @@ osmo.PanAndZoomInteraction = class {
         deltaValX = et.deltaX;
         deltaValY = et.deltaX;
       }
+      //
+      if(!osmo.pzinteract.isTrackpadDetected)
+        deltaValX *= -1;
       //
       osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac*osmo.scroll.pixiScale);
       //

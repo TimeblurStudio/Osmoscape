@@ -68,10 +68,11 @@ osmo.BackgroundAudio = class {
         onload: function(){
           //
           self.allTracksCount++;
-          console.log(self.allTracksCount + ' Loaded audio file: ' + path);
+          console.log(self.allTracksCount + ' of ' + self.allBackgroundTrackPaths.length + ' Loaded audio file: ' + path);
           //
-          if(self.allTracksCount == self.allBackgroundTrackPaths.length)
+          if(self.allTracksCount == self.allBackgroundTrackPaths.length){
             osmo.scroll.loaded.backgroundaudio = true;
+          }
           //
         }
       }).toDestination();
@@ -92,7 +93,12 @@ osmo.BackgroundAudio = class {
       fadeIn: 2,
       onload: function(){
         self.allTracksCount++;
-        console.log(self.allTracksCount + ' Loaded audio file: ' + intro_path);
+        console.log(self.allTracksCount + ' of ' + self.allBackgroundTrackPaths.length + ' Loaded audio file: ' + intro_path);
+        //
+        if(self.allTracksCount == self.allBackgroundTrackPaths.length){
+          osmo.scroll.loaded.backgroundaudio = true;
+        }
+        //
       }
     }).toDestination();
     //
