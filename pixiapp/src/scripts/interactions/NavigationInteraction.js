@@ -9,13 +9,13 @@
  */
 
 let chapter_names = {
-  'ch1': '1. Water in space',
-  'ch2': '2. Water and Planet',
-  'ch3': '3. Water and Atmospheric systems',
-  'ch4': '4. Water and Glacier',
-  'ch5': '5. Water and Industrial agriculture',
-  'ch6': '6. Water and River',
-  'ch7': '7. Water and Ocean'
+  'ch1': 'In the Beginning',
+  'ch2': 'The Human Civilasation, Aka, The Anthropocene',
+  'ch3': 'Carbon and Climate Crisis',
+  'ch4': 'The Bane of Industrial Farming',
+  'ch5': 'Grand Design and their Grand Failings',
+  'ch6': 'The Quest for Unpolluted Water',
+  'ch7': 'The Vast Ocean'
 };
 
 'use strict';
@@ -157,6 +157,12 @@ osmo.NavigationInteraction = class {
           console.log('Updated - ' + navLoc);
           self.currentNavLoc = navLoc;
           ele.addClass('selected');
+          //$('#chapter-text').insertBefore(ele.parent());
+         
+          //$('#chapter-text').fadeIn(2000, () => {
+          //  $('#chapter-text').fadeOut(2000);
+          //});
+
           for(let key in chapter_names)
             if('ch'+id==`${key}`)
               $('#chapter-text').text(`${chapter_names[key]}`);
