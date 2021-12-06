@@ -488,8 +488,11 @@ osmo.LegendSvg = class {
    */
   highlightLegend(id, mask){
     //
-    osmo.scroll.mainScroll['part1'].alpha = 1;
-    osmo.scroll.mainScroll['part2'].alpha = 1;
+    let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
+    for(let i=0; i < scrollLength; i++){
+      let index = i+1;
+      osmo.scroll.mainScroll['part'+index].alpha = 1;
+    }
     this.legendContainer.alpha = 0;
     //
     let dur = 4000;
@@ -497,14 +500,13 @@ osmo.LegendSvg = class {
       alpha: 1,
       ease: this.POWER4.easeInOut
     }));
-    this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part1'], dur/1000, {
-      alpha: 0.05,
-      ease: this.POWER4.easeInOut
-    }));
-    this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part2'], dur/1000, {
-      alpha: 0.05,
-      ease: this.POWER4.easeInOut
-    }));
+    for(let i=0; i < scrollLength; i++){
+      let index = i+1;
+      this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part'+index], dur/1000, {
+        alpha: 0.05,
+        ease: this.POWER4.easeInOut
+      }));
+    }
     //
     let titleName = osmo.scroll.datasets[id].title;
     //
@@ -606,8 +608,11 @@ osmo.LegendSvg = class {
     for(let tweenid in this.highlightTweens)
       this.highlightTweens[tweenid].kill();
     //
-    osmo.scroll.mainScroll['part1'].alpha = 1;
-    osmo.scroll.mainScroll['part2'].alpha = 1;
+    let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
+    for(let i=0; i < scrollLength; i++){
+      let index = i+1;
+      osmo.scroll.mainScroll['part'+index].alpha = 1;
+    }
     this.legendContainer.alpha = 0;
     //
     for(let i=0; i<this.maskAreas.length; i++)

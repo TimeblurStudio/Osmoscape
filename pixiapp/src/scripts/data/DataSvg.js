@@ -61,28 +61,37 @@ osmo.DataSvg = class {
 
   initSVGscroll(_url){
     //
-    //Create the sprite
-    let scroll_01 = new this.PIXI.Sprite(this.PIXI.Loader.shared.resources[_url+'01-or8.png'].texture);
-    let scroll_02 = new this.PIXI.Sprite(this.PIXI.Loader.shared.resources[_url+'02-or8.png'].texture);
-    osmo.scroll.mainScroll = { 'part1': scroll_01, 'part2' : scroll_02 };
+    //Create sprites
+    let scroll_length = 8;
+    let scrollArray = [];
+    osmo.scroll.mainScroll = {};
+    for(let i=0; i < scroll_length; i++){
+      let part_index = i+1;
+      let png_path = _url+'0'+part_index+'-or8.png';
+      console.log('Loading scroll part - ' + png_path);
+      let part_scroll = new this.PIXI.Sprite(this.PIXI.Loader.shared.resources[png_path].texture);
+      scrollArray.push(part_scroll);
+      osmo.scroll.mainScroll['part'+part_index] = part_scroll;
+    }
     //
     // Scale the raster
-    let s = osmo.scroll.pixiHeight/scroll_01.height;
+    let s = osmo.scroll.pixiHeight/scrollArray[0].height;
     osmo.scroll.mainScrollScale = s;
     console.log('MAIN SCALE: ' + s);
     //
-    scroll_01.scale.set(s, s);
-    scroll_02.scale.set(s, s);
+    for(let i=0; i < scroll_length; i++)
+      scrollArray[i].scale.set(s, s);
     //
-    this.scrollWidth = scroll_01.width*2;
+    this.scrollWidth = scrollArray[0].width*scroll_length;
     this.scrollHeight = osmo.scroll.pixiHeight;
     //
-    scroll_01.x = osmo.scroll.pixiWidth*3/4;
-    scroll_02.x = scroll_01.x + scroll_01.width;
+    scrollArray[0].x = osmo.scroll.pixiWidth*3/4;
+    for(let i=1; i < scroll_length; i++)
+      scrollArray[i].x = scrollArray[i-1].x + scrollArray[0].width;
     //
     //Add the scroll to the stage
-    this.backgroundContainer.addChild(scroll_01);
-    this.backgroundContainer.addChild(scroll_02);
+    for(let i=0; i < scroll_length; i++)
+      this.backgroundContainer.addChild(scrollArray[i]);
     //
   }
 

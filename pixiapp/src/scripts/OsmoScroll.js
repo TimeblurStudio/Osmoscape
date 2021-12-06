@@ -399,17 +399,22 @@ osmo.Scroll = class {
     //osmo.pzinteract.setMaxZoom(2);
     //
     //load an image and run the `setup` function when it's done
+    let scrollLength = 8;
     let HQpath = './assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW-';
-    osmo.scroll.PIXI.Loader.shared
-      .add(HQpath+'01-or8.png')
-      .add(HQpath+'02-or8.png')
-      .load(function(){
-        console.log('Loaded HQ image');
-        //
-        self.onScrollData(HQpath);
-        //
-      });
+    let scrollPartsArray = [];
+    for(let i=0; i < scrollLength; i++){
+      let index = i+1;
+      let png_path = HQpath+'0'+ index +'-or8.png';
+      scrollPartsArray.push(png_path);
+      console.log('Download path: ' + png_path);
+    }
     //
+    osmo.scroll.PIXI.Loader.shared
+      .add(scrollPartsArray)
+      .load(() => {
+        console.log('Loaded HQ image');
+        self.onScrollData(HQpath);
+      });
     //
   }
 

@@ -373,8 +373,11 @@ osmo.PanAndZoomInteraction = class {
       osmo.legendsvg.removeHighlight();
     
       // Show background
-      osmo.scroll.mainScroll['part1'].alpha = 1;
-      osmo.scroll.mainScroll['part2'].alpha = 1;
+      let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
+      for(let i=0; i < scrollLength; i++){
+        let index = i+1;
+        osmo.scroll.mainScroll['part' + index].alpha = 1;
+      }
       // Disable all masks and legends
       osmo.legendsvg.maskContainer.visible = false;
       osmo.legendsvg.legendContainer.visible = false;
