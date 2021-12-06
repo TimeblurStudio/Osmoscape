@@ -10,6 +10,40 @@ body {
       user-select: none;
 }
 
+.start-action-button {
+  cursor: pointer;
+  outline: none;
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  padding: 16px 40px;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  font-family: Roboto, sans-serif;
+  border-radius: 110px;
+  border: 1px solid #fff;
+  background-color: rgba(144, 170, 180, 0.51);
+  -webkit-box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.28);
+          box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.28);
+  font-family: Roboto, sans-serif;
+  color: #fff;
+  font-size: 1.4em;
+  font-weight: 400;
+  text-transform: uppercase;
+  -webkit-transform: scale(0.6);
+          transform: scale(0.6);
+  margin-top: -20px;
+}
+
 #chapter-text {
   padding: 12px;
   margin: 0;
@@ -1077,6 +1111,8 @@ svg, path {
 .jump {
   display: inline;
   margin: 10px;
+  -webkit-filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.8));
+          filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.8));
 }
 
 .jump img {
