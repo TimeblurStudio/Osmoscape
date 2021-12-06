@@ -492,7 +492,7 @@ osmo.LegendSvg = class {
     osmo.scroll.mainScroll['part2'].alpha = 1;
     this.legendContainer.alpha = 0;
     //
-    let dur = 4000;
+    let dur = 2000;
     this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
       alpha: 1,
       ease: this.POWER4.easeInOut
@@ -542,7 +542,7 @@ osmo.LegendSvg = class {
       //$('.cursor-txt').hide();
       //
       $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">'+ titleName +'</p>');
-      $('.cursor-txt').show();
+      $('.cursor-txt').fadeIn(dur/2);
       this.reset_animation('cursor-clc', 'cursor-loading-circle');
       this.reset_animation('cursor-cl', 'cursor-loading');
       //
@@ -556,9 +556,9 @@ osmo.LegendSvg = class {
         $('.cursor-pointer-dot').show();
         if(self.legendClicksCount < 2){
           $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">'+ 'Click to open' +'</p>');
-          $('.cursor-txt').show();
+          $('.cursor-txt').fadeIn(dur);
           self.cursorTextTimeout = setTimeout(function(){  
-            $('.cursor-txt').hide();  
+            $('.cursor-txt').fadeOut(dur/2);  
             self.cursorTextTimeout = null;
           }, dur); 
         }else
@@ -606,23 +606,41 @@ osmo.LegendSvg = class {
     for(let tweenid in this.highlightTweens)
       this.highlightTweens[tweenid].kill();
     //
-    osmo.scroll.mainScroll['part1'].alpha = 1;
-    osmo.scroll.mainScroll['part2'].alpha = 1;
-    this.legendContainer.alpha = 0;
+    let dur = 2000;
+    this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
+      alpha: 0,
+      ease: this.POWER4.easeInOut,
+      onCompleteScope : this,
+      onComplete : function() {
+        // Hide all legends
+        this.legendContainer.visible = false;
+        if (osmo.bgaudio.currentTrack !== 'intro')
+          osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,2000);
+        for(let i=0; i<this.legendFiles.length; i++)
+          if(this.legendFiles[i].visible)
+            this.legendFiles[i].visible = false;
+        // Stop all tracks
+        setTimeout(function() {
+          for (let audioid in osmo.scroll.datasets)
+            osmo.legendaudio.audioPlayerInstances[audioid].stop();
+        },2000);  
+      }
+    }));
+    this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part1'], dur/1000, {
+      alpha: 1,
+      ease: this.POWER4.easeInOut
+    }));
+    this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part2'], dur/1000, {
+      alpha: 1,
+      ease: this.POWER4.easeInOut
+    }));
+    //osmo.scroll.mainScroll['part1'].alpha = 1;
+    //osmo.scroll.mainScroll['part2'].alpha = 1;
+    // this.legendContainer.alpha = 0;
     //
     for(let i=0; i<this.maskAreas.length; i++)
       this.maskAreas[i].alpha = this.maskAlpha;
-    // Hide all legends
-    this.legendContainer.visible = false;
-    for(let i=0; i<this.legendFiles.length; i++)
-      if(this.legendFiles[i].visible)
-        this.legendFiles[i].visible = false;
-    // Stop all tracks
-    for (let audioid in osmo.scroll.datasets)
-      osmo.legendaudio.audioPlayerInstances[audioid].stop();
-    //
-    if (osmo.bgaudio.currentTrack !== 'intro')
-      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,2000);
+    
     if(this.cursorLoading != null)
       clearTimeout(this.cursorLoading);
     this.cursorLoading = null;
