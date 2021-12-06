@@ -39,6 +39,8 @@ osmo.MoleculeController = class {
     this.alpha;
     this.x;
     this.y;
+    //
+    this.tick = 0;
   }
 
 
@@ -55,7 +57,7 @@ osmo.MoleculeController = class {
     this.moleculeContainer.buttonMode = true;
     //
     this.molecule = new this.PIXI.Graphics()
-      .beginFill(0xeaf1f3, 0.05)
+      .beginFill(0xeaf1f3, 0.5)
       .lineStyle(2, 0xb67339, 1)
       .drawCircle(0, 0, 137.5)
       .endFill()
@@ -73,7 +75,7 @@ osmo.MoleculeController = class {
       .drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 12.5);
     this.molecule.scale.set(0.5,0.5);
     this.shadow = new this.PIXI.Graphics();
-    this.shadow.lineStyle(5, 0x121212, 0.5);
+    this.shadow.lineStyle(5, 0x222222, 0.5);
     this.shadow.drawCircle(0, 0, 137.5);
     this.shadow.moveTo(97.22,-97.22);
     this.shadow.lineTo(97.22+48.5,-97.22-48.5);
@@ -81,13 +83,10 @@ osmo.MoleculeController = class {
     this.shadow.lineTo(97.22+48.5,97.22+48.5);
     this.shadow.drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 37.5);
     this.shadow.drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 37.5);
-    this.shadow.lineStyle(2, 0xFFFFFF, 1);
-    this.shadow.drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 12.5);
-    this.shadow.drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 12.5);
     //this.moleculeContainer.filters = [new PIXI.filters.DropShadowFilter()];
-    this.shadow.filters = [new this.PIXI.filters.BlurFilter()];
-    this.shadow.x += 5;
-    this.shadow.y += 5;
+    this.shadow.filters = [new this.PIXI.filters.BlurFilter(4)];
+    this.shadow.x += 2.0;
+    this.shadow.y += 2.0;
     //
     this.fftVisualizer = new this.PIXI.Graphics();
     this.fftVisualizer.scale.set(0.75,0.75);
@@ -186,13 +185,51 @@ osmo.MoleculeController = class {
       return y;
     });
     ampData.forEach((x,i) => {
+
+      if ( i%2 ) 
+        osmo.mc.fftVisualizer.lineStyle(1, 0xb67339, 1);
+      else 
+        osmo.mc.fftVisualizer.lineStyle(1,0xFFFFFF,1);
       osmo.mc.fftVisualizer.drawCircle(0, 0, x);
 
       if(i > 5 && i < 8 ) {
+        osmo.mc.fftVisualizer.lineStyle(1,0xFFFFFF,1);
         osmo.mc.fftVisualizer.drawCircle(97.22 + 17.5, -97.22 - 17.5, x/4);
         osmo.mc.fftVisualizer.drawCircle(97.22+17.5, +97.22+17.5, x/4);
       }
     });
+    osmo.mc.molecule.clear();
+    osmo.mc.molecule
+      .beginFill(0xeaf1f3, 0.5)
+      .lineStyle(2 , 0xb67339, 1)
+      .drawCircle(0, 0, 137.5)
+      .endFill()
+      .drawCircle(0, 0, 132.5)
+      .drawCircle(0, 0, 127.5)
+      .drawCircle(0, 0, 122.5)
+      .lineStyle(2 , 0xb67339, 1)
+      .moveTo(97.22,-97.22)
+      .lineTo(97.22 + ampData[6],-97.22 - ampData[6])
+      .moveTo(97.22,97.22)
+      .lineTo(97.22 + ampData[6],97.22 + ampData[6])
+      .lineStyle(2 , 0xb67339, 1)
+      .drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 37.5 + ampData[6]/4)
+      .drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 37.5 + ampData[6]/4);
+    //.lineStyle(2, 0xFFFFFF, 1)
+    //.drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 12.5)
+    osmo.mc.shadow.clear();
+    osmo.mc.shadow 
+      .lineStyle(0.7, 0x222222, 0.5)
+      .drawCircle(0, 0, 137.5)
+      .lineStyle(2, 0x222222, 0.5)
+      .moveTo(97.22,-97.22)
+      .lineTo(97.22+49.5 -ampData[6]/4,-97.22-49.5+ampData[6]/4)
+      .moveTo(97.22,97.22)
+      .lineTo(97.22+49.5 -ampData[6]/4,97.22+49.5-ampData[6]/4)
+      .drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 37.5 + ampData[6]/4)
+      .drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 37.5 + ampData[6]/4);
+    //.drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 12.5);
+ 
   }
   
   updateMoleculeScale(val){
