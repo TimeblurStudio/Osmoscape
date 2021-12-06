@@ -157,6 +157,11 @@ osmo.LegendInteraction = class {
    * ------------------------------------------------
    */
   showLegend(number){
+    //
+    for(let i=0; i<osmo.legendsvg.legendFiles.length; i++)
+      if(osmo.legendsvg.legendFiles[i].visible)
+        osmo.legendsvg.legendFiles[i].visible = false;
+    //
     console.log('Opening legend ' + number);
     osmo.legendsvg.legendClicksCount++;
     //
@@ -233,6 +238,10 @@ osmo.LegendInteraction = class {
     //
     //
     let legend = osmo.legendsvg.popupBBoxes[this.currentFocus].legend;
+    let hasSpecialFile = osmo.legendsvg.popupBBoxes[number].spllegend;
+    if(osmo.scroll.includeSpecialCase && hasSpecialFile){
+      legend = osmo.legendsvg.popupBBoxes[this.currentFocus].spllegend;
+    }
     legend.visible = true;
     //
     //

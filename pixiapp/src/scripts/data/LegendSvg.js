@@ -34,7 +34,6 @@ osmo.LegendSvg = class {
     this.mergedLegends = {};
     this.mergedPolygons = {};
     this.mergedSoundAreas = {};
-    this.earlySVGDataPromises = [];
     this.allSVGDataPromises = [];
     this.popupBBoxes = {};
     this.maskAreas = [];
@@ -110,7 +109,7 @@ osmo.LegendSvg = class {
    * loadDataset
    * ------------------------------------------------
    */
-  loadDataset(id, early=true){
+  loadDataset(id){
     if (osmo.scroll.datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
@@ -156,15 +155,17 @@ osmo.LegendSvg = class {
       //
       let maskpromise = this.maskLoad(title, polygondata, id, zorder);
       let legendpromise = this.legendLoad(title, legenddata, lpath, id, this.loadIndividualFiles);
+      this.allSVGDataPromises.push(maskpromise);
+      this.allSVGDataPromises.push(legendpromise);
       //
-      if(early){
-        this.earlySVGDataPromises.push(maskpromise);
-        this.earlySVGDataPromises.push(legendpromise);
-      }else{
-        this.allSVGDataPromises.push(maskpromise);
-        this.allSVGDataPromises.push(legendpromise);
+      let hasSpecialFile = osmo.scroll.datasets[id].hasOwnProperty('speciallegend');
+      if(osmo.scroll.includeSpecialCase && hasSpecialFile){
+        let splid = id + '_spl';
+        let spllpath = osmo.scroll.datasets[id].speciallegend;
+        let spllegenddata = this.mergedLegends[splid];
+        let spllegendpromise = this.legendLoad(title, spllegenddata, spllpath, splid, this.loadIndividualFiles, true);
+        this.allSVGDataPromises.push(spllegendpromise);
       }
-      //
       //
       //
     }
@@ -182,7 +183,7 @@ osmo.LegendSvg = class {
       self.loadDataset(id, true);
     //
     //
-    Promise.all(this.earlySVGDataPromises).then((values) => {
+    Promise.all(this.allSVGDataPromises).then((values) => {
       console.log('Processing early datasets...');
       $('#percentage').html('Processing datasets...');
       setTimeout(function(){
@@ -303,7 +304,7 @@ osmo.LegendSvg = class {
    * legendLoad
    * ------------------------------------------------
    */
-  legendLoad(title, svgxml, pngpath, num, frompath){
+  legendLoad(title, svgxml, pngpath, num, frompath, specialCase=false){
     //
     let self = this;
     const lpromise = new Promise((resolve, reject) => {
@@ -344,8 +345,14 @@ osmo.LegendSvg = class {
           $('#percentage').html(percentage);
           //
           //
-          if(self.popupBBoxes[num] != undefined)
-            self.popupBBoxes[num]['legend'] = legend;
+          if(specialCase){
+            let nonsplid = num.replace('_spl', '');
+            if(self.popupBBoxes[nonsplid] != undefined)
+              self.popupBBoxes[nonsplid]['spllegend'] = legend;
+          }else{
+            if(self.popupBBoxes[num] != undefined)
+              self.popupBBoxes[num]['legend'] = legend;
+          }
           //
           //
           //
@@ -357,7 +364,13 @@ osmo.LegendSvg = class {
           legend.visible = false;
           //
           //
-          let legendRefHeight = (self.popupBBoxes[num].boundingbox.height/623.5);
+          let legendRefHeight = 0;
+          if(specialCase){
+            let nonsplid = num.replace('_spl', '');
+            legendRefHeight = (self.popupBBoxes[nonsplid].boundingbox.height/623.5);
+          }else{
+            legendRefHeight = (self.popupBBoxes[num].boundingbox.height/623.5);
+          }
           let legendScale = (legendRefHeight/legendTexture.height)*osmo.scroll.pixiHeight;
           legend.scale.set(legendScale,legendScale);
           console.log('LEGEND SCALE: ' + legendScale);
@@ -376,8 +389,15 @@ osmo.LegendSvg = class {
             else  offset = 495;
             //
             //Change the legend's position with an added offset
-            legend.x = (self.popupBBoxes[num].boundingbox.x + offset)*(osmo.scroll.pixiHeight/623.5) + osmo.scroll.pixiWidth*3/4;
-            legend.y = (self.popupBBoxes[num].boundingbox.y)*(osmo.scroll.pixiHeight/623.5);
+            if(specialCase){
+              let nonsplid = num.replace('_spl', '');
+              legend.x = (self.popupBBoxes[nonsplid].boundingbox.x + offset)*(osmo.scroll.pixiHeight/623.5) + osmo.scroll.pixiWidth*3/4;
+              legend.y = (self.popupBBoxes[nonsplid].boundingbox.y)*(osmo.scroll.pixiHeight/623.5);  
+            }else{
+              legend.x = (self.popupBBoxes[num].boundingbox.x + offset)*(osmo.scroll.pixiHeight/623.5) + osmo.scroll.pixiWidth*3/4;
+              legend.y = (self.popupBBoxes[num].boundingbox.y)*(osmo.scroll.pixiHeight/623.5);  
+            }
+            //
           }
           //
           self.legendContainer.addChild(legend);
