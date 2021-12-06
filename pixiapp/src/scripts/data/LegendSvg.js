@@ -628,7 +628,6 @@ osmo.LegendSvg = class {
     for(let tweenid in this.highlightTweens)
       this.highlightTweens[tweenid].kill();
     //
-<<<<<<< HEAD
     let dur = 2000;
     this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
       alpha: 0,
