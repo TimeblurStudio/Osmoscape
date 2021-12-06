@@ -138,13 +138,12 @@ osmo.PanAndZoomInteraction = class {
     //
     //
     /* EARLY METHOD BELOW FOR TOUCH */
-    /*
     //touchmove works for iOS, and Android
     let prevX = 0;
     let prevY = 0;
     $(document).on('touchmove', function(event) {
-      //console.log('touchmove');
-      //console.log(event);
+      console.log('touchmove');
+      console.log(event);
       //
       let newX = event.touches[0].clientX;
       let newY = event.touches[0].clientY;
@@ -159,94 +158,102 @@ osmo.PanAndZoomInteraction = class {
       newEvent.type = 'mousewheel';
       newEvent.deltaX = deltaX;
       newEvent.deltaY = deltaY;
+      newEvent.originalEvent = JSON.parse(JSON.stringify(event));
       //
       // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
       // Implement this for phone
 
       //
-      $('#main-scroll-canvas').trigger(newEvent);
+      //$('#main-scroll-canvas').trigger(newEvent);
+      self.onOsmoScroll(self, newEvent);
     });
-    */
 
     // Main scrolling functionality
     //$('#main-scroll-canvas').on('mousewheel', function(event) {
     $('#main-scroll-canvas').on('wheel', function(event){
       //
-      // Wait for start button press
-      if(!osmo.scroll.started) return; 
-      // Wait for items to load
-      if(!osmo.scroll.loaded.svgdata || !osmo.scroll.loaded.HQimage)
-        return;
+      self.onOsmoScroll(self, event);
       //
-      self.disableMaskInteractions();
-      //
-      // NOTE: navScrolledUpdate flag is used to
-      // Reduce number of times this snippet runs while scrolling
-      //
-      if(self.navScrolledUpdate){
-        //
-        if(osmo.scroll.hitPopupMode != 'focused'){
-          self.navScrolledUpdate = false;
-          setTimeout(function(){  osmo.navinteract.scrollNavEffect();  },50);
-          // check inactivity and when scrolling stops - update basetrack
-          clearTimeout($.data(this, 'scrollTimer'));
-          $.data(this, 'scrollTimer', setTimeout(function() {
-            osmo.navinteract.updateBasetrack();
-          }, 250));
-          //
-          // Code below makes scrolling experince way smooth
-          //
-          // HIDING MASK NEEDS TO BE ADDED
-          //
-          // check inactivity and when scrolling stops - enable mask
-          clearTimeout($.data(this, 'scrollTimerLong'));
-          $.data(this, 'scrollTimerLong', setTimeout(function() {
-            osmo.pzinteract.enableMaskInteractions();
-          }, 500));
-          //
-        }
-        //
-      }
-      //
-      let et;
-      if(!window.isMobile){
-        et = event.originalEvent;
-        event.preventDefault();
-      }else{
-        et = event;
-      }
-      //
-      let fac = 1.005;///(osmo.scroll.mainStage.scale.x*osmo.scroll.mainStage.scale.y);
-      //
-      let deltaValX, deltaValY;
-      if(osmo.scroll.hitPopupMode != 'focused'){
-        if(Math.abs(et.deltaY) > Math.abs(et.deltaX)){
-          deltaValX = et.deltaY;
-          deltaValY = et.deltaY;
-        }else{
-          deltaValX = et.deltaX;
-          deltaValY = et.deltaX;
-        }
-        //
-        osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac*osmo.scroll.pixiScale);
-        //
-      }
-      else{
-        //
-        deltaValX = et.deltaX;
-        deltaValY = et.deltaY;
-        //
-        let mouseX = osmo.pzinteract.mouseLoc.x*osmo.scroll.pixiScale;
-        let mouseY = osmo.pzinteract.mouseLoc.y*osmo.scroll.pixiScale;
-        osmo.pzinteract.changeZoomAt(mouseX, mouseY, deltaValY);// Consilder only deltaY for zoom
-        //
-      }
     });
 
 
 
     //
     document.addEventListener('keydown', this.onKeyDown);
+  }
+
+
+
+  onOsmoScroll(self, event){
+    // Wait for start button press
+    if(!osmo.scroll.started) return; 
+    // Wait for items to load
+    if(!osmo.scroll.loaded.svgdata || !osmo.scroll.loaded.HQimage)
+      return;
+    //
+    self.disableMaskInteractions();
+    //
+    // NOTE: navScrolledUpdate flag is used to
+    // Reduce number of times this snippet runs while scrolling
+    //
+    if(self.navScrolledUpdate){
+      //
+      if(osmo.scroll.hitPopupMode != 'focused'){
+        self.navScrolledUpdate = false;
+        setTimeout(function(){  osmo.navinteract.scrollNavEffect();  },50);
+        // check inactivity and when scrolling stops - update basetrack
+        clearTimeout($.data(this, 'scrollTimer'));
+        $.data(this, 'scrollTimer', setTimeout(function() {
+          osmo.navinteract.updateBasetrack();
+        }, 250));
+        //
+        // Code below makes scrolling experince way smooth
+        //
+        // HIDING MASK NEEDS TO BE ADDED
+        //
+        // check inactivity and when scrolling stops - enable mask
+        clearTimeout($.data(this, 'scrollTimerLong'));
+        $.data(this, 'scrollTimerLong', setTimeout(function() {
+          osmo.pzinteract.enableMaskInteractions();
+        }, 500));
+        //
+      }
+      //
+    }
+    //
+    let et;
+    if(!window.isMobile){
+      et = event.originalEvent;
+      event.preventDefault();
+    }else{
+      et = event;
+    }
+    //
+    let fac = 1.005;///(osmo.scroll.mainStage.scale.x*osmo.scroll.mainStage.scale.y);
+    //
+    let deltaValX, deltaValY;
+    if(osmo.scroll.hitPopupMode != 'focused'){
+      if(Math.abs(et.deltaY) > Math.abs(et.deltaX)){
+        deltaValX = et.deltaY;
+        deltaValY = et.deltaY;
+      }else{
+        deltaValX = et.deltaX;
+        deltaValY = et.deltaX;
+      }
+      //
+      osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac*osmo.scroll.pixiScale);
+      //
+    }
+    else{
+      //
+      deltaValX = et.deltaX;
+      deltaValY = et.deltaY;
+      //
+      let mouseX = osmo.pzinteract.mouseLoc.x*osmo.scroll.pixiScale;
+      let mouseY = osmo.pzinteract.mouseLoc.y*osmo.scroll.pixiScale;
+      osmo.pzinteract.changeZoomAt(mouseX, mouseY, deltaValY);// Consilder only deltaY for zoom
+      //
+    }
   }
 
   /*
