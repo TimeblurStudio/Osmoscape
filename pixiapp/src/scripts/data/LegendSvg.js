@@ -540,7 +540,7 @@ osmo.LegendSvg = class {
       $('.cursor-pointer-dot').hide();
       //$('.cursor-txt').hide();
       //
-      $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px black; white-space: break-spaces; padding: 2px 2px;">'+ titleName +'</p>');
+      $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">'+ titleName +'</p>');
       $('.cursor-txt').show();
       this.reset_animation('cursor-clc', 'cursor-loading-circle');
       this.reset_animation('cursor-cl', 'cursor-loading');
@@ -554,7 +554,7 @@ osmo.LegendSvg = class {
         $('.cursor-loading').hide();
         $('.cursor-pointer-dot').show();
         if(self.legendClicksCount < 2){
-          $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px black; white-space: break-spaces; padding: 2px 2px;">'+ 'Click to open' +'</p>');
+          $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">'+ 'Click to open' +'</p>');
           $('.cursor-txt').show();
           self.cursorTextTimeout = setTimeout(function(){  
             $('.cursor-txt').hide();  

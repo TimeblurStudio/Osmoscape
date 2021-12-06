@@ -98,7 +98,7 @@ osmo.DataSvg = class {
     console.log('osmo.DataSvg - initSplash');
     let self = this;
     //
-    let splashURL = './assets/images/OsmoSplash.png';
+    let splashURL = './assets/images/OsmoSplashNew.png';
     self.PIXI.Loader.shared
       .add(splashURL)
       .load(function(){
@@ -116,9 +116,10 @@ osmo.DataSvg = class {
         splashSprite.anchor.y = 0.5;
         // Move the raster to the center of the view
         splashSprite.x = osmo.scroll.pixiWidth/2;
-        splashSprite.y = osmo.scroll.pixiHeight/2 - splashSprite.height/4;
+        splashSprite.y = osmo.scroll.pixiHeight/2;// - splashSprite.height*osmo.scroll.pixiScale/2;
+        self.backgroundContainer.addChild(text);
         //
-          
+        /*
         //
         // SCROLL TEXT & ARROW
         //
@@ -143,10 +144,9 @@ osmo.DataSvg = class {
         let triangle = self.createTriangle(start.x+end.x, start.y+end.y+(size/2), size, 0xb97941);
         triangle.rotation = -Math.PI/2;
         //
-        self.backgroundContainer.addChild(text);
         self.backgroundContainer.addChild(line);
         self.backgroundContainer.addChild(triangle);
-        //
+        */
       });
     //
   }

@@ -23,19 +23,12 @@ window.onload = function() {
   console.log('Window loaded');
   window.version = $('#versionid').text();
 
-  // Scroll instance
-  osmo.scroll = new osmo.Scroll();
-  osmo.scroll.init();
-
-  // Meter to keep track of FPS
-  //window.FPSMeter.theme.transparent.container.transform = 'scale(0.75)';
-  //window.meter = new window.FPSMeter({ position: 'absolute', left: '5px', bottom: '5px', margin: '-8px -16px', theme: 'transparent', graph: 1, history: 16 });
-
   //
   //
   //
-  let please_wait_spinner = '<div id="percentage" style="color: #b97941; font-weight: 400;"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #b97941"></div><div class="sk-child sk-bounce2" style="background-color: #b97941"></div><div class="sk-child sk-bounce3" style="background-color: #b97941"></div></div>';
-  let DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'; font-weight: 300;"><button type="button" class="btn btn-filled" id="start-btn">Start</button></div>';
+  let fullscreen_button = '<div style="position: absolute; top: 0; right: 0px; text-align: right; vertical-align: middle;"><i class="material-icons" id="enter-fullscreen" style="padding: 10px; cursor: pointer; color: white;">fullscreen</i></div>';
+  let please_wait_spinner = '<div id="percentage" style="color: #fff; font-weight: 400; font-family: \'Roboto\';"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #fff"></div><div class="sk-child sk-bounce2" style="background-color: #fff"></div><div class="sk-child sk-bounce3" style="background-color: #fff"></div></div>';
+  let DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'; font-weight: 300;"><button type="button" class="start-action-button" id="start-btn">Start</button></div>';
   //
   let loadMobile = !window.isMobile;
   if(loadMobile){
@@ -56,6 +49,15 @@ window.onload = function() {
     osmo.scroll.loadMQ();
   }
   //
+  // Scroll instance
+  osmo.scroll = new osmo.Scroll();
+  osmo.scroll.init();
+
+  // Meter to keep track of FPS
+  //window.FPSMeter.theme.transparent.container.transform = 'scale(0.75)';
+  //window.meter = new window.FPSMeter({ position: 'absolute', left: '5px', bottom: '5px', margin: '-8px -16px', theme: 'transparent', graph: 1, history: 16 });
+
+  //
   //
   let logo = $('.pg-loading-logo');
   osmo.scroll.splashWidth = logo.outerWidth();
@@ -67,10 +69,12 @@ window.onload = function() {
   });
 
   //
-  //
   $(window).on('resize', function(){
+    // Clear context and reload 
+    // https://stackoverflow.com/questions/38954134/how-to-completely-remove-pixi-renderer-stage-and-assets
     window.location.reload(true);
   });
+  //
 };
 
 

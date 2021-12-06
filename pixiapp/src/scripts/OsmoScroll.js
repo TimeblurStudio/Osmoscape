@@ -212,7 +212,7 @@ osmo.Scroll = class {
     $('#start-btn').hide();
     //
     //
-    let please_wait_spinner = '<div id="percentage" style="color: #b97941; font-weight: 400;"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #b97941"></div><div class="sk-child sk-bounce2" style="background-color: #b97941"></div><div class="sk-child sk-bounce3" style="background-color: #b97941"></div></div>';
+    let please_wait_spinner = '<div id="percentage" style="color: #fff; font-weight: 400; font-family: \'Roboto\';"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #fff"></div><div class="sk-child sk-bounce2" style="background-color: #fff"></div><div class="sk-child sk-bounce3" style="background-color: #fff"></div></div>';
     $('.pg-loading-html').empty();
     $('.pg-loading-html').append($.parseHTML( please_wait_spinner ));
     //
@@ -240,8 +240,7 @@ osmo.Scroll = class {
       antialias: true,
       backgroundAlpha: 0,
       view: canvas
-    }
-    );
+    });
     this.mainApp = app;
     this.mainStage = this.mainApp.stage;
     this.mainStage.scale.set(this.pixiScale, this.pixiScale);
@@ -331,13 +330,17 @@ osmo.Scroll = class {
    * ------------------------------------------------
    */
   addActionButtons(){
+    /*
     // INFO BUTTON
     $('#show-info').on('click', function(event) {
       osmo.scroll.toggleModal();
     });
+    */
 
     // FULLSCREEN BUTTON
     $('#enter-fullscreen').on('click', function(event) {
+      console.log('Fullscreen button clicked');
+      //
       var icon = $('#enter-fullscreen');
       icon.toggleClass('on');
       if ( icon.hasClass('on') ) {

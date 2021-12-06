@@ -81,7 +81,7 @@ osmo.BackgroundAudio = class {
     }
     //
     // the intro player
-    let intro_path = './assets/audio/loops/-1.mp3';
+    let intro_path = './assets/audio/tracks/Baseline_1.mp3';
     this.allBackgroundTrackPaths.push(intro_path);
     this.introTrack = new this.TONE.Player({
       url: intro_path,
