@@ -205,6 +205,10 @@ osmo.PanAndZoomInteraction = class {
       return;
     //
     //
+    if($('#scrollm').is(":visible"))
+      $('#scrollm').hide();
+    //
+    //
     self.disableMaskInteractions();
     //
     // NOTE: navScrolledUpdate flag is used to
@@ -595,8 +599,6 @@ osmo.PanAndZoomInteraction = class {
     console.log(isTrackpad ? 'Trackpad detected' : 'Mousewheel detected');
     osmo.pzinteract.isCompletedDetecting = true;
     osmo.pzinteract.isTrackpadDetected = isTrackpad;
-    //
-    $('#scrollm').hide();
     //
     document.removeEventListener('wheel', osmo.pzinteract.detectTrackPad, false);
     document.removeEventListener('DOMMouseScroll', osmo.pzinteract.detectTrackPad, false);
