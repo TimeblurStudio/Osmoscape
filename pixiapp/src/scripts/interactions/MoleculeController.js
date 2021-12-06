@@ -72,11 +72,28 @@ osmo.MoleculeController = class {
       .drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 12.5)
       .drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 12.5);
     this.molecule.scale.set(0.5,0.5);
+    this.shadow = new this.PIXI.Graphics();
+    this.shadow.lineStyle(5, 0x121212, 0.5);
+    this.shadow.drawCircle(0, 0, 137.5);
+    this.shadow.moveTo(97.22,-97.22);
+    this.shadow.lineTo(97.22+48.5,-97.22-48.5);
+    this.shadow.moveTo(97.22,97.22);
+    this.shadow.lineTo(97.22+48.5,97.22+48.5);
+    this.shadow.drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 37.5);
+    this.shadow.drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 37.5);
+    this.shadow.lineStyle(2, 0xFFFFFF, 1);
+    this.shadow.drawCircle(97.22+37.5+37.5, -97.22-37.5-37.5, 12.5);
+    this.shadow.drawCircle(97.22+37.5+37.5, +97.22+37.5+37.5, 12.5);
+    //this.moleculeContainer.filters = [new PIXI.filters.DropShadowFilter()];
+    this.shadow.filters = [new this.PIXI.filters.BlurFilter()];
+    this.shadow.x += 5;
+    this.shadow.y += 5;
     //
     this.fftVisualizer = new this.PIXI.Graphics();
     this.fftVisualizer.scale.set(0.75,0.75);
     this.fftVisualizer.lineStyle(1,0xFFFFFF,1);
     //
+    this.molecule.addChild(this.shadow);
     this.moleculeContainer.addChild(this.molecule);
     this.moleculeContainer.addChild(this.fftVisualizer);
     //
