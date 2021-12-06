@@ -128,7 +128,8 @@ osmo.PanAndZoomInteraction = class {
           let deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
           let deltaY = -1*(self.mouseLoc.y - self.prevMouseLoc.y);
           let fac = 1.005;
-          osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaX, deltaY, fac*osmo.scroll.pixiScale, false);//
+          let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
+          osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(oldPos, deltaX, deltaY, fac*osmo.scroll.pixiScale, false);//
         }
         //
       }
@@ -204,6 +205,10 @@ osmo.PanAndZoomInteraction = class {
       return;
     //
     //
+    if($('#scrollm').is(":visible"))
+      $('#scrollm').hide();
+    //
+    //
     self.disableMaskInteractions();
     //
     // NOTE: navScrolledUpdate flag is used to
@@ -258,7 +263,8 @@ osmo.PanAndZoomInteraction = class {
       if(!osmo.pzinteract.isTrackpadDetected)
         deltaValX *= -1;
       //
-      osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac*osmo.scroll.pixiScale);
+      let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
+      osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac*osmo.scroll.pixiScale);
       //
     }
     else{
@@ -373,8 +379,11 @@ osmo.PanAndZoomInteraction = class {
       osmo.legendsvg.removeHighlight();
     
       // Show background
-      osmo.scroll.mainScroll['part1'].alpha = 1;
-      osmo.scroll.mainScroll['part2'].alpha = 1;
+      let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
+      for(let i=0; i < scrollLength; i++){
+        let index = i+1;
+        osmo.scroll.mainScroll['part' + index].alpha = 1;
+      }
       // Disable all masks and legends
       osmo.legendsvg.maskContainer.visible = false;
       osmo.legendsvg.legendContainer.visible = false;
@@ -590,8 +599,6 @@ osmo.PanAndZoomInteraction = class {
     console.log(isTrackpad ? 'Trackpad detected' : 'Mousewheel detected');
     osmo.pzinteract.isCompletedDetecting = true;
     osmo.pzinteract.isTrackpadDetected = isTrackpad;
-    //
-    $('#scrollm').hide();
     //
     document.removeEventListener('wheel', osmo.pzinteract.detectTrackPad, false);
     document.removeEventListener('DOMMouseScroll', osmo.pzinteract.detectTrackPad, false);

@@ -31,6 +31,7 @@ osmo.SoundInteractionArea = class {
     //
     //@private
     //
+    this.soundMaskAlpha = 0;
     this.areaContainer;
     //
   }
@@ -109,7 +110,7 @@ osmo.SoundInteractionArea = class {
       console.log('Loading ' + shape + ' sound area');
       let s = shapeArray[shape].reduce((graphics, shape, index, array) => {
         graphics.beginFill(0x00A555);
-        graphics.alpha = 0;
+        graphics.alpha = this.soundMaskAlpha;
         graphics.drawPolygon(shape.shape);
         if (index === array.length - 1) {
           graphics.endFill();
