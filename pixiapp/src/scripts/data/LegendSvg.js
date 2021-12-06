@@ -584,7 +584,7 @@ osmo.LegendSvg = class {
             self.cursorTextTimeout = null;
           }, dur); 
         }else
-          $('.cursor-txt').hide();
+          $('.cursor-txt').fadeOut(dur/2);
         /*
         // Disable rest of the masks until the dark background fades out!
         Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
@@ -628,38 +628,26 @@ osmo.LegendSvg = class {
     for(let tweenid in this.highlightTweens)
       this.highlightTweens[tweenid].kill();
     //
-    let dur = 2000;
-    this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
-      alpha: 0,
-      ease: this.POWER4.easeInOut,
-      onCompleteScope : this,
-      onComplete : function() {
-        // Hide all legends
-        this.legendContainer.visible = false;
-        if (osmo.bgaudio.currentTrack !== 'intro')
-          osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,2000);
-        for(let i=0; i<this.legendFiles.length; i++)
-          if(this.legendFiles[i].visible)
-            this.legendFiles[i].visible = false;
-        // Stop all tracks
-        setTimeout(function() {
-          for (let audioid in osmo.scroll.datasets)
-            osmo.legendaudio.audioPlayerInstances[audioid].stop();
-        },2000);  
-      }
-    }));
-    //osmo.scroll.mainScroll['part1'].alpha = 1;
-    //osmo.scroll.mainScroll['part2'].alpha = 1;
-    // this.legendContainer.alpha = 0;
     let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
     for(let i=0; i < scrollLength; i++){
       let index = i+1;
       osmo.scroll.mainScroll['part'+index].alpha = 1;
     }
+    this.legendContainer.alpha = 0;
     //
     for(let i=0; i<this.maskAreas.length; i++)
       this.maskAreas[i].alpha = this.maskAlpha;
-    
+    // Hide all legends
+    this.legendContainer.visible = false;
+    for(let i=0; i<this.legendFiles.length; i++)
+      if(this.legendFiles[i].visible)
+        this.legendFiles[i].visible = false;
+    // Stop all tracks
+    for (let audioid in osmo.scroll.datasets)
+      osmo.legendaudio.audioPlayerInstances[audioid].stop();
+    //
+    if (osmo.bgaudio.currentTrack !== 'intro')
+      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,2000);
     if(this.cursorLoading != null)
       clearTimeout(this.cursorLoading);
     this.cursorLoading = null;

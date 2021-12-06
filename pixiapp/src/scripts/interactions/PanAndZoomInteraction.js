@@ -205,7 +205,7 @@ osmo.PanAndZoomInteraction = class {
       return;
     //
     //
-    if($('#scrollm').is(":visible"))
+    if($('#scrollm').is(':visible'))
       $('#scrollm').hide();
     //
     //

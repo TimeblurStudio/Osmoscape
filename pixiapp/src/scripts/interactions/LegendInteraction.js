@@ -202,9 +202,9 @@ osmo.LegendInteraction = class {
       $('.cursor-pointer-dot').show();
       if(osmo.legendsvg.legendClicksCount < 2){
         $('.cursor-txt').html('Click & drag');
-        $('.cursor-txt').show();
+        $('.cursor-txt').fadeIn(1000);
         setTimeout(function(){  $('.cursor-txt').html('Scroll to zoom');  }, 4000);
-        setTimeout(function(){  $('.cursor-txt').hide();  }, 8000);
+        setTimeout(function(){  $('.cursor-txt').fadeOut();  }, 8000);
       }
       self.dragMode = true;
     },1000);
