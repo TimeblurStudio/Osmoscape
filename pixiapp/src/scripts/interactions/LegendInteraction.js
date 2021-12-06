@@ -57,11 +57,32 @@ osmo.LegendInteraction = class {
     //    
     $('#popup-info-toggle').click(function(){
       if(self.isSidebarOpen()){
+        let dur = 600;
         $('#popup-info-toggle').html('&gt;');
-        $('#focused-info').animate({ left:'-33%'}, 600);
+        $('#focused-info').animate({ left:'-33%'}, dur);
+        //
+        let fac = 1;
+        let deltaValX = -1*(osmo.scroll.pixiWidth/3);
+        let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
+        let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac);
+        self.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
+          x: newPos.x,
+          ease: self.POWER4.easeInOut
+        });
       }else {
+        let dur = 600;
         $('#popup-info-toggle').html('&lt;');
-        $('#focused-info').animate({ left:'0%'}, 600);
+        $('#focused-info').animate({ left:'0%'}, dur);
+        //
+        let fac = 1;
+        let deltaValX = (osmo.scroll.pixiWidth/3);
+        let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
+        let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac);
+        self.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
+          x: newPos.x,
+          ease: self.POWER4.easeInOut
+        });
+        //
       }
     });
     //
@@ -310,7 +331,8 @@ osmo.LegendInteraction = class {
     let deltaValY = -(newCenter.y - osmo.scroll.mainStage.position.y);
     //
     //mainStage.scale.x = mainStage.scale.y = changeZoom(mainStage.scale.x, -1, zoomFac, false);
-    osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaValX, deltaValY, fac);
+    let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
+    osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(oldPos, deltaValX, deltaValY, fac);
     //
     this.currentFocus = null;
     osmo.scroll.hitPopupMode = 'hovering';
