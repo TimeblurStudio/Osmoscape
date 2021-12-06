@@ -75,14 +75,15 @@ osmo.LegendSvg = class {
     console.log('mergedLegendURL: ' + legendsURL);
     $.getJSON(legendsURL, function( data ) {
       self.mergedLegends = data;
-      console.log('Loaded legends');
+      osmo.scroll.loaded.mergedLegendFile = true;
+      console.log('Loaded legends file');
     });
     //
     let polygonsURL = './assets/data/mergedPolygons.json' + '?v=' + window.version;
     console.log('mergedPolygonsURL: ' + polygonsURL);
     $.getJSON(polygonsURL, function( data ) {
       self.mergedPolygons = data;
-      console.log('Loaded polygons');
+      console.log('Loaded polygons file');
     });
     //
     let soundAreasURL = './assets/data/mergedSoundAreas.json' + '?v=' + window.version;

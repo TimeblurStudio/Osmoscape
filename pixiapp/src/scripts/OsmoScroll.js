@@ -77,7 +77,7 @@ osmo.Scroll = class {
     this.pixiHeight;
     this.pixiWidth;
     this.splashWidth;
-    this.loaded = {  'HQimage' : false,  'svgdata': false, 'backgroundaudio': false, 'legendaudio': false  };
+    this.loaded = {  'HQimage' : false,  'svgdata': false, 'backgroundaudio': false, 'legendaudio': false, 'mergedLegendFile': false  };
     this.datasets = {};
     this.includeSpecialCase = false;
     this.pixiScale = 2;
@@ -361,6 +361,28 @@ osmo.Scroll = class {
     osmo.smi.init();
     //
     //
+    let waitCount = 60;//60 seconds
+    let waitTillFilesAreDownloaded = setInterval(function(){
+      let loadedBackgroundAudio = osmo.scroll.loaded.backgroundaudio;
+      let loadedMergedLegendFile = osmo.scroll.loaded.mergedLegendFile;
+      //
+      waitCount -= 1;
+      //
+      if(loadedBackgroundAudio && loadedMergedLegendFile){
+        console.log('Downloaded large files');//NOTE: Causes problems on ipad while loading
+        $('#start-btn').show();
+        clearInterval(waitTillFilesAreDownloaded);
+      }else{
+        console.log('Waiting for big files to complete downloading -- backgroundAudio: ' + loadedBackgroundAudio + ' mergedLegendFile: ' + loadedMergedLegendFile);
+        if(waitCount < 0){
+          clearInterval(waitTillFilesAreDownloaded);
+          let please_wait_error = '<div id="error" style="color: #b97941; font-weight: 400; font-family: \'Roboto\';">Failed to download files, please reload!</div>';
+          $('.pg-loading-html').empty();
+          $('.pg-loading-html').append($.parseHTML( please_wait_error ));
+          
+        }
+      }
+    },1000);
   }
 
 
@@ -427,7 +449,6 @@ osmo.Scroll = class {
         console.log('All required data loaded');
         //
         clearInterval(waitTillTracksLoad);
-        //$('#start-btn').show();
         //
         //
         osmo.navinteract.loadNav();

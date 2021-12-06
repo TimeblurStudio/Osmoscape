@@ -142,8 +142,8 @@ osmo.PanAndZoomInteraction = class {
     let prevX = 0;
     let prevY = 0;
     $(document).on('touchmove', function(event) {
-      console.log('touchmove');
-      console.log(event);
+      //console.log('touchmove');
+      //console.log(event);
       //
       let newX = event.touches[0].clientX;
       let newY = event.touches[0].clientY;
@@ -183,13 +183,18 @@ osmo.PanAndZoomInteraction = class {
   }
 
 
-
+  /**
+   * ------------------------------------------------
+   * on scroll event trigger
+   * ------------------------------------------------
+   */
   onOsmoScroll(self, event){
     // Wait for start button press
     if(!osmo.scroll.started) return; 
     // Wait for items to load
     if(!osmo.scroll.loaded.svgdata || !osmo.scroll.loaded.HQimage)
       return;
+    //
     //
     self.disableMaskInteractions();
     //
@@ -224,7 +229,8 @@ osmo.PanAndZoomInteraction = class {
     let et;
     if(!window.isMobile){
       et = event.originalEvent;
-      event.preventDefault();
+      //if(event.preventDefault)
+      //  event.preventDefault();
     }else{
       et = event;
     }
@@ -240,6 +246,9 @@ osmo.PanAndZoomInteraction = class {
         deltaValX = et.deltaX;
         deltaValY = et.deltaX;
       }
+      //
+      if(!osmo.pzinteract.isTrackpadDetected)
+        deltaValX *= -1
       //
       osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(osmo.scroll.mainStage.position, deltaValX, 0, fac*osmo.scroll.pixiScale);
       //
