@@ -117,13 +117,6 @@ osmo.DataSvg = class {
         // Move the raster to the center of the view
         splashSprite.x = osmo.scroll.pixiWidth/2;
         splashSprite.y = osmo.scroll.pixiHeight/2;// - splashSprite.height*osmo.scroll.pixiScale/2;
-        const style = new self.PIXI.TextStyle({
-          fontFamily: 'Roboto',
-          fontSize: window.isMobile?12:18,
-          fill: '#b97941'
-        });
-        let text = new self.PIXI.Text(window.isMobile?'Hold & Scroll to explore':'Scroll to explore',style);
-        self.backgroundContainer.addChild(text);
         //
         /*
         //
