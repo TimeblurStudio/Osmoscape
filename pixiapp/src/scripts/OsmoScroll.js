@@ -357,8 +357,10 @@ osmo.Scroll = class {
 
     //
     // SPEAKER
-    osmo.smi = new osmo.SpeakerMicroInteraction();
-    osmo.smi.init();
+    // NOTE: Creates problems esp. for touch devices( Even completely removes all touch interactions on change)
+    //osmo.smi = new osmo.SpeakerMicroInteraction();
+    //osmo.smi.init();
+    $('#smi').hide();
     //
     //
     let waitCount = 60;//60 seconds
