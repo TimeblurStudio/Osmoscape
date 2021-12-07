@@ -100,8 +100,13 @@ osmo.MoleculeController = class {
       .on('pointerup', this.onDragEnd)
       .on('pointerupoutside', this.onDragEnd)
       .on('pointermove', this.onDragMove);
-    this.moleculeContainer.x = (osmo.scroll.pixiWidth/2) - pos.x/2;//-pos.x;// + osmo.scroll.pixiWidth / 2;
-    this.moleculeContainer.y = (osmo.scroll.pixiHeight/2) - pos.y;// + osmo.scroll.pixiHeight / 2;
+    //
+    let normalizedScale = osmo.scroll.mainStage.scale.x/osmo.scroll.pixiScale;
+    this.moleculeContainer.x = (osmo.scroll.pixiWidth/2) + (osmo.scroll.pixiWidth/6) - (pos.x/osmo.scroll.pixiScale);
+    this.moleculeContainer.y = (osmo.scroll.pixiHeight/2) - (pos.y/osmo.scroll.pixiScale);
+    //
+    this.moleculeContainer.x /= normalizedScale;
+    this.moleculeContainer.y /= normalizedScale;
     //
     this.dragging = false;
     //app.stage.addChild(this.moleculeContainer);

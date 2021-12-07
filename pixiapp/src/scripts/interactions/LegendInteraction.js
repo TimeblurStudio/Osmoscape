@@ -76,10 +76,10 @@ osmo.LegendInteraction = class {
     $('#popup-info-toggle').html('&lt;');
     $('#focused-info').animate({ left:'0%'}, dur);
     //
-    let fac = 1;///osmo.scroll.mainStage.scale.x;
+    let fac = 0.5;///osmo.scroll.mainStage.scale.x;
     let deltaValX = (osmo.scroll.pixiWidth/3);
     let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
-    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac, false);
+    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac*osmo.scroll.pixiScale, false);
     //console.log('open to: ' + oldPos.x + ' ' + newPos.x + ' ' + fac);
     this.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
       x: newPos.x,
@@ -92,10 +92,10 @@ osmo.LegendInteraction = class {
     $('#popup-info-toggle').html('&gt;');
     $('#focused-info').animate({ left:'-33%'}, dur);
     //
-    let fac = 1;///osmo.scroll.mainStage.scale.x;
+    let fac = 0.5;///osmo.scroll.mainStage.scale.x;
     let deltaValX = -1*(osmo.scroll.pixiWidth/3);
     let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
-    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac, false);
+    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac*osmo.scroll.pixiScale, false);
     //console.log('close to: ' + oldPos.x + ' ' + newPos.x + ' ' + fac);
     this.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
       x: newPos.x,
@@ -433,6 +433,7 @@ osmo.LegendInteraction = class {
       osmo.scroll.mainApp.ticker.remove(osmo.mc.animateMolecule);
       //
       osmo.scroll.mainStage.removeChild(osmo.mc.moleculeContainer);
+      osmo.mc.moleculeContainer = null;
       osmo.mc = null;
       delete osmo.mc;
     }
