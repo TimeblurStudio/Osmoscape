@@ -179,9 +179,11 @@ osmo.PanAndZoomInteraction = class {
       }
       //
     });
-
     //
-    // Disable touchevents for doms
+    // HOT FIX:
+    // touch events on dom are also being propogated to canvas leading to un-expected behaviours
+    // So, Prevent touchevents for doms and manually trigger centain dom elements when you have to...
+    //
     let dom_elements = ['focused-info', 'focused-cta', 'zoom-level'];
     for(let i=0; i < dom_elements.length; i++){
       $('#'+dom_elements[i]).on('touchstart touchmove touchend', function (e) {
@@ -195,12 +197,22 @@ osmo.PanAndZoomInteraction = class {
         $('#'+dom_interactive_elements[i]).trigger('click');
       });
     }
+    let dom_interactive_classes = ['jump'];
+    for(let i=0; i < dom_interactive_classes.length; i++){
+      $('.'+dom_interactive_classes[i]).on('touchstart touchmove touchend', function (e) {
+        e.preventDefault();
+        $(this).trigger('click');
+      });
+    }
     
     
     //touchmove works for iOS, and Android
     let avgPrevTouch = new self.PIXI.Point(0,0);
     let prevTouchFinger1 = new self.PIXI.Point(0,0);
     let prevTouchFinger2 = new self.PIXI.Point(0,0);
+    //
+    // NOTE: 
+    // Try to use canvas events rather than document events
     $(document).on('touchstart', function(event) {
       // 1 finger touch
       if(event.touches.length == 1){
