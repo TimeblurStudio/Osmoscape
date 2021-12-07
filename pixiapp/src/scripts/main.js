@@ -27,8 +27,8 @@ window.onload = function() {
   //
   //
   let fullscreen_button = '<div style="position: absolute; top: 0; right: 0px; text-align: right; vertical-align: middle;"><i class="material-icons" id="enter-fullscreen" style="padding: 10px; cursor: pointer; color: white;">fullscreen</i></div>';
-  let please_wait_spinner = '<div id="percentage" style="color: #fff; font-weight: 400; font-family: \'Roboto\';"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #fff"></div><div class="sk-child sk-bounce2" style="background-color: #fff"></div><div class="sk-child sk-bounce3" style="background-color: #fff"></div></div>';
-  let DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'; font-weight: 300;"><button type="button" class="start-action-button" id="start-btn">Start</button></div>';
+  let please_wait_spinner = '<div id="preload_spinner"><div id="percentage" style="color: #fff; font-weight: 400; font-family: \'Roboto\';"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #fff"></div><div class="sk-child sk-bounce2" style="background-color: #fff"></div><div class="sk-child sk-bounce3" style="background-color: #fff"></div></div></div>';
+  let DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'; font-weight: 300;">'+ please_wait_spinner +'<button type="button" class="start-action-button" id="start-btn" style="display: none;">Start</button></div>';
   //
   let loadMobile = !window.isMobile;
   if(loadMobile){

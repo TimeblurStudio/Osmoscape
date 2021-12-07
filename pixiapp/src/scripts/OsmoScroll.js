@@ -360,6 +360,36 @@ osmo.Scroll = class {
     $('#smi').hide();
     //
     //
+    //
+    // *** HOT FIX *** 
+    // Adding this since not waiting for background audio to download before pressing start
+    // Causes problems on ipad while loading
+    //
+    let waitCount = 60;//60 seconds
+    let waitTillFilesAreDownloaded = setInterval(function(){
+      //
+      let loadedBackgroundAudio = osmo.scroll.loaded.backgroundaudio;
+      waitCount -= 1;
+      if(loadedBackgroundAudio){
+        console.log('Downloaded large files');
+        $('#preload_spinner').remove();
+        $('#start-btn').show();
+        clearInterval(waitTillFilesAreDownloaded);
+      }else{
+        console.log('Waiting for backgroundAudio files to download: ' + loadedBackgroundAudio);
+        if(waitCount < 0){
+          clearInterval(waitTillFilesAreDownloaded);
+          let please_wait_error = '<div id="error" style="color: #b97941; font-weight: 400; font-family: \'Roboto\';">Failed to download files, please exit and reopen!</div>';
+          $('#preload_spinner').remove();
+          $('.pg-loading-html').empty();
+          $('.pg-loading-html').append($.parseHTML( please_wait_error ));
+
+        }
+      }
+      //
+    },1000);
+    //
+    //
   }
 
 
