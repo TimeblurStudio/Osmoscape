@@ -190,6 +190,7 @@ osmo.LegendInteraction = class {
     // Stop all tracks from playing
     for (let audioid in osmo.scroll.datasets)
       osmo.legendaudio.audioPlayerInstances[audioid].stop();
+    
     //
     $('#focused-info').animate({ left:'0px'}, 1200);
     $('.nav').hide();
@@ -348,6 +349,7 @@ osmo.LegendInteraction = class {
         osmo.legendsvg.legendFiles[i].visible = false;
     //
     //
+    
     if(this.loadingStage != null)
       clearTimeout(this.loadingStage);
     this.loadingStage = null;
@@ -401,6 +403,8 @@ osmo.LegendInteraction = class {
     osmo.soundeffects = new osmo.SoundEffects();
     osmo.soundeffects.init(this.currentFocus);
     osmo.soundeffects.setNewBuffer(this.currentFocus, osmo.scroll.datasets[this.currentFocus].audiofile);
+    if (osmo.bgaudio.currentTrack !== 'intro')
+      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-18,1);
     //
     // ADD MOLECULE
     osmo.mc = new osmo.MoleculeController();
@@ -428,6 +432,9 @@ osmo.LegendInteraction = class {
    * ------------------------------------------------
    */
   destroyMoleculeInteraction(){
+    
+    if (osmo.bgaudio.currentTrack !== 'intro')
+      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,1);
     if(osmo.mc){
       // STOP TICKER AND ANIMATION
       osmo.scroll.mainApp.ticker.remove(osmo.mc.animateMolecule);

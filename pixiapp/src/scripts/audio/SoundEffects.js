@@ -32,7 +32,7 @@ osmo.SoundEffects = class {
     //
     this.crossfade;
     this.player;
-    this.baseplayer;
+    //this.baseplayer;
     this.grainplayer;
     this.pitchshift;
     this.vibrato;
@@ -72,7 +72,7 @@ osmo.SoundEffects = class {
     //
     this.crossfade = new this.TONE.CrossFade({fade : 0.0});
     this.player = new this.TONE.Player({loop : true});
-    this.baseplayer = new this.TONE.Player({loop : true});
+    //this.baseplayer = new this.TONE.Player({loop : true});
     this.grainplayer = new this.TONE.GrainPlayer({loop : true});
     this.pitchshift = new this.TONE.PitchShift();
     this.vibrato = new this.TONE.Vibrato();
@@ -225,17 +225,17 @@ osmo.SoundEffects = class {
     let chapter = osmo.scroll.datasets[num].ch.slice(-1);
     console.log('chapter: ',chapter);
     //
-    this.baseplayer.buffer = osmo.bgaudio.baseTracks['base'+chapter].buffer;
+    //this.baseplayer.buffer = osmo.bgaudio.baseTracks['base'+chapter].buffer;
     this.grainplayer.buffer = currentBuffer; 
     this.player.buffer = currentBuffer;
     //
-    this.baseplayer.volume.rampTo(this.effectData.baseVolume,2000);
-    this.grainplayer.volume.rampTo(this.effectData.loopVolume,2000);
-    this.player.volume.rampTo(this.effectData.loopVolume,2000);
+    //this.baseplayer.volume.rampTo(this.effectData.baseVolume,1);
+    this.grainplayer.volume.rampTo(this.effectData.loopVolume,1);
+    this.player.volume.rampTo(this.effectData.loopVolume,1);
     //
     this.player.start();
     this.grainplayer.start();
-    this.baseplayer.start();
+    //this.baseplayer.start();
     //
   }
 
@@ -247,7 +247,7 @@ osmo.SoundEffects = class {
   stopPlayers(){
     this.player.stop();
     this.grainplayer.stop();
-    this.baseplayer.stop();
+    //this.baseplayer.stop();
   }
 
 };

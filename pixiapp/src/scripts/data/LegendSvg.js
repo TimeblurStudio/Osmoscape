@@ -458,7 +458,7 @@ osmo.LegendSvg = class {
       console.log('Now playing legend audio: ' + id);
       osmo.legendaudio.audioPlayerInstances[id].start();
       if (osmo.bgaudio.currentTrack !== 'intro')
-        osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-6,dur);
+        osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-6,1);
       //
       $('.cursor-pointer').css('border', 'none');
       $('.cursor-loading').show();
@@ -560,7 +560,7 @@ osmo.LegendSvg = class {
       osmo.legendaudio.audioPlayerInstances[audioid].stop();
     //
     if (osmo.bgaudio.currentTrack !== 'intro')
-      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,2000);
+      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,1);
     if(this.cursorLoading != null)
       clearTimeout(this.cursorLoading);
     this.cursorLoading = null;

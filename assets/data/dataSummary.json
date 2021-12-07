@@ -32,8 +32,8 @@
         "depth" : { "min" : 0, "max" : 0.2 },
         "pitchshift" : { "min" : -24, "max" : 7 },
         "delay" : { "min" : 0.01, "max" : 0.8},
-        "baseVolume" : -12,
-        "loopVolume" : 6
+        "baseVolume" : -18,
+        "loopVolume" : 0
     }
   },
   "0": {
@@ -71,7 +71,7 @@
         "depth" : { "min" : 0, "max" : 1 },
         "pitchshift" : { "min" : -24, "max" : 20 },
         "delay" : { "min" : 0.01, "max" : 0.02},
-        "baseVolume" : -6,
+        "baseVolume" : -18,
         "loopVolume" : 0
     }
   },
@@ -107,7 +107,7 @@
       "height": 386.8
     },
     "effectData" : {
-        "baseVolume" : -6,
+        "baseVolume" : -18,
         "loopVolume" : 0
     }
 
@@ -145,7 +145,7 @@
         "pitchshift" : { "min" : -24, "max" : 12 },
         "delay" : { "min" : 0.01, "max" : 0.1},
         "invertY" : true,
-        "baseVolume" : -6,
+        "baseVolume" : -18,
         "loopVolume" : 0
     }
   },
@@ -182,7 +182,7 @@
         "pitchshift" : { "min" : -24, "max" : 10 },
         "delay" : { "min" : 0.01, "max" : 0.2 },
         "invertY" : true,
-        "baseVolume" : -6,
+        "baseVolume" : -18,
         "loopVolume" : 0
     }
   },
@@ -259,8 +259,8 @@
         "pitchshift" : { "min" : -24, "max" : 5 },
         "delay" : { "min" : 0.01, "max" : 0.6 },
         "invertY" : true,
-        "baseVolume" : -6,
-        "loopVolume" : 0
+        "baseVolume" : -12,
+        "loopVolume" : 6
     }
   },
   "8": {
