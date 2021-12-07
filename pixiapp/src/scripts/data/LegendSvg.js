@@ -40,6 +40,7 @@ osmo.LegendSvg = class {
     this.legendContainer;
     this.maskAlpha = 0;
     this.highlightTweens = [];
+    this.removeHighlightTweens = [];
     //
     this.cursorTextTimeout = null;
     this.cursorLoading = null;
@@ -405,11 +406,13 @@ osmo.LegendSvg = class {
    * ------------------------------------------------
    */
   highlightLegend(id, mask){
-    //
-    for(let tweenid in this.highlightTweens)  {
-      this.highlightTweens[tweenid].kill();
+    // If there are any active tweens which are from remove highlight,
+    // Kill them all and initalize to empty since, we will override tween anyways under highlightLegend
+    if(this.removeHighlightTweens.length > 0){
+      for(let tweenid in this.removeHighlightTweens)
+        this.removeHighlightTweens[tweenid].kill();
+      this.removeHighlightTweens = [];
     }
-    this.highlightTweens = [];
     
     let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
     for(let i=0; i < scrollLength; i++){
@@ -432,10 +435,6 @@ osmo.LegendSvg = class {
     }
     //
     let titleName = osmo.scroll.datasets[id].title;
-    //
-    for(let i=0; i<this.maskAreas.length; i++)
-      this.maskAreas[i].alpha = 0;
-    mask.alpha = this.maskAlpha;
     //
     this.legendContainer.visible = true;
     for(let i=0; i<this.legendFiles.length; i++)
@@ -530,10 +529,13 @@ osmo.LegendSvg = class {
    * ------------------------------------------------
    */
   removeHighlight(){
-    for(let tweenid in this.highlightTweens)  {
-      this.highlightTweens[tweenid].kill();
+    // If there are any active tweens which are from highlight Legend,
+    // Kill them all and initalize to empty since, we will override tween anyways under removeHighlight
+    if(this.highlightTweens.length > 0){
+      for(let tweenid in this.highlightTweens)
+        this.highlightTweens[tweenid].kill();
+      this.highlightTweens = [];
     }
-    this.highlightTweens = [];
     //
     let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
     let dur = 2000;
@@ -546,16 +548,16 @@ osmo.LegendSvg = class {
     }
     this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
       alpha: 0,
-      ease: this.POWER4.easeInOut
+      ease: this.POWER4.easeInOut,
+      onComplete: function(){
+        // Hide all legends
+        this.legendContainer.visible = false;
+        for(let i=0; i<this.legendFiles.length; i++)
+          if(this.legendFiles[i].visible)
+            this.legendFiles[i].visible = false;
+        //
+      }
     }));
-    //
-    for(let i=0; i<this.maskAreas.length; i++)
-      this.maskAreas[i].alpha = this.maskAlpha;
-    // Hide all legends
-    this.legendContainer.visible = false;
-    for(let i=0; i<this.legendFiles.length; i++)
-      if(this.legendFiles[i].visible)
-        this.legendFiles[i].visible = false;
     // Stop all tracks
     for (let audioid in osmo.scroll.datasets)
       osmo.legendaudio.audioPlayerInstances[audioid].stop();
