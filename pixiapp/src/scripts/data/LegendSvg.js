@@ -44,7 +44,7 @@ osmo.LegendSvg = class {
     this.cursorTextTimeout = null;
     this.cursorLoading = null;
     this.legendClicksCount = 0;
-    this.isLegendHighlighted = false;
+    this.highlightedLegendId = null;
     //
 
     // Methods
@@ -496,7 +496,7 @@ osmo.LegendSvg = class {
         */
       },dur);//
       //
-      this.isLegendHighlighted = true;
+      this.highlightedLegendId = id;
     }
     //
   }
@@ -559,7 +559,7 @@ osmo.LegendSvg = class {
     this.dragMode = false;
     this.isDragging = false;
     //
-    this.isLegendHighlighted = false;
+    this.highlightedLegendId = null;
   }
 
 };

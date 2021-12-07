@@ -182,6 +182,10 @@ osmo.Scroll = class {
       document.body.style.cursor = 'none';
       $('.cursor-pointer-wrapper').css('opacity', 1);
     });
+    //
+    $('#show-info').click(function() {
+      window.open('https://osmoscape.com', '_blank').focus();
+    });
 
 
     //
