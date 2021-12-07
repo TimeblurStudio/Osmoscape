@@ -53,6 +53,8 @@ body {
   font-size: 18px;
   font-family: OratorStd, sans-serif;
   display: none;
+  -webkit-filter: drop-shadow(1px 1px 1.7px rgba(0, 0, 0, 0.65));
+          filter: drop-shadow(1px 1px 1.7px rgba(0, 0, 0, 0.65));
 }
 
 #cursor {
