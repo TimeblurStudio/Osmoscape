@@ -356,6 +356,23 @@ body {
   pointer-events:auto;
 }
 
+.zoom-active{
+  border: none; 
+  background: none;
+  cursor: pointer; 
+  font-size: 32px; 
+  color: #2D4F5C; 
+  border-radius: 50%;
+}
+
+
+.zoom-inactive{
+  border: none; 
+  background: none;
+  font-size: 32px;
+  border-radius: 50%;
+}
+
 @supports (backdrop-filter: blur(4px)) {
   #focused-info{
     -webkit-backdrop-filter: blur(4px);

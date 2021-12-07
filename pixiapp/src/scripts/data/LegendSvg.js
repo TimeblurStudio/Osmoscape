@@ -537,24 +537,25 @@ osmo.LegendSvg = class {
       this.highlightTweens = [];
     }
     //
+    let self = this;
     let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
     let dur = 2000;
     for(let i=0; i < scrollLength; i++){
       let index = i+1;
-      this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part'+index], dur/1000, {
+      this.removeHighlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part'+index], dur/1000, {
         alpha: 1,
         ease: this.POWER4.easeInOut
       }));
     }
-    this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
+    this.removeHighlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
       alpha: 0,
       ease: this.POWER4.easeInOut,
       onComplete: function(){
         // Hide all legends
-        this.legendContainer.visible = false;
-        for(let i=0; i<this.legendFiles.length; i++)
-          if(this.legendFiles[i].visible)
-            this.legendFiles[i].visible = false;
+        self.legendContainer.visible = false;
+        for(let i=0; i<self.legendFiles.length; i++)
+          if(self.legendFiles[i].visible)
+            self.legendFiles[i].visible = false;
         //
       }
     }));

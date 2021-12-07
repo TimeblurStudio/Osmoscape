@@ -94,7 +94,6 @@ osmo.PanAndZoomInteraction = class {
         let minZoomFac = self.minZoom*zoomFac/osmo.scroll.pixiScale;
         let maxZoomFac = self.maxZoom*zoomFac/osmo.scroll.pixiScale;
         //
-        console.log(zoomFac + ' ' + minZoomFac + ' ' + maxZoomFac);
         osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, -50, true, minZoomFac, maxZoomFac);  
       }
       //
@@ -126,7 +125,6 @@ osmo.PanAndZoomInteraction = class {
         let minZoomFac = self.minZoom*zoomFac/osmo.scroll.pixiScale;
         let maxZoomFac = self.maxZoom*zoomFac/osmo.scroll.pixiScale;
         //
-        console.log(zoomFac + ' ' + minZoomFac + ' ' + maxZoomFac);
         osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, 50, true, minZoomFac, maxZoomFac); 
       }
       //
@@ -479,7 +477,6 @@ osmo.PanAndZoomInteraction = class {
         let minZoomFac = self.minZoom*zoomFac/osmo.scroll.pixiScale;
         let maxZoomFac = self.maxZoom*zoomFac/osmo.scroll.pixiScale;
         //
-        console.log(zoomFac + ' ' + minZoomFac + ' ' + maxZoomFac);
         osmo.pzinteract.changeZoomAt(mouseX, mouseY, delta, false, minZoomFac, maxZoomFac);
       }
       //
@@ -731,8 +728,33 @@ osmo.PanAndZoomInteraction = class {
       let self = this;
       setTimeout(function(){
         $('#zoom-level').text(parseInt(zoomPercentage*100).toString() + '%');
-        //osmo.mc.updateMoleculeScale(1/zoomPercentage);
         self.updateSoundArea();
+        //
+        console.log(zoomPercentage + ' ' + min + ' ' + max);
+        if(zoomPercentage <= min){
+          // Out of min range
+          $('#zoom-out').attr('disabled', true);
+          $('#zoom-out').removeClass('zoom-active');
+          $('#zoom-out').addClass('zoom-inactive');
+        }else if(zoomPercentage >= max){
+          // Out of max range
+          $('#zoom-in').attr('disabled', true);
+          $('#zoom-in').removeClass('zoom-active');
+          $('#zoom-in').addClass('zoom-inactive');
+        }else{
+          // Must be in-between
+          if($('#zoom-in').is(':disabled')){
+            $('#zoom-in').attr('disabled', false);
+            $('#zoom-in').removeClass('zoom-inactive');
+            $('#zoom-in').addClass('zoom-active');
+          }
+          if($('#zoom-out').is(':disabled')){
+            $('#zoom-out').attr('disabled', false);
+            $('#zoom-out').removeClass('zoom-inactive');
+            $('#zoom-out').addClass('zoom-active');
+          }
+        }
+        //
       }, dur);
       //
     }else{
@@ -743,6 +765,29 @@ osmo.PanAndZoomInteraction = class {
       //
       let zoomPercentage = (osmo.scroll.mainStage.scale.x/this.defaultZoom);
       $('#zoom-level').text(parseInt(zoomPercentage*100).toString() + '%');
+      if(zoomPercentage <= min){
+        // Out of min range
+        $('#zoom-out').attr('disabled', true);
+        $('#zoom-out').removeClass('zoom-active');
+        $('#zoom-out').addClass('zoom-inactive');
+      }else if(zoomPercentage >= max){
+        // Out of max range
+        $('#zoom-in').attr('disabled', true);
+        $('#zoom-in').removeClass('zoom-active');
+        $('#zoom-in').addClass('zoom-inactive');
+      }else{
+        // Must be in-between
+        if($('#zoom-in').is(':disabled')){
+          $('#zoom-in').attr('disabled', false);
+          $('#zoom-in').removeClass('zoom-inactive');
+          $('#zoom-in').addClass('zoom-active');
+        }
+        if($('#zoom-out').is(':disabled')){
+          $('#zoom-out').attr('disabled', false);
+          $('#zoom-out').removeClass('zoom-inactive');
+          $('#zoom-out').addClass('zoom-active');
+        }
+      }
       //
       if(osmo.mc)
         osmo.mc.updateMoleculeScale(1/zoomPercentage);

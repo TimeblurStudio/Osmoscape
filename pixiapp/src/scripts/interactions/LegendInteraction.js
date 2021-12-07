@@ -310,7 +310,9 @@ osmo.LegendInteraction = class {
     }else{
       let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * _width);
       let delta = -1*(zoomFac - 1)*100*0.75;//75% of required scale
-      newScale = osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
+      let minZoomFac = osmo.pzinteract.minZoom*zoomFac/osmo.scroll.pixiScale;
+      let maxZoomFac = osmo.pzinteract.maxZoom*zoomFac/osmo.scroll.pixiScale;
+      newScale = osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true, minZoomFac, maxZoomFac);
     }
 
     //
