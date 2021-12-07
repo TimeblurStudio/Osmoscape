@@ -76,10 +76,11 @@ osmo.LegendInteraction = class {
     $('#popup-info-toggle').html('&lt;');
     $('#focused-info').animate({ left:'0%'}, dur);
     //
-    let fac = 1;
+    let fac = 1;///osmo.scroll.mainStage.scale.x;
     let deltaValX = (osmo.scroll.pixiWidth/3);
     let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
-    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac);
+    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac, false);
+    //console.log('open to: ' + oldPos.x + ' ' + newPos.x + ' ' + fac);
     this.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
       x: newPos.x,
       ease: this.POWER4.easeInOut
@@ -91,10 +92,11 @@ osmo.LegendInteraction = class {
     $('#popup-info-toggle').html('&gt;');
     $('#focused-info').animate({ left:'-33%'}, dur);
     //
-    let fac = 1;
+    let fac = 1;///osmo.scroll.mainStage.scale.x;
     let deltaValX = -1*(osmo.scroll.pixiWidth/3);
     let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
-    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac);
+    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac, false);
+    //console.log('close to: ' + oldPos.x + ' ' + newPos.x + ' ' + fac);
     this.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
       x: newPos.x,
       ease: this.POWER4.easeInOut
@@ -289,7 +291,7 @@ osmo.LegendInteraction = class {
     // Zoom into selected area!
     this.prevZoom = osmo.scroll.mainStage.scale.x;
     let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * _width);
-    let delta = -1*(zoomFac - 1)*100*0.5;//75% of required scale
+    let delta = -1*(zoomFac - 1)*100*0.75;//75% of required scale
     let focusedCenterX = (left_shift+focused_width/2)*osmo.scroll.pixiScale;
     let focusedCenterY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
     let newScale = osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
@@ -393,7 +395,7 @@ osmo.LegendInteraction = class {
     else if (this.currentFocus === '0') offset = (9945 - 9601);
     else if (this.currentFocus === '64')  offset = (9945 - 9459);
     else  offset = 495;
-    offset -= 2; // NOTE: CORRECTING FOR MINOR OFFSET (WHILE GENERATING THE SOUND AREA MAY BE?)
+    offset -= 2; // NOTE: CORRECTING FOR MINOR OFFSET (OFFSET GOT ADDED WHILE GENERATING THE SOUND AREA MAY BE?)
     osmo.soundareas.setNew(this.currentFocus, maskScale, new this.PIXI.Point(offset*maskScale+osmo.scroll.pixiWidth*3/4,0));
     // ADD SOUND EFFECTS
     osmo.soundeffects = new osmo.SoundEffects();

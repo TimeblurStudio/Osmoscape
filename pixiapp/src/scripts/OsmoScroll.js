@@ -155,13 +155,6 @@ osmo.Scroll = class {
     osmo.legendinteract = new osmo.LegendInteraction();
     osmo.legendinteract.init();
 
-    /*
-    // ADD MOLECULE
-    osmo.mc = new osmo.MoleculeController();
-    osmo.mc.init(osmo.scroll.mainStage.position);
-    osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
-    */
-
     //
     // Custom mouse hide/show
     // HEAD ACTIONS
