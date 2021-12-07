@@ -97,22 +97,28 @@ osmo.PanAndZoomInteraction = class {
     //
     // Custom Mouse follow
     document.addEventListener('mousemove', function(e) {
-      self.prevMouseLoc = self.mouseLoc;
-      self.mouseLoc = new osmo.scroll.PIXI.Point(e.pageX, e.pageY);
-      $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+      if(osmo.pzinteract.isTrackpadDetected){
+        self.prevMouseLoc = self.mouseLoc;
+        self.mouseLoc = new osmo.scroll.PIXI.Point(e.pageX, e.pageY);
+        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+      }
     });
 
     //
     // Click and drag when focused
     document.addEventListener('mousedown', function(e) {
-      if(osmo.scroll.hitPopupMode == 'focused')
-        self.isDragging = true;
+      if(osmo.pzinteract.isTrackpadDetected){
+        if(osmo.scroll.hitPopupMode == 'focused')
+          self.isDragging = true;
+      }
     });
 
     document.addEventListener('mouseup', function(e) {
-      if(osmo.scroll.hitPopupMode == 'focused')
-        self.isDragging = false;
-    });
+      if(osmo.pzinteract.isTrackpadDetected){
+        if(osmo.scroll.hitPopupMode == 'focused')
+          self.isDragging = false;
+      }
+    }); 
 
     document.addEventListener('mousemove', function(e) {
       // If focused - click and drag feature
@@ -137,19 +143,84 @@ osmo.PanAndZoomInteraction = class {
     });
 
     //
-    //
-    /* EARLY METHOD BELOW FOR TOUCH */
+    // Disable touchevents for doms
+    let dom_elements = ['focused-info', 'focused-cta', 'zoom-level'];
+    for(let i=0; i < dom_elements.length; i++){
+      $('#'+dom_elements[i]).on('touchstart touchmove touchend', function (e) {
+        e.preventDefault();
+      });
+    }
+    let dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol'];
+    for(let i=0; i < dom_interactive_elements.length; i++){
+      $('#'+dom_interactive_elements[i]).on('touchstart touchmove touchend', function (e) {
+        e.preventDefault();
+        $('#'+dom_interactive_elements[i]).trigger('click');
+      });
+    }
+    
+    
     //touchmove works for iOS, and Android
     let prevX = 0;
     let prevY = 0;
+    $(document).on('touchstart', function(event) {
+      // 1 finger touch
+      if(event.touches.length == 1){
+        self.prevMouseLoc = self.mouseLoc;
+        self.mouseLoc = new osmo.scroll.PIXI.Point(event.touches[0].clientX, event.touches[0].clientY);
+        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+        if(osmo.scroll.hitPopupMode == 'focused')
+          self.isDragging = true;
+      }
+      // 2 finger scroll
+      if(event.touches.length == 2) {
+        self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
+        self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
+        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+        //
+        if(osmo.scroll.hitPopupMode == 'focused')
+          self.isDragging = false;
+        //
+        prevX = (event.touches[0].clientX + event.touches[1].clientX)/2;
+        prevY = (event.touches[0].clientY + event.touches[1].clientY)/2;
+      }
+      //
+    });
     $(document).on('touchmove', function(event) {
       //console.log('touchmove');
       //console.log(event);
-      // 2/3 finger scroll
-      if(event.touches.length > 1) {
+      //console.log(self.mouseLoc.x + ' ' + self.mouseLoc.y + ' ' + event.touches.length + ' ' + osmo.scroll.hitPopupMode + ' ' + self.isDragging);
+      //
+      // 1 finger touch
+      if(event.touches.length == 1){
+        self.prevMouseLoc = self.mouseLoc;
+        self.mouseLoc = new osmo.scroll.PIXI.Point(event.touches[0].clientX, event.touches[0].clientY);
+        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+        // If focused - click and drag feature
+        if(osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isDragging){
+          //
+          let dragging_enabled = true;
+          if(osmo.mc != null)
+            if(osmo.mc.dragging)
+              dragging_enabled = false;
+          //
+          //
+          if(dragging_enabled){
+            let deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
+            let deltaY = -1*(self.mouseLoc.y - self.prevMouseLoc.y);
+            let fac = 1.005;
+            let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
+            osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(oldPos, deltaX, deltaY, fac*osmo.scroll.pixiScale, false);//
+          }
+          //
+        }
         //
-        let newX = event.touches[0].clientX;
-        let newY = event.touches[0].clientY;
+
+      }
+      // 2 finger scroll
+      if(event.touches.length == 2) {
+        //
+        let newX = (event.touches[0].clientX + event.touches[1].clientX)/2;
+        let newY = (event.touches[0].clientY + event.touches[1].clientY)/2;
         //
         let deltaX = (prevX - newX); //if(deltaX > 10 || deltaX < -10)  deltaX = 0;
         let deltaY = (prevY - newY); //if(deltaY > 10 || deltaY < -10)  deltaY = 0;
@@ -164,18 +235,36 @@ osmo.PanAndZoomInteraction = class {
         newEvent.originalEvent = JSON.parse(JSON.stringify(event));
         //
         // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
-        // Implement this for phone
+        // Implement this for touch devices
         //
+        if(osmo.scroll.hitPopupMode != 'focused'){
+          // Reset mouse location so that we don't accidently highlight any other element
+          self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
+          self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
+          $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+          //
+          
+        }else{
+          // Mouse needs to be centered for pinchZoom to work
+          self.prevMouseLoc = self.mouseLoc;
+          self.mouseLoc = new osmo.scroll.PIXI.Point(newX, newY);
+          $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+          //
+          self.isDragging = false;
+        }
         //
-        //$('#main-scroll-canvas').trigger(newEvent);
         self.onOsmoScroll(self, newEvent);
       }
     });
-    $(document).on('touchstart', function(event) {
-      // 2/3 finger scroll
-      if(event.touches.length > 1) {
-        prevX = event.touches[0].clientX;
-        prevY = event.touches[0].clientY;
+    $(document).on('touchend touchcancel', function(event) {
+      // 1 finger touch
+      if(event.touches.length == 1){
+        self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
+        self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
+        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+        //
+        if(osmo.scroll.hitPopupMode == 'focused')
+          self.isDragging = false;
       }
       //
     });
@@ -260,11 +349,13 @@ osmo.PanAndZoomInteraction = class {
         deltaValY = et.deltaX;
       }
       //
+      // Consilder only deltaValX for pan
+      let delta = deltaValX;
       if(!osmo.pzinteract.isTrackpadDetected)
-        deltaValX *= -1;
+        delta *= -1;
       //
       let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
-      osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac*osmo.scroll.pixiScale);
+      osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(oldPos, delta, 0, fac*osmo.scroll.pixiScale);
       //
     }
     else{
@@ -274,7 +365,11 @@ osmo.PanAndZoomInteraction = class {
       //
       let mouseX = osmo.pzinteract.mouseLoc.x*osmo.scroll.pixiScale;
       let mouseY = osmo.pzinteract.mouseLoc.y*osmo.scroll.pixiScale;
-      osmo.pzinteract.changeZoomAt(mouseX, mouseY, deltaValY);// Consilder only deltaY for zoom
+      // Consilder only deltaValY for zoom
+      let delta = deltaValY;
+      if(!osmo.pzinteract.isTrackpadDetected)
+        delta *= -1;
+      osmo.pzinteract.changeZoomAt(mouseX, mouseY, delta);
       //
     }
   }
@@ -536,7 +631,9 @@ osmo.PanAndZoomInteraction = class {
       //
       let zoomPercentage = (osmo.scroll.mainStage.scale.x/this.defaultZoom);
       $('#zoom-level').text(parseInt(zoomPercentage*100).toString() + '%');
-      osmo.mc.updateMoleculeScale(1/zoomPercentage);
+      //
+      if(osmo.mc)
+        osmo.mc.updateMoleculeScale(1/zoomPercentage);
       this.updateSoundArea();
       //
     }

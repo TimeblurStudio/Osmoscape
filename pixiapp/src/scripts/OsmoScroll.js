@@ -77,7 +77,7 @@ osmo.Scroll = class {
     this.pixiHeight;
     this.pixiWidth;
     this.splashWidth;
-    this.loaded = {  'HQimage' : false,  'svgdata': false, 'backgroundaudio': false, 'legendaudio': false, 'mergedLegendFile': false  };
+    this.loaded = {  'HQimage' : false,  'svgdata': false, 'backgroundaudio': false, 'legendaudio': false};
     this.datasets = {};
     this.includeSpecialCase = false;
     this.pixiScale = 2;
@@ -357,23 +357,24 @@ osmo.Scroll = class {
 
     //
     // SPEAKER
-    osmo.smi = new osmo.SpeakerMicroInteraction();
-    osmo.smi.init();
+    // NOTE: Creates problems esp. for touch devices( Even completely removes all touch interactions on change)
+    //osmo.smi = new osmo.SpeakerMicroInteraction();
+    //osmo.smi.init();
+    $('#smi').hide();
     //
     //
     let waitCount = 60;//60 seconds
     let waitTillFilesAreDownloaded = setInterval(function(){
-      let loadedBackgroundAudio = osmo.scroll.loaded.backgroundaudio;
-      let loadedMergedLegendFile = osmo.scroll.loaded.mergedLegendFile;
       //
+      let loadedBackgroundAudio = osmo.scroll.loaded.backgroundaudio;
       waitCount -= 1;
       //
-      if(loadedBackgroundAudio && loadedMergedLegendFile){
+      if(loadedBackgroundAudio){
         console.log('Downloaded large files');//NOTE: Causes problems on ipad while loading
         $('#start-btn').show();
         clearInterval(waitTillFilesAreDownloaded);
       }else{
-        console.log('Waiting for big files to complete downloading -- backgroundAudio: ' + loadedBackgroundAudio + ' mergedLegendFile: ' + loadedMergedLegendFile);
+        console.log('Waiting for backgroundAudio files to download: ' + loadedBackgroundAudio);
         if(waitCount < 0){
           clearInterval(waitTillFilesAreDownloaded);
           let please_wait_error = '<div id="error" style="color: #b97941; font-weight: 400; font-family: \'Roboto\';">Failed to download files, please reload!</div>';

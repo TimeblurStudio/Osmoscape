@@ -440,7 +440,7 @@ osmo.SpeakerMicroInteraction = class {
       //
       $(document).on('mousedown touchstart', '#ctrlCirce, #ctrlLineB, #ctrlLineF', function (e) {
         let startX = -1*(e.pageY || e.originalEvent.touches[0].pageY);
-        e.preventDefault();
+        //e.preventDefault();
         drag.interact = true;
 
         if (this == volObj.ctrlLineB || this == volObj.ctrlLineF) {
@@ -455,7 +455,7 @@ osmo.SpeakerMicroInteraction = class {
         //
 
         $(document).on('mousemove touchmove', function (e) {
-          e.preventDefault();
+          //e.preventDefault();
           let curX = -1*(e.pageY || e.originalEvent.touches[0].pageY);
           drag.dx = curX - startX;
           startX = curX;
@@ -467,7 +467,12 @@ osmo.SpeakerMicroInteraction = class {
         $(document).on('mouseup touchend', function (e) {
           if (drag.curCx < drag.minX) drag.curCx = drag.minX;
           if (drag.curCx > drag.maxX) drag.curCx = drag.maxX;
-          $(document).off('mousemove touchmove mouseup touchend');
+          //$(document).off('mousemove touchmove mouseup touchend');
+          // Fadeout if there is inactivity
+          setTimeout(function(){
+            $('.vlCtrl').fadeOut();
+          },1500);
+          //
         });
       });
 
@@ -477,7 +482,7 @@ osmo.SpeakerMicroInteraction = class {
       };
 
       $(document).on('mousedown touchstart', '.speaker', function (e) {
-        e.preventDefault();
+        //e.preventDefault();
         drag.interact = true;
         drag.dx = 0;
         if (memory.flag) {
