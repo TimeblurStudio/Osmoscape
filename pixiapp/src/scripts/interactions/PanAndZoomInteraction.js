@@ -144,13 +144,21 @@ osmo.PanAndZoomInteraction = class {
 
     //
     // Disable touchevents for doms
-    document.querySelector('#focused-info').addEventListener('touchstart touchmove touchend', function (e) {
-      e.preventDefault();
-    });
-    document.querySelector('#popcancel').addEventListener('touchstart touchmove touchend', function (e) {
-      e.preventDefault();
-    });
-
+    let dom_elements = ['focused-info', 'focused-cta', 'zoom-level'];
+    for(let i=0; i < dom_elements.length; i++){
+      $('#'+dom_elements[i]).on('touchstart touchmove touchend', function (e) {
+        e.preventDefault();
+      });
+    }
+    let dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol'];
+    for(let i=0; i < dom_interactive_elements.length; i++){
+      $('#'+dom_interactive_elements[i]).on('touchstart touchmove touchend', function (e) {
+        e.preventDefault();
+        $('#'+dom_interactive_elements[i]).trigger('click');
+      });
+    }
+    
+    
     //touchmove works for iOS, and Android
     let prevX = 0;
     let prevY = 0;
@@ -210,13 +218,6 @@ osmo.PanAndZoomInteraction = class {
       }
       // 2 finger scroll
       if(event.touches.length == 2) {
-        self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-        self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
-        //
-        if(osmo.scroll.hitPopupMode == 'focused')
-          self.isDragging = false;
-        //
         //
         let newX = (event.touches[0].clientX + event.touches[1].clientX)/2;
         let newY = (event.touches[0].clientY + event.touches[1].clientY)/2;
@@ -234,10 +235,24 @@ osmo.PanAndZoomInteraction = class {
         newEvent.originalEvent = JSON.parse(JSON.stringify(event));
         //
         // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
-        // Implement this for phone
+        // Implement this for touch devices
         //
+        if(osmo.scroll.hitPopupMode != 'focused'){
+          // Reset mouse location so that we don't accidently highlight any other element
+          self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
+          self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
+          $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+          //
+          
+        }else{
+          // Mouse needs to be centered for pinchZoom to work
+          self.prevMouseLoc = self.mouseLoc;
+          self.mouseLoc = new osmo.scroll.PIXI.Point(newX, newY);
+          $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+          //
+          self.isDragging = false;
+        }
         //
-        //$('#main-scroll-canvas').trigger(newEvent);
         self.onOsmoScroll(self, newEvent);
       }
     });

@@ -346,6 +346,12 @@ body {
   background-color: #BACDD4;
   cursor: default;
   z-index: 100;
+  pointer-events:auto;
+}
+
+
+.zoom-section{
+  pointer-events:auto;
 }
 
 @supports (backdrop-filter: blur(4px)) {
@@ -376,6 +382,7 @@ body {
   margin: auto;
   text-align: right;
   display: flex;
+  pointer-events:auto;
 }
 
 #popcancel {
@@ -387,6 +394,7 @@ body {
   height: 60px; 
   width: 60px;
   -webkit-tap-highlight-color: transparent; 
+  pointer-events:auto;
 }
 
 #popup-info-toggle{

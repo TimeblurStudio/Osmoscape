@@ -468,6 +468,11 @@ osmo.SpeakerMicroInteraction = class {
           if (drag.curCx < drag.minX) drag.curCx = drag.minX;
           if (drag.curCx > drag.maxX) drag.curCx = drag.maxX;
           $(document).off('mousemove touchmove mouseup touchend');
+          // Fadeout if there is inactivity
+          setTimeout(function(){
+            $('.vlCtrl').fadeOut();
+          },1500);
+          //
         });
       });
 
