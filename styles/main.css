@@ -329,6 +329,11 @@ body {
   background-color: #BACDD4;
   cursor: default;
   z-index: 100;
+  pointer-events: auto;
+}
+
+.zoom-section {
+  pointer-events: auto;
 }
 
 @supports ((-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px))) {
@@ -358,6 +363,19 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  pointer-events: auto;
+}
+
+#popcancel {
+  cursor: pointer;
+  font-size: 32px;
+  color: #fff;
+  border-radius: 50%;
+  background: #90AAB4;
+  height: 60px;
+  width: 60px;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
 }
 
 #popup-info-toggle {

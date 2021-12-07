@@ -12,17 +12,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- stylesheet Links -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.4.11">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.4.11" rel="stylesheet">
-    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.4.11">
-    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.4.11">
-    <link rel="stylesheet" href="styles/main.css?v=0.4.11">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&v=0.4.13">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap&v=0.4.13" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"  href="third_party/spinkit.css?v=0.4.13">
+    <link rel="stylesheet" type="text/css"  href="third_party/please-wait.css?v=0.4.13">
+    <link rel="stylesheet" href="styles/main.css?v=0.4.13">
 
 
     <!-- scripts -->
-    <script src="scripts/modernizr.js?v=0.4.11"></script>
-    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.4.11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fpsmeter/0.3.1/fpsmeter.min.js?v=0.4.11" integrity="sha512-60sOFuolHKjKWm4IcltFrnIvq2slKdPjz1i9WzZMzLDaYSUuwhvxg4Ku/eBnFejYJBuHce9hSvcngBSK9pEV1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="scripts/modernizr.js?v=0.4.13"></script>
+    <script type="text/javascript" src="third_party/please-wait.min.js?v=0.4.13"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fpsmeter/0.3.1/fpsmeter.min.js?v=0.4.13" integrity="sha512-60sOFuolHKjKWm4IcltFrnIvq2slKdPjz1i9WzZMzLDaYSUuwhvxg4Ku/eBnFejYJBuHce9hSvcngBSK9pEV1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
     <!--[if IE]>
@@ -96,7 +96,7 @@
       <div id="head-normal-view" style="margin: -25px;"> 
         <a href="https://osmoscape.com" target="_blank"><i class="material-icons" id="show-info" style="padding: 10px; cursor: pointer; color: white;">info</i></a>
         <!--i class="material-icons" id="enter-fullscreen" style="padding: 10px; cursor: pointer; color: white;">fullscreen</i-->
-        <div style="display: inline;">
+        <div id="smi" style="display: inline;">
           <div class="speaker" >
               <svg viewBox="0 0 100 77" xmlns="http://www.w3.org/2000/svg">
                   <path id="speakB" class="volElem" stroke="#9E9E9E" d="M51.2,18.5v-13c0-2.1-2.5-3.3-4.1-1.9L21.8,25.9c-1.4,1.2-3.1,1.9-4.9,1.9H8.2c-2.3,0-4.2,1.9-4.2,4.2v13.3c0,2.3,1.9,4.2,4.2,4.2H17c1.9,0,3.7,0.7,5.1,1.9l25,22c1.6,1.4,4.1,0.3,4.1-1.9v-13" opacity="0.4"/>
@@ -124,12 +124,12 @@
             <button id="zoom-in" style="border: none; background: none;cursor: pointer; font-size: 32px; color: #2D4F5C; border-radius: 50%;"><i class="material-icons" class="material-icons">zoom_in</i></button>
             <button id="zoom-out" style="border: none; background: none;cursor: pointer; font-size: 32px; color: #2D4F5C; border-radius: 50%;"><i class="material-icons" class="material-icons">zoom_out</i></button>
         </div>
-        <button class="btn" id="popcancel" style="cursor: pointer; font-size: 32px; color: #fff; border-radius: 50%; background: #90AAB4; height: 60px; width: 60px;">&#x2715;</button>
+        <button class="btn" id="popcancel">&#x2715;</button>
       </div>
     </div>
 
 
-    <div class="vinfo" >v<span id="versionid">0.4.11</span></div>
+    <div class="vinfo" >v<span id="versionid">0.4.13</span></div>
 
     <!--
         Additional menu items required -
@@ -157,7 +157,7 @@
     </div>
 
     <!-- build:js scripts/bundle.js -->
-    <script src="scripts/bundle.js?v=0.4.11"></script>
+    <script src="scripts/bundle.js?v=0.4.13"></script>
     <!-- endbuild -->
     <!--script type="text/javascript">
         javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
@@ -167,7 +167,7 @@
         console.log(window.version);
     </script-->
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZ2Q19RXT0&v=0.4.11"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZZ2Q19RXT0&v=0.4.13"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
