@@ -405,6 +405,11 @@ osmo.LegendSvg = class {
    */
   highlightLegend(id, mask){
     //
+    for(let tweenid in this.highlightTweens)  {
+      this.highlightTweens[tweenid].kill();
+    }
+    this.highlightTweens = [];
+    
     let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
     for(let i=0; i < scrollLength; i++){
       let index = i+1;
@@ -524,15 +529,24 @@ osmo.LegendSvg = class {
    * ------------------------------------------------
    */
   removeHighlight(){
-    for(let tweenid in this.highlightTweens)
+    for(let tweenid in this.highlightTweens)  {
       this.highlightTweens[tweenid].kill();
+    }
+    this.highlightTweens = [];
     //
     let scrollLength = Object.keys(osmo.scroll.mainScroll).length;
+    let dur = 2000;
     for(let i=0; i < scrollLength; i++){
       let index = i+1;
-      osmo.scroll.mainScroll['part'+index].alpha = 1;
+      this.highlightTweens.push(this.TWEENMAX.to(osmo.scroll.mainScroll['part'+index], dur/1000, {
+        alpha: 1,
+        ease: this.POWER4.easeInOut
+      }));
     }
-    this.legendContainer.alpha = 0;
+    this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
+      alpha: 0,
+      ease: this.POWER4.easeInOut
+    }));
     //
     for(let i=0; i<this.maskAreas.length; i++)
       this.maskAreas[i].alpha = this.maskAlpha;
