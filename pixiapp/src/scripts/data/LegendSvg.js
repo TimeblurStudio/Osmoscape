@@ -313,9 +313,10 @@ osmo.LegendSvg = class {
           //
           console.log('Loaded '+num+' legend');
           //
-          let percmask = 0.5*parseFloat(self.maskAreas.length)/parseFloat(Object.keys(osmo.scroll.datasets).length);
-          let percleg = 0.5*parseFloat(self.legendFiles.length)/parseFloat(Object.keys(osmo.scroll.datasets).length);
-          let percentage = '&nbsp;&nbsp;' + parseInt((percmask + percleg)*100) + '%';
+          let percmask = parseFloat(self.maskAreas.length)/parseFloat(Object.keys(osmo.scroll.datasets).length);
+          let percleg = parseFloat(self.legendFiles.length)/parseFloat(Object.keys(osmo.scroll.datasets).length);
+          let percaud = parseFloat(osmo.legendaudio.allTracksLoadedCount)/parseFloat(Object.keys(osmo.scroll.datasets).length);
+          let percentage = '&nbsp;&nbsp;' + parseInt(((percmask + percleg + percaud)/3)*100) + '%';
           $('#percentage').html(percentage);
           //
           //

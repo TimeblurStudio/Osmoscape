@@ -360,27 +360,6 @@ osmo.Scroll = class {
     $('#smi').hide();
     //
     //
-    let waitCount = 60;//60 seconds
-    let waitTillFilesAreDownloaded = setInterval(function(){
-      //
-      let loadedBackgroundAudio = osmo.scroll.loaded.backgroundaudio;
-      waitCount -= 1;
-      //
-      if(loadedBackgroundAudio){
-        console.log('Downloaded large files');//NOTE: Causes problems on ipad while loading
-        $('#start-btn').show();
-        clearInterval(waitTillFilesAreDownloaded);
-      }else{
-        console.log('Waiting for backgroundAudio files to download: ' + loadedBackgroundAudio);
-        if(waitCount < 0){
-          clearInterval(waitTillFilesAreDownloaded);
-          let please_wait_error = '<div id="error" style="color: #b97941; font-weight: 400; font-family: \'Roboto\';">Failed to download files, please reload!</div>';
-          $('.pg-loading-html').empty();
-          $('.pg-loading-html').append($.parseHTML( please_wait_error ));
-          
-        }
-      }
-    },1000);
   }
 
 
@@ -450,7 +429,6 @@ osmo.Scroll = class {
       //
       if(loadedBackgroundAudio && loadedLegendAudio &&  loadedHQimage && loadedSVGdata){
         console.log('All required data loaded');
-        //
         clearInterval(waitTillTracksLoad);
         //
         //
