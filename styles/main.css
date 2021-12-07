@@ -42,6 +42,7 @@ body {
   -webkit-transform: scale(0.6);
           transform: scale(0.6);
   margin-top: -20px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 #chapter-text {
@@ -643,6 +644,7 @@ svg, path {
   position: sticky;
   top: 0;
   right: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .close-button:hover {
