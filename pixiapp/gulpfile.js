@@ -26,11 +26,14 @@ const cssnano = require('cssnano');
 const { argv } = require('yargs');
 const ghdeploy = require('gh-pages');
 const stripDebug = require('gulp-strip-debug');
+const removeLogging = require("gulp-remove-logging");
 const sass = require('gulp-sass')(require('sass'));
 const execSync = require('child_process').execSync;
 const uglify = require('gulp-uglify');
 const shell = require('gulp-shell');
 const merge = require('merge-stream');
+const replace = require('gulp-replace');
+const decomment = require('gulp-decomment');
 
 
 const $ = gulpLoadPlugins();
@@ -212,11 +215,12 @@ function scriptsdev() {
     .pipe(dest(browserifyjs.outdir))
     .pipe(server.reload({stream: true}));
 }
-//.pipe(stripDebug())
+//
 
 
 //
 //
+
 function scripts() {
 
   var browserifyjs = {
@@ -235,11 +239,13 @@ function scripts() {
     .on('error', function(err){ console.log(err.stack); })
     .pipe(vinylsource(browserifyjs.out))
     .pipe(vinylbuffer())
-    .pipe(uglify())
+    .pipe(decomment({trim: true}))
+    .pipe(removeLogging({namespace: ['self.console']}))
+    .pipe(removeLogging({namespace: ['window.console']}))
+    .pipe(replace('return !suppress && ', 'return !suppress;'))
+    .pipe(removeLogging({namespace: ['console']}))
     .pipe(dest(browserifyjs.outdir));
 };
-// NOTE: .pipe(stripDebug()) - gives syntax error (Not sure what's changed)
-
 
 //
 //
