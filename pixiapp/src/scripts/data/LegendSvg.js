@@ -46,6 +46,7 @@ osmo.LegendSvg = class {
     this.cursorTextTimeout = null;
     this.cursorLoading = null;
     this.legendClicksCount = 0;
+    this.isLegendHighlighted = false;
     //
 
     // Methods
@@ -598,6 +599,8 @@ osmo.LegendSvg = class {
         });
         */
       },dur);//
+      //
+      this.isLegendHighlighted = true;
     }
     //
   }
@@ -660,6 +663,7 @@ osmo.LegendSvg = class {
     this.dragMode = false;
     this.isDragging = false;
     //
+    this.isLegendHighlighted = false;
   }
 
 };

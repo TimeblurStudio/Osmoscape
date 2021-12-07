@@ -42,6 +42,7 @@ body {
   text-transform: uppercase;
   transform: scale(0.6);
   margin-top: -20px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -673,6 +674,7 @@ svg, path {
   position: sticky;
   top: 0;
   right: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .close-button:hover {

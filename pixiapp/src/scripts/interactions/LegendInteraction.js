@@ -119,7 +119,17 @@ osmo.LegendInteraction = class {
                 clearTimeout(osmo.legendsvg.cursorTextTimeout);
               osmo.legendsvg.cursorTextTimeout = null;
               //
-              self.showLegend(id);
+              if(!osmo.pzinteract.isTrackpadDetected){
+                if(!osmo.legendsvg.isLegendHighlighted){
+                  console.log('Hover on mask -'+id);
+                  osmo.legendsvg.highlightLegend(id, mask);
+                }else{
+                  console.log('open legend -'+id);
+                  self.showLegend(id);
+                }
+              }else{
+                self.showLegend(id);
+              }
               //
             }
             //
@@ -203,7 +213,7 @@ osmo.LegendInteraction = class {
       if(osmo.legendsvg.legendClicksCount < 2){
         $('.cursor-txt').html('Click & drag');
         $('.cursor-txt').fadeIn(1000);
-        setTimeout(function(){  $('.cursor-txt').html('Scroll to zoom');  }, 4000);
+        setTimeout(function(){  $('.cursor-txt').html('Pinch to zoom');  }, 4000);
         setTimeout(function(){  $('.cursor-txt').fadeOut();  }, 8000);
       }
       self.dragMode = true;
@@ -292,6 +302,9 @@ osmo.LegendInteraction = class {
    * ------------------------------------------------
    */
   closeLegendPopup(){
+    //
+    osmo.legendsvg.removeHighlight();
+    osmo.pzinteract.isDragging = false;
     //
     $('dragmol').unbind();
     // REMOVE MOLECULE INTERACTION

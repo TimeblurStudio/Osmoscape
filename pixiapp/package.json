@@ -1,5 +1,5 @@
 {
-  "version": "0.4.9",
+  "version": "0.4.11",
   "commit": "51725f9",
   "description": "Webapp for Osmoscape",
   "main": "index.js",
