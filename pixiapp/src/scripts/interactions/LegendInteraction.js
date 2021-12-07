@@ -56,34 +56,10 @@ osmo.LegendInteraction = class {
     });
     //    
     $('#popup-info-toggle').click(function(){
-      if(self.isSidebarOpen()){
-        let dur = 600;
-        $('#popup-info-toggle').html('&gt;');
-        $('#focused-info').animate({ left:'-33%'}, dur);
-        //
-        let fac = 1;
-        let deltaValX = -1*(osmo.scroll.pixiWidth/3);
-        let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
-        let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac);
-        self.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
-          x: newPos.x,
-          ease: self.POWER4.easeInOut
-        });
-      }else {
-        let dur = 600;
-        $('#popup-info-toggle').html('&lt;');
-        $('#focused-info').animate({ left:'0%'}, dur);
-        //
-        let fac = 1;
-        let deltaValX = (osmo.scroll.pixiWidth/3);
-        let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
-        let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac);
-        self.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
-          x: newPos.x,
-          ease: self.POWER4.easeInOut
-        });
-        //
-      }
+      if(self.isSidebarOpen())
+        setTimeout(function(){  self.closeSidebar();  }, 100);
+      else
+        setTimeout(function(){  self.openSidebar();  }, 100);
     });
     //
     $('#focused-info').mouseenter(function(){
@@ -93,6 +69,36 @@ osmo.LegendInteraction = class {
       $('#cursor').show();
     });
     //
+  }
+
+  openSidebar(){
+    let dur = 600;
+    $('#popup-info-toggle').html('&lt;');
+    $('#focused-info').animate({ left:'0%'}, dur);
+    //
+    let fac = 1;
+    let deltaValX = (osmo.scroll.pixiWidth/3);
+    let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
+    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac);
+    this.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
+      x: newPos.x,
+      ease: this.POWER4.easeInOut
+    });
+  }
+
+  closeSidebar(){
+    let dur = 600;
+    $('#popup-info-toggle').html('&gt;');
+    $('#focused-info').animate({ left:'-33%'}, dur);
+    //
+    let fac = 1;
+    let deltaValX = -1*(osmo.scroll.pixiWidth/3);
+    let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
+    let newPos = osmo.pzinteract.calculateCenter(oldPos, deltaValX, 0, fac);
+    this.TWEENMAX.to(osmo.scroll.mainStage.position, dur/1000, {
+      x: newPos.x,
+      ease: this.POWER4.easeInOut
+    });
   }
 
   initMaskInteractions(){
@@ -120,12 +126,16 @@ osmo.LegendInteraction = class {
               osmo.legendsvg.cursorTextTimeout = null;
               //
               if(!osmo.pzinteract.isTrackpadDetected){
-                if(!osmo.legendsvg.isLegendHighlighted){
-                  console.log('Hover on mask -'+id);
-                  osmo.legendsvg.highlightLegend(id, mask);
+                if(osmo.legendsvg.highlightedLegendId == null){
+                  setTimeout(function(){
+                    console.log('Hover on mask -'+id);
+                    osmo.legendsvg.highlightLegend(id, mask);
+                  }, 100);
                 }else{
-                  console.log('open legend -'+id);
-                  self.showLegend(id);
+                  if(osmo.legendsvg.highlightedLegendId == id){
+                    console.log('open legend -'+id);
+                    self.showLegend(id);  
+                  }
                 }
               }else{
                 self.showLegend(id);
@@ -289,6 +299,9 @@ osmo.LegendInteraction = class {
     $('#dragmol').click(function() {
       if(osmo.mc == null)
         self.createMoleculeInteraction(newScale);
+    });
+    $('#addcomp').click(function() {
+      window.open('https://app.osmoscape.com/nonlinear-composition', '_blank').focus();
     });
     //
     $('body').css('background-color',  '#A3BDC7'); 

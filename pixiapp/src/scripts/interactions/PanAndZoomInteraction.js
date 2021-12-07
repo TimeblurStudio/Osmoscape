@@ -150,7 +150,7 @@ osmo.PanAndZoomInteraction = class {
         e.preventDefault();
       });
     }
-    let dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol'];
+    let dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info'];
     for(let i=0; i < dom_interactive_elements.length; i++){
       $('#'+dom_interactive_elements[i]).on('touchstart touchmove touchend', function (e) {
         e.preventDefault();
@@ -160,8 +160,9 @@ osmo.PanAndZoomInteraction = class {
     
     
     //touchmove works for iOS, and Android
-    let prevX = 0;
-    let prevY = 0;
+    let avgPrevTouch = new self.PIXI.Point(0,0);
+    let prevTouchFinger1 = new self.PIXI.Point(0,0);
+    let prevTouchFinger2 = new self.PIXI.Point(0,0);
     $(document).on('touchstart', function(event) {
       // 1 finger touch
       if(event.touches.length == 1){
@@ -170,6 +171,15 @@ osmo.PanAndZoomInteraction = class {
         $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
         if(osmo.scroll.hitPopupMode == 'focused')
           self.isDragging = true;
+        //
+        if(osmo.legendsvg.highlightedLegendId){
+          // Something is highlighted, if hitpopup is not focused in 100ms remove all highlights
+          if(osmo.scroll.hitPopupMode != 'focused'){
+            setTimeout(function(){
+            osmo.legendsvg.removeHighlight();
+            }, 100);
+          }
+        }
       }
       // 2 finger scroll
       if(event.touches.length == 2) {
@@ -180,8 +190,8 @@ osmo.PanAndZoomInteraction = class {
         if(osmo.scroll.hitPopupMode == 'focused')
           self.isDragging = false;
         //
-        prevX = (event.touches[0].clientX + event.touches[1].clientX)/2;
-        prevY = (event.touches[0].clientY + event.touches[1].clientY)/2;
+        avgPrevTouch.x = (event.touches[0].clientX + event.touches[1].clientX)/2;
+        avgPrevTouch.y = (event.touches[0].clientY + event.touches[1].clientY)/2;
       }
       //
     });
@@ -219,39 +229,73 @@ osmo.PanAndZoomInteraction = class {
       // 2 finger scroll
       if(event.touches.length == 2) {
         //
-        let newX = (event.touches[0].clientX + event.touches[1].clientX)/2;
-        let newY = (event.touches[0].clientY + event.touches[1].clientY)/2;
-        //
-        let deltaX = (prevX - newX); //if(deltaX > 10 || deltaX < -10)  deltaX = 0;
-        let deltaY = (prevY - newY); //if(deltaY > 10 || deltaY < -10)  deltaY = 0;
-        //
-        prevX = newX;
-        prevY = newY;
-        //
+        let avgNewTouch = new self.PIXI.Point(0,0);
         let newEvent = event;
-        newEvent.type = 'mousewheel';
-        newEvent.deltaX = deltaX;
-        newEvent.deltaY = deltaY;
-        newEvent.originalEvent = JSON.parse(JSON.stringify(event));
-        //
-        // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
-        // Implement this for touch devices
-        //
         if(osmo.scroll.hitPopupMode != 'focused'){
           // Reset mouse location so that we don't accidently highlight any other element
           self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
           self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
           $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
           //
-          
+          //
+          avgNewTouch.x = (event.touches[0].clientX + event.touches[1].clientX)/2;
+          avgNewTouch.y = (event.touches[0].clientY + event.touches[1].clientY)/2;
+          //
+          let deltaX = (avgPrevTouch.x - avgNewTouch.x);
+          let deltaY = (avgPrevTouch.y - avgNewTouch.y);
+          //
+          avgPrevTouch.x = avgNewTouch.x;
+          avgPrevTouch.y = avgNewTouch.y;
+          prevTouchFinger1.x = -1;
+          prevTouchFinger1.y = -1;
+          prevTouchFinger2.x = -1;
+          prevTouchFinger2.y = -1;
+          //
+          newEvent.type = 'mousewheel';
+          newEvent.deltaX = deltaX;
+          newEvent.deltaY = deltaY;
+          newEvent.originalEvent = JSON.parse(JSON.stringify(event));
+          //
         }else{
-          // Mouse needs to be centered for pinchZoom to work
-          self.prevMouseLoc = self.mouseLoc;
-          self.mouseLoc = new osmo.scroll.PIXI.Point(newX, newY);
-          $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
           //
           self.isDragging = false;
+          //
+          avgNewTouch.x = (event.touches[0].clientX + event.touches[1].clientX)/2;
+          avgNewTouch.y = (event.touches[0].clientY + event.touches[1].clientY)/2;
+          // Mouse needs to be centered for pinchZoom to work
+          self.prevMouseLoc = self.mouseLoc;
+          self.mouseLoc = new osmo.scroll.PIXI.Point(avgNewTouch.x, avgNewTouch.y);
+          $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+          // Also, delta has to be based on two fingers
+          if(prevTouchFinger1.x == -1)  prevTouchFinger1.x = event.touches[0].clientX;
+          if(prevTouchFinger1.y == -1)  prevTouchFinger1.y = event.touches[0].clientY;
+          if(prevTouchFinger2.x == -1)  prevTouchFinger2.x = event.touches[1].clientX;
+          if(prevTouchFinger2.y == -1)  prevTouchFinger2.y = event.touches[1].clientY;
+          //
+          let delta1X = prevTouchFinger1.x - event.touches[0].clientX;
+          let delta1Y = prevTouchFinger1.y - event.touches[0].clientY;
+          let delta2X = prevTouchFinger2.x - event.touches[1].clientX;
+          let delta2Y = prevTouchFinger2.y - event.touches[1].clientY;
+          //
+          let deltaX = -1*(delta2X - delta1X)/2;
+          let deltaY = -1*(delta2Y - delta1Y)/2;
+          //
+          avgPrevTouch.x = avgNewTouch.x;
+          avgPrevTouch.y = avgNewTouch.y;
+          prevTouchFinger1.x = event.touches[0].clientX;
+          prevTouchFinger1.y = event.touches[0].clientY;
+          prevTouchFinger2.x = event.touches[1].clientX;
+          prevTouchFinger2.y = event.touches[1].clientY;
+          //
+          newEvent.type = 'mousewheel';
+          newEvent.deltaX = deltaX;
+          newEvent.deltaY = deltaY;
+          newEvent.originalEvent = JSON.parse(JSON.stringify(event));
+          //
         }
+        //
+        // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
+        // Implement this for touch devices
         //
         self.onOsmoScroll(self, newEvent);
       }
