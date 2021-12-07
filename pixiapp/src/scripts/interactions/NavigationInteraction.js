@@ -9,13 +9,13 @@
  */
 
 let chapter_names = {
-  'ch1': 'In the Beginning',
-  'ch2': 'The Human Civilasation, Aka, The Anthropocene',
-  'ch3': 'Carbon and Climate Crisis',
-  'ch4': 'The Bane of Industrial Farming',
-  'ch5': 'Grand Design and their Grand Failings',
-  'ch6': 'The Quest for Unpolluted Water',
-  'ch7': 'The Vast Ocean'
+  'ch1': 'Ch1 : In the Beginning',
+  'ch2': 'Ch2 : The Human Civilisation, Aka, The Anthropocene',
+  'ch3': 'Ch3 : Carbon and Climate Crisis',
+  'ch4': 'Ch4 : The Bane of Industrial Farming',
+  'ch5': 'Ch5 : Grand Design and their Grand Failings',
+  'ch6': 'Ch6 : The Quest for Unpolluted Water',
+  'ch7': 'Ch7 : The Vast Ocean'
 };
 
 'use strict';

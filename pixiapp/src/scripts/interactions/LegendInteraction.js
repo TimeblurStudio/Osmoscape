@@ -419,8 +419,15 @@ osmo.LegendInteraction = class {
     osmo.soundeffects = new osmo.SoundEffects();
     osmo.soundeffects.init(this.currentFocus);
     osmo.soundeffects.setNewBuffer(this.currentFocus, osmo.scroll.datasets[this.currentFocus].audiofile);
-    if (osmo.bgaudio.currentTrack !== 'intro')
-      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-18,1);
+    let currentTrack = osmo.bgaudio.currentTrack;
+    if (currentTrack !== 'intro') {
+      if ( currentTrack === 'base3' )
+        osmo.bgaudio.baseTracks[currentTrack].volume.rampTo(-18,1);
+      else if (currentTrack === 'base5' )
+        osmo.bgaudio.baseTracks[currentTrack].volume.rampTo(-12,1);
+      else 
+        osmo.bgaudio.baseTracks[currentTrack].volume.rampTo(-6,1);
+    }
     //
     // ADD MOLECULE
     osmo.mc = new osmo.MoleculeController();
