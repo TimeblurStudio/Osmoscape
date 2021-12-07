@@ -176,7 +176,7 @@ osmo.PanAndZoomInteraction = class {
           // Something is highlighted, if hitpopup is not focused in 100ms remove all highlights
           if(osmo.scroll.hitPopupMode != 'focused'){
             setTimeout(function(){
-            osmo.legendsvg.removeHighlight();
+              osmo.legendsvg.removeHighlight();
             }, 100);
           }
         }
