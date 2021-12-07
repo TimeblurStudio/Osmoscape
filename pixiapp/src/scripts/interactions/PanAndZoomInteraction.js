@@ -143,8 +143,14 @@ osmo.PanAndZoomInteraction = class {
     });
 
     //
-    //
-    /* EARLY METHOD BELOW FOR TOUCH */
+    // Disable touchevents for doms
+    document.querySelector('#focused-info').addEventListener('touchstart touchmove touchend', function (e) {
+      e.preventDefault();
+    });
+    document.querySelector('#popcancel').addEventListener('touchstart touchmove touchend', function (e) {
+      e.preventDefault();
+    });
+
     //touchmove works for iOS, and Android
     let prevX = 0;
     let prevY = 0;

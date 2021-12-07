@@ -30,8 +30,6 @@ osmo.LegendSvg = class {
     this.POWER4 = osmo.scroll.POWER4;
 
     //@private
-    this.loadIndividualFiles = true;
-    this.mergedLegends = {};
     this.mergedPolygons = {};
     this.mergedSoundAreas = {};
     this.allSVGDataPromises = [];
@@ -61,7 +59,7 @@ osmo.LegendSvg = class {
     //
     let dataWaitInterval = setInterval(function(){
       if(osmo.datasvg){
-        if(osmo.scroll.mainScroll != null && !jQuery.isEmptyObject(self.mergedLegends) && !jQuery.isEmptyObject(self.mergedPolygons) && !jQuery.isEmptyObject(self.mergedSoundAreas)){
+        if(osmo.scroll.mainScroll != null && !jQuery.isEmptyObject(self.mergedPolygons) && !jQuery.isEmptyObject(self.mergedSoundAreas)){
           //
           clearInterval(dataWaitInterval);
           self.loadDatasets();
@@ -69,15 +67,6 @@ osmo.LegendSvg = class {
         }
       }
     },1000);
-    //
-    //
-    let legendsURL = './assets/data/mergedLegends.json' + '?v=' + window.version;
-    console.log('mergedLegendURL: ' + legendsURL);
-    $.getJSON(legendsURL, function( data ) {
-      self.mergedLegends = data;
-      osmo.scroll.loaded.mergedLegendFile = true;
-      console.log('Loaded legends file');
-    });
     //
     let polygonsURL = './assets/data/mergedPolygons.json' + '?v=' + window.version;
     console.log('mergedPolygonsURL: ' + polygonsURL);
@@ -114,7 +103,6 @@ osmo.LegendSvg = class {
     if (osmo.scroll.datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
-      let legenddata = this.mergedLegends[id];
       let polygondata = JSON.parse(this.mergedPolygons[id]);
       //
       //
@@ -155,7 +143,7 @@ osmo.LegendSvg = class {
       //
       //
       let maskpromise = this.maskLoad(title, polygondata, id, zorder);
-      let legendpromise = this.legendLoad(title, legenddata, lpath, id, this.loadIndividualFiles);
+      let legendpromise = this.legendLoad(title, lpath, id);
       this.allSVGDataPromises.push(maskpromise);
       this.allSVGDataPromises.push(legendpromise);
       //
@@ -163,8 +151,7 @@ osmo.LegendSvg = class {
       if(osmo.scroll.includeSpecialCase && hasSpecialFile){
         let splid = id + '_spl';
         let spllpath = osmo.scroll.datasets[id].speciallegend;
-        let spllegenddata = this.mergedLegends[splid];
-        let spllegendpromise = this.legendLoad(title, spllegenddata, spllpath, splid, this.loadIndividualFiles, true);
+        let spllegendpromise = this.legendLoad(title, spllpath, splid, true);
         this.allSVGDataPromises.push(spllegendpromise);
       }
       //
@@ -305,31 +292,17 @@ osmo.LegendSvg = class {
    * legendLoad
    * ------------------------------------------------
    */
-  legendLoad(title, svgxml, pngpath, num, frompath, specialCase=false){
+  legendLoad(title, pngpath, num, specialCase=false){
     //
     let self = this;
     const lpromise = new Promise((resolve, reject) => {
       //
       let svgScale = 8.0;
       let newViewPort_x, legendTexture;
-      if(!frompath){
-        //
-        [svgxml, newViewPort_x] = self.updateSVGviewbox(svgxml, num);
-        //
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(svgxml, 'image/svg+xml');
-        let serialized = new XMLSerializer().serializeToString(doc);
-        var svgEncoded = 'data:image/svg+xml;base64,' + window.btoa(serialized);
-        //
-        let resource = new self.PIXI.SVGResource (svgEncoded, {scale: svgScale});
-        legendTexture = self.PIXI.Texture.from(resource, {resolution: 1.0});
-        //
-      }else{
-        //
-        pngpath = '../' + pngpath;// Fix relative path before loading
-        legendTexture = self.PIXI.Texture.from(pngpath, {resolution: 1.0});
-        //
-      }
+      //
+      pngpath = '../' + pngpath;// Fix relative path before loading
+      legendTexture = self.PIXI.Texture.from(pngpath, {resolution: 1.0});
+      //
       //
       let legendLoaded = false;
       legendTexture.on('update', () => {
@@ -376,30 +349,26 @@ osmo.LegendSvg = class {
           legend.scale.set(legendScale,legendScale);
           console.log('LEGEND SCALE: ' + legendScale);
           //
-          if(!frompath)
-            legend.x = newViewPort_x*lms*svgScale + osmo.scroll.pixiWidth*3/4;
-          else{
-            //
-            // NOTE: Offset required since -1 and 0 datasets were added at the end 
-            //       (effectively increasing the canvas width)
-            //
-            let offset = 0;
-            if (num === '-1') offset = (9945 - 9683);
-            else if (num === '0') offset = (9945 - 9601);
-            else if (num === '64')  offset = (9945 - 9459);
-            else  offset = 495;
-            //
-            //Change the legend's position with an added offset
-            if(specialCase){
-              let nonsplid = num.replace('_spl', '');
-              legend.x = (self.popupBBoxes[nonsplid].boundingbox.x + offset)*(osmo.scroll.pixiHeight/623.5) + osmo.scroll.pixiWidth*3/4;
-              legend.y = (self.popupBBoxes[nonsplid].boundingbox.y)*(osmo.scroll.pixiHeight/623.5);  
-            }else{
-              legend.x = (self.popupBBoxes[num].boundingbox.x + offset)*(osmo.scroll.pixiHeight/623.5) + osmo.scroll.pixiWidth*3/4;
-              legend.y = (self.popupBBoxes[num].boundingbox.y)*(osmo.scroll.pixiHeight/623.5);  
-            }
-            //
+          //
+          // NOTE: Offset required since -1 and 0 datasets were added at the end 
+          //       (effectively increasing the canvas width)
+          //
+          let offset = 0;
+          if (num === '-1') offset = (9945 - 9683);
+          else if (num === '0') offset = (9945 - 9601);
+          else if (num === '64')  offset = (9945 - 9459);
+          else  offset = 495;
+          //
+          //Change the legend's position with an added offset
+          if(specialCase){
+            let nonsplid = num.replace('_spl', '');
+            legend.x = (self.popupBBoxes[nonsplid].boundingbox.x + offset)*(osmo.scroll.pixiHeight/623.5) + osmo.scroll.pixiWidth*3/4;
+            legend.y = (self.popupBBoxes[nonsplid].boundingbox.y)*(osmo.scroll.pixiHeight/623.5);  
+          }else{
+            legend.x = (self.popupBBoxes[num].boundingbox.x + offset)*(osmo.scroll.pixiHeight/623.5) + osmo.scroll.pixiWidth*3/4;
+            legend.y = (self.popupBBoxes[num].boundingbox.y)*(osmo.scroll.pixiHeight/623.5);  
           }
+          //
           //
           self.legendContainer.addChild(legend);
           resolve('l'+num);
@@ -426,79 +395,6 @@ osmo.LegendSvg = class {
       if(child.children != undefined)
         this.updateChildLegend(child.children, d, t);
     }
-  }
-
-  /**
-   * ------------------------------------------------
-   * updateSVGviewbox
-   * ------------------------------------------------
-   */
-  updateSVGviewbox(svgxml, num){
-    let self = this;
-    //
-    var svgContainer = document.createElement('div');
-    svgContainer.innerHTML = svgxml;
-    let svgEle = svgContainer.getElementsByTagName('svg')[0];
-    let viewPort = svgEle.getAttribute('viewBox');
-    if (!viewPort)
-      viewPort = svgEle.getAttribute('x') 
-                 + ' ' + svgEle.getAttribute('y')
-                 + ' ' + svgEle.getAttribute('width') 
-                 + ' ' + svgEle.getAttribute('height');
-    console.log(num + ' old viewport: ' + viewPort);
-    let currentViewPort_x = viewPort.split(' ')[0];
-    let currentViewPort_y = viewPort.split(' ')[1];
-    let currentViewPort_width = viewPort.split(' ')[2];
-    let currentViewPort_height = viewPort.split(' ')[3];
-    //
-    let newViewPort = viewPort;
-    let newViewPort_x = currentViewPort_x;
-    let newViewPort_y = currentViewPort_y;
-    let newViewPort_width = currentViewPort_width;
-    let newViewPort_height = currentViewPort_height;
-    //
-    let midX = 0;
-    if(self.popupBBoxes.hasOwnProperty(num)){
-      // Position of selected area!
-      let _x = parseFloat(self.popupBBoxes[num]['dimensions'][0].x);
-      let _y = parseFloat(self.popupBBoxes[num]['dimensions'][0].y);
-      let _width = parseFloat(self.popupBBoxes[num]['dimensions'][0].width);
-      let _height = parseFloat(self.popupBBoxes[num]['dimensions'][0].height);
-      //
-      let rs = (osmo.scroll.pixiHeight/osmo.scroll.refPopupSize.height);
-      _x *= rs; _y *= rs;
-      _width *= rs;
-      _height *= rs;
-      console.log(num + ' popupBBoxes: '+ _x + ' ' + _y + ' ' + _width + ' ' + _height);
-      //
-      midX = _x + _width/2;
-      let xRange = 2000;
-      if(_width > xRange) xRange = _width;  
-      //
-      newViewPort_x = midX - xRange;
-      if(newViewPort_x < 0) newViewPort_x = 0;
-      newViewPort_width = xRange;
-    }
-    newViewPort = newViewPort_x + ' ' + newViewPort_y + ' '  + newViewPort_width + ' '  + newViewPort_height;
-    //
-    if(num != '0a' || num != '0b'){
-      svgEle.removeAttribute('style');
-      svgEle.removeAttribute('x');
-      svgEle.removeAttribute('y');
-      svgEle.removeAttribute('width'); 
-      svgEle.removeAttribute('height');
-      svgEle.removeAttribute('viewBox');
-      //
-      svgEle.setAttribute('x', newViewPort_x + 'px');
-      svgEle.setAttribute('y', newViewPort_y + 'px');
-      svgEle.setAttribute('width', newViewPort_width + 'px');
-      svgEle.setAttribute('height', newViewPort_height + 'px');
-      svgEle.setAttribute('viewBox', newViewPort);
-      console.log(num + ' new viewport: ' + newViewPort);
-    } 
-    //
-    svgxml = svgEle.outerHTML;
-    return [svgxml, newViewPort_x];
   }
 
 

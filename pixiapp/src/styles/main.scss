@@ -378,6 +378,17 @@ body {
   display: flex;
 }
 
+#popcancel {
+  cursor: pointer; 
+  font-size: 32px; 
+  color: #fff; 
+  border-radius: 50%; 
+  background: #90AAB4; 
+  height: 60px; 
+  width: 60px;
+  -webkit-tap-highlight-color: transparent; 
+}
+
 #popup-info-toggle{
   width: 41px; 
   height: 28px;
