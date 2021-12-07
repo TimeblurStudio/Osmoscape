@@ -32,8 +32,8 @@
         "depth" : { "min" : 0, "max" : 0.2 },
         "pitchshift" : { "min" : -24, "max" : 7 },
         "delay" : { "min" : 0.01, "max" : 0.8},
-        "baseVolume" : -12,
-        "loopVolume" : 6
+        "baseVolume" : -18,
+        "loopVolume" : 0
     }
   },
   "0": {
@@ -71,7 +71,7 @@
         "depth" : { "min" : 0, "max" : 1 },
         "pitchshift" : { "min" : -24, "max" : 20 },
         "delay" : { "min" : 0.01, "max" : 0.02},
-        "baseVolume" : -6,
+        "baseVolume" : -18,
         "loopVolume" : 0
     }
   },
@@ -86,6 +86,11 @@
     "legendpngpath": "../../assets/data/legends_png/01_legend.png",
     "audiofile": "../../assets/audio/loops/1 rev1.mp3",
     "zorder": 20,
+    "zoom": {
+      "default": 90,
+      "min": 75,
+      "max": 600
+    },
     "popdimensions": [
       {
         "x": 662.3799999999999,
@@ -107,7 +112,7 @@
       "height": 386.8
     },
     "effectData" : {
-        "baseVolume" : -6,
+        "baseVolume" : -18,
         "loopVolume" : 0
     }
 
@@ -145,7 +150,7 @@
         "pitchshift" : { "min" : -24, "max" : 12 },
         "delay" : { "min" : 0.01, "max" : 0.1},
         "invertY" : true,
-        "baseVolume" : -6,
+        "baseVolume" : -18,
         "loopVolume" : 0
     }
   },
@@ -182,7 +187,7 @@
         "pitchshift" : { "min" : -24, "max" : 10 },
         "delay" : { "min" : 0.01, "max" : 0.2 },
         "invertY" : true,
-        "baseVolume" : -6,
+        "baseVolume" : -18,
         "loopVolume" : 0
     }
   },
@@ -259,8 +264,8 @@
         "pitchshift" : { "min" : -24, "max" : 5 },
         "delay" : { "min" : 0.01, "max" : 0.6 },
         "invertY" : true,
-        "baseVolume" : -6,
-        "loopVolume" : 0
+        "baseVolume" : -12,
+        "loopVolume" : 6
     }
   },
   "8": {
