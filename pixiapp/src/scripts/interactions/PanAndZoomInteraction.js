@@ -63,7 +63,7 @@ osmo.PanAndZoomInteraction = class {
 
     // zoom init
     this.defaultZoom = osmo.scroll.mainStage.scale.x;
-    this.setZoomRange(0.85, 4);//0.85x to 4x
+    this.setZoomRange(1, 6);//1x to 6x // Also there is dynamic value calculated from image width
     let zoomPercentage = parseInt((osmo.scroll.mainStage.scale.x/this.defaultZoom)*100).toString() + '%';
     $('#zoom-level').text(zoomPercentage);
     $('#zoom-in').on('click', function(){
@@ -78,7 +78,26 @@ osmo.PanAndZoomInteraction = class {
         centerPosY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
       }
       //
-      osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, -50, true);
+      let currentLegendID = osmo.legendinteract.currentFocus;
+      if(osmo.scroll.datasets[currentLegendID].hasOwnProperty('zoom')){
+        //
+        let defaultZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.default;
+        let minZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.min;
+        let maxZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.max;
+        //
+        osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, -50, true, minZoomPercentage/100, maxZoomPercentage/100);
+      }else{
+        let img_width = parseInt(osmo.legendsvg.popupBBoxes[currentLegendID]['dimensions'][0].width);
+        let rs = (osmo.scroll.pixiHeight/osmo.scroll.refPopupSize.height);
+        img_width *= rs;
+        let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * img_width);
+        let minZoomFac = self.minZoom*zoomFac/osmo.scroll.pixiScale;
+        let maxZoomFac = self.maxZoom*zoomFac/osmo.scroll.pixiScale;
+        //
+        console.log(zoomFac + ' ' + minZoomFac + ' ' + maxZoomFac);
+        osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, -50, true, minZoomFac, maxZoomFac);  
+      }
+      //
     });
     $('#zoom-out').on('click', function(){
       let centerPosX = (osmo.scroll.pixiWidth/2)*osmo.scroll.pixiScale;
@@ -90,8 +109,27 @@ osmo.PanAndZoomInteraction = class {
         centerPosX = (left_shift+focused_width/2)*osmo.scroll.pixiScale;
         centerPosY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
       }
-      //      
-      osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, 50, true);
+      //
+      let currentLegendID = osmo.legendinteract.currentFocus;
+      if(osmo.scroll.datasets[currentLegendID].hasOwnProperty('zoom')){
+        //
+        let defaultZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.default;
+        let minZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.min;
+        let maxZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.max;
+        //
+        osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, 50, true, minZoomPercentage/100, maxZoomPercentage/100);
+      }else{
+        let img_width = parseInt(osmo.legendsvg.popupBBoxes[currentLegendID]['dimensions'][0].width);
+        let rs = (osmo.scroll.pixiHeight/osmo.scroll.refPopupSize.height);
+        img_width *= rs;
+        let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * img_width);
+        let minZoomFac = self.minZoom*zoomFac/osmo.scroll.pixiScale;
+        let maxZoomFac = self.maxZoom*zoomFac/osmo.scroll.pixiScale;
+        //
+        console.log(zoomFac + ' ' + minZoomFac + ' ' + maxZoomFac);
+        osmo.pzinteract.changeZoomAt(centerPosX, centerPosY, 50, true, minZoomFac, maxZoomFac); 
+      }
+      //
     });
     
     //
@@ -401,8 +439,7 @@ osmo.PanAndZoomInteraction = class {
       let oldPos = new osmo.scroll.PIXI.Point(osmo.scroll.mainStage.position.x, osmo.scroll.mainStage.position.y);
       osmo.scroll.mainStage.position = osmo.pzinteract.calculateCenter(oldPos, delta, 0, fac*osmo.scroll.pixiScale);
       //
-    }
-    else{
+    } else{
       //
       deltaValX = et.deltaX;
       deltaValY = et.deltaY;
@@ -413,7 +450,26 @@ osmo.PanAndZoomInteraction = class {
       let delta = deltaValY;
       if(!osmo.pzinteract.isTrackpadDetected)
         delta *= -1;
-      osmo.pzinteract.changeZoomAt(mouseX, mouseY, delta);
+      //
+      let currentLegendID = osmo.legendinteract.currentFocus;
+      if(osmo.scroll.datasets[currentLegendID].hasOwnProperty('zoom')){
+        //
+        let defaultZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.default;
+        let minZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.min;
+        let maxZoomPercentage = osmo.scroll.datasets[currentLegendID].zoom.max;
+        //
+        osmo.pzinteract.changeZoomAt(mouseX, mouseY, delta, false, minZoomPercentage/100, maxZoomPercentage/100);
+      }else{
+        let img_width = parseInt(osmo.legendsvg.popupBBoxes[currentLegendID]['dimensions'][0].width);
+        let rs = (osmo.scroll.pixiHeight/osmo.scroll.refPopupSize.height);
+        img_width *= rs;
+        let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * img_width);
+        let minZoomFac = self.minZoom*zoomFac/osmo.scroll.pixiScale;
+        let maxZoomFac = self.maxZoom*zoomFac/osmo.scroll.pixiScale;
+        //
+        console.log(zoomFac + ' ' + minZoomFac + ' ' + maxZoomFac);
+        osmo.pzinteract.changeZoomAt(mouseX, mouseY, delta, false, minZoomFac, maxZoomFac);
+      }
       //
     }
   }
@@ -603,7 +659,7 @@ osmo.PanAndZoomInteraction = class {
    * calculateZoom
    * ------------------------------------------------
    */
-  calculateZoom(oldZoom, delta, factor=1.015, restricted=true){
+  calculateZoom(oldZoom, delta, factor=1.0,  min, max, restricted=true){
     //
     factor = factor+Math.abs(delta*0.01);
     //
@@ -614,10 +670,10 @@ osmo.PanAndZoomInteraction = class {
       newZoom = oldZoom / factor;
     //
     if(restricted){
-      if(newZoom <= this.defaultZoom*this.minZoom)
-        newZoom = this.defaultZoom*this.minZoom;
-      if(newZoom > this.defaultZoom*this.maxZoom)
-        newZoom = this.defaultZoom*this.maxZoom;
+      if(newZoom <= this.defaultZoom*min)
+        newZoom = this.defaultZoom*min;
+      if(newZoom > this.defaultZoom*max)
+        newZoom = this.defaultZoom*max;
     }
     //
     return newZoom;
@@ -628,11 +684,11 @@ osmo.PanAndZoomInteraction = class {
    * changeZoomAt
    * ------------------------------------------------
    */
-  changeZoomAt(mouseX, mouseY, delta, animate=false){
+  changeZoomAt(mouseX, mouseY, delta, animate=false, min = this.minZoom, max = this.maxZoom){
     //
     let fac = 1.0;
     let currentZoom = osmo.scroll.mainStage.scale.x;
-    let newScale = osmo.pzinteract.calculateZoom(currentZoom, delta, fac, true);
+    let newScale = osmo.pzinteract.calculateZoom(currentZoom, delta, fac,  min, max, true);
     //
     let worldPos = new osmo.scroll.PIXI.Point((mouseX - osmo.scroll.mainStage.x) / currentZoom, (mouseY - osmo.scroll.mainStage.y)/currentZoom);
     let newScreenPos = new osmo.scroll.PIXI.Point(worldPos.x*newScale + osmo.scroll.mainStage.x, worldPos.y*newScale + osmo.scroll.mainStage.y);

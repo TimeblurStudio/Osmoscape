@@ -86,6 +86,11 @@
     "legendpngpath": "../../assets/data/legends_png/01_legend.png",
     "audiofile": "../../assets/audio/loops/1 rev1.mp3",
     "zorder": 20,
+    "zoom": {
+      "default": 90,
+      "min": 75,
+      "max": 600
+    },
     "popdimensions": [
       {
         "x": 662.3799999999999,

@@ -291,12 +291,28 @@ osmo.LegendInteraction = class {
     //
     // Zoom into selected area!
     this.prevZoom = osmo.scroll.mainStage.scale.x;
-    let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * _width);
-    let delta = -1*(zoomFac - 1)*100*0.75;//75% of required scale
     let focusedCenterX = (left_shift+focused_width/2)*osmo.scroll.pixiScale;
     let focusedCenterY = (osmo.scroll.pixiHeight/2)*osmo.scroll.pixiScale;
-    let newScale = osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
-    //mainStage.scale.x = mainStage.scale.y = changeZoom(this.prevZoom, -1, zoomFac, false);
+    //
+    let newScale = this.prevZoom;
+    if(osmo.scroll.datasets[this.currentFocus].hasOwnProperty('zoom')){
+      //
+      let defaultZoomPercentage = osmo.scroll.datasets[this.currentFocus].zoom.default;
+      let minZoomPercentage = osmo.scroll.datasets[this.currentFocus].zoom.min;
+      let maxZoomPercentage = osmo.scroll.datasets[this.currentFocus].zoom.max;
+      //
+      newScale = (defaultZoomPercentage/osmo.pzinteract.defaultZoom)*osmo.scroll.pixiScale;
+      newScale /= 100;
+      //
+      let delta = delta = (1-newScale)*100;
+      newScale = osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true, minZoomPercentage/100, maxZoomPercentage/100);
+      //
+    }else{
+      let zoomFac = 0.5 * osmo.scroll.pixiWidth / (1.0 * _width);
+      let delta = -1*(zoomFac - 1)*100*0.75;//75% of required scale
+      newScale = osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, delta, true);
+    }
+
     //
     // MOLECULE INTERACTION
     $('#dragmol').click(function() {
