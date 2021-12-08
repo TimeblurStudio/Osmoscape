@@ -64722,7 +64722,7 @@ osmo.LegendInteraction = function () {
                     
                     osmo.legendsvg.highlightLegend(id, mask);
                     osmo.legendsvg.highlightedLegendWaitTimeout = null;
-                  }, 1500);
+                  }, 150);
                 } else {
                   if (osmo.legendsvg.highlightedLegendId == id) {
                     
@@ -65465,6 +65465,7 @@ osmo.PanAndZoomInteraction = function () {
 
     this.deltaValX = 0;
     this.deltaValY = 0;
+    this.isNormalDragging = false;
     this.isfocusedDragging = false;
     this.prevMouseLoc = null;
     this.mouseLoc = null; 
@@ -65477,7 +65478,6 @@ osmo.PanAndZoomInteraction = function () {
       
       var self = this;
       this.detectMouseType(); 
-
       this.defaultZoom = osmo.scroll.mainStage.scale.x;
       this.setZoomRange(1, 6); 
 
@@ -65613,7 +65613,6 @@ osmo.PanAndZoomInteraction = function () {
         e.preventDefault();
         $(this).trigger('click');
       }); 
-
       var avgPrevTouch = new self.PIXI.Point(0, 0);
       var prevTouchFingerTorR = new self.PIXI.Point(0, 0); 
 
@@ -65622,48 +65621,43 @@ osmo.PanAndZoomInteraction = function () {
       var TORFingerIndex = -1,
           BORLFingerIndex = -1; 
       $(document).on('touchstart', function (event) {
-        if (event.touches.length == 1) {
-          self.prevMouseLoc = self.mouseLoc;
-          self.mouseLoc = new osmo.scroll.PIXI.Point(event.touches[0].clientX, event.touches[0].clientY);
-          $('.cursor-pointer-wrapper').css('transform', 'translate3d(' + self.mouseLoc.x + 'px, ' + self.mouseLoc.y + 'px, 0px)');
-          if (osmo.scroll.hitPopupMode == 'focused') self.isfocusedDragging = true; 
+        if (self.mouseLoc) self.prevMouseLoc = new osmo.scroll.PIXI.Point(self.mouseLoc.x, self.mouseLoc.y);
+        self.mouseLoc = new osmo.scroll.PIXI.Point(event.touches[0].clientX, event.touches[0].clientY);
+        $('.cursor-pointer-wrapper').css('transform', 'translate3d(' + self.mouseLoc.x + 'px, ' + self.mouseLoc.y + 'px, 0px)');
 
-          if (osmo.legendsvg.highlightedLegendId) {
-            if (osmo.scroll.hitPopupMode != 'focused') {
-              setTimeout(function () {
-                osmo.legendsvg.removeHighlight();
-              }, 100);
-            }
-          }
+        if (osmo.scroll.hitPopupMode == 'focused') {
+          self.isfocusedDragging = true;
+          self.isNormalDragging = false;
+        } else {
+          self.isfocusedDragging = false;
+          self.isNormalDragging = true;
         } 
 
 
-        if (event.touches.length == 2) {
-          self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-          self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-          $('.cursor-pointer-wrapper').css('transform', 'translate3d(' + self.mouseLoc.x + 'px, ' + self.mouseLoc.y + 'px, 0px)'); 
+        if (osmo.legendsvg.highlightedLegendId) {
+          if (osmo.scroll.hitPopupMode != 'focused') {
+            setTimeout(function () {
+              osmo.legendsvg.removeHighlight();
+            }, 100);
+          } 
 
-          if (osmo.scroll.hitPopupMode == 'focused') self.isfocusedDragging = false; 
-
-          if (osmo.legendsvg.highlightedLegendWaitTimeout != null) clearTimeout(osmo.legendsvg.highlightedLegendWaitTimeout); 
-
-          avgPrevTouch.x = (event.touches[0].clientX + event.touches[1].clientX) / 2;
-          avgPrevTouch.y = (event.touches[0].clientY + event.touches[1].clientY) / 2;
-          prevTouchFingerTorR.x = -1;
-          prevTouchFingerTorR.y = -1;
-          prevTouchFingerBorL.x = -1;
-          prevTouchFingerBorL.y = -1; 
-
-          TORFingerIndex = -1;
-          BORLFingerIndex = -1;
         } 
 
+
+        TORFingerIndex = -1;
+        BORLFingerIndex = -1;
+        prevTouchFingerTorR.x = -1;
+        prevTouchFingerTorR.y = -1;
+        prevTouchFingerBorL.x = -1;
+        prevTouchFingerBorL.y = -1; 
       });
       $(document).on('touchmove', function (event) {
         if (event.touches.length == 1) {
-          self.prevMouseLoc = self.mouseLoc;
+          self.prevMouseLoc = new osmo.scroll.PIXI.Point(self.mouseLoc.x, self.mouseLoc.y);
           self.mouseLoc = new osmo.scroll.PIXI.Point(event.touches[0].clientX, event.touches[0].clientY);
           $('.cursor-pointer-wrapper').css('transform', 'translate3d(' + self.mouseLoc.x + 'px, ' + self.mouseLoc.y + 'px, 0px)'); 
+          if (osmo.legendsvg.highlightedLegendWaitTimeout != null) clearTimeout(osmo.legendsvg.highlightedLegendWaitTimeout);
+          osmo.legendsvg.highlightedLegendWaitTimeout = null; 
 
           if (osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isfocusedDragging) {
             var dragging_enabled = true;
@@ -65677,39 +65671,31 @@ osmo.PanAndZoomInteraction = function () {
             } 
 
           } 
+          if (osmo.scroll.hitPopupMode != 'focused' && self.isNormalDragging) {
+            var _deltaX = -1 * (self.mouseLoc.x - self.prevMouseLoc.x);
 
-        } 
-
-
-        if (event.touches.length == 2) {
-          var avgNewTouch = new self.PIXI.Point(0, 0);
-          var newEvent = event;
-
-          if (osmo.scroll.hitPopupMode != 'focused') {
-            self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-            self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-            $('.cursor-pointer-wrapper').css('transform', 'translate3d(' + self.mouseLoc.x + 'px, ' + self.mouseLoc.y + 'px, 0px)'); 
-            avgNewTouch.x = (event.touches[0].clientX + event.touches[1].clientX) / 2;
-            avgNewTouch.y = (event.touches[0].clientY + event.touches[1].clientY) / 2; 
-
-            var _deltaX = avgPrevTouch.x - avgNewTouch.x;
-
-            var _deltaY = avgPrevTouch.y - avgNewTouch.y; 
+            var _deltaY = self.mouseLoc.y - self.prevMouseLoc.y; 
 
 
-            avgPrevTouch.x = avgNewTouch.x;
-            avgPrevTouch.y = avgNewTouch.y;
-            prevTouchFingerTorR.x = -1;
-            prevTouchFingerTorR.y = -1;
-            prevTouchFingerBorL.x = -1;
-            prevTouchFingerBorL.y = -1; 
-
+            var newEvent = event;
             newEvent.type = 'mousewheel';
             newEvent.deltaX = _deltaX;
             newEvent.deltaY = _deltaY;
             newEvent.originalEvent = JSON.parse(JSON.stringify(event)); 
-          } else {
-            self.isfocusedDragging = false; 
+
+            self.onOsmoScroll(self, newEvent); 
+          } 
+
+        } 
+        else if (event.touches.length == 2) {
+          var avgNewTouch = new self.PIXI.Point(0, 0);
+          var _newEvent = event;
+
+          if (osmo.scroll.hitPopupMode != 'focused') {
+          } 
+          else {
+            self.isfocusedDragging = false;
+            self.isNormalDragging = false; 
 
             avgNewTouch.x = (event.touches[0].clientX + event.touches[1].clientX) / 2;
             avgNewTouch.y = (event.touches[0].clientY + event.touches[1].clientY) / 2; 
@@ -65753,15 +65739,13 @@ osmo.PanAndZoomInteraction = function () {
             prevTouchFingerBorL.x = event.touches[BORLFingerIndex].clientX;
             prevTouchFingerBorL.y = event.touches[BORLFingerIndex].clientY; 
 
-            newEvent.type = 'mousewheel';
-            newEvent.deltaX = _deltaX2;
-            newEvent.deltaY = _deltaY2;
-            newEvent.originalEvent = JSON.parse(JSON.stringify(event)); 
-
-            
-          } 
-          self.onOsmoScroll(self, newEvent);
-        }
+            _newEvent.type = 'mousewheel';
+            _newEvent.deltaX = _deltaX2;
+            _newEvent.deltaY = _deltaY2;
+            _newEvent.originalEvent = JSON.parse(JSON.stringify(event)); 
+            self.onOsmoScroll(self, _newEvent);
+          }
+        } 
       });
       $(document).on('touchend touchcancel', function (event) {
         TORFingerIndex = -1;
@@ -65770,14 +65754,8 @@ osmo.PanAndZoomInteraction = function () {
         prevTouchFingerTorR.y = -1;
         prevTouchFingerBorL.x = -1;
         prevTouchFingerBorL.y = -1; 
-        if (event.touches.length == 1) {
-          self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-          self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-          $('.cursor-pointer-wrapper').css('transform', 'translate3d(' + self.mouseLoc.x + 'px, ' + self.mouseLoc.y + 'px, 0px)'); 
 
-          if (osmo.scroll.hitPopupMode == 'focused') self.isfocusedDragging = false;
-        } 
-
+        if (osmo.scroll.hitPopupMode == 'focused') self.isfocusedDragging = false;else self.isNormalDragging = false; 
       }); 
       $('#main-scroll-canvas').on('wheel', function (event) {
         self.onOsmoScroll(self, event);
