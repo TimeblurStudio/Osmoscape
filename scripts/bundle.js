@@ -64638,10 +64638,7 @@ osmo.LegendInteraction = function () {
         }, 100);
       });
       var desc = $('#focused-description');
-      desc[0].scrollTop = desc.offset().top;
       desc.click(function () {
-        
-         
         if (desc[0].clientHeight + desc[0].scrollTop >= desc[0].scrollHeight) {
           desc.animate({
             scrollTop: 0
@@ -64650,7 +64647,7 @@ osmo.LegendInteraction = function () {
           desc.animate({
             scrollTop: desc[0].clientHeight + desc[0].scrollTop
           }, 'slow');
-        } 
+        }
       }); 
 
       $('#focused-info').mouseenter(function () {
@@ -64773,6 +64770,10 @@ osmo.LegendInteraction = function () {
       $('#focused-info').animate({
         left: '0px'
       }, 1200);
+      var desc = $('#focused-description');
+      desc.animate({
+        scrollTop: 0
+      }, 'slow');
       $('.nav').hide();
       $('#chapter-text').hide(); 
 
@@ -65582,7 +65583,7 @@ osmo.PanAndZoomInteraction = function () {
         });
       }
 
-      var dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info', 'focused-description'];
+      var dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info'];
 
       var _loop = function _loop(_i) {
         $('#' + dom_interactive_elements[_i]).on('touchstart touchmove touchend', function (e) {
@@ -65602,8 +65603,12 @@ osmo.PanAndZoomInteraction = function () {
           e.preventDefault();
           $(this).trigger('click');
         });
-      } 
+      }
 
+      $('#focused-description').on('touchend', function (e) {
+        e.preventDefault();
+        $(this).trigger('click');
+      }); 
 
       var avgPrevTouch = new self.PIXI.Point(0, 0);
       var prevTouchFingerTorR = new self.PIXI.Point(0, 0); 
