@@ -64062,8 +64062,6 @@ osmo.LegendSvg = function () {
     this.highlightTweens = [];
     this.removeHighlightTweens = []; 
 
-    this.cursorTextTimeout = null;
-    this.cursorLoading = null;
     this.legendClicksCount = 0;
     this.highlightedLegendId = null; 
     this.init;
@@ -64344,7 +64342,7 @@ osmo.LegendSvg = function () {
 
       this.legendContainer.alpha = 0; 
 
-      var dur = 2000;
+      var dur = 1000;
       this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur / 1000, {
         alpha: 1,
         ease: this.POWER4.easeInOut
@@ -64370,49 +64368,22 @@ osmo.LegendSvg = function () {
 
 
       this.popupBBoxes[id].legend.visible = true; 
+      for (var audioid in osmo.scroll.datasets) {
+        osmo.legendaudio.audioPlayerInstances[audioid].stop();
+      }
 
-      if (this.cursorLoading != null) clearTimeout(this.cursorLoading);
-      this.cursorLoading = null;
-      if (this.cursorTextTimeout != null) clearTimeout(this.cursorTextTimeout);
-      this.cursorTextTimeout = null; 
+      
+      osmo.legendaudio.audioPlayerInstances[id].start();
+      if (osmo.bgaudio.currentTrack !== 'intro') osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-6, 1); 
 
-      if (this.cursorLoading == null) {
-        for (var audioid in osmo.scroll.datasets) {
-          osmo.legendaudio.audioPlayerInstances[audioid].stop();
-        }
-
-        
-        osmo.legendaudio.audioPlayerInstances[id].start();
-        if (osmo.bgaudio.currentTrack !== 'intro') osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-6, 1); 
-
-        $('.cursor-pointer').css('border', 'none');
-        $('.cursor-loading').show();
-        $('.cursor-pointer-dot').hide(); 
-        $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">' + titleName + '</p>');
-        $('.cursor-txt').fadeIn(dur / 2);
-        this.reset_animation('cursor-clc', 'cursor-loading-circle');
-        this.reset_animation('cursor-cl', 'cursor-loading'); 
-
-        var self = this;
-        this.cursorLoading = setTimeout(function () {
-          self.cursorLoading = null; 
-
-          $('.cursor-pointer').css('border', '2px solid white');
-          $('.cursor-loading').hide();
-          $('.cursor-pointer-dot').show();
-
-          if (self.legendClicksCount < 2) {
-            $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">' + 'Click to open' + '</p>');
-            $('.cursor-txt').fadeIn(dur);
-            self.cursorTextTimeout = setTimeout(function () {
-              $('.cursor-txt').fadeOut(dur / 2);
-              self.cursorTextTimeout = null;
-            }, dur);
-          } else $('.cursor-txt').fadeOut(dur / 2);
-        }, dur); 
-        this.highlightedLegendId = id;
-      } 
-
+      $('.cursor-pointer').css('border', '2px solid white');
+      $('.cursor-loading').hide();
+      $('.cursor-pointer-dot').show();
+      $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">' + titleName + '\n(Tap to open)' + '</p>');
+      $('.cursor-txt').fadeIn();
+      this.reset_animation('cursor-clc', 'cursor-loading-circle');
+      this.reset_animation('cursor-cl', 'cursor-loading'); 
+      this.highlightedLegendId = id; 
     }
   }, {
     key: "reset_animation",
@@ -64465,15 +64436,13 @@ osmo.LegendSvg = function () {
       } 
 
 
-      if (osmo.bgaudio.currentTrack !== 'intro') osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0, 1);
-      if (this.cursorLoading != null) clearTimeout(this.cursorLoading);
-      this.cursorLoading = null; 
+      if (osmo.bgaudio.currentTrack !== 'intro') osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0, 1); 
 
       $('.cursor-pointer').css('border', '2px solid white');
       $('.cursor-loading').hide();
       $('.cursor-loading-full').hide();
       $('.cursor-pointer-dot').hide();
-      $('.cursor-txt').hide();
+      $('.cursor-txt').fadeOut();
       this.dragMode = false;
       this.isDragging = false; 
 
@@ -64645,7 +64614,7 @@ osmo.LegendInteraction = function () {
 
     this.currentFocus = null;
     this.dragMode = false;
-    this.loadingStage = null; 
+    this.cursorTimeouts = []; 
 
     this.prevBoundsCenter = null;
     this.prevZoom = null; 
@@ -64732,26 +64701,20 @@ osmo.LegendInteraction = function () {
             mask.on('pointerdown', function () {
               
 
-              if (osmo.legendsvg.cursorLoading == null) {
-                if (osmo.legendsvg.cursorTextTimeout != null) clearTimeout(osmo.legendsvg.cursorTextTimeout);
-                osmo.legendsvg.cursorTextTimeout = null; 
-
-                if (!osmo.pzinteract.isTrackpadDetected) {
-                  if (osmo.legendsvg.highlightedLegendId == null) {
-                    setTimeout(function () {
-                      
-                      osmo.legendsvg.highlightLegend(id, mask);
-                    }, 100);
-                  } else {
-                    if (osmo.legendsvg.highlightedLegendId == id) {
-                      
-                      self.showLegend(id);
-                    }
-                  }
+              if (!osmo.pzinteract.isTrackpadDetected) {
+                if (osmo.legendsvg.highlightedLegendId == null) {
+                  setTimeout(function () {
+                    
+                    osmo.legendsvg.highlightLegend(id, mask);
+                  }, 100);
                 } else {
-                  self.showLegend(id);
-                } 
-
+                  if (osmo.legendsvg.highlightedLegendId == id) {
+                    
+                    self.showLegend(id);
+                  }
+                }
+              } else {
+                self.showLegend(id);
               } 
 
             });
@@ -64802,36 +64765,25 @@ osmo.LegendInteraction = function () {
       osmo.datasvg.backgroundContainer.visible = false;
       osmo.legendsvg.maskContainer.visible = false;
       osmo.legendsvg.legendContainer.visible = true; 
-      if (this.loadingStage != null) clearTimeout(this.loadingStage);
-      this.loadingStage = null; 
-
       $('.cursor-pointer').css('border', 'none');
-      $('.cursor-loading-full').show();
-      $('.cursor-pointer-dot').hide();
-      $('.cursor-txt').hide(); 
-      this.dragMode = false; 
+      $('.cursor-txt').hide();
+      $('.cursor-loading-full').hide();
+      $('.cursor-pointer-dot').show();
 
-      var self = this;
-      this.loadingStage = setTimeout(function () {
-        if (this.loadingStage != null) clearTimeout(this.loadingStage);
-        this.loadingStage = null; 
+      if (osmo.legendsvg.legendClicksCount < 5) {
+        $('.cursor-txt').html('Tap & drag');
+        $('.cursor-txt').css('bottom', '-20px');
+        $('.cursor-txt').fadeIn(1000);
+        this.cursorTimeouts.push(setTimeout(function () {
+          $('.cursor-txt').html('Pinch to zoom');
+        }, 2000));
+        this.cursorTimeouts.push(setTimeout(function () {
+          $('.cursor-txt').fadeOut();
+          this.cursorTimeouts = [];
+        }, 4000));
+      }
 
-        $('.cursor-loading-full').hide();
-        $('.cursor-pointer-dot').show();
-
-        if (osmo.legendsvg.legendClicksCount < 2) {
-          $('.cursor-txt').html('Click & drag');
-          $('.cursor-txt').fadeIn(1000);
-          setTimeout(function () {
-            $('.cursor-txt').html('Pinch to zoom');
-          }, 4000);
-          setTimeout(function () {
-            $('.cursor-txt').fadeOut();
-          }, 8000);
-        }
-
-        self.dragMode = true;
-      }, 1000); 
+      this.dragMode = true; 
       this.currentFocus = number;
        
       $('#focused-heading').text(osmo.scroll.datasets[this.currentFocus].title);
@@ -64916,6 +64868,12 @@ osmo.LegendInteraction = function () {
   }, {
     key: "closeLegendPopup",
     value: function closeLegendPopup() {
+      for (var i = 0; i < this.cursorTimeouts.length; i++) {
+        clearTimeout(this.cursorTimeouts[i]);
+      }
+
+      this.cursorTimeouts = []; 
+
       osmo.legendsvg.removeHighlight();
       osmo.pzinteract.isDragging = false; 
 
@@ -64940,18 +64898,16 @@ osmo.LegendInteraction = function () {
       osmo.legendsvg.maskContainer.visible = true;
       osmo.legendsvg.legendContainer.visible = false;
 
-      for (var i = 0; i < osmo.legendsvg.legendFiles.length; i++) {
-        if (osmo.legendsvg.legendFiles[i].visible) osmo.legendsvg.legendFiles[i].visible = false;
+      for (var _i = 0; _i < osmo.legendsvg.legendFiles.length; _i++) {
+        if (osmo.legendsvg.legendFiles[_i].visible) osmo.legendsvg.legendFiles[_i].visible = false;
       } 
-      if (this.loadingStage != null) clearTimeout(this.loadingStage);
-      this.loadingStage = null; 
-
       $('.cursor-pointer').css('border', '2px solid white');
       $('.cursor-loading').hide();
       $('.cursor-loading-full').hide();
       $('.cursor-pointer-dot').hide();
       $('.cursor-txt').html('');
       $('.cursor-txt').hide();
+      $('.cursor-txt').css('bottom', '');
       this.dragMode = false; 
       var fac = 1.005; 
 
