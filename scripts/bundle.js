@@ -64856,13 +64856,12 @@ osmo.LegendInteraction = function () {
         var maxZoomFac = osmo.pzinteract.maxZoom * zoomFac / osmo.scroll.pixiScale;
         newScale = osmo.pzinteract.changeZoomAt(focusedCenterX, focusedCenterY, _delta, true, minZoomFac, maxZoomFac);
       } 
+      var self = this;
       $('#dragmol').click(function () {
-        if (osmo.mc == null) self.createMoleculeInteraction(newScale);
+        if (osmo.mc == null) {
+          self.createMoleculeInteraction(osmo.scroll.mainStage.scale.x);
+        }
       });
-      $('#addcomp').click(function () {
-        window.open('https://app.osmoscape.com/nonlinear-composition', '_blank').focus();
-      }); 
-
       $('body').css('background-color', '#A3BDC7'); 
     }
   }, {
@@ -64946,18 +64945,11 @@ osmo.LegendInteraction = function () {
       } 
       osmo.mc = new osmo.MoleculeController();
       osmo.mc.init(osmo.scroll.mainStage.position);
-      osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer); 
+      osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
+      var zoomPercentage = osmo.scroll.mainStage.scale.x / osmo.pzinteract.defaultZoom;
+      osmo.mc.updateMoleculeScale(1 / zoomPercentage); 
 
       osmo.scroll.mainApp.ticker.add(osmo.mc.animateMolecule); 
-
-      var zoomPercentage = newScale / osmo.pzinteract.defaultZoom;
-      var dur = 500; 
-
-      this.TWEENMAX.to(osmo.mc.moleculeContainer.scale, dur / 1000, {
-        x: 1 / zoomPercentage,
-        y: 1 / zoomPercentage,
-        ease: this.POWER4.easeInOut
-      }); 
     }
   }, {
     key: "destroyMoleculeInteraction",
