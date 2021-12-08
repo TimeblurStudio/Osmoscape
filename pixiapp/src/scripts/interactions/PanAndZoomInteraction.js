@@ -210,8 +210,9 @@ osmo.PanAndZoomInteraction = class {
     
     //touchmove works for iOS, and Android
     let avgPrevTouch = new self.PIXI.Point(0,0);
-    let prevTouchFinger1 = new self.PIXI.Point(0,0);
-    let prevTouchFinger2 = new self.PIXI.Point(0,0);
+    let prevTouchFingerTorR = new self.PIXI.Point(0,0);//Top-or-right-finger
+    let prevTouchFingerBorL = new self.PIXI.Point(0,0);//Bottom-or-left-finger
+    let TORFingerIndex = -1, BORLFingerIndex = -1;
     //
     // NOTE: 
     // Try to use canvas events rather than document events
@@ -244,13 +245,27 @@ osmo.PanAndZoomInteraction = class {
         //
         avgPrevTouch.x = (event.touches[0].clientX + event.touches[1].clientX)/2;
         avgPrevTouch.y = (event.touches[0].clientY + event.touches[1].clientY)/2;
+        prevTouchFingerTorR.x = -1;
+        prevTouchFingerTorR.y = -1;
+        prevTouchFingerBorL.x = -1;
+        prevTouchFingerBorL.y = -1;
+        //
+        TORFingerIndex = -1;
+        BORLFingerIndex = -1;
+        /*
+        if(event.touches[0].clientX < event.touches[1].clientX){
+          TORFingerIndex = 1;// right is 1
+          BORLFingerIndex = 0;// left is 0
+        }
+        if(event.touches[0].clientY < event.touches[1].clientY){// Note: y-axis is given priority for pinch
+          TORFingerIndex = 0;// top is 0
+          BORLFingerIndex = 1;// bottom is 1
+        }
+        */
       }
       //
     });
     $(document).on('touchmove', function(event) {
-      //console.log('touchmove');
-      //console.log(event);
-      //console.log(self.mouseLoc.x + ' ' + self.mouseLoc.y + ' ' + event.touches.length + ' ' + osmo.scroll.hitPopupMode + ' ' + self.isDragging);
       //
       // 1 finger touch
       if(event.touches.length == 1){
@@ -298,10 +313,10 @@ osmo.PanAndZoomInteraction = class {
           //
           avgPrevTouch.x = avgNewTouch.x;
           avgPrevTouch.y = avgNewTouch.y;
-          prevTouchFinger1.x = -1;
-          prevTouchFinger1.y = -1;
-          prevTouchFinger2.x = -1;
-          prevTouchFinger2.y = -1;
+          prevTouchFingerTorR.x = -1;
+          prevTouchFingerTorR.y = -1;
+          prevTouchFingerBorL.x = -1;
+          prevTouchFingerBorL.y = -1;
           //
           newEvent.type = 'mousewheel';
           newEvent.deltaX = deltaX;
@@ -318,32 +333,45 @@ osmo.PanAndZoomInteraction = class {
           self.prevMouseLoc = self.mouseLoc;
           self.mouseLoc = new osmo.scroll.PIXI.Point(avgNewTouch.x, avgNewTouch.y);
           $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
-          // Also, delta has to be based on two fingers
-          if(prevTouchFinger1.x == -1)  prevTouchFinger1.x = event.touches[0].clientX;
-          if(prevTouchFinger1.y == -1)  prevTouchFinger1.y = event.touches[0].clientY;
-          if(prevTouchFinger2.x == -1)  prevTouchFinger2.x = event.touches[1].clientX;
-          if(prevTouchFinger2.y == -1)  prevTouchFinger2.y = event.touches[1].clientY;
           //
-          let delta1X = prevTouchFinger1.x - event.touches[0].clientX;
-          let delta1Y = prevTouchFinger1.y - event.touches[0].clientY;
-          let delta2X = prevTouchFinger2.x - event.touches[1].clientX;
-          let delta2Y = prevTouchFinger2.y - event.touches[1].clientY;
+          if(TORFingerIndex == -1 && BORLFingerIndex == -1){
+            if(event.touches[0].clientX < event.touches[1].clientX){
+              TORFingerIndex = 1;// right is 1
+              BORLFingerIndex = 0;// left is 0
+            }
+            if(event.touches[0].clientY < event.touches[1].clientY){// Note: y-axis is given priority for pinch
+              TORFingerIndex = 0;// top is 0
+              BORLFingerIndex = 1;// bottom is 1
+            }
+          }
+          //
+          // Also, delta has to be based on two fingers
+          if(prevTouchFingerTorR.x == -1)  prevTouchFingerTorR.x = event.touches[TORFingerIndex].clientX;
+          if(prevTouchFingerTorR.y == -1)  prevTouchFingerTorR.y = event.touches[TORFingerIndex].clientY;
+          if(prevTouchFingerBorL.x == -1)  prevTouchFingerBorL.x = event.touches[BORLFingerIndex].clientX;
+          if(prevTouchFingerBorL.y == -1)  prevTouchFingerBorL.y = event.touches[BORLFingerIndex].clientY;
+          //
+          let delta1X = prevTouchFingerTorR.x - event.touches[TORFingerIndex].clientX;
+          let delta1Y = prevTouchFingerTorR.y - event.touches[TORFingerIndex].clientY;
+          let delta2X = prevTouchFingerBorL.x - event.touches[BORLFingerIndex].clientX;
+          let delta2Y = prevTouchFingerBorL.y - event.touches[BORLFingerIndex].clientY;
           //
           let deltaX = -1*(delta2X - delta1X)/2;
           let deltaY = -1*(delta2Y - delta1Y)/2;
           //
           avgPrevTouch.x = avgNewTouch.x;
           avgPrevTouch.y = avgNewTouch.y;
-          prevTouchFinger1.x = event.touches[0].clientX;
-          prevTouchFinger1.y = event.touches[0].clientY;
-          prevTouchFinger2.x = event.touches[1].clientX;
-          prevTouchFinger2.y = event.touches[1].clientY;
+          prevTouchFingerTorR.x = event.touches[TORFingerIndex].clientX;
+          prevTouchFingerTorR.y = event.touches[TORFingerIndex].clientY;
+          prevTouchFingerBorL.x = event.touches[BORLFingerIndex].clientX;
+          prevTouchFingerBorL.y = event.touches[BORLFingerIndex].clientY;
           //
           newEvent.type = 'mousewheel';
           newEvent.deltaX = deltaX;
           newEvent.deltaY = deltaY;
           newEvent.originalEvent = JSON.parse(JSON.stringify(event));
           //
+          console.log(newEvent.deltaY);
         }
         //
         // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
@@ -353,6 +381,14 @@ osmo.PanAndZoomInteraction = class {
       }
     });
     $(document).on('touchend touchcancel', function(event) {
+      //
+      TORFingerIndex = -1;
+      BORLFingerIndex = -1;
+      prevTouchFingerTorR.x = -1;
+      prevTouchFingerTorR.y = -1;
+      prevTouchFingerBorL.x = -1;
+      prevTouchFingerBorL.y = -1;
+      //
       // 1 finger touch
       if(event.touches.length == 1){
         self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
