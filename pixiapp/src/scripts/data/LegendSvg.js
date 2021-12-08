@@ -453,7 +453,7 @@ osmo.LegendSvg = class {
     $('.cursor-pointer').css('border', '2px solid white');
     $('.cursor-loading').hide();
     $('.cursor-pointer-dot').show();
-    $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">'+ titleName + '\n(Tap to open)' +'</p>');
+    $('.cursor-txt').html('<p style="text-shadow: 1px 1px 1.7px rgba(0, 0, 0, 0.65); white-space: break-spaces; padding: 2px 2px; transform: translateY(-100px);">'+ titleName + '\n(Tap to open)' +'</p>');
     $('.cursor-txt').fadeIn();
     this.reset_animation('cursor-clc', 'cursor-loading-circle');
     this.reset_animation('cursor-cl', 'cursor-loading');
