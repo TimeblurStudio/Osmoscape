@@ -346,6 +346,7 @@ body {
   font-size: 32px;
   color: #2D4F5C;
   border-radius: 50%;
+  padding: 0px 10px;
 }
 
 .zoom-inactive {

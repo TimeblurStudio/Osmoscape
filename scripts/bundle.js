@@ -64636,6 +64636,21 @@ osmo.LegendInteraction = function () {
         }, 100);else setTimeout(function () {
           self.openSidebar();
         }, 100);
+      });
+      var desc = $('#focused-description');
+      desc[0].scrollTop = desc.offset().top;
+      desc.click(function () {
+        
+         
+        if (desc[0].clientHeight + desc[0].scrollTop >= desc[0].scrollHeight) {
+          desc.animate({
+            scrollTop: 0
+          }, 'slow');
+        } else {
+          desc.animate({
+            scrollTop: desc[0].clientHeight + desc[0].scrollTop
+          }, 'slow');
+        } 
       }); 
 
       $('#focused-info').mouseenter(function () {
@@ -65567,7 +65582,7 @@ osmo.PanAndZoomInteraction = function () {
         });
       }
 
-      var dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info'];
+      var dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info', 'focused-description'];
 
       var _loop = function _loop(_i) {
         $('#' + dom_interactive_elements[_i]).on('touchstart touchmove touchend', function (e) {
@@ -65591,8 +65606,12 @@ osmo.PanAndZoomInteraction = function () {
 
 
       var avgPrevTouch = new self.PIXI.Point(0, 0);
-      var prevTouchFinger1 = new self.PIXI.Point(0, 0);
-      var prevTouchFinger2 = new self.PIXI.Point(0, 0); 
+      var prevTouchFingerTorR = new self.PIXI.Point(0, 0); 
+
+      var prevTouchFingerBorL = new self.PIXI.Point(0, 0); 
+
+      var TORFingerIndex = -1,
+          BORLFingerIndex = -1; 
       $(document).on('touchstart', function (event) {
         if (event.touches.length == 1) {
           self.prevMouseLoc = self.mouseLoc;
@@ -65619,6 +65638,13 @@ osmo.PanAndZoomInteraction = function () {
 
           avgPrevTouch.x = (event.touches[0].clientX + event.touches[1].clientX) / 2;
           avgPrevTouch.y = (event.touches[0].clientY + event.touches[1].clientY) / 2;
+          prevTouchFingerTorR.x = -1;
+          prevTouchFingerTorR.y = -1;
+          prevTouchFingerBorL.x = -1;
+          prevTouchFingerBorL.y = -1; 
+
+          TORFingerIndex = -1;
+          BORLFingerIndex = -1;
         } 
 
       });
@@ -65662,10 +65688,10 @@ osmo.PanAndZoomInteraction = function () {
 
             avgPrevTouch.x = avgNewTouch.x;
             avgPrevTouch.y = avgNewTouch.y;
-            prevTouchFinger1.x = -1;
-            prevTouchFinger1.y = -1;
-            prevTouchFinger2.x = -1;
-            prevTouchFinger2.y = -1; 
+            prevTouchFingerTorR.x = -1;
+            prevTouchFingerTorR.y = -1;
+            prevTouchFingerBorL.x = -1;
+            prevTouchFingerBorL.y = -1; 
 
             newEvent.type = 'mousewheel';
             newEvent.deltaX = _deltaX;
@@ -65681,15 +65707,28 @@ osmo.PanAndZoomInteraction = function () {
             self.mouseLoc = new osmo.scroll.PIXI.Point(avgNewTouch.x, avgNewTouch.y);
             $('.cursor-pointer-wrapper').css('transform', 'translate3d(' + self.mouseLoc.x + 'px, ' + self.mouseLoc.y + 'px, 0px)'); 
 
-            if (prevTouchFinger1.x == -1) prevTouchFinger1.x = event.touches[0].clientX;
-            if (prevTouchFinger1.y == -1) prevTouchFinger1.y = event.touches[0].clientY;
-            if (prevTouchFinger2.x == -1) prevTouchFinger2.x = event.touches[1].clientX;
-            if (prevTouchFinger2.y == -1) prevTouchFinger2.y = event.touches[1].clientY; 
+            if (TORFingerIndex == -1 && BORLFingerIndex == -1) {
+              if (event.touches[0].clientX < event.touches[1].clientX) {
+                TORFingerIndex = 1; 
 
-            var delta1X = prevTouchFinger1.x - event.touches[0].clientX;
-            var delta1Y = prevTouchFinger1.y - event.touches[0].clientY;
-            var delta2X = prevTouchFinger2.x - event.touches[1].clientX;
-            var delta2Y = prevTouchFinger2.y - event.touches[1].clientY; 
+                BORLFingerIndex = 0; 
+              }
+
+              if (event.touches[0].clientY < event.touches[1].clientY) {
+                TORFingerIndex = 0; 
+
+                BORLFingerIndex = 1; 
+              }
+            } 
+            if (prevTouchFingerTorR.x == -1) prevTouchFingerTorR.x = event.touches[TORFingerIndex].clientX;
+            if (prevTouchFingerTorR.y == -1) prevTouchFingerTorR.y = event.touches[TORFingerIndex].clientY;
+            if (prevTouchFingerBorL.x == -1) prevTouchFingerBorL.x = event.touches[BORLFingerIndex].clientX;
+            if (prevTouchFingerBorL.y == -1) prevTouchFingerBorL.y = event.touches[BORLFingerIndex].clientY; 
+
+            var delta1X = prevTouchFingerTorR.x - event.touches[TORFingerIndex].clientX;
+            var delta1Y = prevTouchFingerTorR.y - event.touches[TORFingerIndex].clientY;
+            var delta2X = prevTouchFingerBorL.x - event.touches[BORLFingerIndex].clientX;
+            var delta2Y = prevTouchFingerBorL.y - event.touches[BORLFingerIndex].clientY; 
 
             var _deltaX2 = -1 * (delta2X - delta1X) / 2;
 
@@ -65698,20 +65737,28 @@ osmo.PanAndZoomInteraction = function () {
 
             avgPrevTouch.x = avgNewTouch.x;
             avgPrevTouch.y = avgNewTouch.y;
-            prevTouchFinger1.x = event.touches[0].clientX;
-            prevTouchFinger1.y = event.touches[0].clientY;
-            prevTouchFinger2.x = event.touches[1].clientX;
-            prevTouchFinger2.y = event.touches[1].clientY; 
+            prevTouchFingerTorR.x = event.touches[TORFingerIndex].clientX;
+            prevTouchFingerTorR.y = event.touches[TORFingerIndex].clientY;
+            prevTouchFingerBorL.x = event.touches[BORLFingerIndex].clientX;
+            prevTouchFingerBorL.y = event.touches[BORLFingerIndex].clientY; 
 
             newEvent.type = 'mousewheel';
             newEvent.deltaX = _deltaX2;
             newEvent.deltaY = _deltaY2;
             newEvent.originalEvent = JSON.parse(JSON.stringify(event)); 
+
+            
           } 
           self.onOsmoScroll(self, newEvent);
         }
       });
       $(document).on('touchend touchcancel', function (event) {
+        TORFingerIndex = -1;
+        BORLFingerIndex = -1;
+        prevTouchFingerTorR.x = -1;
+        prevTouchFingerTorR.y = -1;
+        prevTouchFingerBorL.x = -1;
+        prevTouchFingerBorL.y = -1; 
         if (event.touches.length == 1) {
           self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
           self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
