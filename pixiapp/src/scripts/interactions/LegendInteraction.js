@@ -61,6 +61,32 @@ osmo.LegendInteraction = class {
       else
         setTimeout(function(){  self.openSidebar();  }, 100);
     });
+    
+    let desc = $('#focused-description');
+    
+    desc[0].scrollTop = desc.offset().top;
+    
+    desc.click(function(){
+      
+      console.log(desc[0].scrollTop);
+      console.log(desc[0].scrollHeight);
+      // if scroll is at bottom of div, click to scroll to top again
+      // otherwise scroll down in increments of clientheight
+      if ((desc[0].clientHeight+desc[0].scrollTop) >= desc[0].scrollHeight) {
+        desc.animate({
+          scrollTop: 0 
+        }, 'slow');
+      } else {
+        desc.animate({
+          scrollTop: desc[0].clientHeight + desc[0].scrollTop
+        }, 'slow');
+      }
+      //$('#focused-description')[0].scrollTo({
+      //  top: ($('#focused-description')[0].scrollHeight),
+      //  behavior: 'smooth'
+      //});
+
+    });
     //
     $('#focused-info').mouseenter(function(){
       $('#cursor').hide();

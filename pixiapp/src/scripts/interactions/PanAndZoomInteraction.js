@@ -188,7 +188,7 @@ osmo.PanAndZoomInteraction = class {
         e.preventDefault();
       });
     }
-    let dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info'];
+    let dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info', 'focused-description'];
     for(let i=0; i < dom_interactive_elements.length; i++){
       $('#'+dom_interactive_elements[i]).on('touchstart touchmove touchend', function (e) {
         e.preventDefault();
