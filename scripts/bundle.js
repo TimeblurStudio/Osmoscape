@@ -63876,144 +63876,7 @@ osmo.SoundEffects = function () {
 }();
 
 },{}],80:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var _default = function _default() {
-  _classCallCheck(this, _default);
-};
-
-exports.default = _default;
-window.osmo = window.osmo || {};
-osmo.DataSvg = function () {
-  function _class() {
-    _classCallCheck(this, _class);
-
-     
-    this.PIXI = osmo.scroll.PIXI; 
-
-    this.quality;
-    this.scrollWidth;
-    this.scrollHeight;
-    this.scale;
-    this.mainScroll;
-    this.backgroundContainer; 
-
-    this.init;
-    this.initSplash;
-    this.createTriangle;
-  }
-  _createClass(_class, [{
-    key: "init",
-    value: function init(q) {
-      
-      this.quality = q; 
-
-      this.backgroundContainer = new this.PIXI.Container();
-      osmo.scroll.mainStage.addChild(this.backgroundContainer); 
-    }
-  }, {
-    key: "initSVGscroll",
-    value: function initSVGscroll(_url) {
-      var scroll_length = 8;
-      var scrollArray = [];
-      osmo.scroll.mainScroll = {};
-
-      for (var i = 0; i < scroll_length; i++) {
-        var part_index = i + 1;
-        var png_path = _url + '0' + part_index + '-or8.png';
-        
-        var part_scroll = new this.PIXI.Sprite(this.PIXI.Loader.shared.resources[png_path].texture);
-        scrollArray.push(part_scroll);
-        osmo.scroll.mainScroll['part' + part_index] = part_scroll;
-      } 
-      var s = osmo.scroll.pixiHeight / scrollArray[0].height;
-      osmo.scroll.mainScrollScale = s;
-       
-
-      for (var _i = 0; _i < scroll_length; _i++) {
-        scrollArray[_i].scale.set(s, s);
-      } 
-
-
-      this.scrollWidth = scrollArray[0].width * scroll_length;
-      this.scrollHeight = osmo.scroll.pixiHeight; 
-
-      scrollArray[0].x = osmo.scroll.pixiWidth * 3 / 4;
-
-      for (var _i2 = 1; _i2 < scroll_length; _i2++) {
-        scrollArray[_i2].x = scrollArray[_i2 - 1].x + scrollArray[0].width;
-      } 
-      for (var _i3 = 0; _i3 < scroll_length; _i3++) {
-        this.backgroundContainer.addChild(scrollArray[_i3]);
-      } 
-
-    }
-  }, {
-    key: "initSplash",
-    value: function initSplash(_width) {
-      
-      var self = this; 
-
-      var splashURL = './assets/images/OsmoSplashNew.png';
-      self.PIXI.Loader.shared.add(splashURL).load(function () {
-         
-
-        var splashSprite = new self.PIXI.Sprite(self.PIXI.Loader.shared.resources[splashURL].texture);
-        self.backgroundContainer.addChild(splashSprite); 
-        var s = _width / splashSprite.width;
-        splashSprite.scale.set(s, s); 
-        splashSprite.anchor.x = 0.5;
-        splashSprite.anchor.y = 0.5; 
-
-        splashSprite.x = osmo.scroll.pixiWidth / 2;
-        splashSprite.y = osmo.scroll.pixiHeight / 2; 
-      }); 
-    }
-  }, {
-    key: "createTriangle",
-    value: function createTriangle(xPos, yPos, _scale, _color) {
-      var _triangle = new this.PIXI.Graphics(); 
-
-
-      _triangle.x = xPos;
-      _triangle.y = yPos; 
-
-      var triangleWidth = _scale,
-          triangleHeight = triangleWidth,
-          triangleHalfway = triangleWidth / 2; 
-
-      _triangle.beginFill(_color, 1);
-
-      _triangle.lineStyle(0, _color, 1);
-
-      _triangle.moveTo(triangleWidth, 0);
-
-      _triangle.lineTo(triangleHalfway, triangleHeight);
-
-      _triangle.lineTo(0, 0);
-
-      _triangle.lineTo(triangleHalfway, 0);
-
-      _triangle.endFill(); 
-
-
-      return _triangle;
-    }
-  }]);
-
-  return _class;
-}();
+"use strict";
 
 },{}],81:[function(require,module,exports){
 'use strict';
@@ -64379,7 +64242,7 @@ osmo.LegendSvg = function () {
       $('.cursor-pointer').css('border', '2px solid white');
       $('.cursor-loading').hide();
       $('.cursor-pointer-dot').show();
-      $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">' + titleName + '\n(Tap to open)' + '</p>');
+      $('.cursor-txt').html('<p style="text-shadow: 1px 1px 1.7px rgba(0, 0, 0, 0.65); white-space: break-spaces; padding: 2px 2px; transform: translateY(-100px);">' + titleName + '\n(Tap to open)' + '</p>');
       $('.cursor-txt').fadeIn();
       this.reset_animation('cursor-clc', 'cursor-loading-circle');
       this.reset_animation('cursor-cl', 'cursor-loading'); 
