@@ -296,14 +296,17 @@ osmo.LegendInteraction = class {
 
     //
     // MOLECULE INTERACTION
+    let self = this;
     $('#dragmol').click(function() {
-      if(osmo.mc == null)
-        self.createMoleculeInteraction(newScale);
+      if(osmo.mc == null){
+        self.createMoleculeInteraction(osmo.scroll.mainStage.scale.x);
+      }
     });
+    /*
     $('#addcomp').click(function() {
       window.open('https://app.osmoscape.com/nonlinear-composition', '_blank').focus();
     });
-    //
+    */
     $('body').css('background-color',  '#A3BDC7'); 
     //
     //
@@ -317,7 +320,7 @@ osmo.LegendInteraction = class {
   closeLegendPopup(){
     for(let i=0; i < this.cursorTimeouts.length; i++)
       clearTimeout(this.cursorTimeouts[i]);
-    this.cursorTimeouts = [] 
+    this.cursorTimeouts = []; 
     //
     osmo.legendsvg.removeHighlight();
     osmo.pzinteract.isDragging = false;
@@ -414,18 +417,11 @@ osmo.LegendInteraction = class {
     osmo.mc = new osmo.MoleculeController();
     osmo.mc.init(osmo.scroll.mainStage.position);
     osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
+    let zoomPercentage = (osmo.scroll.mainStage.scale.x/osmo.pzinteract.defaultZoom);
+    osmo.mc.updateMoleculeScale(1/zoomPercentage);
     
     // START TICKER AND ANIMATION
     osmo.scroll.mainApp.ticker.add(osmo.mc.animateMolecule);
-    //
-    let zoomPercentage = (newScale/osmo.pzinteract.defaultZoom);
-    let dur = 500;// half a second
-    this.TWEENMAX.to(osmo.mc.moleculeContainer.scale, dur/1000, {
-      x: 1/zoomPercentage,
-      y: 1/zoomPercentage,
-      ease: this.POWER4.easeInOut
-    });
-    //
     //
   }
 
