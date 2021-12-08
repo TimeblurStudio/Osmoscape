@@ -42,8 +42,6 @@ osmo.LegendSvg = class {
     this.highlightTweens = [];
     this.removeHighlightTweens = [];
     //
-    this.cursorTextTimeout = null;
-    this.cursorLoading = null;
     this.legendClicksCount = 0;
     this.highlightedLegendId = null;
     //
@@ -421,7 +419,7 @@ osmo.LegendSvg = class {
     }
     this.legendContainer.alpha = 0;
     //
-    let dur = 2000;
+    let dur = 1000;
     this.highlightTweens.push(this.TWEENMAX.to(this.legendContainer, dur/1000, {
       alpha: 1,
       ease: this.POWER4.easeInOut
@@ -443,66 +441,25 @@ osmo.LegendSvg = class {
     //
     this.popupBBoxes[id].legend.visible = true;
     //
-    if(this.cursorLoading != null)
-      clearTimeout(this.cursorLoading);
-    this.cursorLoading = null;
-    if(this.cursorTextTimeout != null)
-      clearTimeout(this.cursorTextTimeout);
-    this.cursorTextTimeout = null;
     //
-    if(this.cursorLoading == null){
-      //
-      // Stop all tracks and start target track
-      for (let audioid in osmo.scroll.datasets)
-        osmo.legendaudio.audioPlayerInstances[audioid].stop();
-      console.log('Now playing legend audio: ' + id);
-      osmo.legendaudio.audioPlayerInstances[id].start();
-      if (osmo.bgaudio.currentTrack !== 'intro')
-        osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-6,1);
-      //
-      $('.cursor-pointer').css('border', 'none');
-      $('.cursor-loading').show();
-      $('.cursor-pointer-dot').hide();
-      //$('.cursor-txt').hide();
-      //
-      $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">'+ titleName +'</p>');
-      $('.cursor-txt').fadeIn(dur/2);
-      this.reset_animation('cursor-clc', 'cursor-loading-circle');
-      this.reset_animation('cursor-cl', 'cursor-loading');
-      //
-      let self = this;
-      this.cursorLoading = setTimeout(function(){
-        //
-        self.cursorLoading = null;
-        //
-        $('.cursor-pointer').css('border', '2px solid white');
-        $('.cursor-loading').hide();
-        $('.cursor-pointer-dot').show();
-        if(self.legendClicksCount < 2){
-          $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">'+ 'Click to open' +'</p>');
-          $('.cursor-txt').fadeIn(dur);
-          self.cursorTextTimeout = setTimeout(function(){  
-            $('.cursor-txt').fadeOut(dur/2);  
-            self.cursorTextTimeout = null;
-          }, dur); 
-        }else
-          $('.cursor-txt').fadeOut(dur/2);
-        /*
-        // Disable rest of the masks until the dark background fades out!
-        Object.keys(osmo.legendsvg.popupBBoxes).forEach(function(key) {
-          let thismask = osmo.legendsvg.popupBBoxes[key]['mask'];
-          if(thismask.data.legendName == hitResult.item.data.legendName){
-            console.log('Not disabling - ' + thismask.data.legendName);
-            osmo.legendsvg.popupBBoxes[key]['mask'].visible = true;
-          }else
-            osmo.legendsvg.popupBBoxes[key]['mask'].visible = false;
-          //
-        });
-        */
-      },dur);//
-      //
-      this.highlightedLegendId = id;
-    }
+    // Stop all tracks and start target track
+    for (let audioid in osmo.scroll.datasets)
+      osmo.legendaudio.audioPlayerInstances[audioid].stop();
+    console.log('Now playing legend audio: ' + id);
+    osmo.legendaudio.audioPlayerInstances[id].start();
+    if (osmo.bgaudio.currentTrack !== 'intro')
+      osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-6,1);
+    //
+    $('.cursor-pointer').css('border', '2px solid white');
+    $('.cursor-loading').hide();
+    $('.cursor-pointer-dot').show();
+    $('.cursor-txt').html('<p style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); white-space: break-spaces; padding: 2px 2px;">'+ titleName + '\n(Tap to open)' +'</p>');
+    $('.cursor-txt').fadeIn();
+    this.reset_animation('cursor-clc', 'cursor-loading-circle');
+    this.reset_animation('cursor-cl', 'cursor-loading');
+    //
+    //
+    this.highlightedLegendId = id;
     //
   }
 
@@ -565,15 +522,12 @@ osmo.LegendSvg = class {
     //
     if (osmo.bgaudio.currentTrack !== 'intro')
       osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,1);
-    if(this.cursorLoading != null)
-      clearTimeout(this.cursorLoading);
-    this.cursorLoading = null;
     //
     $('.cursor-pointer').css('border', '2px solid white');
     $('.cursor-loading').hide();
     $('.cursor-loading-full').hide();
     $('.cursor-pointer-dot').hide();
-    $('.cursor-txt').hide();
+    $('.cursor-txt').fadeOut();
     this.dragMode = false;
     this.isDragging = false;
     //

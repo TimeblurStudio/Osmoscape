@@ -36,7 +36,7 @@ osmo.LegendInteraction = class {
     //
     this.currentFocus = null;
     this.dragMode = false;
-    this.loadingStage = null;
+    this.cursorTimeouts = [];
     //
     this.prevBoundsCenter = null;
     this.prevZoom = null;
@@ -147,28 +147,20 @@ osmo.LegendInteraction = class {
           mask.on('pointerdown', function(){
             //
             console.log('Clicked inside hitArea for mask-'+id);
-            if(osmo.legendsvg.cursorLoading == null){
-              //
-              if(osmo.legendsvg.cursorTextTimeout != null)
-                clearTimeout(osmo.legendsvg.cursorTextTimeout);
-              osmo.legendsvg.cursorTextTimeout = null;
-              //
-              if(!osmo.pzinteract.isTrackpadDetected){
-                if(osmo.legendsvg.highlightedLegendId == null){
-                  setTimeout(function(){
-                    console.log('Hover on mask -'+id);
-                    osmo.legendsvg.highlightLegend(id, mask);
-                  }, 100);
-                }else{
-                  if(osmo.legendsvg.highlightedLegendId == id){
-                    console.log('open legend -'+id);
-                    self.showLegend(id);  
-                  }
-                }
+            if(!osmo.pzinteract.isTrackpadDetected){
+              if(osmo.legendsvg.highlightedLegendId == null){
+                setTimeout(function(){
+                  console.log('Hover on mask -'+id);
+                  osmo.legendsvg.highlightLegend(id, mask);
+                }, 100);
               }else{
-                self.showLegend(id);
+                if(osmo.legendsvg.highlightedLegendId == id){
+                  console.log('open legend -'+id);
+                  self.showLegend(id);  
+                }
               }
-              //
+            }else{
+              self.showLegend(id);
             }
             //
           });
@@ -228,35 +220,22 @@ osmo.LegendInteraction = class {
     osmo.legendsvg.legendContainer.visible = true;
     //
     //
-    if(this.loadingStage != null)
-      clearTimeout(this.loadingStage);
-    this.loadingStage = null;
     // Also make sure it's not in loading stage
     $('.cursor-pointer').css('border', 'none');
-    $('.cursor-loading-full').show();
-    $('.cursor-pointer-dot').hide();
     $('.cursor-txt').hide();
-    //this.reset_animation('cursor-clcf', 'cursor-loading-circle');
-    //this.reset_animation('cursor-clf', 'cursor-loading-full');
-    this.dragMode = false;
-    //
-    let self = this;
-    this.loadingStage = setTimeout(function(){
-      //
-      if(this.loadingStage != null)
-        clearTimeout(this.loadingStage);
-      this.loadingStage = null;
-      //
-      $('.cursor-loading-full').hide();
-      $('.cursor-pointer-dot').show();
-      if(osmo.legendsvg.legendClicksCount < 2){
-        $('.cursor-txt').html('Click & drag');
-        $('.cursor-txt').fadeIn(1000);
-        setTimeout(function(){  $('.cursor-txt').html('Pinch to zoom');  }, 4000);
-        setTimeout(function(){  $('.cursor-txt').fadeOut();  }, 8000);
-      }
-      self.dragMode = true;
-    },1000);
+    $('.cursor-loading-full').hide();
+    $('.cursor-pointer-dot').show();
+    if(osmo.legendsvg.legendClicksCount < 5){// Show instructions only to first few datasets
+      $('.cursor-txt').html('Tap & drag');
+      $('.cursor-txt').css('bottom', '-20px');
+      $('.cursor-txt').fadeIn(1000);
+      this.cursorTimeouts.push(setTimeout(function(){  $('.cursor-txt').html('Pinch to zoom');  }, 2000));
+      this.cursorTimeouts.push(setTimeout(function(){  
+        $('.cursor-txt').fadeOut();  
+        this.cursorTimeouts = [];
+      }, 4000));
+    }
+    this.dragMode = true;
     //
     //document.body.style.cursor = 'zoom-in';
     //
@@ -343,14 +322,17 @@ osmo.LegendInteraction = class {
 
     //
     // MOLECULE INTERACTION
+    let self = this;
     $('#dragmol').click(function() {
-      if(osmo.mc == null)
-        self.createMoleculeInteraction(newScale);
+      if(osmo.mc == null){
+        self.createMoleculeInteraction(osmo.scroll.mainStage.scale.x);
+      }
     });
+    /*
     $('#addcomp').click(function() {
       window.open('https://app.osmoscape.com/nonlinear-composition', '_blank').focus();
     });
-    //
+    */
     $('body').css('background-color',  '#A3BDC7'); 
     //
     //
@@ -362,6 +344,9 @@ osmo.LegendInteraction = class {
    * ------------------------------------------------
    */
   closeLegendPopup(){
+    for(let i=0; i < this.cursorTimeouts.length; i++)
+      clearTimeout(this.cursorTimeouts[i]);
+    this.cursorTimeouts = []; 
     //
     osmo.legendsvg.removeHighlight();
     osmo.pzinteract.isDragging = false;
@@ -393,10 +378,6 @@ osmo.LegendInteraction = class {
         osmo.legendsvg.legendFiles[i].visible = false;
     //
     //
-    
-    if(this.loadingStage != null)
-      clearTimeout(this.loadingStage);
-    this.loadingStage = null;
     //
     $('.cursor-pointer').css('border', '2px solid white');
     $('.cursor-loading').hide();
@@ -404,6 +385,7 @@ osmo.LegendInteraction = class {
     $('.cursor-pointer-dot').hide();
     $('.cursor-txt').html('');
     $('.cursor-txt').hide();
+    $('.cursor-txt').css('bottom', '');
     this.dragMode = false;
     //document.body.style.cursor = 'default';
     //
@@ -461,18 +443,11 @@ osmo.LegendInteraction = class {
     osmo.mc = new osmo.MoleculeController();
     osmo.mc.init(osmo.scroll.mainStage.position);
     osmo.scroll.mainStage.addChild(osmo.mc.moleculeContainer);
+    let zoomPercentage = (osmo.scroll.mainStage.scale.x/osmo.pzinteract.defaultZoom);
+    osmo.mc.updateMoleculeScale(1/zoomPercentage);
     
     // START TICKER AND ANIMATION
     osmo.scroll.mainApp.ticker.add(osmo.mc.animateMolecule);
-    //
-    let zoomPercentage = (newScale/osmo.pzinteract.defaultZoom);
-    let dur = 500;// half a second
-    this.TWEENMAX.to(osmo.mc.moleculeContainer.scale, dur/1000, {
-      x: 1/zoomPercentage,
-      y: 1/zoomPercentage,
-      ease: this.POWER4.easeInOut
-    });
-    //
     //
   }
 
