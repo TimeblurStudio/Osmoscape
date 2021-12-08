@@ -188,7 +188,7 @@ osmo.PanAndZoomInteraction = class {
         e.preventDefault();
       });
     }
-    let dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info', 'focused-description'];
+    let dom_interactive_elements = ['popcancel', 'zoom-in', 'zoom-out', 'addcomp', 'dragmol', 'popup-info-toggle', 'show-info'];
     for(let i=0; i < dom_interactive_elements.length; i++){
       $('#'+dom_interactive_elements[i]).on('touchstart touchmove touchend', function (e) {
         e.preventDefault();
@@ -203,6 +203,10 @@ osmo.PanAndZoomInteraction = class {
       });
     }
     
+    $('#focused-description').on('touchend', function (e) {
+      e.preventDefault();
+      $(this).trigger('click');
+    });
     
     //touchmove works for iOS, and Android
     let avgPrevTouch = new self.PIXI.Point(0,0);
