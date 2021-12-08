@@ -142,10 +142,13 @@ osmo.LegendInteraction = class {
             console.log('Clicked inside hitArea for mask-'+id);
             if(!osmo.pzinteract.isTrackpadDetected){
               if(osmo.legendsvg.highlightedLegendId == null){
-                setTimeout(function(){
+                // NOTE: we have to wait before highlighting legend or-else the user might intend to scroll but,
+                // legend gets highlighted 
+                osmo.legendsvg.highlightedLegendWaitTimeout = setTimeout(function(){
                   console.log('Hover on mask -'+id);
                   osmo.legendsvg.highlightLegend(id, mask);
-                }, 100);
+                  osmo.legendsvg.highlightedLegendWaitTimeout = null;
+                }, 150);
               }else{
                 if(osmo.legendsvg.highlightedLegendId == id){
                   console.log('open legend -'+id);
@@ -346,7 +349,7 @@ osmo.LegendInteraction = class {
     this.cursorTimeouts = []; 
     //
     osmo.legendsvg.removeHighlight();
-    osmo.pzinteract.isDragging = false;
+    osmo.pzinteract.isfocusedDragging = false;
     //
     $('dragmol').unbind();
     // REMOVE MOLECULE INTERACTION

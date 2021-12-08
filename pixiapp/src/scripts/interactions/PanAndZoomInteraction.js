@@ -42,7 +42,8 @@ osmo.PanAndZoomInteraction = class {
     //
     this.deltaValX = 0;
     this.deltaValY = 0;
-    this.isDragging = false;
+    this.isNormalDragging = false;
+    this.isfocusedDragging = false;
     this.prevMouseLoc = null;
     this.mouseLoc = null;
 
@@ -60,7 +61,7 @@ osmo.PanAndZoomInteraction = class {
     console.log('Initlaizing Pan & Zoom interactions');
     let self = this;
     this.detectMouseType();
-
+    //
     // zoom init
     this.defaultZoom = osmo.scroll.mainStage.scale.x;
     this.setZoomRange(1, 6);//1x to 6x // Also there is dynamic value calculated from image width
@@ -145,20 +146,20 @@ osmo.PanAndZoomInteraction = class {
     document.addEventListener('mousedown', function(e) {
       if(osmo.pzinteract.isTrackpadDetected){
         if(osmo.scroll.hitPopupMode == 'focused')
-          self.isDragging = true;
+          self.isfocusedDragging = true;
       }
     });
 
     document.addEventListener('mouseup', function(e) {
       if(osmo.pzinteract.isTrackpadDetected){
         if(osmo.scroll.hitPopupMode == 'focused')
-          self.isDragging = false;
+          self.isfocusedDragging = false;
       }
     }); 
 
     document.addEventListener('mousemove', function(e) {
       // If focused - click and drag feature
-      if(osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isDragging){
+      if(osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isfocusedDragging){
         //
         let dragging_enabled = true;
         if(osmo.mc != null)
@@ -208,6 +209,8 @@ osmo.PanAndZoomInteraction = class {
       $(this).trigger('click');
     });
     
+    //
+    //
     //touchmove works for iOS, and Android
     let avgPrevTouch = new self.PIXI.Point(0,0);
     let prevTouchFingerTorR = new self.PIXI.Point(0,0);//Top-or-right-finger
@@ -217,63 +220,53 @@ osmo.PanAndZoomInteraction = class {
     // NOTE: 
     // Try to use canvas events rather than document events
     $(document).on('touchstart', function(event) {
-      // 1 finger touch
-      if(event.touches.length == 1){
-        self.prevMouseLoc = self.mouseLoc;
-        self.mouseLoc = new osmo.scroll.PIXI.Point(event.touches[0].clientX, event.touches[0].clientY);
-        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
-        if(osmo.scroll.hitPopupMode == 'focused')
-          self.isDragging = true;
-        //
-        if(osmo.legendsvg.highlightedLegendId){
-          // Something is highlighted, if hitpopup is not focused in 100ms remove all highlights
-          if(osmo.scroll.hitPopupMode != 'focused'){
-            setTimeout(function(){
-              osmo.legendsvg.removeHighlight();
-            }, 100);
-          }
-        }
+      //
+      if(self.mouseLoc)
+        self.prevMouseLoc = new osmo.scroll.PIXI.Point(self.mouseLoc.x, self.mouseLoc.y);
+      self.mouseLoc = new osmo.scroll.PIXI.Point(event.touches[0].clientX, event.touches[0].clientY);
+      $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+      if(osmo.scroll.hitPopupMode == 'focused'){
+        self.isfocusedDragging = true;
+        self.isNormalDragging = false;
       }
-      // 2 finger scroll
-      if(event.touches.length == 2) {
-        self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-        self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
-        //
-        if(osmo.scroll.hitPopupMode == 'focused')
-          self.isDragging = false;
-        //
-        avgPrevTouch.x = (event.touches[0].clientX + event.touches[1].clientX)/2;
-        avgPrevTouch.y = (event.touches[0].clientY + event.touches[1].clientY)/2;
-        prevTouchFingerTorR.x = -1;
-        prevTouchFingerTorR.y = -1;
-        prevTouchFingerBorL.x = -1;
-        prevTouchFingerBorL.y = -1;
-        //
-        TORFingerIndex = -1;
-        BORLFingerIndex = -1;
-        /*
-        if(event.touches[0].clientX < event.touches[1].clientX){
-          TORFingerIndex = 1;// right is 1
-          BORLFingerIndex = 0;// left is 0
-        }
-        if(event.touches[0].clientY < event.touches[1].clientY){// Note: y-axis is given priority for pinch
-          TORFingerIndex = 0;// top is 0
-          BORLFingerIndex = 1;// bottom is 1
-        }
-        */
+      else{
+        self.isfocusedDragging = false;
+        self.isNormalDragging = true;
       }
+      //
+      if(osmo.legendsvg.highlightedLegendId){
+        // Something is highlighted, if hitpopup is not focused in 100ms remove all highlights
+        if(osmo.scroll.hitPopupMode != 'focused'){
+          setTimeout(function(){
+            osmo.legendsvg.removeHighlight();
+          }, 100);
+        }
+        //
+      }
+      //
+      TORFingerIndex = -1;
+      BORLFingerIndex = -1;
+      prevTouchFingerTorR.x = -1;
+      prevTouchFingerTorR.y = -1;
+      prevTouchFingerBorL.x = -1;
+      prevTouchFingerBorL.y = -1;
+      //
       //
     });
     $(document).on('touchmove', function(event) {
       //
-      // 1 finger touch
+      // 1 finger touch or scroll
       if(event.touches.length == 1){
-        self.prevMouseLoc = self.mouseLoc;
+        self.prevMouseLoc = new osmo.scroll.PIXI.Point(self.mouseLoc.x, self.mouseLoc.y);
         self.mouseLoc = new osmo.scroll.PIXI.Point(event.touches[0].clientX, event.touches[0].clientY);
         $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+        //
+        // Clearing wait for highlight legend on pointerdown event if the intended behaviour is to scroll
+        if(osmo.legendsvg.highlightedLegendWaitTimeout != null)
+          clearTimeout(osmo.legendsvg.highlightedLegendWaitTimeout);
+        osmo.legendsvg.highlightedLegendWaitTimeout = null;
         // If focused - click and drag feature
-        if(osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isDragging){
+        if(osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isfocusedDragging){
           //
           let dragging_enabled = true;
           if(osmo.mc != null)
@@ -291,41 +284,35 @@ osmo.PanAndZoomInteraction = class {
           //
         }
         //
-
-      }
-      // 2 finger scroll
-      if(event.touches.length == 2) {
-        //
-        let avgNewTouch = new self.PIXI.Point(0,0);
-        let newEvent = event;
-        if(osmo.scroll.hitPopupMode != 'focused'){
-          // Reset mouse location so that we don't accidently highlight any other element
-          self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-          self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-          $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+        // If normal - click & drag feature
+        if(osmo.scroll.hitPopupMode != 'focused' && self.isNormalDragging){
+          let deltaX = -1*(self.mouseLoc.x - self.prevMouseLoc.x);
+          let deltaY = (self.mouseLoc.y - self.prevMouseLoc.y);
           //
-          //
-          avgNewTouch.x = (event.touches[0].clientX + event.touches[1].clientX)/2;
-          avgNewTouch.y = (event.touches[0].clientY + event.touches[1].clientY)/2;
-          //
-          let deltaX = (avgPrevTouch.x - avgNewTouch.x);
-          let deltaY = (avgPrevTouch.y - avgNewTouch.y);
-          //
-          avgPrevTouch.x = avgNewTouch.x;
-          avgPrevTouch.y = avgNewTouch.y;
-          prevTouchFingerTorR.x = -1;
-          prevTouchFingerTorR.y = -1;
-          prevTouchFingerBorL.x = -1;
-          prevTouchFingerBorL.y = -1;
-          //
+          let newEvent = event;
           newEvent.type = 'mousewheel';
           newEvent.deltaX = deltaX;
           newEvent.deltaY = deltaY;
           newEvent.originalEvent = JSON.parse(JSON.stringify(event));
           //
-        }else{
+          self.onOsmoScroll(self, newEvent);
           //
-          self.isDragging = false;
+        }
+        //
+      }
+      // 2 finger pinch and zoom
+      else if(event.touches.length == 2) {
+        //
+        let avgNewTouch = new self.PIXI.Point(0,0);
+        let newEvent = event;
+        if(osmo.scroll.hitPopupMode != 'focused'){
+          ;//do nothing
+        }
+        // PINCH TO ZOOM IMPLEMENTATION
+        else{
+          //
+          self.isfocusedDragging = false;
+          self.isNormalDragging = false;
           //
           avgNewTouch.x = (event.touches[0].clientX + event.touches[1].clientX)/2;
           avgNewTouch.y = (event.touches[0].clientY + event.touches[1].clientY)/2;
@@ -371,14 +358,15 @@ osmo.PanAndZoomInteraction = class {
           newEvent.deltaY = deltaY;
           newEvent.originalEvent = JSON.parse(JSON.stringify(event));
           //
-          console.log(newEvent.deltaY);
+          //
+          // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
+          // Implement this for touch devices
+          //
+          self.onOsmoScroll(self, newEvent);
         }
-        //
-        // Further smooth movement - https://medium.com/creative-technology-concepts-code/native-browser-touch-drag-using-overflow-scroll-492dc92ac737
-        // Implement this for touch devices
-        //
-        self.onOsmoScroll(self, newEvent);
       }
+      //
+      //
     });
     $(document).on('touchend touchcancel', function(event) {
       //
@@ -389,15 +377,10 @@ osmo.PanAndZoomInteraction = class {
       prevTouchFingerBorL.x = -1;
       prevTouchFingerBorL.y = -1;
       //
-      // 1 finger touch
-      if(event.touches.length == 1){
-        self.prevMouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-        self.mouseLoc = new osmo.scroll.PIXI.Point(-1, -1);
-        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
-        //
-        if(osmo.scroll.hitPopupMode == 'focused')
-          self.isDragging = false;
-      }
+      if(osmo.scroll.hitPopupMode == 'focused')
+        self.isfocusedDragging = false;
+      else
+        self.isNormalDragging = false;
       //
     });
     //

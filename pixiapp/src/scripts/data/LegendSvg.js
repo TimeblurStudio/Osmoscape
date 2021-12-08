@@ -44,6 +44,7 @@ osmo.LegendSvg = class {
     //
     this.legendClicksCount = 0;
     this.highlightedLegendId = null;
+    this.highlightedLegendWaitTimeout = null;
     //
 
     // Methods
@@ -460,6 +461,7 @@ osmo.LegendSvg = class {
     //
     //
     this.highlightedLegendId = id;
+    this.highlightedLegendWaitTimeout = null;
     //
   }
 
@@ -529,9 +531,10 @@ osmo.LegendSvg = class {
     $('.cursor-pointer-dot').hide();
     $('.cursor-txt').fadeOut();
     this.dragMode = false;
-    this.isDragging = false;
+    osmo.pzinteract.isfocusedDragging = false;
     //
     this.highlightedLegendId = null;
+    if(this.highlightedLegendWaitTimeout != null) clearTimeout(this.highlightedLegendWaitTimeout);
   }
 
 };
