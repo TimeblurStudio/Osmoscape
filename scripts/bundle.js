@@ -63297,7 +63297,7 @@ osmo.Scroll = function () {
         antialias: true,
         backgroundAlpha: 0,
         view: canvas
-      });
+      }); 
       this.mainApp = app;
       this.mainStage = this.mainApp.stage;
       this.mainStage.scale.set(this.pixiScale, this.pixiScale); 
@@ -63727,7 +63727,8 @@ osmo.SoundEffects = function () {
         size: 16,
         smoothing: 0.75,
         normalRange: false
-      });
+      }); 
+
       this.currentFocus = currentFocus;
 
       if ('effectData' in osmo.scroll.datasets[currentFocus]) {
@@ -63825,9 +63826,8 @@ osmo.SoundEffects = function () {
       if (this.effectData !== null && 'invertX' in this.effectData) {
         np.nx = 1.0 - np.nx;
         np.navg = (np.nx + np.ny) / 2;
-      }
+      } 
 
-      
 
       if (shape && this.csvData !== null) {
         np.ny = this.csvData[shape];
@@ -65106,8 +65106,6 @@ osmo.MoleculeController = function () {
         this.x = (newPosition.x - osmo.scroll.mainStage.x) / osmo.scroll.mainStage.scale.x; 
 
         this.y = (newPosition.y - osmo.scroll.mainStage.y) / osmo.scroll.mainStage.scale.y; 
-        osmo.soundeffects.crossfade.fade.rampTo(0, 1.0); 
-
         var hitShape = osmo.soundareas.containsPoint(newPosition);
 
         if (hitShape.contains) {
@@ -65115,7 +65113,7 @@ osmo.MoleculeController = function () {
           var np = osmo.mc.getNormalizedPosition(newPosition); 
 
           osmo.soundeffects.changeParameters(np, hitShape.shapeIndex);
-        } 
+        } else osmo.soundeffects.crossfade.fade.rampTo(0, 1.0); 
 
       }
     }
@@ -66646,11 +66644,7 @@ window.onload = function () {
   osmo.scroll.splashWidth = logo.outerWidth(); 
   $('#start-btn').on('click', function () {
     osmo.scroll.start();
-  }); 
-
-  $(window).on('resize', function () {
-    window.location.reload(true);
-  }); 
+  });
 }; 
 
 
