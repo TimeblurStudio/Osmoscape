@@ -238,6 +238,9 @@ osmo.Scroll = class {
       backgroundAlpha: 0,
       view: canvas
     });
+    //,
+    //resizeTo: window
+    //
     this.mainApp = app;
     this.mainStage = this.mainApp.stage;
     this.mainStage.scale.set(this.pixiScale, this.pixiScale);

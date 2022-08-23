@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="Lib/pixi.min.js"></script>
+        <script src="Lib/pixi-filters.js"></script>
+        <script src="Lib/Tone.js"></script>
+        <script src="Lib/jquery-3.6.0.js"></script>
+        <script src="Lib/hitarea-shapes.min.js"></script>
+        <link rel="icon" href="../../assets/images/osmo_icon.png" type="image/x-icon" />
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="t" class="absolute">
+            <button id="p">Start Audio Context</button>
+            <input type="number" value="0" id="m" size="5">
+            <p>Title</p>
+            <div>
+                <label>GrainSize:
+                    <input type="text" value="0.01" id="gsmn" size="5">
+                    <input type="text" value="3" id="gsmx" size="5">
+                </label>
+            </div>
+            <div>
+                <label>Detune:
+                    <input type="text" value="-24" id="dmn" size="5">
+                    <input type="text" value="24" id="dmx" size="5">
+                </label>
+            </div>
+            <div>
+                <label>Vibrato freq:
+                    <input type="text" value="0.3" id="vfmn" size="5">
+                    <input type="text" value="10" id="vfmx" size="5">
+                </label>
+            </div>
+            <div>
+                <label>Vibrato depth:
+                    <input type="text" value="0" id="vdmn" size="5">
+                    <input type="text" value="1" id="vdmx" size="5">
+                </label>
+            </div>
+            <div>
+                <label>Pitch:
+                    <input type="text" value="-24" id="pmn" size="5">
+                    <input type="text" value="24" id="pmx" size="5">
+                </label>
+            </div>
+            <div>
+                <label>Delay time:
+                    <input type="text" value="0.01" id="dtmn" size="5">
+                    <input type="text" value="0.6" id="dtmx" size="5">
+                </label>
+            </div>
+            <div>
+                <label>Base Volume:
+                    <input type ="range" name="volume" min="-48" max="12" step= "1" value="0" id="bv" oninput="num.value = this.value">
+                </label>
+<output id="num">0</output>
+            </div>
+            <div>
+                <label>Loop Volume:
+                    <input type ="range" name="volume" min="-12" max="12" step= "1" value="0" id="lv" oninput="num2.value = this.value">
+<output id="num2">0</output>
+                </label>
+            </div>
+            <div>
+                <label>Mute Baseline player:
+                    <input type="checkbox" id="mute">
+                </label>
+            </div>
+        </div>
+        <canvas id="canvas" resize="true"></canvas>
+        <script src="legend-display.js"></script>
+    </body>
+</html>

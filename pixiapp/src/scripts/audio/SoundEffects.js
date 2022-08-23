@@ -82,7 +82,7 @@ osmo.SoundEffects = class {
       smoothing : 0.75,
       normalRange : false
     });
-    
+    //
     this.currentFocus = currentFocus;
     if ( 'effectData' in osmo.scroll.datasets[currentFocus]) {
       this.effectData = osmo.scroll.datasets[currentFocus].effectData;
@@ -189,7 +189,7 @@ osmo.SoundEffects = class {
       np.nx = 1.0 - np.nx;
       np.navg = (np.nx+np.ny)/2;
     }
-    console.log('Shape hit: ',shape);
+    //console.log('Shape hit: ',shape);
     if (shape && this.csvData!== null) {
       np.ny = this.csvData[shape];
       np.nx = this.csvData[shape];

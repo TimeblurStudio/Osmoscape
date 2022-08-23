@@ -140,7 +140,7 @@ osmo.MoleculeController = class {
       this.x = (newPosition.x - osmo.scroll.mainStage.x)/osmo.scroll.mainStage.scale.x;// + osmo.scroll.mainStage.x;
       this.y = (newPosition.y - osmo.scroll.mainStage.y)/osmo.scroll.mainStage.scale.y;// + osmo.scroll.mainStage.y;
       //console.log(parseInt(this.x) + ' ' + parseInt(this.y))
-      osmo.soundeffects.crossfade.fade.rampTo(0,1.0);
+      //
       //
       let hitShape = osmo.soundareas.containsPoint(newPosition);
       if(hitShape.contains) {
@@ -149,7 +149,8 @@ osmo.MoleculeController = class {
         let np = osmo.mc.getNormalizedPosition(newPosition);
         //console.log(np);
         osmo.soundeffects.changeParameters(np,hitShape.shapeIndex);
-      }
+      }else
+        osmo.soundeffects.crossfade.fade.rampTo(0,1.0);
       //
     }
   }

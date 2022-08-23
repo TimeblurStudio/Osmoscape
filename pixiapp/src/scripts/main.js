@@ -68,13 +68,13 @@ window.onload = function() {
     osmo.scroll.start();
   });
 
-  //
+  /*
   $(window).on('resize', function(){
     // Clear context and reload 
     // https://stackoverflow.com/questions/38954134/how-to-completely-remove-pixi-renderer-stage-and-assets
     window.location.reload(true);
   });
-  //
+  */
 };
 
 
