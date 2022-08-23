@@ -14,7 +14,7 @@
   "resolved" "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.15.0.tgz"
   "version" "7.15.0"
 
-"@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.12.0", "@babel/core@^7.13.0", "@babel/core@^7.4.0-0", "@babel/core@^7.4.5":
+"@babel/core@^7.4.5":
   "integrity" "sha512-pYgXxiwAgQpgM1bNkZsDEq85f0ggXMA5L7c+o3tskGMh2BunCI9QUwB9Z4jpvXUOuMdyGKiGKQiRe11VS6Jzvg=="
   "resolved" "https://registry.npmjs.org/@babel/core/-/core-7.15.5.tgz"
   "version" "7.15.5"
@@ -938,17 +938,17 @@
   "resolved" "https://registry.npmjs.org/@pixi/compressed-textures/-/compressed-textures-6.2.0.tgz"
   "version" "6.2.0"
 
-"@pixi/constants@^6.0.0", "@pixi/constants@6.2.0":
+"@pixi/constants@6.2.0":
   "integrity" "sha512-8WzYWtx3Q/UnH4WQIF6iDHLh9N2Lh0pU2jFluRehaXWtVmvfF5pB8XYFB5wllVNBKoeyfymk0g5G6y84dZ43Pw=="
   "resolved" "https://registry.npmjs.org/@pixi/constants/-/constants-6.2.0.tgz"
   "version" "6.2.0"
 
-"@pixi/core@^6.0.0", "@pixi/core@6.2.0":
+"@pixi/core@6.2.0":
   "integrity" "sha512-RpPW5LPRoTl6bB27AGXxzJeq2KksRC0lp8C40l8F1+nJUj7AUJILOAvn9KLEmCFSUuIIp4sOcD66y5iFynfmvQ=="
   "resolved" "https://registry.npmjs.org/@pixi/core/-/core-6.2.0.tgz"
   "version" "6.2.0"
 
-"@pixi/display@^6.0.0", "@pixi/display@6.2.0":
+"@pixi/display@6.2.0":
   "integrity" "sha512-uEphbxCvr9jnWD+0zStwUn8xQlMqA3wrhm4+xsUWJmQZkS1yV5dWwtFth5bbP3lAcP2/CpK9tUF/ScnLbys7NQ=="
   "resolved" "https://registry.npmjs.org/@pixi/display/-/display-6.2.0.tgz"
   "version" "6.2.0"
@@ -968,7 +968,7 @@
   "resolved" "https://registry.npmjs.org/@pixi/filter-blur/-/filter-blur-6.2.0.tgz"
   "version" "6.2.0"
 
-"@pixi/filter-color-matrix@^6.0.0", "@pixi/filter-color-matrix@6.2.0":
+"@pixi/filter-color-matrix@6.2.0":
   "integrity" "sha512-sJ9zELuz6MuPllZw3E/4+csT4kzzcw3EMFkFiJyYYndqJhRP+fc6iRTgnmYrmhDtBcqxfS/HAcrqUUgELlKbAA=="
   "resolved" "https://registry.npmjs.org/@pixi/filter-color-matrix/-/filter-color-matrix-6.2.0.tgz"
   "version" "6.2.0"
@@ -988,7 +988,7 @@
   "resolved" "https://registry.npmjs.org/@pixi/filter-noise/-/filter-noise-6.2.0.tgz"
   "version" "6.2.0"
 
-"@pixi/graphics@^6.0.0", "@pixi/graphics@6.2.0":
+"@pixi/graphics@6.2.0":
   "integrity" "sha512-VUh2o49FheH57U0G8cW371jpNy3JOxEQXy/DRCfm34hcRjlokOrdP/MtOibVruIOKVVZSGAb0ybsjF3N5ELIvg=="
   "resolved" "https://registry.npmjs.org/@pixi/graphics/-/graphics-6.2.0.tgz"
   "version" "6.2.0"
@@ -1008,7 +1008,7 @@
   "resolved" "https://registry.npmjs.org/@pixi/math-extras/-/math-extras-6.2.0.tgz"
   "version" "6.2.0"
 
-"@pixi/math@^6.0.0", "@pixi/math@6.2.0":
+"@pixi/math@6.2.0":
   "integrity" "sha512-S/whcwowZdK8X594ZDL0VNdPdzgNyb9cDhwDChhbRIKyVitxZcPPQZcBxDwWmaMyyqN6GKfIBX8wGVghVOI3lw=="
   "resolved" "https://registry.npmjs.org/@pixi/math/-/math-6.2.0.tgz"
   "version" "6.2.0"
@@ -1078,7 +1078,7 @@
   "resolved" "https://registry.npmjs.org/@pixi/sprite-tiling/-/sprite-tiling-6.2.0.tgz"
   "version" "6.2.0"
 
-"@pixi/sprite@^6.0.0", "@pixi/sprite@6.2.0":
+"@pixi/sprite@6.2.0":
   "integrity" "sha512-yG4tBBuI008inlvlkn9IiglWddrSoL6ah2R6Jgd6jh2RaKPfrNdH0D8t/MzshnOh30JvGP6sVAXaLSX3mRBWaw=="
   "resolved" "https://registry.npmjs.org/@pixi/sprite/-/sprite-6.2.0.tgz"
   "version" "6.2.0"
@@ -1093,7 +1093,7 @@
   "resolved" "https://registry.npmjs.org/@pixi/text-bitmap/-/text-bitmap-6.2.0.tgz"
   "version" "6.2.0"
 
-"@pixi/text@^6.0.0", "@pixi/text@6.2.0":
+"@pixi/text@6.2.0":
   "integrity" "sha512-iDrCWY0LuRtq8t0+PyH+xf74jW+lfVTRqqehOFFb0WJ9Ekdl7KpCeKXgPFVs8oer0bvxXKK2c00DPD8d1qq5uw=="
   "resolved" "https://registry.npmjs.org/@pixi/text/-/text-6.2.0.tgz"
   "version" "6.2.0"
@@ -1206,7 +1206,7 @@
   "resolved" "https://registry.npmjs.org/acorn-walk/-/acorn-walk-7.2.0.tgz"
   "version" "7.2.0"
 
-"acorn@^6.0.0 || ^7.0.0 || ^8.0.0", "acorn@^6.0.7":
+"acorn@^6.0.7":
   "integrity" "sha512-XtGIhXwF8YM8bJhGxG5kXgjkEuNGLTkoYqVE+KMR+aspr4KGYmKYg7yUe3KghyQ9yheNwLnjmzh/7+gfDBmHCQ=="
   "resolved" "https://registry.npmjs.org/acorn/-/acorn-6.4.2.tgz"
   "version" "6.4.2"
@@ -4862,7 +4862,7 @@
     "useref" "^1.4.1"
     "vinyl-fs" "^3.0.3"
 
-"gulp@^4.0.2", "gulp@>=4":
+"gulp@^4.0.2":
   "integrity" "sha512-dvEs27SCZt2ibF29xYgmnwwCYZxdxhQ/+LFWlbAW8y7jt68L/65402Lz3+CKy0Ov4rOs+NERmDq7YlZaDqUIfA=="
   "resolved" "https://registry.npmjs.org/gulp/-/gulp-4.0.2.tgz"
   "version" "4.0.2"
