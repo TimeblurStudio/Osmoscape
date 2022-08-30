@@ -306,7 +306,7 @@ osmo.PanAndZoomInteraction = class {
         let avgNewTouch = new self.PIXI.Point(0,0);
         let newEvent = event;
         if(osmo.scroll.hitPopupMode != 'focused'){
-          ;//do nothing
+          //do nothing
         }
         // PINCH TO ZOOM IMPLEMENTATION
         else{

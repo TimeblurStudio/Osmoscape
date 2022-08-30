@@ -11,5 +11,21 @@ canvas[resize] {
     position : absolute;
     top : 0;
     left : 0;
+    padding: 10px;
 }
 
+.select-waveforms {
+    padding: 5px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.waveform-item {
+    padding: 8px 16px;
+    background: white;
+    border-radius: 9999px;
+    font-size: 14px;
+    margin-left: 10px;
+}

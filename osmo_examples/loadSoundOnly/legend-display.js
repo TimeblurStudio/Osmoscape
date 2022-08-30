@@ -2,7 +2,7 @@
 const app = new PIXI.Application({
     width: window.innerWidth,
     height: window.innerHeight,
-    backgroundColor: 0x6d7c80,
+    backgroundColor: 0xb5ced5,
     resolution: window.devicePixelRatio || 1,
     antialias: true,
     view: canvas
@@ -403,9 +403,47 @@ const effectData = {
             "max" : 1
         }
     }
-}
+};
+const effectsInitData = {
+    "gsm" : {
+        min: 0.01,
+        max: 3,
+        values: [ 0.01, 3 ],
+        multiplier: 1000
+    },
+    "dm" : {
+        min: -24,
+        max: 24,
+        values: [ -24, 24 ],
+        multiplier: 1
+    },
+    "vfm" : {
+        min: 0.3,
+        max: 10,
+        values: [ 0.3, 10 ],
+        multiplier: 1000
+    },
+    "vdm" : {
+        min: 0,
+        max: 1,
+        values: [ 0, 1 ],
+        multiplier: 100
+    },
+    "pm" : {
+        min: -24,
+        max: 24,
+        values: [ -24, 24 ],
+        multiplier: 1
+    }, 
+    "dtm" : {
+        min: 0.01,
+        max: 0.6,
+        values: [ 0.01, 0.6 ],
+        multiplier: 1000
+    }
+};
 
-
+let currentPointOfContact = {};
 
 let datasets,mergedSoundAreas,mergedLegends;
 let mainScrollScale;
@@ -496,6 +534,12 @@ class Molecule {
                 soundeffects.crossfade.fade.rampTo(1,1.0)
                 let np = getNormalizedPosition(newPosition)
                 soundeffects.changeParameters(np,hitArea.shape);
+                currentPointOfContact = {
+                    "n": np,
+                    "s": hitArea.shape,
+                    "e": soundeffects
+                };
+                
             }
         }
     }
@@ -512,11 +556,12 @@ class SoundEffects {
         this.pitchshift = new Tone.PitchShift();
         this.vibrato = new Tone.Vibrato();
         this.delay = new Tone.Delay({maxDelay: 5});
-this.fft = new Tone.FFT ({
-    size: 16,
-    smoothing : 0.75,
-    normalRange : false
-});
+
+        this.fft = new Tone.FFT ({
+            size: 16,
+            smoothing : 0.75,
+            normalRange : false
+        });
 
         this.makeEffectChain();
     }
@@ -538,6 +583,7 @@ this.fft = new Tone.FFT ({
                 this.grainplayer.buffer = currentBuffer; 
                 this.player.buffer = currentBuffer;
                 this.id = num;
+                this.readDefaultParameterRangeFromInput();
                 this.setDefaultParameterRangeFromInput();
                 this.player.start();
                 this.grainplayer.start();
@@ -607,78 +653,152 @@ this.fft = new Tone.FFT ({
 
     }
     readDefaultParameterRangeFromInput() {
+        let dtms = effectsInitData['dtm'].multiplier;
+        let dtm_min = 0.01, dtm_max = 0.1;
         if (effectData.hasOwnProperty(this.id) && effectData[this.id].hasOwnProperty("delay")) {
-            $("#dtmn").val(effectData[this.id].delay.min);
-            $("#dtmx").val(effectData[this.id].delay.max);
-        } else {
-            $("#dtmn").val(0.01);
-            $("#dtmx").val(0.6);
+            dtm_min = effectData[this.id].delay.min;
+            dtm_max = effectData[this.id].delay.max;
         }
+        $( "#dtm-range" ).slider({
+          range: true,
+          min: dtm_min*dtms,
+          max: dtm_max*dtms,
+          values: [ dtm_min*dtms, dtm_max*dtms ],
+          slide: function( event, ui ) {
+            let lval = ui.values[ 0 ]/dtms;
+            let hval = ui.values[ 1 ]/dtms;
+            $( "#dtm-label" ).val( lval + " to " + hval );
+          }
+        });
+        //
+        //
+        let vfms = effectsInitData['vfm'].multiplier;
+        let vfm_min = 0.3, vfm_max = 10;
         if (effectData.hasOwnProperty(this.id) && effectData[this.id].hasOwnProperty("freq")) {
-            $("#vfmn").val(effectData[this.id].freq.min);
-            $("#vfmx").val(effectData[this.id].freq.max);
-        } else {
-            $("#vfmn").val(0.3);
-            $("#vfmx").val(10);
+            vfm_min = effectData[this.id].freq.min;
+            vfm_max = effectData[this.id].freq.max;
         }
+        $( "#vfm-range" ).slider({
+          range: true,
+          min: vfm_min*vfms,
+          max: vfm_max*vfms,
+          values: [ vfm_min*vfms, vfm_max*vfms ],
+          slide: function( event, ui ) {
+            let lval = ui.values[ 0 ]/vfms;
+            let hval = ui.values[ 1 ]/vfms;
+            $( "#vfm-label" ).val( lval + " to " + hval );
+          }
+        });
+        //
+        //
+        let vdms = effectsInitData['vdm'].multiplier;
+        let vdm_min = 0, vdm_max = 1;
         if (effectData.hasOwnProperty(this.id) && effectData[this.id].hasOwnProperty("depth")) {
-            $("#vdmn").val(effectData[this.id].depth.min);
-            $("#vdmx").val(effectData[this.id].depth.max);
-        } else {
-            ($("#vdmn").val(0));
-            ($("#vdmx").val(1));
+            vdm_min = effectData[this.id].depth.min;
+            vdm_max = effectData[this.id].depth.max;
         }
+        $( "#vdm-range" ).slider({
+          range: true,
+          min: vdm_min*vdms,
+          max: vdm_max*vdms,
+          values: [ vdm_min*vdms, vdm_max*vdms ],
+          slide: function( event, ui ) {
+            let lval = ui.values[ 0 ]/vdms;
+            let hval = ui.values[ 1 ]/vdms;
+            $( "#vdm-label" ).val( lval + " to " + hval );
+          }
+        });
+        //
+        //
+        let pms = effectsInitData['pm'].multiplier;
+        let pm_min = -24, pm_max = 24;
         if (effectData.hasOwnProperty(this.id) && effectData[this.id].hasOwnProperty("pitchshift")) {
-            console.log("effect data value found")
-            $("#pmn").val(effectData[this.id].pitchshift.min);
-            $("#pmx").val(effectData[this.id].pitchshift.max);
-        } else {
-            ($("#pmn").val(-24));
-            ($("#pmx").val(24));
+            pm_min = effectData[this.id].pitchshift.min;
+            pm_max = effectData[this.id].pitchshift.max;
         }
+        $( "#pm-range" ).slider({
+          range: true,
+          min: pm_min*pms,
+          max: pm_max*pms,
+          values: [ pm_min*pms, pm_max*pms ],
+          slide: function( event, ui ) {
+            let lval = ui.values[ 0 ]/pms;
+            let hval = ui.values[ 1 ]/pms;
+            $( "#pm-label" ).val( lval + " to " + hval );
+          }
+        });
+        //
+        //
+        let dms = effectsInitData['dm'].multiplier;
+        let dm_min = -24, dm_max = 24;
         if (effectData.hasOwnProperty(this.id) && effectData[this.id].hasOwnProperty("detune")) {
-            ($("#dmn").val(effectData[this.id].pitchshift.min));
-            ($("#dmx").val(effectData[this.id].pitchshift.max));
-
-        } else {
-            ($("#dmn").val(-24));
-            ($("#dmx").val(24));
-        }
+            dm_min = effectData[this.id].pitchshift.min;
+            dm_max = effectData[this.id].pitchshift.max;
+        } 
+        $( "#dm-range" ).slider({
+          range: true,
+          min: dm_min*dms,
+          max: dm_max*dms,
+          values: [ dm_min*dms, dm_max*dms ],
+          slide: function( event, ui ) {
+            let lval = ui.values[ 0 ]/dms;
+            let hval = ui.values[ 1 ]/dms;
+            $( "#dm-label" ).val( lval + " to " + hval );
+          }
+        });
+        //
+        //
+        let gsms = effectsInitData['gsm'].multiplier;
+        let gsm_min = 0.01, gsm_max = 3;
         if (effectData.hasOwnProperty(this.id) && effectData[this.id].hasOwnProperty("grainsize")) {
-            ($("#gsmn").val(effectData[this.id].grainsize.min));
-            ($("#gsmx").val(effectData[this.id].grainsize.max));
-        } else {
-            ($("#gsmn").val(0.01));
-            ($("#gsmx").val(3));
+            gsm_min = effectData[this.id].grainsize.min;
+            gsm_max = effectData[this.id].grainsize.max;
         }
+        $( "#gsm-range" ).slider({
+          range: true,
+          min: gsm_min*gsms,
+          max: gsm_max*gsms,
+          values: [ gsm_min*gsms, gsm_max*gsms ],
+          slide: function( event, ui ) {
+            let lval = ui.values[ 0 ]/gsms;
+            let hval = ui.values[ 1 ]/gsms;
+            $( "#gsm-label" ).val( lval + " to " + hval );
+          }
+        });
     }
     setDefaultParameterRangeFromInput() {
-        this.delayRange = ($("#dtmx").val()-$("#dtmn").val())
-        this.delayMin = $("#dtmn").val()
+        this.delayRange = ($("#dtm-range").slider("values")[1]/effectsInitData['dtm'].multiplier-$("#dtm-range").slider("values")[0]/effectsInitData['dtm'].multiplier)
+        this.delayMin = $("#dtm-range").slider("values")[0]/effectsInitData['dtm'].multiplier
 
-        this.freqRange = ($("#vfmx").val()-$("#vfmn").val())
-        this.freqMin = ($("#vfmn").val())
-        this.depthRange = ($("#vdmx").val()-$("#vdmn").val())
-        this.depthMin = $("#vdmn").val()
+        this.freqRange = ($("#vfm-range").slider("values")[1]/effectsInitData['vfm'].multiplier-$("#vfm-range").slider("values")[0]/effectsInitData['vfm'].multiplier)
+        this.freqMin = ($("#vfm-range").slider("values")[0]/effectsInitData['vfm'].multiplier)
 
-        this.pitchRange = ($("#pmx").val()-$("#pmn").val())
-        this.pitchMin = $("#pmn").val()
+        this.depthRange = ($("#vdm-range").slider("values")[1]/effectsInitData['vdm'].multiplier-$("#vdm-range").slider("values")[0]/effectsInitData['vdm'].multiplier)
+        this.depthMin = $("#vdm-range").slider("values")[0]/effectsInitData['vdm'].multiplier
 
-        this.detuneRange = ($("#dmx").val()-$("#dmn").val())
-        this.detuneMin = $("#dmn").val()
-        this.grainSizeRange = ($("#gsmx").val()-$("#gsmn").val())
-        this.grainSizeMin = $("#gsmn").val();
+        this.pitchRange = ($("#pm-range").slider("values")[1]/effectsInitData['pm'].multiplier-$("#pm-range").slider("values")[0]/effectsInitData['pm'].multiplier)
+        this.pitchMin = $("#pm-range").slider("values")[0]/effectsInitData['pm'].multiplier
+
+        this.detuneRange = ($("#dm-range").slider("values")[1]/effectsInitData['dm'].multiplier-$("#dm-range").slider("values")[0]/effectsInitData['dm'].multiplier)
+        this.detuneMin = $("#dm-range").slider("values")[0]/effectsInitData['dm'].multiplier
+
+        this.grainSizeRange = ($("#gsm-range").slider("values")[1]/effectsInitData['gsm'].multiplier-$("#gsm-range").slider("values")[0]/effectsInitData['gsm'].multiplier)
+        this.grainSizeMin = $("#gsm-range").slider("values")[0]/effectsInitData['gsm'].multiplier
+
         this.loopStartRange = this.grainplayer.buffer.duration/2;
         this.loopStartMin = 0;
         this.loopEndRange = this.grainplayer.buffer.duration/2;
         this.loopEndMin = this.grainplayer.buffer.duration/2;
     }
     changeParameters(np,shape) {
+        //
+        let emin = Math.exp(0), emax = Math.exp(1);
 
         if ( effectData.hasOwnProperty(this.id) && effectData[this.id].hasOwnProperty("invertY")){
             np.ny = 1.0 - np.ny;
             np.navg = (np.nx+np.ny)/2;
         }
+
 
         if (shape && csvData.hasOwnProperty(this.id)) {
             console.log(csvData[this.id][shape]);
@@ -690,17 +810,25 @@ this.fft = new Tone.FFT ({
             np.nx = np.navg;
             np.ny = np.navg;
         }
-        this.delay.delayTime.rampTo(np.navg * this.delayRange + this.delayMin*1,0.1);
 
-        this.vibrato.frequency.rampTo(np.ny * this.freqRange + this.freqMin*1,0.1);
-        this.vibrato.depth.rampTo(np.nx * this.depthRange + this.depthMin*1,0.1);
+        let cx = np.nx, cy = np.ny, cavg = np.navg;
+        if($("#deltaexpo").is(":checked")){
+            cx = rangeMap(Math.exp(np.nx), emin, emax, 0, 1);
+            cy = rangeMap(Math.exp(np.ny), emin, emax, 0, 1);
+            cavg = rangeMap(Math.exp(np.navg), emin, emax, 0, 1);
+        }
 
-        this.pitchshift.pitch = np.navg * this.pitchRange + this.pitchMin*1;
+        this.delay.delayTime.rampTo(cavg * this.delayRange + this.delayMin*1,0.1);
 
-        this.grainplayer.detune = np.nx * this.detuneRange + this.detuneMin*1;
-        this.grainplayer.grainSize = np.nx * this.grainSizeRange + this.grainSizeMin*1; 
-        this.grainplayer.loopStart = np.ny * this.loopStartRange + this.loopStartMin;
-        this.grainplayer.loopEnd = np.nx * this.loopEndRange + this.loopEndMin;
+        this.vibrato.frequency.rampTo(cy * this.freqRange + this.freqMin*1,0.1);
+        this.vibrato.depth.rampTo(cx * this.depthRange + this.depthMin*1,0.1);
+
+        this.pitchshift.pitch = cavg * this.pitchRange + this.pitchMin*1;
+
+        this.grainplayer.detune = cx * this.detuneRange + this.detuneMin*1;
+        this.grainplayer.grainSize = cx * this.grainSizeRange + this.grainSizeMin*1; 
+        this.grainplayer.loopStart = cy * this.loopStartRange + this.loopStartMin;
+        this.grainplayer.loopEnd = cx * this.loopEndRange + this.loopEndMin;
     }
 }
 class SoundInteractionArea {
@@ -807,6 +935,12 @@ $(document).ready(function() {
     $.getJSON(dataURL, function( data ) {
         datasets = data;
         console.log('Loaded dataSummary.json');
+        //
+        let waveform_html = '<option>Select a Waveform</option>';
+        for (const property in datasets)
+          waveform_html += '<option value="'+property+'">Waveform : '+property+'</option>';
+        $('.select-waveforms').html(waveform_html); 
+        $(document).on('change', '.select-waveforms', changeWaveform);
     });
     console.log("Loading Soundarea data from: " + mergedSoundURL);
     $.getJSON(mergedSoundURL, function( data ) {
@@ -832,17 +966,14 @@ $(document).ready(function() {
         mainScrollScale = app.screen.height/scroll_01.height;
         mainScrollWidth=scroll_01.width*2*mainScrollScale;
     });
-
-    $("#p").on("click",async () => {
-        $("#p").prop("disabled", true);
-        await Tone.start();
-        console.log("Context started");
-        $("#p").text("Started");
-    });
+    //
+    //
 });
 
-$("#m").on("change", function() {
-    let i = ($(this).val());
+
+function changeWaveform(event){
+    //let i = ($(this).val());
+    let i = event.target.value;       
     if(i in datasets) {
         console.log(datasets[i].title)
         app.stage.removeChildren();
@@ -861,16 +992,22 @@ $("#m").on("change", function() {
         $("p").text("No dataset for id number " + i);
         app.stage.removeChildren();
     }
-});
-$("#t").on("change", function() {
-    soundeffects.setDefaultParameterRangeFromInput();
-});
+}
+
 $("#bv").on("input", function() {
     soundeffects.baseplayer.volume.value= $("#bv").val();
 });
 $("#mute").on("change", function() {
     soundeffects.baseplayer.mute= $("#mute").is(":checked");
 });
+$("#deltaexpo").on("change", function() {
+    if(currentPointOfContact.e){
+        currentPointOfContact.e.changeParameters(currentPointOfContact.n, currentPointOfContact.s);
+    }else{
+        console.log('currentPointOfContact is undefined');
+    }
+});
+
 $("#lv").on("input", function() {
     soundeffects.player.volume.value= $("#lv").val();
     soundeffects.grainplayer.volume.value= $("#lv").val();
@@ -948,3 +1085,7 @@ app.ticker.add(() => {
     //tick += 0.02;
 });
 
+
+function rangeMap(number, inMin, inMax, outMin, outMax){
+    return ((number - inMin) * (outMax - outMin)) / ((inMax - inMin) + outMin)
+}
