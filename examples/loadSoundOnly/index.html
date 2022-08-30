@@ -5,51 +5,68 @@
         <script src="Lib/pixi-filters.js"></script>
         <script src="Lib/Tone.js"></script>
         <script src="Lib/jquery-3.6.0.js"></script>
+        <script src="Lib/jquery-ui.js"></script>
         <script src="Lib/hitarea-shapes.min.js"></script>
         <link rel="icon" href="../../assets/images/osmo_icon.png" type="image/x-icon" />
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="Lib/jquery-ui.css">
     </head>
     <body>
+        <p style="position: absolute; left: calc(50vw - 25%); width: max-content;" ></p>
         <div id="t" class="absolute">
-            <button id="p">Start Audio Context</button>
-            <input type="number" value="0" id="m" size="5">
-            <p>Title</p>
-            <div>
-                <label>GrainSize:
-                    <input type="text" value="0.01" id="gsmn" size="5">
-                    <input type="text" value="3" id="gsmx" size="5">
-                </label>
+            <!--input type="number" value="0" id="m" size="5"-->
+            <div class="waveforms">
+                <select class="select-waveforms"></select>
             </div>
+            <br>
             <div>
-                <label>Detune:
-                    <input type="text" value="-24" id="dmn" size="5">
-                    <input type="text" value="24" id="dmx" size="5">
+                <label for="gsm-label">GrainSize:
+                    <!--input type="text" value="0.01" id="gsmn" size="5">
+                    <input type="text" value="3" id="gsmx" size="5"-->
                 </label>
+                <input type="text" id="gsm-label" readonly style="border:0; background: none;">
             </div>
+            <div id="gsm-range"></div>
             <div>
-                <label>Vibrato freq:
-                    <input type="text" value="0.3" id="vfmn" size="5">
-                    <input type="text" value="10" id="vfmx" size="5">
+                <label for="dm-label">Detune:
+                    <!--input type="text" value="-24" id="dmn" size="5">
+                    <input type="text" value="24" id="dmx" size="5"-->
                 </label>
+                <input type="text" id="dm-label" readonly style="border:0; background: none;">
             </div>
+            <div id="dm-range"></div>
             <div>
-                <label>Vibrato depth:
-                    <input type="text" value="0" id="vdmn" size="5">
-                    <input type="text" value="1" id="vdmx" size="5">
+                <label for="vfm-label">Vibrato freq:
+                    <!--input type="text" value="0.3" id="vfmn" size="5">
+                    <input type="text" value="10" id="vfmx" size="5"-->
                 </label>
+                <input type="text" id="vfm-label" readonly style="border:0; background: none;">
             </div>
+            <div id="vfm-range"></div>
             <div>
-                <label>Pitch:
-                    <input type="text" value="-24" id="pmn" size="5">
-                    <input type="text" value="24" id="pmx" size="5">
+                <label for="vdm-label">Vibrato depth:
+                    <!--input type="text" value="0" id="vdmn" size="5">
+                    <input type="text" value="1" id="vdmx" size="5"-->
                 </label>
+                <input type="text" id="vdm-label" readonly style="border:0; background: none;">
             </div>
+            <div id="vdm-range"></div>
             <div>
-                <label>Delay time:
-                    <input type="text" value="0.01" id="dtmn" size="5">
-                    <input type="text" value="0.6" id="dtmx" size="5">
+                <label for="pm-label">Pitch:
+                    <!--input type="text" value="-24" id="pmn" size="5">
+                    <input type="text" value="24" id="pmx" size="5"-->
                 </label>
+                <input type="text" id="pm-label" readonly style="border:0; background: none;">
             </div>
+            <div id="pm-range"></div>
+            <div>
+                <label for="dtm-label">Delay time:
+                    <!--input type="text" value="0.01" id="dtmn" size="5">
+                    <input type="text" value="0.6" id="dtmx" size="5"-->
+                </label>
+                <input type="text" id="dtm-label" readonly style="border:0; background: none;">
+            </div>
+            <div id="dtm-range"></div>
             <div>
                 <label>Base Volume:
                     <input type ="range" name="volume" min="-48" max="12" step= "1" value="0" id="bv" oninput="num.value = this.value">
@@ -64,7 +81,12 @@
             </div>
             <div>
                 <label>Mute Baseline player:
-                    <input type="checkbox" id="mute">
+                    <input type="checkbox" id="mute" checked>
+                </label>
+            </div>
+            <div>
+                <label>Exponential changes:
+                    <input type="checkbox" id="deltaexpo">
                 </label>
             </div>
         </div>
