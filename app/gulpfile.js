@@ -26,11 +26,14 @@ const cssnano = require('cssnano');
 const { argv } = require('yargs');
 const ghdeploy = require('gh-pages');
 const stripDebug = require('gulp-strip-debug');
+const removeLogging = require("gulp-remove-logging");
 const sass = require('gulp-sass')(require('sass'));
 const execSync = require('child_process').execSync;
 const uglify = require('gulp-uglify');
 const shell = require('gulp-shell');
 const merge = require('merge-stream');
+const replace = require('gulp-replace');
+const decomment = require('gulp-decomment');
 
 
 const $ = gulpLoadPlugins();
@@ -78,46 +81,56 @@ function newDeploy() {
   return ghdeploy.publish('dist', function(err) {console.log('gh-pages publish');console.log(err);})
 };
 
+//
+//
+//
+//
 function copyAssets(){
   return src('../assets/**/*')
     .pipe(dest('dist/assets'));
 }
-//
-//
 function copyDash(){
   return src('../dash/**/*')
             .pipe(dest('dist/dash/'));
 }
+function copyAllExamples(){
+  let tasks = [];
+  tasks.push(src([
+    '../osmo_examples/**/*', 
+    '!../osmo_examples/legend_popup/', '!../osmo_examples/legend_popup/**',
+    '!../osmo_examples/navigation/', '!../osmo_examples/navigation/**'
+    ])
+                  .pipe(dest('dist/examples/')));
+  tasks.push(src(['../osmo_examples/legend_popup/dist/**/*'])
+                  .pipe(dest('dist/examples/legend_popup/')));
+  tasks.push(src(['../osmo_examples/navigation/dist/**/*'])
+                  .pipe(dest('dist/examples/navigation/')));
+  return merge(tasks);
+}
+function copySpecialLinks(){
+  let tasks = [];
+  tasks.push(src(['../osmo_examples/allsounds/**/*'])
+                  .pipe(dest('dist/all-sounds/')));
+  tasks.push(src(['../osmo_examples/sound/**/*'])
+                  .pipe(dest('dist/radio-osmoscape/')));
+  tasks.push(src(['../osmo_examples/composition/**/*'])
+                  .pipe(dest('dist/nonlinear-composition/')));
+  return merge(tasks);
+}
+//
+//
+//
+//
 //
 function commitDash(){
   return src('../dash/add_publish/index.html')
             .pipe(version(commitConfig))
             .pipe(dest('dist/dash/add_publish/'));
 }
-//
-//
-
-function copyAllExamples(){
-  let tasks = [];
-  tasks.push(src(['../osmo_examples/**/*', '!../osmo_examples/pixi', '!../osmo_examples/pixi/**'])
-                  .pipe(dest('dist/examples/')));
-  tasks.push(src(['../osmo_examples/pixi/legend_popup/dist/**/*'])
-                  .pipe(dest('dist/examples/pixi/legend_popup/')));
-  tasks.push(src(['../osmo_examples/pixi/legend_popup_svg/dist/**/*'])
-                  .pipe(dest('dist/examples/pixi/legend_popup_svg/')));
-  tasks.push(src(['../osmo_examples/pixi/navigation/dist/**/*'])
-                  .pipe(dest('dist/examples/pixi/navigation/')));
-  return merge(tasks);
-}
-function cleanExamplesSrc(){
-  return del([
-    // here we use a globbing pattern to match everything inside the `mobile` folder
-    'dist/examples/pixi/**/*',
-    // we don't want to clean this file though so we negate the pattern
-    '!dist/examples/pixi/legend_popup/dist',
-    '!dist/examples/pixi/legend_popup_svg/dist',
-    '!dist/examples/pixi/navigation/dist',
-  ]);
+function commitallsounds(){
+  return src('../osmo_examples/allsounds/index.html')
+            .pipe(version(commitConfig))
+            .pipe(dest('dist/examples/allsounds/'));
 }
 function commitanim(){
   return src('../osmo_examples/animation/index.html')
@@ -129,20 +142,20 @@ function commitcomp(){
             .pipe(version(commitConfig))
             .pipe(dest('dist/examples/composition/'));
 }
-function commitleg(){
-  return src('../osmo_examples/paper/legend_popup/index.html')
+function commitspeicialallsounds(){
+  return src('../osmo_examples/allsounds/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/paper/legend_popup/'));
+            .pipe(dest('dist/examples/all-sounds/'));
 }
-function commitnav(){
-  return src('../osmo_examples/paper/navigation/index.html')
+function commitspecialsound(){
+  return src('../osmo_examples/allsounds/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/paper/navigation/'));
+            .pipe(dest('dist/examples/radio-osmoscape/'));
 }
-function commitsou(){
-  return src('../osmo_examples/paper/sound/index.html')
+function commitspecialcomp(){
+  return src('../osmo_examples/allsounds/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/paper/sound/'));
+            .pipe(dest('dist/examples/nonlinear-composition/'));
 }
 //
 //
@@ -189,11 +202,12 @@ function scriptsdev() {
     .pipe(dest(browserifyjs.outdir))
     .pipe(server.reload({stream: true}));
 }
-//.pipe(stripDebug())
+//
 
 
 //
 //
+
 function scripts() {
 
   var browserifyjs = {
@@ -212,8 +226,11 @@ function scripts() {
     .on('error', function(err){ console.log(err.stack); })
     .pipe(vinylsource(browserifyjs.out))
     .pipe(vinylbuffer())
-    .pipe(stripDebug())
-    .pipe(uglify())
+    .pipe(decomment({trim: true}))
+    .pipe(removeLogging({namespace: ['self.console']}))
+    .pipe(removeLogging({namespace: ['window.console']}))
+    .pipe(replace('return !suppress && ', 'return !suppress;'))
+    .pipe(removeLogging({namespace: ['console']}))
     .pipe(dest(browserifyjs.outdir));
 };
 
@@ -333,12 +350,17 @@ function measureSize() {
 }
 
 const commitAllExamples = parallel(
+  commitallsounds,
   commitanim,
-  commitcomp,
-  commitleg,
-  commitnav,
-  commitsou
+  commitcomp
 );
+
+const commitSpecialLinks = parallel(
+  commitspeicialallsounds,
+  commitspecialsound,
+  commitspecialcomp
+);
+
 
 const build = series(
   parallel(
@@ -422,15 +444,13 @@ exports.build = build;
 exports.default = serve;
 exports.deploy = series(
   clean, copyAssets, copyDash, commitDash,
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_svg/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
-  copyAllExamples, commitAllExamples, build, newDeploy);
+  shell.task(['npm run-script build --prefix ../osmo_examples/legend_popup/']),
+  shell.task(['npm run-script build --prefix ../osmo_examples/navigation/']),
+  copyAllExamples, commitAllExamples, copySpecialLinks, commitSpecialLinks, build, newDeploy);
 exports.serveDeploy = series(
   clean, copyAssets, copyDash, commitDash,
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_svg/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
-  copyAllExamples, commitAllExamples, build,
+  shell.task(['npm run-script build --prefix ../osmo_examples/legend_popup/']),
+  shell.task(['npm run-script build --prefix ../osmo_examples/navigation/']),
+  copyAllExamples, commitAllExamples, copySpecialLinks, commitSpecialLinks, build,
   shell.task(['serve ./dist/ -p 8080'])
 );
