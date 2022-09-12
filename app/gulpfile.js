@@ -99,25 +99,9 @@ function commitDash(){
 
 function copyAllExamples(){
   let tasks = [];
-  tasks.push(src(['../osmo_examples/**/*', '!../osmo_examples/pixi', '!../osmo_examples/pixi/**'])
+  tasks.push(src(['../osmo_examples/**/*'])
                   .pipe(dest('dist/examples/')));
-  tasks.push(src(['../osmo_examples/pixi/legend_popup/dist/**/*'])
-                  .pipe(dest('dist/examples/pixi/legend_popup/')));
-  tasks.push(src(['../osmo_examples/pixi/legend_popup_svg/dist/**/*'])
-                  .pipe(dest('dist/examples/pixi/legend_popup_svg/')));
-  tasks.push(src(['../osmo_examples/pixi/navigation/dist/**/*'])
-                  .pipe(dest('dist/examples/pixi/navigation/')));
   return merge(tasks);
-}
-function cleanExamplesSrc(){
-  return del([
-    // here we use a globbing pattern to match everything inside the `mobile` folder
-    'dist/examples/pixi/**/*',
-    // we don't want to clean this file though so we negate the pattern
-    '!dist/examples/pixi/legend_popup/dist',
-    '!dist/examples/pixi/legend_popup_svg/dist',
-    '!dist/examples/pixi/navigation/dist',
-  ]);
 }
 function commitanim(){
   return src('../osmo_examples/animation/index.html')
@@ -130,19 +114,19 @@ function commitcomp(){
             .pipe(dest('dist/examples/composition/'));
 }
 function commitleg(){
-  return src('../osmo_examples/paper/legend_popup/index.html')
+  return src('../osmo_examples/legend_popup/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/paper/legend_popup/'));
+            .pipe(dest('dist/examples/legend_popup/'));
 }
 function commitnav(){
-  return src('../osmo_examples/paper/navigation/index.html')
+  return src('../osmo_examples/navigation/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/paper/navigation/'));
+            .pipe(dest('dist/examples/navigation/'));
 }
 function commitsou(){
-  return src('../osmo_examples/paper/sound/index.html')
+  return src('../osmo_examples/sound/index.html')
             .pipe(version(commitConfig))
-            .pipe(dest('dist/examples/paper/sound/'));
+            .pipe(dest('dist/examples/sound/'));
 }
 //
 //
@@ -420,17 +404,5 @@ if (isDev) {
 exports.serve = serve;
 exports.build = build;
 exports.default = serve;
-exports.deploy = series(
-  clean, copyAssets, copyDash, commitDash,
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_svg/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
-  copyAllExamples, commitAllExamples, build, newDeploy);
-exports.serveDeploy = series(
-  clean, copyAssets, copyDash, commitDash,
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/legend_popup_svg/']),
-  shell.task(['npm run-script build --prefix ../osmo_examples/pixi/navigation/']),
-  copyAllExamples, commitAllExamples, build,
-  shell.task(['serve ./dist/ -p 8080'])
-);
+exports.deploy = series(clean, copyAssets, copyDash, commitDash, copyAllExamples, commitAllExamples, build, newDeploy);
+exports.serveDeploy = series(clean, copyAssets, copyDash, commitDash, copyAllExamples, commitAllExamples, build,shell.task(['serve ./dist/ -p 8080']));
