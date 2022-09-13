@@ -100,7 +100,7 @@ function init(){
 	//
 
 	//
-	let dataURL = "../../../assets/data/dataSummary.json";
+	let dataURL = "../../assets/data/dataSummary.json";
 	console.log('dataURL: ' + dataURL);
 	$.getJSON(dataURL, function( data ) {
 	  console.log('Loaded datasets summary');
