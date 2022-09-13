@@ -183,7 +183,7 @@ function init() {
 function loadAudio() {
   $('#status').text('Loading audio'); //
 
-  var base_path = '../../../../assets/audio/tracks/Baseline_';
+  var base_path = '../.../../../../assets/audio/tracks/Baseline_';
   var urls = {}; // Load base tracks
 
   for (var i = 0; i < 7; i++) {
@@ -209,7 +209,7 @@ function loadAudio() {
 
 
   introTrack = new Tone.Player({
-    url: '../../../../assets/audio/loops/-1.mp3',
+    url: '../.../../../../assets/audio/loops/-1.mp3',
     loop: true,
     loopStart: 0,
     loopEnd: 20,
@@ -235,7 +235,7 @@ function loadHQ() {
   if (performance_test) $('#performance-stats table').append('<tr> <td>Started load 150ppi-images</td> <td>' + Math.round(performance.now() - t0) + '</td> <td>' + Math.round(window.meter.fps) + '</td></tr>'); //
   //load an image and run the `setup` function when it's done
 
-  var HQpath = '../../../../assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW-';
+  var HQpath = './../.../../../../assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW-';
   PIXI.Loader.shared.add(HQpath + '01-or8.png').add(HQpath + '02-or8.png').load(function () {
     console.log('Loaded HQ image');
     if (performance_test) $('#performance-stats table').append('<tr> <td>Loaded 150ppi-images</td> <td>' + Math.round(performance.now() - t0) + '</td> <td>' + Math.round(window.meter.fps) + '</td></tr>'); //
@@ -377,7 +377,7 @@ function initNav() {
 function loadNav() {
   console.log('Loading nav sections'); //
 
-  var navPath = '../../../../assets/data/ChapterNavigation.svg';
+  var navPath = '../.../../../../assets/data/ChapterNavigation.svg';
   $.get(navPath, function (data) {
     var svgEl = data.documentElement;
     var navScene = new _svg.SVGScene(svgEl); //
@@ -517,7 +517,7 @@ function initSplash(_width) {
   //
   if (performance_test) $('#performance-stats table').append('<tr> <td>Started splash</td> <td>' + Math.round(performance.now() - t0) + '</td> <td>' + Math.round(window.meter.fps) + '</td></tr>'); //
 
-  var splashURL = '../../../../assets/images/OsmoSplash.png';
+  var splashURL = './../.../../../../assets/images/OsmoSplash.png';
   PIXI.Loader.shared.add(splashURL).load(function () {
     console.log('Loaded sprite');
     if (performance_test) $('#performance-stats table').append('<tr> <td>Loaded splash</td> <td>' + Math.round(performance.now() - t0) + '</td> <td>' + Math.round(window.meter.fps) + '</td></tr>'); //Create the sprite

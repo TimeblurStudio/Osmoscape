@@ -78,7 +78,7 @@
         for (let id in datasets) {
           if (datasets.hasOwnProperty(id)) {
             console.log('Adding sound file for : ' + id);
-            let sound_file_path = datasets[id].audiofile;
+            let sound_file_path = '../../' + datasets[id].audiofile;
             files.push(sound_file_path);
           }
         }
