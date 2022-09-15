@@ -183,7 +183,7 @@ function init() {
 function loadAudio() {
   $('#status').text('Loading audio'); //
 
-  var base_path = '../.../../../../assets/audio/tracks/Baseline_';
+  var base_path = '.../../../../assets/audio/tracks/Baseline_';
   var urls = {}; // Load base tracks
 
   for (var i = 0; i < 7; i++) {
