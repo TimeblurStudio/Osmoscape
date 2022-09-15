@@ -462,7 +462,7 @@ function loadScrollImage(){
 		initSplash(800);//splashWidth: 800px
 		//
   };
-  downloadingImage.src = '../../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
+  downloadingImage.src = '../../assets/images/SCROLL_cs6_ver23_APP_final_'+scrollType+'.png';
 }
 
 
