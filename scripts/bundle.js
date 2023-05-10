@@ -63459,6 +63459,8 @@ osmo.Scroll = function () {
           osmo.legendinteract.initMaskInteractions(); 
 
           window.loading_screen.finish();
+          window.finishedLoading = true;
+          $('.head-actions').show();
           osmo.bgaudio.start(); 
 
           document.body.style.cursor = 'none';
@@ -63583,71 +63585,7 @@ osmo.BackgroundAudio = function () {
 }();
 
 },{}],78:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var _default = function _default() {
-  _classCallCheck(this, _default);
-};
-
-exports.default = _default;
-window.osmo = window.osmo || {};
-osmo.LegendAudio = function () {
-  function _class() {
-    _classCallCheck(this, _class);
-
-     
-    this.TONE = osmo.scroll.TONE; 
-    this.allTracksLoadedCount = 0;
-    this.allAudioPaths = [];
-    this.audioPlayerInstances = {};
-  }
-  _createClass(_class, [{
-    key: "loadAudio",
-    value: function loadAudio() {
-      var _this = this;
-
-       
-
-      var self = this; 
-      var _loop = function _loop(id) {
-        
-        var path = osmo.scroll.datasets[id].audiofile;
-
-        _this.allAudioPaths.push(path); 
-        var player = new _this.TONE.Player({
-          url: path,
-          loop: true,
-          fadeOut: 1,
-          fadeIn: 1,
-          onload: function onload() {
-            self.allTracksLoadedCount++;
-             
-
-            if (self.allTracksLoadedCount == Object.keys(osmo.scroll.datasets).length) osmo.scroll.loaded.legendaudio = true; 
-          }
-        }).toDestination(); 
-        _this.audioPlayerInstances[id] = player;
-      };
-
-      for (var id in osmo.scroll.datasets) {
-        _loop(id);
-      } 
-    }
-  }]);
-
-  return _class;
-}();
+"use strict";
 
 },{}],79:[function(require,module,exports){
 'use strict';
@@ -64683,8 +64621,10 @@ osmo.LegendInteraction = function () {
     value: function closeSidebar() {
       var dur = 600;
       $('#popup-info-toggle').html('&gt;');
-      $('#focused-info').animate({
+      if (!window.isMobile) $('#focused-info').animate({
         left: '-33%'
+      }, dur);else $('#focused-info').animate({
+        left: '-100vw'
       }, dur); 
 
       var fac = 0.5; 
@@ -64876,6 +64816,13 @@ osmo.LegendInteraction = function () {
       } 
       var self = this;
       $('#dragmol').click(function () {
+        if (window.isMobile) {
+          var dur = 600;
+          $('#focused-info').animate({
+            left: '-100vw'
+          }, dur);
+        }
+
         if (osmo.mc == null) {
           self.createMoleculeInteraction(osmo.scroll.mainStage.scale.x);
         }
@@ -64902,8 +64849,10 @@ osmo.LegendInteraction = function () {
       $('#head-normal-view').show();
       $('#focused-cta').hide();
       $('#popup-info-toggle').html('&lt;');
-      $('#focused-info').animate({
+      if (!window.isMobile) $('#focused-info').animate({
         left: '-33%'
+      }, 600);else $('#focused-info').animate({
+        left: '-100vw'
       }, 600);
       $('#focused-info').hide();
       $('#zoom-level').text('100%'); 
@@ -65564,6 +65513,7 @@ osmo.PanAndZoomInteraction = function () {
         if (osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isfocusedDragging) {
           var dragging_enabled = true;
           if (osmo.mc != null) if (osmo.mc.dragging) dragging_enabled = false; 
+
           if (dragging_enabled) {
             var deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
             var deltaY = -1 * (self.mouseLoc.y - self.prevMouseLoc.y);
@@ -65658,6 +65608,11 @@ osmo.PanAndZoomInteraction = function () {
           if (osmo.scroll.hitPopupMode == 'focused' && osmo.legendinteract.dragMode && self.isfocusedDragging) {
             var dragging_enabled = true;
             if (osmo.mc != null) if (osmo.mc.dragging) dragging_enabled = false; 
+            if ($('#focused-info').css('left') == '0px' && window.isMobile) {
+              dragging_enabled = false;
+            } 
+
+
             if (dragging_enabled) {
               var deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
               var deltaY = -1 * (self.mouseLoc.y - self.prevMouseLoc.y);
@@ -65787,15 +65742,7 @@ osmo.PanAndZoomInteraction = function () {
       } 
 
 
-      var et;
-
-      if (!window.isMobile) {
-        et = event.originalEvent; 
-      } else {
-        et = event;
-      } 
-
-
+      var et = event.originalEvent;
       var fac = 1.005; 
       var deltaValX, deltaValY;
 
@@ -66112,13 +66059,8 @@ osmo.PanAndZoomInteraction = function () {
   }, {
     key: "detectMouseType",
     value: function detectMouseType() {
-      if (!window.isMobile) {
-        document.addEventListener('wheel', osmo.pzinteract.detectTrackPad, false);
-        document.addEventListener('DOMMouseScroll', osmo.pzinteract.detectTrackPad, false);
-      } else {
-        this.isCompletedDetecting = true;
-        this.isTrackpadDetected = true;
-      }
+      document.addEventListener('wheel', osmo.pzinteract.detectTrackPad, false);
+      document.addEventListener('DOMMouseScroll', osmo.pzinteract.detectTrackPad, false);
     }
   }]);
 
@@ -66612,30 +66554,39 @@ window.osmo = window.osmo || {};
 window.isMobile = mobileCheck(); 
 window.onload = function () {
   
-  window.version = $('#versionid').text(); 
+  window.version = $('#versionid').text();
+  window.finishedLoading = false;
+
+  if (window.isMobile) {
+    if (window.innerHeight < window.innerWidth) {
+      splashLandscapeWarning();
+      window.addEventListener('orientationchange', function () {
+        window.location.reload();
+      }, false);
+      return;
+    }
+  }
+
+  $(window).on('resize', function () {
+    setTimeout(function () {
+      if (window.isMobile) {
+        if (window.finishedLoading) {
+          if (window.innerHeight < window.innerWidth) window.loading_screen = splashLandscapeWarning();else window.loading_screen.finish();
+        } else 
+          window.location.reload();
+      }
+    }, 100); 
+  }); 
   var fullscreen_button = '<div style="position: absolute; top: 0; right: 0px; text-align: right; vertical-align: middle;"><i class="material-icons" id="enter-fullscreen" style="padding: 10px; cursor: pointer; color: white;">fullscreen</i></div>';
   var please_wait_spinner = '<div id="preload_spinner"><div id="percentage" style="color: #fff; font-weight: 400; font-family: \'Roboto\';"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #fff"></div><div class="sk-child sk-bounce2" style="background-color: #fff"></div><div class="sk-child sk-bounce3" style="background-color: #fff"></div></div></div>';
   var DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'; font-weight: 300;">' + please_wait_spinner + '<button type="button" class="start-action-button" id="start-btn" style="display: none;">Start</button></div>'; 
 
-  var loadMobile = !window.isMobile;
-
-  if (loadMobile) {
-    
-    window.loading_screen = window.pleaseWait({
-      logo: 'assets/images/OsmoSplash.png',
-      backgroundColor: '#b4d2da',
-      loadingHtml: DesktopHtmlContent
-    });
-  } else {
-    
-    window.loading_screen = window.pleaseWait({
-      logo: 'assets/images/OsmoSplash.png',
-      backgroundColor: '#b4d2da',
-      loadingHtml: please_wait_spinner
-    }); 
-
-    osmo.scroll.loadMQ();
-  } 
+  
+  window.loading_screen = window.pleaseWait({
+    logo: 'assets/images/OsmoSplash.png',
+    backgroundColor: '#b4d2da',
+    loadingHtml: DesktopHtmlContent
+  }); 
   osmo.scroll = new osmo.Scroll();
   osmo.scroll.init(); 
   var logo = $('.pg-loading-logo');
@@ -66644,6 +66595,18 @@ window.onload = function () {
     osmo.scroll.start();
   });
 }; 
+
+
+function splashLandscapeWarning() {
+  
+  var landscapeHtmlContent = '<div id="main-inner-choice" style="display: block;color: white; font-family: \'Roboto\'; font-weight: 300;"><h3  style="margin-bottom: 8px;">Landscape detected!</h3><p style="margin: auto;">This content is best experienced with your<br> device in portrait mode. Please rotate your<br>device for optimum display.</p></div>';
+  var ls = window.pleaseWait({
+    logo: 'assets/images/icons/turn-portrait.png',
+    backgroundColor: '#b4d2da',
+    loadingHtml: landscapeHtmlContent
+  });
+  return ls; 
+} 
 
 
 function mobileCheck() {
