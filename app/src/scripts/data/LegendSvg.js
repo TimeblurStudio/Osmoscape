@@ -300,7 +300,6 @@ osmo.LegendSvg = class {
       let svgScale = 8.0;
       let newViewPort_x, legendTexture;
       //
-      pngpath = '../' + pngpath;// Fix relative path before loading
       legendTexture = self.PIXI.Texture.from(pngpath, {resolution: 1.0});
       //
       //

@@ -109,7 +109,10 @@ osmo.LegendInteraction = class {
   closeSidebar(){
     let dur = 600;
     $('#popup-info-toggle').html('&gt;');
-    $('#focused-info').animate({ left:'-33%'}, dur);
+    if(!window.isMobile)
+      $('#focused-info').animate({ left:'-33%'}, dur);
+    else
+      $('#focused-info').animate({ left:'-100vw'}, dur);
     //
     let fac = 0.5;///osmo.scroll.mainStage.scale.x;
     let deltaValX = -1*(osmo.scroll.pixiWidth/3);
@@ -324,6 +327,10 @@ osmo.LegendInteraction = class {
     // MOLECULE INTERACTION
     let self = this;
     $('#dragmol').click(function() {
+      if(window.isMobile){
+        let dur = 600;
+        $('#focused-info').animate({left: '-100vw'}, dur);
+      }
       if(osmo.mc == null){
         self.createMoleculeInteraction(osmo.scroll.mainStage.scale.x);
       }
@@ -359,7 +366,10 @@ osmo.LegendInteraction = class {
     $('#head-normal-view').show();
     $('#focused-cta').hide();
     $('#popup-info-toggle').html('&lt;');
-    $('#focused-info').animate({ left:'-33%'}, 600);
+    if(!window.isMobile)
+      $('#focused-info').animate({ left:'-33%'}, 600);
+    else
+      $('#focused-info').animate({ left:'-100vw'}, 600);
     $('#focused-info').hide();
     $('#zoom-level').text('100%');
     //

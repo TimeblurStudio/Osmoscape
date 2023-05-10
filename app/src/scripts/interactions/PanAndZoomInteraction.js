@@ -166,7 +166,6 @@ osmo.PanAndZoomInteraction = class {
           if(osmo.mc.dragging)
             dragging_enabled = false;
         //
-        //
         if(dragging_enabled){
           let deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
           let deltaY = -1*(self.mouseLoc.y - self.prevMouseLoc.y);
@@ -178,6 +177,7 @@ osmo.PanAndZoomInteraction = class {
       }
       //
     });
+    
     //
     // HOT FIX:
     // touch events on dom are also being propogated to canvas leading to un-expected behaviours
@@ -273,6 +273,12 @@ osmo.PanAndZoomInteraction = class {
             if(osmo.mc.dragging)
               dragging_enabled = false;
           //
+          // Disable dragging when the popup is open on mobile 
+          // since the canvas moves along with the popup
+          if($('#focused-info').css('left') == '0px' && window.isMobile){
+            //console.log('Disabled dragging - Mobile popup open');
+            dragging_enabled = false;
+          }
           //
           if(dragging_enabled){
             let deltaX = self.mouseLoc.x - self.prevMouseLoc.x;
@@ -443,15 +449,7 @@ osmo.PanAndZoomInteraction = class {
       //
     }
     //
-    let et;
-    if(!window.isMobile){
-      et = event.originalEvent;
-      //if(event.preventDefault)
-      //  event.preventDefault();
-    }else{
-      et = event;
-    }
-    //
+    let et = event.originalEvent;
     let fac = 1.005;///(osmo.scroll.mainStage.scale.x*osmo.scroll.mainStage.scale.y);
     //
     let deltaValX, deltaValY;
@@ -888,12 +886,7 @@ osmo.PanAndZoomInteraction = class {
    * ------------------------------------------------
    */
   detectMouseType(){
-    if(!window.isMobile){
-      document.addEventListener('wheel', osmo.pzinteract.detectTrackPad, false);
-      document.addEventListener('DOMMouseScroll', osmo.pzinteract.detectTrackPad, false);
-    }else{
-      this.isCompletedDetecting = true;
-      this.isTrackpadDetected = true;
-    }
+    document.addEventListener('wheel', osmo.pzinteract.detectTrackPad, false);
+    document.addEventListener('DOMMouseScroll', osmo.pzinteract.detectTrackPad, false);
   }
 };

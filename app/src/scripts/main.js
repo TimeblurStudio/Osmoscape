@@ -22,6 +22,42 @@ window.onload = function() {
   //
   console.log('Window loaded');
   window.version = $('#versionid').text();
+  window.finishedLoading = false;
+
+  if(window.isMobile){
+    if(window.innerHeight < window.innerWidth){
+      // Landscape warning on mobile - App was opened in landscape mode
+      splashLandscapeWarning();  
+      window.addEventListener("orientationchange", function() {
+          window.location.reload();
+      }, false);
+      return;
+    }
+  }
+
+  $(window).on('resize', function(){
+    // TODO: Resize canvas for desktop
+    // Clear context and reload 
+    // https://stackoverflow.com/questions/38954134/how-to-completely-remove-pixi-renderer-stage-and-assets
+    // window.location.reload(true);
+    //
+    // Landscape warning in mobile
+    setTimeout(function(){
+      if(window.isMobile){
+        if(window.finishedLoading){
+          // The app has finished loading earlier, now the orientation changed
+          if(window.innerHeight < window.innerWidth)
+           window.loading_screen = splashLandscapeWarning();
+          else
+            window.loading_screen.finish();
+        }else
+          // The app hasn't finished loading but orientation changed
+          window.location.reload();
+      }
+    }, 100);
+    //
+    //
+  });
 
   //
   //
@@ -30,24 +66,12 @@ window.onload = function() {
   let please_wait_spinner = '<div id="preload_spinner"><div id="percentage" style="color: #fff; font-weight: 400; font-family: \'Roboto\';"></div><br><div class="sk-three-bounce"><div class="sk-child sk-bounce1" style="background-color: #fff"></div><div class="sk-child sk-bounce2" style="background-color: #fff"></div><div class="sk-child sk-bounce3" style="background-color: #fff"></div></div></div>';
   let DesktopHtmlContent = '<div id="main-inner-choice" style="display: block;font-family: \'Roboto\'; font-weight: 300;">'+ please_wait_spinner +'<button type="button" class="start-action-button" id="start-btn" style="display: none;">Start</button></div>';
   //
-  let loadMobile = !window.isMobile;
-  if(loadMobile){
-    console.log('Loading screen for desktop');
-    window.loading_screen = window.pleaseWait({
-      logo: 'assets/images/OsmoSplash.png',
-      backgroundColor: '#b4d2da',
-      loadingHtml: DesktopHtmlContent
-    });
-  }else{
-    console.log('Loading screen for mobile');
-    window.loading_screen = window.pleaseWait({
-      logo: 'assets/images/OsmoSplash.png',
-      backgroundColor: '#b4d2da',
-      loadingHtml: please_wait_spinner
-    });
-    //
-    osmo.scroll.loadMQ();
-  }
+  console.log('Loading screen for desktop');
+  window.loading_screen = window.pleaseWait({
+    logo: 'assets/images/OsmoSplash.png',
+    backgroundColor: '#b4d2da',
+    loadingHtml: DesktopHtmlContent
+  });
   //
   // Scroll instance
   osmo.scroll = new osmo.Scroll();
@@ -67,15 +91,22 @@ window.onload = function() {
   $('#start-btn').on('click', function(){
     osmo.scroll.start();
   });
-
-  /*
-  $(window).on('resize', function(){
-    // Clear context and reload 
-    // https://stackoverflow.com/questions/38954134/how-to-completely-remove-pixi-renderer-stage-and-assets
-    window.location.reload(true);
-  });
-  */
+  
 };
+
+//
+function splashLandscapeWarning(){
+  //
+  console.log("Please use Portrait!");
+  let landscapeHtmlContent = '<div id="main-inner-choice" style="display: block;color: white; font-family: \'Roboto\'; font-weight: 300;"><h3  style="margin-bottom: 8px;">Landscape detected!</h3><p style="margin: auto;">This content is best experienced with your<br> device in portrait mode. Please rotate your<br>device for optimum display.</p></div>';
+  let ls = window.pleaseWait({
+    logo: 'assets/images/icons/turn-portrait.png',
+    backgroundColor: '#b4d2da',
+    loadingHtml: landscapeHtmlContent
+  });
+  return ls;
+  //
+}
 
 
 //

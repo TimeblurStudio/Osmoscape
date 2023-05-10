@@ -169,7 +169,7 @@ function init(){
 function loadAudio(){
 	$('#status').text('Loading audio');
 	//
-	let base_path = './assets/audio/tracks/Baseline_'
+	let base_path = '../assets/audio/tracks/Baseline_'
 	let urls = {};
 	// Load base tracks
 	for(let i=0; i < 7; i++){
@@ -197,7 +197,7 @@ function loadAudio(){
 	//
 	// the intro player
 	introTrack = new Tone.Player({
-		url: './assets/audio/loops/-1.mp3',
+		url: '../assets/audio/loops/-1.mp3',
 		loop: true,
 		loopStart: 0,
 		loopEnd: 20,
@@ -227,7 +227,7 @@ function loadHQ(){
 		$('#performance-stats table').append('<tr> <td>Started load 150ppi-images</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 	//
   //load an image and run the `setup` function when it's done
-  let HQpath = './assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW-';
+  let HQpath = '../assets/images/SCROLL_cs6_ver23_APP_final_150ppi-LOW-';
 	PIXI.Loader.shared
 	  .add(HQpath+'01-or8.png')
 	  .add(HQpath+'02-or8.png')
@@ -361,7 +361,7 @@ function initNav(){
 function loadNav(){
 	console.log('Loading nav sections');
 	//
-	let navPath = './assets/data/ChapterNavigation.svg';
+	let navPath = '../assets/data/ChapterNavigation.svg';
 
 	$.get(navPath, function( data ) {
 		let svgEl = data.documentElement;
@@ -494,7 +494,7 @@ function initSplash(_width){
 	if(performance_test)
 		$('#performance-stats table').append('<tr> <td>Started splash</td> <td>'+Math.round(performance.now()-t0)+'</td> <td>'+Math.round(window.meter.fps)+'</td></tr>');
 	//
-	let splashURL = './assets/images/OsmoSplash.png';
+	let splashURL = '../assets/images/OsmoSplash.png';
   PIXI.Loader.shared
 		  .add(splashURL)
 		  .load(function(){

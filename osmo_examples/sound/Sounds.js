@@ -16,7 +16,7 @@ Sounds = function (callback){
     let filesMap = {};
     for (let id in datasets) {
         if(datasets[id].hasOwnProperty('audiofile')){
-            filesMap[id] = '../' + datasets[id].audiofile;
+            filesMap[id] = '../../' + datasets[id].audiofile;
             console.log('Loading audio for : ' + id + ' @ ' + filesMap[id]);   
         }
         //

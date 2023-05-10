@@ -471,6 +471,8 @@ osmo.Scroll = class {
         osmo.legendinteract.initMaskInteractions();
         //
         window.loading_screen.finish();
+        window.finishedLoading = true;
+        $('.head-actions').show();
         osmo.bgaudio.start();
         //
         document.body.style.cursor = 'none';
