@@ -30,6 +30,7 @@ const removeLogging = require("gulp-remove-logging");
 const sass = require('gulp-sass')(require('sass'));
 const execSync = require('child_process').execSync;
 const uglify = require('gulp-uglify');
+const image64 = require('gulp-image64');
 const shell = require('gulp-shell');
 const merge = require('merge-stream');
 const replace = require('gulp-replace');
@@ -202,12 +203,12 @@ function scriptsdev() {
     .pipe(dest(browserifyjs.outdir))
     .pipe(server.reload({stream: true}));
 }
-//
+//.pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
 
 
-//
-//
 
+//
+//
 function scripts() {
 
   var browserifyjs = {
@@ -231,6 +232,7 @@ function scripts() {
     .pipe(removeLogging({namespace: ['window.console']}))
     .pipe(replace('return !suppress && ', 'return !suppress;'))
     .pipe(removeLogging({namespace: ['console']}))
+    .pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
     .pipe(dest(browserifyjs.outdir));
 };
 
@@ -283,9 +285,20 @@ function lintTest() {
 function html() {
   return src('src/index.html')
     .pipe(version(versionConfig))
+    .pipe($.if(/\.html$/, $.htmlmin({
+      collapseWhitespace: true,
+      minifyCSS: true,
+      minifyJS: {compress: {drop_console: true}},
+      processConditionalComments: true,
+      removeComments: true,
+      removeEmptyAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true
+    })))
     .pipe(dest('dist'));
 
   /*
+    .pipe(image64({lowerCaseAttributeNames: false}))
     .pipe($.useref({searchPath: ['.tmp', '.']}))
     .pipe($.if(/\.js$/, $.uglify({compress: {drop_console: true}})))
     .pipe($.if(/\.css$/, $.postcss([cssnano({safe: true, autoprefixer: false})])))
@@ -363,6 +376,7 @@ const commitSpecialLinks = parallel(
 
 
 const build = series(
+  copyAssets,
   parallel(
     lint,
     series(parallel(styles, scripts, modernizr), html),

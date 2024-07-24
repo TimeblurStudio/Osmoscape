@@ -100,6 +100,7 @@ osmo.LegendSvg = class {
    * ------------------------------------------------
    */
   loadDataset(id){
+    let maskpromise = null, legendpromise = null, spllegendpromise = null;
     if (osmo.scroll.datasets.hasOwnProperty(id)) {
       console.log('Loading data for : ' + id);
       //
@@ -142,8 +143,8 @@ osmo.LegendSvg = class {
       }
       //
       //
-      let maskpromise = this.maskLoad(title, polygondata, id, zorder);
-      let legendpromise = this.legendLoad(title, lpath, id);
+      maskpromise = this.maskLoad(title, polygondata, id, zorder);
+      legendpromise = this.legendLoad(title, lpath, id);
       this.allSVGDataPromises.push(maskpromise);
       this.allSVGDataPromises.push(legendpromise);
       //
@@ -151,12 +152,13 @@ osmo.LegendSvg = class {
       if(osmo.scroll.includeSpecialCase && hasSpecialFile){
         let splid = id + '_spl';
         let spllpath = osmo.scroll.datasets[id].speciallegend;
-        let spllegendpromise = this.legendLoad(title, spllpath, splid, true);
+        spllegendpromise = this.legendLoad(title, spllpath, splid, true);
         this.allSVGDataPromises.push(spllegendpromise);
       }
       //
       //
     }
+    return [maskpromise, legendpromise, spllegendpromise];
   }
 
   /**
@@ -167,21 +169,119 @@ osmo.LegendSvg = class {
   loadDatasets(){
     let self = this;
     //
+    // NEW METHOD - LOADS SERIALLY
+    let loadCount = 0;
+    let idlist = [];
     for (let id in osmo.scroll.datasets)
-      self.loadDataset(id, true);
+      idlist.push(id);
+    let currentid = idlist[loadCount];
+    let datapromises = self.loadDataset(currentid);
+    let mpromise = datapromises[0];
+    let lpromise = datapromises[1];
+    let splpromise = datapromises[2];
+    if(mpromise != null)
+      mpromise.then((value) => { mpromise.done = true; });
+    else
+      mpromise = {done: true};
+    if(lpromise != null)
+      lpromise.then((value) => { lpromise.done = true; });
+    else
+      lpromise = {done: true};
+    if(splpromise != null)
+      splpromise.then((value) => { splpromise.done = true; });
+    else
+      splpromise = {done: true};
+    //
+    let alldatasetLoadInterval = setInterval(function(){
+      if(mpromise.done && lpromise.done && splpromise.done){
+        // Load next dataset
+        loadCount++;
+        if(loadCount < idlist.length-1){
+          //
+          osmo.legendinteract.initMaskInteraction(currentid);
+          //
+          currentid = idlist[loadCount];
+          datapromises = self.loadDataset(currentid);
+          mpromise = datapromises[0];
+          lpromise = datapromises[1];
+          splpromise = datapromises[2];
+          //
+          if(mpromise != null)
+            mpromise.then((value) => { mpromise.done = true; });
+          else
+            mpromise = {done: true};
+          if(lpromise != null)
+            lpromise.then((value) => { lpromise.done = true; });
+          else
+            lpromise = {done: true};
+          if(splpromise != null)
+            splpromise.then((value) => { splpromise.done = true; });
+          else
+            splpromise = {done: true};
+        }
+        // Completed loading all datasets
+        else{
+          console.log('Processing early datasets...');
+          $('#percentage').html('Processing datasets...');
+          clearInterval(alldatasetLoadInterval);
+          setTimeout(function(){
+            console.log('Loaded all datasets');
+            osmo.scroll.loaded.svgdata = true;
+            ////
+            ///self.correctMaskOrder();
+            //
+            // LEGEND AUDIO
+            osmo.legendaudio = new osmo.LegendAudio();
+            osmo.legendaudio.loadAudio();
+            // let navWaitInterval = setInterval(function(){
+            //   if(osmo.navinteract.navChapters != undefined){
+            //     console.log('Navigation chapters loaded, starting legend audio');
+            //     //
+            //     clearInterval(navWaitInterval);
+            //     // LEGEND AUDIO
+            //     osmo.legendaudio = new osmo.LegendAudio();
+            //     osmo.legendaudio.loadAudio();
+            //   }
+            // },500);
+            //
+          }, 400);
+        }
+      }
+    }, 100);
+
+    //
+    // OLD METHOD - LOADS ALL AT ONCE
+    // for (let id in osmo.scroll.datasets){
+    //   self.loadDataset(id, true);
+    // }
+    // //
+    // Promise.all(this.allSVGDataPromises).then((values) => {
+    //   console.log('Processing early datasets...');
+    //   $('#percentage').html('Processing datasets...');
+    //   setTimeout(function(){
+    //     console.log('Loaded all datasets');
+    //     osmo.scroll.loaded.svgdata = true;//
+    //     osmo.legendinteract.initMaskInteractions();
+    //     //
+    //     ///self.correctMaskOrder();
+    //     //
+    //     // let navWaitInterval = setInterval(function(){
+    //     //   if(osmo.navinteract.navChapters != undefined){
+    //     //     console.log('Navigation chapters loaded, starting legend audio');
+    //     //     //
+    //     //     clearInterval(navWaitInterval);
+    //     //     // LEGEND AUDIO
+    //     //     osmo.legendaudio = new osmo.LegendAudio();
+    //     //     osmo.legendaudio.loadAudio();
+    //     //   }
+    //     // },500);
+    //     //
+    //   }, 400);
+    // });
     //
     //
-    Promise.all(this.allSVGDataPromises).then((values) => {
-      console.log('Processing early datasets...');
-      $('#percentage').html('Processing datasets...');
-      setTimeout(function(){
-        console.log('Loaded all datasets');
-        osmo.scroll.loaded.svgdata = true;
-        //
-        ///self.correctMaskOrder();
-        //
-      }, 400);
-    });
+    //
+    //
     //
   }
 
@@ -314,8 +414,8 @@ osmo.LegendSvg = class {
           //
           let percmask = parseFloat(self.maskAreas.length)/parseFloat(Object.keys(osmo.scroll.datasets).length);
           let percleg = parseFloat(self.legendFiles.length)/parseFloat(Object.keys(osmo.scroll.datasets).length);
-          let percaud = parseFloat(osmo.legendaudio.allTracksLoadedCount)/parseFloat(Object.keys(osmo.scroll.datasets).length);
-          let percentage = '&nbsp;&nbsp;' + parseInt(((percmask + percleg + percaud)/3)*100) + '%';
+          //let percaud = parseFloat(osmo.legendaudio.allTracksLoadedCount)/parseFloat(Object.keys(osmo.scroll.datasets).length);
+          let percentage = '&nbsp;&nbsp;' + parseInt(((percmask + percleg)/2)*100) + '%';//+ percaud
           $('#percentage').html(percentage);
           //
           //
@@ -443,10 +543,20 @@ osmo.LegendSvg = class {
     //
     //
     // Stop all tracks and start target track
-    for (let audioid in osmo.scroll.datasets)
-      osmo.legendaudio.audioPlayerInstances[audioid].stop();
-    console.log('Now playing legend audio: ' + id);
-    osmo.legendaudio.audioPlayerInstances[id].start();
+    if(osmo.legendaudio)
+      if(osmo.legendaudio.audioPlayerInstances)
+        for (let audioid in osmo.scroll.datasets){
+          if(osmo.legendaudio.audioPlayerInstances[audioid])
+            if(osmo.legendaudio.audioPlayerInstances[audioid].loaded)
+              osmo.legendaudio.audioPlayerInstances[audioid].stop();
+        }
+    if(osmo.legendaudio)
+      if(osmo.legendaudio.audioPlayerInstances)
+        if(osmo.legendaudio.audioPlayerInstances[id])
+          if(osmo.legendaudio.audioPlayerInstances[id].loaded){
+            console.log('Now playing legend audio: ' + id);
+            osmo.legendaudio.audioPlayerInstances[id].start();
+          }
     if (osmo.bgaudio.currentTrack !== 'intro')
       osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(-6,1);
     //
@@ -518,8 +628,12 @@ osmo.LegendSvg = class {
       }
     }));
     // Stop all tracks
-    for (let audioid in osmo.scroll.datasets)
-      osmo.legendaudio.audioPlayerInstances[audioid].stop();
+    if(osmo.legendaudio)
+      if(osmo.legendaudio.audioPlayerInstances)
+        for (let audioid in osmo.scroll.datasets)
+          if(osmo.legendaudio.audioPlayerInstances[audioid])
+            if(osmo.legendaudio.audioPlayerInstances[audioid].loaded)
+              osmo.legendaudio.audioPlayerInstances[audioid].stop();
     //
     if (osmo.bgaudio.currentTrack !== 'intro')
       osmo.bgaudio.baseTracks[osmo.bgaudio.currentTrack].volume.rampTo(0,1);

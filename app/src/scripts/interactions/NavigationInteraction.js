@@ -359,6 +359,10 @@ osmo.NavigationInteraction = class {
     // FIX ME
     // navChapters were not loaded on time,
     // leading to an error after scroll (Hover stopped working)
+    // if(this.navChapters == undefined){
+    //   console.log('navChapters not loaded yet!');
+    //   return;
+    // }
     //
     for(let i=0; i < this.navChapters.length-1; i++){
       let this_locX = parseFloat($(this.navChapters[i]).attr('x'))*this.navScale*osmo.scroll.pixiScale;

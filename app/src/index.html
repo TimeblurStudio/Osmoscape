@@ -63,12 +63,12 @@
             <div id="focused-description">Lorem ipsum</div>
         </div>
         <!-- TWO CTA -->
-        <!--div style="margin-top: -120px; margin-left: 28px;">
+        <!--div style="margin-top: -120px; margin-left: 28px; display: none;">
           <a id="addcomp" href="javascript:void(0)"><img src="assets/images/AddSoundUI.png" alt="Add composition image" style="width: calc(60% - 48px); padding: 10px;" /></a>
           <a id="dragmol" href="javascript:void(0)"><img src="assets/images/DragMoleculeUI.png" alt="Drag molecule image" style="width: 40%; padding: 10px;"/></a>
         </div-->
         <!-- SINGLE CTA -->
-        <div style="margin-top: -120px; ">
+        <div style="margin-top: -120px; display: none;" id="popupaudiocta">
           <a id="dragmol" style="display: flex; margin-left: 36px; margin-right: 44px; background: #90AAB466; border-radius: 14px;" href="javascript:void(0)"><img src="assets/images/DragMoleculeUI.png" alt="Drag molecule image" style="width: 100%; padding: 10px; max-width: 180px; margin: auto;"/></a>
         </div>
         <!-- -->
@@ -160,7 +160,7 @@
     </div>
 
     <!-- build:js scripts/bundle.js -->
-    <script src="scripts/bundle.js"></script>
+    <script src="scripts/bundle.js" async></script>
     <!-- endbuild -->
     <!--script type="text/javascript">
         javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()

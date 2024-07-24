@@ -137,8 +137,8 @@ osmo.Scroll = class {
       osmo.scroll.datasets = data;
       //
       // LEGEND AUDIO
-      osmo.legendaudio = new osmo.LegendAudio();
-      osmo.legendaudio.loadAudio();
+      // osmo.legendaudio = new osmo.LegendAudio();
+      // osmo.legendaudio.loadAudio();
       //
       // LEGEND DATA
       osmo.legendsvg = new osmo.LegendSvg();
@@ -455,20 +455,18 @@ osmo.Scroll = class {
       let loadedBackgroundAudio = osmo.scroll.loaded.backgroundaudio;
       let loadedLegendAudio = osmo.scroll.loaded.legendaudio;
       let loadedHQimage = osmo.scroll.loaded.HQimage;
-      let loadedSVGdata = osmo.scroll.loaded.svgdata;
+      //let loadedSVGdata = osmo.scroll.loaded.svgdata;
       //
-      if(loadedBackgroundAudio && loadedHQimage && loadedSVGdata && !loadedLegendAudio)
-        $('#percentage').html('Loading audio...');
+      // if(loadedBackgroundAudio && loadedHQimage && loadedSVGdata && !loadedLegendAudio)
+      //   $('#percentage').html('Loading audio...');
       //
-      if(loadedBackgroundAudio && loadedLegendAudio &&  loadedHQimage && loadedSVGdata){
+      if(loadedBackgroundAudio &&  loadedHQimage){// && loadedSVGdata && loadedLegendAudio
         console.log('All required data loaded');
         clearInterval(waitTillTracksLoad);
         //
         //
         osmo.navinteract.loadNav();
         osmo.navinteract.initNav();
-        //
-        osmo.legendinteract.initMaskInteractions();
         //
         window.loading_screen.finish();
         window.finishedLoading = true;
@@ -477,10 +475,9 @@ osmo.Scroll = class {
         //
         document.body.style.cursor = 'none';
         $('.cursor-pointer-wrapper').css('opacity', 1);
-        //
-        //
+        // //
       }else{
-        console.log('Waiting for data to complete loading -- backgroundAudio: ' + loadedBackgroundAudio + ' legendAudio: ' + loadedLegendAudio + ' HQimage: ' + loadedHQimage + ' SVGdata: ' + loadedSVGdata );
+        console.log('Waiting for data to complete loading -- backgroundAudio: ' + loadedBackgroundAudio + ' legendAudio: ' + loadedLegendAudio + ' HQimage: ' + loadedHQimage);//  + ' SVGdata: ' + loadedSVGdata 
       }
     },500);
 

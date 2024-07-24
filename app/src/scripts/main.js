@@ -28,8 +28,8 @@ window.onload = function() {
     if(window.innerHeight < window.innerWidth){
       // Landscape warning on mobile - App was opened in landscape mode
       splashLandscapeWarning();  
-      window.addEventListener("orientationchange", function() {
-          window.location.reload();
+      window.addEventListener('orientationchange', function() {
+        window.location.reload();
       }, false);
       return;
     }
@@ -47,7 +47,7 @@ window.onload = function() {
         if(window.finishedLoading){
           // The app has finished loading earlier, now the orientation changed
           if(window.innerHeight < window.innerWidth)
-           window.loading_screen = splashLandscapeWarning();
+            window.loading_screen = splashLandscapeWarning();
           else
             window.loading_screen.finish();
         }else
@@ -97,7 +97,7 @@ window.onload = function() {
 //
 function splashLandscapeWarning(){
   //
-  console.log("Please use Portrait!");
+  console.log('Please use Portrait!');
   let landscapeHtmlContent = '<div id="main-inner-choice" style="display: block;color: white; font-family: \'Roboto\'; font-weight: 300;"><h3  style="margin-bottom: 8px;">Landscape detected!</h3><p style="margin: auto;">This content is best experienced with your<br> device in portrait mode. Please rotate your<br>device for optimum display.</p></div>';
   let ls = window.pleaseWait({
     logo: 'assets/images/icons/turn-portrait.png',

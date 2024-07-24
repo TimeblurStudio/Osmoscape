@@ -40,6 +40,7 @@ osmo.LegendInteraction = class {
     //
     this.prevBoundsCenter = null;
     this.prevZoom = null;
+    this.audioid = null;
     //
   }
 
@@ -186,6 +187,64 @@ osmo.LegendInteraction = class {
   }
 
 
+  initMaskInteraction(id){
+    console.log('osmo.LegendInteraction.initMaskInteractions - started'); 
+    //
+    let self = this;
+    if(osmo.legendsvg.popupBBoxes.hasOwnProperty(id)){
+      let mask = osmo.legendsvg.popupBBoxes[id]['mask'];
+      if(mask != null){
+        //
+        mask.interactive = true;
+        //mask.buttonMode = true;
+        //mask.cursor = 'none';
+        //
+        //
+        //
+        mask.on('pointerdown', function(){
+          //
+          console.log('Clicked inside hitArea for mask-'+id);
+          if(!osmo.pzinteract.isTrackpadDetected){
+            if(osmo.legendsvg.highlightedLegendId == null){
+              // NOTE: we have to wait before highlighting legend or-else the user might intend to scroll but,
+              // legend gets highlighted 
+              osmo.legendsvg.highlightedLegendWaitTimeout = setTimeout(function(){
+                console.log('Hover on mask -'+id);
+                osmo.legendsvg.highlightLegend(id, mask);
+                osmo.legendsvg.highlightedLegendWaitTimeout = null;
+              }, 150);
+            }else{
+              if(osmo.legendsvg.highlightedLegendId == id){
+                console.log('open legend -'+id);
+                self.showLegend(id);  
+              }
+            }
+          }else{
+            self.showLegend(id);
+          }
+          //
+        });
+        mask.on('pointerover', function(){
+          //
+          console.log('Hover on mask-'+id);
+          osmo.legendsvg.highlightLegend(id, mask);
+          //
+        });
+        mask.on('pointerout', function(){
+          //
+          console.log('Hover out of mask-'+id);
+          osmo.legendsvg.removeHighlight();
+          //
+        });
+        //
+        //
+      }
+    }
+    //
+    //
+  }
+
+
   isSidebarOpen(){
     return $('#popup-info-toggle').html() == '&lt;';
   }
@@ -205,8 +264,12 @@ osmo.LegendInteraction = class {
     osmo.legendsvg.legendClicksCount++;
     //
     // Stop all tracks from playing
-    for (let audioid in osmo.scroll.datasets)
-      osmo.legendaudio.audioPlayerInstances[audioid].stop();
+    if(osmo.legendaudio)
+      if(osmo.legendaudio.audioPlayerInstances)
+        for (let audioid in osmo.scroll.datasets)
+          if(osmo.legendaudio.audioPlayerInstances[audioid])
+            if(osmo.legendaudio.audioPlayerInstances[audioid].loaded)
+              osmo.legendaudio.audioPlayerInstances[audioid].stop();
     
     //
     $('#focused-info').animate({ left:'0px'}, 1200);
@@ -216,6 +279,7 @@ osmo.LegendInteraction = class {
     }, 'slow');
     $('.nav').hide();
     $('#chapter-text').hide();
+    $('#popupaudiocta').hide();
     //
     osmo.scroll.hitPopupMode = 'focused';
     osmo.datasvg.backgroundContainer.visible = false;
@@ -245,6 +309,7 @@ osmo.LegendInteraction = class {
     
     //
     this.currentFocus = number;
+    this.audioid = number;
     console.log('Focused on: ' + this.currentFocus );
     //
     //
@@ -335,6 +400,24 @@ osmo.LegendInteraction = class {
         self.createMoleculeInteraction(osmo.scroll.mainStage.scale.x);
       }
     });
+    //
+    // Check if this audio file is loaded
+    if(osmo.legendaudio)
+      if(osmo.legendaudio.audioPlayerInstances)
+        if(osmo.legendaudio.audioPlayerInstances[this.audioid])
+          if(osmo.legendaudio.audioPlayerInstances[this.audioid].loaded){
+            // Show popupaudiocta section
+            $('#popupaudiocta').show();
+          }else{
+            let audioinstancecheck = setInterval(function(){
+              if(osmo.legendaudio.audioPlayerInstances[this.audioid].loaded){
+                clearInterval(audioinstancecheck);
+                // Show popupaudiocta section
+                $('#popupaudiocta').show();
+              }
+            }, 500);
+          }
+    //
     /*
     $('#addcomp').click(function() {
       window.open('https://app.osmoscape.com/nonlinear-composition', '_blank').focus();
@@ -359,8 +442,10 @@ osmo.LegendInteraction = class {
     osmo.pzinteract.isfocusedDragging = false;
     //
     $('dragmol').unbind();
-    // REMOVE MOLECULE INTERACTION
-    this.destroyMoleculeInteraction();
+    if(this.audioid != null){
+      // REMOVE MOLECULE INTERACTION
+      this.destroyMoleculeInteraction();
+    }
     //
     $('#focused-description').height('100%');
     $('#head-normal-view').show();
@@ -412,6 +497,7 @@ osmo.LegendInteraction = class {
     this.currentFocus = null;
     osmo.scroll.hitPopupMode = 'hovering';
     //
+    this.audioid = null;
   }
 
   /*

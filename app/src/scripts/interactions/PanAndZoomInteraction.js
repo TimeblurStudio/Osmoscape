@@ -134,11 +134,11 @@ osmo.PanAndZoomInteraction = class {
     //
     // Custom Mouse follow
     document.addEventListener('mousemove', function(e) {
-      if(osmo.pzinteract.isTrackpadDetected){
-        self.prevMouseLoc = self.mouseLoc;
-        self.mouseLoc = new osmo.scroll.PIXI.Point(e.pageX, e.pageY);
-        $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
-      }
+      //if(osmo.pzinteract.isTrackpadDetected){
+      self.prevMouseLoc = self.mouseLoc;
+      self.mouseLoc = new osmo.scroll.PIXI.Point(e.pageX, e.pageY);
+      $('.cursor-pointer-wrapper').css('transform', 'translate3d('+self.mouseLoc.x+'px, '+self.mouseLoc.y+'px, 0px)');
+      //}
     });
 
     //
@@ -411,8 +411,10 @@ osmo.PanAndZoomInteraction = class {
     // Wait for start button press
     if(!osmo.scroll.started) return; 
     // Wait for items to load
-    if(!osmo.scroll.loaded.svgdata || !osmo.scroll.loaded.HQimage)
+    if(!osmo.scroll.loaded.HQimage){//!osmo.scroll.loaded.svgdata || 
+      console.log('Waiting for HQimage to load');
       return;
+    }
     //
     //
     if($('#scrollm').is(':visible'))
@@ -443,7 +445,7 @@ osmo.PanAndZoomInteraction = class {
         clearTimeout($.data(this, 'scrollTimerLong'));
         $.data(this, 'scrollTimerLong', setTimeout(function() {
           osmo.pzinteract.enableMaskInteractions();
-        }, 500));
+        }, 100));
         //
       }
       //
@@ -630,7 +632,7 @@ osmo.PanAndZoomInteraction = class {
     if(osmo.legendsvg.maskContainer.visible == false){
       osmo.legendsvg.maskContainer.visible = true;
       // NOTE: mask.on('pointerover' is not triggered unless pointer goes out and comes back into the mask
-      console.log('Enabled mask after 500ms');
+      console.log('Enabled mask after 100ms');
       //
       /*
       // Just keep legends in and around current view
